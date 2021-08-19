@@ -36,7 +36,10 @@ count = MIDIGetNumberOfDevices()  # 2がデフォ？
 for i in range(count):
   devRef = MIDIGetDevice(i)
   err = MIDIObjectGetStringProperty(devRef, 0, 0)
+  print(err)
+  '''
   numEntities = MIDIDeviceGetNumberOfEntities(devRef)
   for j in range(numEntities):
     entityRef = MIDIDeviceGetEntity(devRef, j)
+  '''
 
