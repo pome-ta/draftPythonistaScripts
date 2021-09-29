@@ -16,3 +16,5 @@ v_tex_coord = (gl_FragCoord.xy) / resolution.xy;
 ```
 
 こんな感じになってる可能性あり
+
+正規化あきらめか？
