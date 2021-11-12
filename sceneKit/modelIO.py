@@ -46,6 +46,8 @@ class SceneView:
 
     asset = ObjCClass('MDLAsset').new()
     asset.initWithURL_(objUrl)
+    
+    pdbg.state(asset)
 
     SCNNode = ObjCClass('SCNNode')
 
