@@ -46,12 +46,10 @@ class SceneView:
 
     asset = ObjCClass('MDLAsset').new()
     asset.initWithURL_(objUrl)
-    
-    pdbg.state(asset)
 
     SCNNode = ObjCClass('SCNNode')
 
-    node = SCNNode.nodeWithMDLObject_(asset.objectAtIndexedSubscript_(0))
+    node = SCNNode.nodeWithMDLObject_(asset.objectAtIndex_(0))
 
     pngUrl = ObjCClass('NSData').dataWithContentsOfURL_(
       nsurl('./Resources/mushroom.png'))
@@ -60,7 +58,7 @@ class SceneView:
     material = ObjCClass('SCNMaterial').material()
     material.diffuse().setContents_(tex_png)
     node.geometry().setFirstMaterial_(material)
-    #pdbg.state(node)
+    pdbg.state(node.geometry())
 
     scene.rootNode().addChildNode_(node)
 
