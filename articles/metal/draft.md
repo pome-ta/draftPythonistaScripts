@@ -122,6 +122,26 @@ wenderlichGreen = ( 0.0,   0.4, 0.21,   1.0)
 今後、Vertices 等のPython の型ではフォローアップが難しい場合には、`ctypes` より型を指定する
 
 
+## `ui` module の補足
+
+`ui` を継承して、コードを書いていく
 
 
+``` .py
 
+ui.present()
+
+```
+
+でView が出せる
+
+
+### `present` の引数
+
+
+- `style='fullscreen'`
+  - フルスクリーンで描画。iPhone の端末だと気がつかないが、iPad だと、小さなView になる
+  - document だと、`full_screen` だけど、`fullscreen` が正っぽい
+- `orientations=['portrait']`
+  - 縦向きで固定
+  - 横向き(Landscape) レイアウトを考えるのが面倒なため
