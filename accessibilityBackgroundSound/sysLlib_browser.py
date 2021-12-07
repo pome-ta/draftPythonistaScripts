@@ -1,3 +1,5 @@
+# Pythonista で、i(Pad)OS のlibrary(？) を表示
+
 import webbrowser
 import os
 
