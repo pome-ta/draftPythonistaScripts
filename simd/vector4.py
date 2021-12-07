@@ -31,18 +31,11 @@ class stpq(ctypes.Structure):
 
 
 class float4(ctypes.Structure):
-  _fields_ = [
-    ('v', (ctypes.c_float * 4))
-  ]
+  _fields_ = [('v', (ctypes.c_float * 4))]
 
 
 class Vector4(ctypes.Union):
-  _anonymous_ = [
-    ('s1'),
-    ('s2'),
-    ('s3'),
-    ('s4'),
-  ]
+  _anonymous_ = ['s1', 's2', 's3', 's4',]
   _fields_ = [
     ('s1', xyzw),
     ('s2', rgba),
@@ -54,6 +47,7 @@ class Vector4(ctypes.Union):
     values = [float(i) for i in self.s4.v]
     vstr = f'''Vector4:
   [{values[0]:.4f}, {values[1]:.4f}, {values[2]:.4f}, {values[3]:.4f}]'''
+
     return vstr
 
   def __init__(self, x=0, y=0, z=0, w=0, *args, **kw):
@@ -106,10 +100,11 @@ def Vector4Length(vector):
 
 def Vector4Distance(vectorStart, vectorEnd):
   assert isinstance(vectorEnd, Vector4)
-  return math.sqrt(math.pow(vectorStart.x - vectorEnd.x, 2) +
-                   math.pow(vectorStart.y - vectorEnd.y, 2) +
-                   math.pow(vectorStart.z - vectorEnd.z, 2) +
-                   math.pow(vectorStart.w - vectorEnd.z, 2))
+  return math.sqrt(
+    math.pow(vectorStart.x - vectorEnd.x, 2)
+  + math.pow(vectorStart.y - vectorEnd.y, 2)
+  + math.pow(vectorStart.z - vectorEnd.z, 2)
+  + math.pow(vectorStart.w - vectorEnd.z, 2))
 
 
 def Vector4Negate(vector):
@@ -313,20 +308,25 @@ def Vector4AllGreaterThanVector4(vectorLeft, vectorRight):
   return x and y and z and w
 
 
-__all__ = ['Vector4', 'getVector4', 'setVector4', 'Vector4Make', 'Vector4MakeWithArray',
-           'Vector4MakeWithVector3', 'Vector4Length', 'Vector4Distance', 'Vector4Negate',
-           'Vector4Normalize', 'Vector4AddScalar', 'Vector4SubtractScalar', 'Vector4MultiplyScalar',
-           'Vector4DivideScalar', 'Vector4Add', 'Vector4Subtract', 'Vector4Multiply', 'Vector4Divide',
-           'Vector4DotProduct', 'Vector4CrossProduct', 'Vector4Lerp', 'Vector4Project', 'Vector4Maximum',
-           'Vector4Minimum', 'Vector4EqualToScalar', 'Vector4AllEqualToVector4',
-           'Vector4AllGreaterThanOrEqualToScalar', 'Vector4AllGreaterThanOrEqualToVector4',
-           'Vector4AllGreaterThanScalar', 'Vector4AllGreaterThanVector4']
+__all__ = [
+  'Vector4', 'getVector4', 'setVector4', 'Vector4Make', 'Vector4MakeWithArray',
+  'Vector4MakeWithVector3', 'Vector4Length', 'Vector4Distance',
+  'Vector4Negate', 'Vector4Normalize', 'Vector4AddScalar',
+  'Vector4SubtractScalar', 'Vector4MultiplyScalar', 'Vector4DivideScalar',
+  'Vector4Add', 'Vector4Subtract', 'Vector4Multiply', 'Vector4Divide',
+  'Vector4DotProduct', 'Vector4CrossProduct', 'Vector4Lerp', 'Vector4Project',
+  'Vector4Maximum', 'Vector4Minimum', 'Vector4EqualToScalar',
+  'Vector4AllEqualToVector4', 'Vector4AllGreaterThanOrEqualToScalar',
+  'Vector4AllGreaterThanOrEqualToVector4', 'Vector4AllGreaterThanScalar',
+  'Vector4AllGreaterThanVector4'
+]
 
 if __name__ == '__main__':
   v = Vector4Make(1, 1, 1, 1)
-  print v
-  print Vector4AddScalar(v, 10)
-  print Vector4Length(Vector4Normalize(Vector4AddScalar(v, 10)))
-  print Vector4Minimum(v, Vector4MultiplyScalar(v, 35))
-  print Vector4Normalize(Vector4AddScalar(v, 10))
-  print Vector4AllGreaterThanScalar(v, 1.1)
+  print(v)
+  print(Vector4AddScalar(v, 10))
+  print(Vector4Length(Vector4Normalize(Vector4AddScalar(v, 10))))
+  print(Vector4Minimum(v, Vector4MultiplyScalar(v, 35)))
+  print(Vector4Normalize(Vector4AddScalar(v, 10)))
+  print(Vector4AllGreaterThanScalar(v, 1.1))
+

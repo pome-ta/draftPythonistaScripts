@@ -28,13 +28,11 @@ class stp(ctypes.Structure):
 
 
 class float3(ctypes.Structure):
-  _fields_ = [
-    ('v', ctypes.c_float * 3)
-  ]
+  _fields_ = [('v', ctypes.c_float * 3)]
 
 
 class Vector3(ctypes.Union):
-  _anonymous_ = ['s1', 's2', 's3', 's4', ]
+  _anonymous_ = ['s1', 's2', 's3', 's4',]
   _fields_ = [
     ('s1', xyz),
     ('s2', rgb),
@@ -45,7 +43,8 @@ class Vector3(ctypes.Union):
   def __str__(self):
     values = [float(i) for i in self.s4.v]
     vstr = f'''Vector3:
-  [{values[0]:.4f}, {values[1]:.4f}, {values[2]:.f4}] '''
+  [{values[0]:.4f}, {values[1]:.4f}, {values[2]:.4f}] '''
+
     return vstr
 
   def __init__(self, x=0, y=0, z=0, *args, **kw):
@@ -93,9 +92,10 @@ def Vector3Length(vector):
 
 def Vector3Distance(vectorStart, vectorEnd):
   assert isinstance(vectorEnd, Vector3)
-  return math.sqrt(math.pow(vectorStart.x - vectorEnd.x, 2) +
-                   math.pow(vectorStart.y - vectorEnd.y, 2) +
-                   math.pow(vectorStart.z - vectorEnd.z, 2))
+  return math.sqrt(
+    math.pow(vectorStart.x - vectorEnd.x, 2)
+  + math.pow(vectorStart.y - vectorEnd.y, 2)
+  + math.pow(vectorStart.z - vectorEnd.z, 2))
 
 
 def Vector3Negate(vector):
@@ -279,16 +279,20 @@ def Vector3AllGreaterThanVector4(vectorLeft, vectorRight):
   return x and y and z
 
 
-__all__ = ['Vector3', 'setVector3', 'getVector3', 'Vector3Make', 'Vector3MakeWithArray',
-           'Vector3Length', 'Vector3Distance', 'Vector3Negate', 'Vector3Normalize', 'Vector3AddScalar',
-           'Vector3SubtractScalar', 'Vector3MultiplyScalar', 'Vector3DivideScalar', 'Vector3Add',
-           'Vector3Subtract', 'Vector3Multiply', 'Vector3Divide', 'Vector3DotProduct',
-           'Vector3CrossProduct', 'Vector3Lerp', 'Vector3Project', 'Vector3Maximum', 'Vector3Minimum',
-           'Vector3EqualToScalar', 'Vector3AllEqualToVector4', 'Vector3AllGreaterThanOrEqualToScalar',
-           'Vector3AllGreaterThanOrEqualToVector4', 'Vector3AllGreaterThanScalar',
-           'Vector3AllGreaterThanVector4']
+__all__ = [
+  'Vector3', 'setVector3', 'getVector3', 'Vector3Make', 'Vector3MakeWithArray',
+  'Vector3Length', 'Vector3Distance', 'Vector3Negate', 'Vector3Normalize',
+  'Vector3AddScalar', 'Vector3SubtractScalar', 'Vector3MultiplyScalar',
+  'Vector3DivideScalar', 'Vector3Add', 'Vector3Subtract', 'Vector3Multiply',
+  'Vector3Divide', 'Vector3DotProduct', 'Vector3CrossProduct', 'Vector3Lerp',
+  'Vector3Project', 'Vector3Maximum', 'Vector3Minimum', 'Vector3EqualToScalar',
+  'Vector3AllEqualToVector4', 'Vector3AllGreaterThanOrEqualToScalar',
+  'Vector3AllGreaterThanOrEqualToVector4', 'Vector3AllGreaterThanScalar',
+  'Vector3AllGreaterThanVector4'
+]
 
 if __name__ == '__main__':
+  '''
   v = Vector3Make(1, 1, 1)
   print(v)
   print(Vector3AddScalar(v, 10))
@@ -298,3 +302,7 @@ if __name__ == '__main__':
   print(Vector3AllGreaterThanScalar(v, 1.1))
   v1 = Vector3Make(5, 0, 0)
   print(Vector3Length(v1))
+  '''
+  vec3 = Vector3(-3.0, 1.0, -2.0)
+  print(Vector3Normalize(vec3))
+

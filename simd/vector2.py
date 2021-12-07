@@ -204,8 +204,8 @@ def Vector2EqualToScalar(vector, value):
   y = vector.y == value
   return x and y
 
-
-'Vector2Make', 'Vector2MakeWithArray', 'Vector2Length', 'Vector2Distance', 'Vector2Negate', 'Vector2Normalize', 'Vector2AddScalar', 'Vector2SubtractScalar', 'Vector2MultiplyScalar', 'Vector2DivideScalar', 'Vector2Add', 'Vector2Subtract', 'Vector2Multiply', 'Vector2Divide', 'Vector2DotProduct', 'Vector2Lerp', 'Vector2Project', 'Vector2Maximum', 'Vector2Minimum', 'Vector2EqualToScalar', 'Vector2AllEqualToVector4', 'Vector2AllGreaterThanOrEqualToScalar',
+# xxx: ? `__all__` 用途？
+#'Vector2Make', 'Vector2MakeWithArray', 'Vector2Length', 'Vector2Distance', 'Vector2Negate', 'Vector2Normalize', 'Vector2AddScalar', 'Vector2SubtractScalar', 'Vector2MultiplyScalar', 'Vector2DivideScalar', 'Vector2Add', 'Vector2Subtract', 'Vector2Multiply', 'Vector2Divide', 'Vector2DotProduct', 'Vector2Lerp', 'Vector2Project', 'Vector2Maximum', 'Vector2Minimum', 'Vector2EqualToScalar', 'Vector2AllEqualToVector4', 'Vector2AllGreaterThanOrEqualToScalar',
 
 
 def Vector2AllEqualToVector4(vectorLeft, vectorRight):
