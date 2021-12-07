@@ -3,36 +3,36 @@ import ctypes
 from objc_util import parse_struct
 
 
-class XY(ctypes.Structure):
+class xy(ctypes.Structure):
   _fields_ = [
     ('x', ctypes.c_float),
     ('y', ctypes.c_float),
   ]
 
 
-class ST(ctypes.Structure):
+class st(ctypes.Structure):
   _fields_ = [
     ('s', ctypes.c_float),
     ('t', ctypes.c_float),
   ]
 
 
-class Float2(ctypes.Structure):
+class float2(ctypes.Structure):
   _fields_ = [('v', ctypes.c_float * 2)]
 
 
 class Vector2(ctypes.Union):
   _anonymous_ = ['s1', 's2', 's3']
   _fields_ = [
-    ('s1', XY),
-    ('s2', ST),
-    ('s3', Float2),
+    ('s1', xy),
+    ('s2', st),
+    ('s3', float2),
   ]
 
   def __str__(self):
-    valus = [float(i) for i in self.s3.v]
+    values = [float(i) for i in self.s3.v]
     vstr = f'''Vector2:
-  [{valus[0]:.4f}, {valus[1]:.4f}]'''
+  [{values[0]:.4f}, {values[1]:.4f}]'''
 
     return vstr
 
