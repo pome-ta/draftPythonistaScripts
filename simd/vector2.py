@@ -1,19 +1,21 @@
 import math
 import ctypes
-#from objc_util import parse_struct
+
+
+# from objc_util import parse_struct
 
 
 class xy(ctypes.Structure):
   _fields_ = [
     ('x', ctypes.c_float),
-    ('y', ctypes.c_float),
+    ('y', ctypes.c_float)
   ]
 
 
 class st(ctypes.Structure):
   _fields_ = [
     ('s', ctypes.c_float),
-    ('t', ctypes.c_float),
+    ('t', ctypes.c_float)
   ]
 
 
@@ -26,7 +28,7 @@ class Vector2(ctypes.Union):
   _fields_ = [
     ('s1', xy),
     ('s2', st),
-    ('s3', float2),
+    ('s3', float2)
   ]
 
   def __str__(self):
@@ -34,25 +36,25 @@ class Vector2(ctypes.Union):
     vstr = f'''Vector2:
   [{values[0]:.4f}, {values[1]:.4f}]'''
     return vstr
-    
+
   def __add__(self, other):
     if isinstance(other, self.__class__):
       return Vector2Add(self, other)
     else:
       raise NotImplementedError()
-      
+
   def __sub__(self, other):
     if isinstance(other, self.__class__):
       return Vector2Subtract(self, other)
     else:
       raise NotImplementedError()
-      
+
   def __mul__(self, other):
     if isinstance(other, self.__class__):
       return Vector2Multiply(self, other)
     else:
       raise NotImplementedError()
-      
+
   def __truediv__(self, other):
     if isinstance(other, self.__class__):
       return Vector2Divide(self, other)
@@ -63,6 +65,7 @@ class Vector2(ctypes.Union):
     super().__init__(*args, **kw)
     self.x = x
     self.y = y
+
 
 '''
 simd2 = parse_struct('{simd2=fff}')
@@ -84,6 +87,7 @@ def setVector2(func, newvalue):
   newvalue = to_simd2(newvalue)
   return func(newvalue, restype=ctypes.c_void_p, argtypes=[simd2])
 '''
+
 
 def Vector2Make(x, y):
   return Vector2(x=x, y=y)
@@ -227,8 +231,9 @@ def Vector2EqualToScalar(vector, value):
   y = vector.y == value
   return x and y
 
+
 # xxx: ? `__all__` 用途？
-#'Vector2Make', 'Vector2MakeWithArray', 'Vector2Length', 'Vector2Distance', 'Vector2Negate', 'Vector2Normalize', 'Vector2AddScalar', 'Vector2SubtractScalar', 'Vector2MultiplyScalar', 'Vector2DivideScalar', 'Vector2Add', 'Vector2Subtract', 'Vector2Multiply', 'Vector2Divide', 'Vector2DotProduct', 'Vector2Lerp', 'Vector2Project', 'Vector2Maximum', 'Vector2Minimum', 'Vector2EqualToScalar', 'Vector2AllEqualToVector4', 'Vector2AllGreaterThanOrEqualToScalar',
+# 'Vector2Make', 'Vector2MakeWithArray', 'Vector2Length', 'Vector2Distance', 'Vector2Negate', 'Vector2Normalize', 'Vector2AddScalar', 'Vector2SubtractScalar', 'Vector2MultiplyScalar', 'Vector2DivideScalar', 'Vector2Add', 'Vector2Subtract', 'Vector2Multiply', 'Vector2Divide', 'Vector2DotProduct', 'Vector2Lerp', 'Vector2Project', 'Vector2Maximum', 'Vector2Minimum', 'Vector2EqualToScalar', 'Vector2AllEqualToVector4', 'Vector2AllGreaterThanOrEqualToScalar',
 
 
 def Vector2AllEqualToVector4(vectorLeft, vectorRight):
@@ -264,7 +269,9 @@ def Vector2AllGreaterThanVector4(vectorLeft, vectorRight):
   return x and y
 
 
-__all__ = ['Vector2', 'setVector2', 'getVector2']
+# __all__ = ['Vector2', 'setVector2', 'getVector2']
+
+__all__ = ['Vector2']
 
 if __name__ == '__main__':
   v = Vector2Make(1, 1)

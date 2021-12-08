@@ -6,8 +6,17 @@
 [OpenGLES-Pythonista/tree/master/it/math)](https://github.com/Cethric/OpenGLES-Pythonista/tree/master/it/math) を使って objc でのsimd ぽいことをする
 
 
-## `parse_struct` の挙動
 
+## `vector` ではなく、`<SIMD>` ？
+
+とりあえず進めて、`import` で、`as` でなんとかするか
+
+
+
+
+
+
+## `parse_struct` の挙動
 
 Pythonista の1.6 の時は
 
@@ -43,6 +52,10 @@ def parse_struct(encoding):
 	return struct_class
 
 ```
+
+glk のeffect で呼び出してるっぽいから、コメントアウト
+
+
 
 ## Vector 同士の演算
 

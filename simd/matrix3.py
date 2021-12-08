@@ -2,7 +2,6 @@ import ctypes
 from vector3 import Vector3
 
 
-
 class float9(ctypes.Structure):
   _fields_ = [
     ('m', ctypes.c_float * 9)
@@ -15,6 +14,7 @@ class m9(ctypes.Structure):
     ('m10', ctypes.c_float), ('m11', ctypes.c_float), ('m12', ctypes.c_float),
     ('m20', ctypes.c_float), ('m21', ctypes.c_float), ('m22', ctypes.c_float)
   ]
+
 
 class columns(ctypes.Structure):
   _fields_ = [
@@ -31,7 +31,7 @@ class Matrix3(ctypes.Union):
     ('s1', float9),
     ('s2', m9)
   ]
-  
+
   def __str__(self):
     valus = [float(x) for x in self.s1.m]
     mstr = f'''Matrix3:
@@ -39,14 +39,15 @@ class Matrix3(ctypes.Union):
   [{valus[3]:.4f}, {valus[4]:.4f}, {valus[5]:.4f}]
   [{valus[6]:.4f}, {valus[7]:.4f}, {valus[8]:.4f}]'''
     return mstr
-    
+
   def __init__(self, *args, **kw):
     super().__init__(*args, **kw)
-    columns = (
+    cols = (
       Vector3(1.0, 0.0, 0.0),
       Vector3(0.0, 1.0, 0.0),
       Vector3(0.0, 0.0, 1.0))
-    self.columns = columns
+    self.columns = cols
+
 
 if __name__ == '__main__':
   m4 = Matrix3()

@@ -1,13 +1,15 @@
 import math
 import ctypes
-#from objc_util import parse_struct
+
+
+# from objc_util import parse_struct
 
 
 class xyz(ctypes.Structure):
   _fields_ = [
     ('x', ctypes.c_float),
     ('y', ctypes.c_float),
-    ('z', ctypes.c_float),
+    ('z', ctypes.c_float)
   ]
 
 
@@ -15,7 +17,7 @@ class rgb(ctypes.Structure):
   _fields_ = [
     ('r', ctypes.c_float),
     ('g', ctypes.c_float),
-    ('b', ctypes.c_float),
+    ('b', ctypes.c_float)
   ]
 
 
@@ -23,7 +25,7 @@ class stp(ctypes.Structure):
   _fields_ = [
     ('s', ctypes.c_float),
     ('t', ctypes.c_float),
-    ('p', ctypes.c_float),
+    ('p', ctypes.c_float)
   ]
 
 
@@ -32,12 +34,12 @@ class float3(ctypes.Structure):
 
 
 class Vector3(ctypes.Union):
-  _anonymous_ = ['s1', 's2', 's3', 's4',]
+  _anonymous_ = ['s1', 's2', 's3', 's4', ]
   _fields_ = [
     ('s1', xyz),
     ('s2', rgb),
     ('s3', stp),
-    ('s4', float3),
+    ('s4', float3)
   ]
 
   def __str__(self):
@@ -51,30 +53,31 @@ class Vector3(ctypes.Union):
       return Vector3Add(self, other)
     else:
       raise NotImplementedError()
-      
+
   def __sub__(self, other):
     if isinstance(other, self.__class__):
       return Vector3Subtract(self, other)
     else:
       raise NotImplementedError()
-      
+
   def __mul__(self, other):
     if isinstance(other, self.__class__):
       return Vector3Multiply(self, other)
     else:
       raise NotImplementedError()
-      
+
   def __truediv__(self, other):
     if isinstance(other, self.__class__):
       return Vector3Divide(self, other)
     else:
       raise NotImplementedError()
-  
+
   def __init__(self, x=0, y=0, z=0, *args, **kw):
     super().__init__(*args, **kw)
     self.x = x
     self.y = y
     self.z = z
+
 
 '''
 simd3 = parse_struct('{simd3=fff}')
@@ -97,6 +100,7 @@ def setVector3(func, newvalue):
   return func(newvalue, restype=ctypes.c_void_p, argtypes=[simd3])
 '''
 
+
 def Vector3Make(x, y, z):
   return Vector3(x=x, y=y, z=z)
 
@@ -117,8 +121,8 @@ def Vector3Distance(vectorStart, vectorEnd):
   assert isinstance(vectorEnd, Vector3)
   return math.sqrt(
     math.pow(vectorStart.x - vectorEnd.x, 2)
-  + math.pow(vectorStart.y - vectorEnd.y, 2)
-  + math.pow(vectorStart.z - vectorEnd.z, 2))
+    + math.pow(vectorStart.y - vectorEnd.y, 2)
+    + math.pow(vectorStart.z - vectorEnd.z, 2))
 
 
 def Vector3Negate(vector):
@@ -302,8 +306,21 @@ def Vector3AllGreaterThanVector4(vectorLeft, vectorRight):
   return x and y and z
 
 
+#
+# __all__ = [
+#   'Vector3', 'setVector3', 'getVector3', 'Vector3Make', 'Vector3MakeWithArray',
+#   'Vector3Length', 'Vector3Distance', 'Vector3Negate', 'Vector3Normalize',
+#   'Vector3AddScalar', 'Vector3SubtractScalar', 'Vector3MultiplyScalar',
+#   'Vector3DivideScalar', 'Vector3Add', 'Vector3Subtract', 'Vector3Multiply',
+#   'Vector3Divide', 'Vector3DotProduct', 'Vector3CrossProduct', 'Vector3Lerp',
+#   'Vector3Project', 'Vector3Maximum', 'Vector3Minimum', 'Vector3EqualToScalar',
+#   'Vector3AllEqualToVector4', 'Vector3AllGreaterThanOrEqualToScalar',
+#   'Vector3AllGreaterThanOrEqualToVector4', 'Vector3AllGreaterThanScalar',
+#   'Vector3AllGreaterThanVector4'
+# ]
+
 __all__ = [
-  'Vector3', 'setVector3', 'getVector3', 'Vector3Make', 'Vector3MakeWithArray',
+  'Vector3', 'Vector3Make', 'Vector3MakeWithArray',
   'Vector3Length', 'Vector3Distance', 'Vector3Negate', 'Vector3Normalize',
   'Vector3AddScalar', 'Vector3SubtractScalar', 'Vector3MultiplyScalar',
   'Vector3DivideScalar', 'Vector3Add', 'Vector3Subtract', 'Vector3Multiply',
@@ -313,7 +330,6 @@ __all__ = [
   'Vector3AllGreaterThanOrEqualToVector4', 'Vector3AllGreaterThanScalar',
   'Vector3AllGreaterThanVector4'
 ]
-
 
 if __name__ == '__main__':
   '''
@@ -330,4 +346,3 @@ if __name__ == '__main__':
   r_vec3 = Vector3(3.0, 2.0, 1.0)
   l_vec3 = Vector3(2.0, 1.0, 3.0)
   print(r_vec3 - l_vec3)
-
