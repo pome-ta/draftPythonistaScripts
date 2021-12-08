@@ -1,6 +1,6 @@
 import math
 import ctypes
-from objc_util import parse_struct
+#from objc_util import parse_struct
 
 
 class xyz(ctypes.Structure):
@@ -76,7 +76,7 @@ class Vector3(ctypes.Union):
     self.y = y
     self.z = z
 
-
+'''
 simd3 = parse_struct('{simd3=fff}')
 
 
@@ -95,7 +95,7 @@ def getVector3(func):
 def setVector3(func, newvalue):
   newvalue = to_simd3(newvalue)
   return func(newvalue, restype=ctypes.c_void_p, argtypes=[simd3])
-
+'''
 
 def Vector3Make(x, y, z):
   return Vector3(x=x, y=y, z=z)

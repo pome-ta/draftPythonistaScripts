@@ -1,6 +1,6 @@
 import math
 import ctypes
-from objc_util import parse_struct
+#from objc_util import parse_struct
 
 
 class xy(ctypes.Structure):
@@ -64,7 +64,7 @@ class Vector2(ctypes.Union):
     self.x = x
     self.y = y
 
-
+'''
 simd2 = parse_struct('{simd2=fff}')
 
 
@@ -83,7 +83,7 @@ def getVector2(func):
 def setVector2(func, newvalue):
   newvalue = to_simd2(newvalue)
   return func(newvalue, restype=ctypes.c_void_p, argtypes=[simd2])
-
+'''
 
 def Vector2Make(x, y):
   return Vector2(x=x, y=y)
