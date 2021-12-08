@@ -30,8 +30,9 @@ Vector2 は、`fff` ってなってるけど、ええのかな？`_fields_` が3
 
 ### 何のために呼ぶのか？
 
-``` .py
+(今回からの場合だと)そのものの`Vector` を作ってる？
 
+``` .py
 def parse_struct(encoding):
 	comps = _enclosed.parseString(encoding).asList()[0]
 	struct_name = comps[0]
@@ -41,9 +42,17 @@ def parse_struct(encoding):
 	struct_class.__name__ = (struct_name + '_Structure').replace('?', '_')
 	return struct_class
 
-
 ```
 
+## Vector 同士の演算
+
+
+
+
+
+
+
+## 備考
 
 ``` objc_util.py
 #import 'pythonista'
@@ -1440,7 +1449,6 @@ def autoreleasepool():
   pool = ObjCClass('NSAutoreleasePool').new()
   yield
   pool.drain()
-
 
 ```
 
