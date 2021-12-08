@@ -33,11 +33,11 @@ class Matrix3(ctypes.Union):
   ]
 
   def __str__(self):
-    valus = [float(x) for x in self.s1.m]
+    values = [float(x) for x in self.s1.m]
     mstr = f'''Matrix3:
-  [{valus[0]:.4f}, {valus[1]:.4f}, {valus[2]:.4f}]
-  [{valus[3]:.4f}, {valus[4]:.4f}, {valus[5]:.4f}]
-  [{valus[6]:.4f}, {valus[7]:.4f}, {valus[8]:.4f}]'''
+  [{values[0]:.4f}, {values[1]:.4f}, {values[2]:.4f}]
+  [{values[3]:.4f}, {values[4]:.4f}, {values[5]:.4f}]
+  [{values[6]:.4f}, {values[7]:.4f}, {values[8]:.4f}]'''
     return mstr
 
   def __init__(self, *args, **kw):

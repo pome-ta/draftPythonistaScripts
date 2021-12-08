@@ -35,12 +35,12 @@ class Matrix4(ctypes.Union):
   ]
 
   def __str__(self):
-    valus = [float(x) for x in self.s1.m]
+    values = [float(x) for x in self.s1.m]
     mstr = f'''Matrix4:
-  [{valus[0]:.4f}, {valus[1]:.4f}, {valus[2]:.4f}, {valus[3]:.4f}]
-  [{valus[4]:.4f}, {valus[5]:.4f}, {valus[6]:.4f}, {valus[7]:.4f}]
-  [{valus[8]:.4f}, {valus[9]:.4f}, {valus[10]:.4f}, {valus[11]:.4f}]
-  [{valus[12]:.4f}, {valus[13]:.4f}, {valus[14]:.4f}, {valus[15]:.4f}]'''
+  [{values[0]:.4f}, {values[1]:.4f}, {values[2]:.4f}, {values[3]:.4f}]
+  [{values[4]:.4f}, {values[5]:.4f}, {values[6]:.4f}, {values[7]:.4f}]
+  [{values[8]:.4f}, {values[9]:.4f}, {values[10]:.4f}, {values[11]:.4f}]
+  [{values[12]:.4f}, {values[13]:.4f}, {values[14]:.4f}, {values[15]:.4f}]'''
     return mstr
 
   def __init__(self, *args, **kw):

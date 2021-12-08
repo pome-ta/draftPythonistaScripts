@@ -31,10 +31,10 @@ class Matrix2(ctypes.Union):
   ]
 
   def __str__(self):
-    valus = [float(x) for x in self.s1.m]
+    values = [float(x) for x in self.s1.m]
     mstr = f'''Matrix2:
-  [{valus[0]:.4f}, {valus[1]:.4f}]
-  [{valus[2]:.4f}, {valus[3]:.4f}]'''
+  [{values[0]:.4f}, {values[1]:.4f}]
+  [{values[2]:.4f}, {values[3]:.4f}]'''
     return mstr
 
   def __init__(self, *args, **kw):
