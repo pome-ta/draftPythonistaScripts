@@ -44,9 +44,32 @@ class Vector3(ctypes.Union):
     values = [float(i) for i in self.s4.v]
     vstr = f'''Vector3:
   [{values[0]:.4f}, {values[1]:.4f}, {values[2]:.4f}] '''
-
     return vstr
 
+  def __add__(self, other):
+    if isinstance(other, self.__class__):
+      return Vector3Add(self, other)
+    else:
+      raise NotImplementedError()
+      
+  def __sub__(self, other):
+    if isinstance(other, self.__class__):
+      return Vector3Subtract(self, other)
+    else:
+      raise NotImplementedError()
+      
+  def __mul__(self, other):
+    if isinstance(other, self.__class__):
+      return Vector3Multiply(self, other)
+    else:
+      raise NotImplementedError()
+      
+  def __truediv__(self, other):
+    if isinstance(other, self.__class__):
+      return Vector3Divide(self, other)
+    else:
+      raise NotImplementedError()
+  
   def __init__(self, x=0, y=0, z=0, *args, **kw):
     super().__init__(*args, **kw)
     self.x = x
@@ -291,6 +314,7 @@ __all__ = [
   'Vector3AllGreaterThanVector4'
 ]
 
+
 if __name__ == '__main__':
   '''
   v = Vector3Make(1, 1, 1)
@@ -303,6 +327,7 @@ if __name__ == '__main__':
   v1 = Vector3Make(5, 0, 0)
   print(Vector3Length(v1))
   '''
-  vec3 = Vector3(-3.0, 1.0, -2.0)
-  print(Vector3Normalize(vec3))
+  r_vec3 = Vector3(3.0, 2.0, 1.0)
+  l_vec3 = Vector3(2.0, 1.0, 3.0)
+  print(r_vec3 - l_vec3)
 

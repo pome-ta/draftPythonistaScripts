@@ -33,8 +33,31 @@ class Vector2(ctypes.Union):
     values = [float(i) for i in self.s3.v]
     vstr = f'''Vector2:
   [{values[0]:.4f}, {values[1]:.4f}]'''
-
     return vstr
+    
+  def __add__(self, other):
+    if isinstance(other, self.__class__):
+      return Vector2Add(self, other)
+    else:
+      raise NotImplementedError()
+      
+  def __sub__(self, other):
+    if isinstance(other, self.__class__):
+      return Vector2Subtract(self, other)
+    else:
+      raise NotImplementedError()
+      
+  def __mul__(self, other):
+    if isinstance(other, self.__class__):
+      return Vector2Multiply(self, other)
+    else:
+      raise NotImplementedError()
+      
+  def __truediv__(self, other):
+    if isinstance(other, self.__class__):
+      return Vector2Divide(self, other)
+    else:
+      raise NotImplementedError()
 
   def __init__(self, x=0.0, y=0.0, *args, **kw):
     super().__init__(*args, **kw)

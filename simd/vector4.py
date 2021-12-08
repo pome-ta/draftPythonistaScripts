@@ -47,8 +47,31 @@ class Vector4(ctypes.Union):
     values = [float(i) for i in self.s4.v]
     vstr = f'''Vector4:
   [{values[0]:.4f}, {values[1]:.4f}, {values[2]:.4f}, {values[3]:.4f}]'''
-
     return vstr
+    
+  def __add__(self, other):
+    if isinstance(other, self.__class__):
+      return Vector4Add(self, other)
+    else:
+      raise NotImplementedError()
+      
+  def __sub__(self, other):
+    if isinstance(other, self.__class__):
+      return Vector4Subtract(self, other)
+    else:
+      raise NotImplementedError()
+      
+  def __mul__(self, other):
+    if isinstance(other, self.__class__):
+      return Vector4Multiply(self, other)
+    else:
+      raise NotImplementedError()
+      
+  def __truediv__(self, other):
+    if isinstance(other, self.__class__):
+      return Vector4Divide(self, other)
+    else:
+      raise NotImplementedError()
 
   def __init__(self, x=0, y=0, z=0, w=0, *args, **kw):
     super().__init__(*args, **kw)
