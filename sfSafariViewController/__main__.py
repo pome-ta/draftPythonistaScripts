@@ -11,7 +11,7 @@ SFSafariViewController = ObjCClass('SFSafariViewController')
 def open_in_safari_vc(url):
   #pdbg.state(nsurl(url))
   #vc = SFSafariViewController.alloc().initWithURL_(nsurl(url))
-  vc = SFSafariViewController.alloc().initWithURL_(url)
+  vc = SFSafariViewController.alloc().initWithURL_(nsurl(url))
 
   app = UIApplication.sharedApplication()
   root_vc = app.keyWindow().rootViewController()
@@ -20,5 +20,6 @@ def open_in_safari_vc(url):
 
 
 if __name__ == '__main__':
-  open_in_safari_vc(path)
+  open_in_safari_vc('http://localhost:8000')
+  #print(nsurl(path))
 
