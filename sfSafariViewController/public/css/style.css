@@ -1,0 +1,31 @@
+@charset "utf-8";
+@import url("./styleChecker.css");
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+#wrap {
+  width: 100%;
+  height: 100%;
+  /*
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  overflow: hidden;
+  */
+}
+
+h1 {
+  background: red;
+}
+/*
+
+canvas {
+  width: 100%;
+}
+*/
