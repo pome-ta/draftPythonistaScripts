@@ -22,8 +22,10 @@ class WkWeb:
     self.wkwebview.initWithFrame_configuration_(_frame, self.wwvconf)
     self.wkwebview.setAutoresizingMask_((1 << 1) | (1 << 4))
 
+  @on_main_thread
   def viewDidLoad(self):
-    myURL = nsurl('https://www.apple.com')
+    #myURL = nsurl('https://www.apple.com')
+    myURL = nsurl('https://qiita.com/syunyo/items/d03a714af4dadd0727a6')
     req = NSURLRequest.requestWithURL_(myURL)
     self.wkwebview.loadRequest_(req)
 
