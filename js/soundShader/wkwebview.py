@@ -141,8 +141,11 @@ class WKWebView(ui.View):
           * Set `no_cache` to `True` to skip the local cache, default is `False`
           * Set `timeout` to a specific timeout value, default is 10 (seconds)
         """
+        print(f'url: {url}')
         if url.startswith('file://'):
+            print('tr')
             file_path = url[7:]
+            #print(file_path)
             if file_path.startswith('/'):
                 root = os.path.expanduser('~')
                 file_path = root + file_path
