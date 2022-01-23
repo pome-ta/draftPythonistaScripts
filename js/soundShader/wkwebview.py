@@ -87,7 +87,7 @@ class WKWebView(ui.View):
         self.add_script(WKWebView.js_logging_script)
 
         webview_config = WKWebView.WKWebViewConfiguration.new().autorelease()
-        webview_config.userContentController = user_content_controller
+        #webview_config.userContentController = user_content_controller
 
         data_detectors = sum(data_detectors) if type(data_detectors) is tuple \
             else data_detectors
@@ -96,14 +96,15 @@ class WKWebView(ui.View):
         # Must be set to True to get real js
         # errors, in combination with setting a
         # base directory in the case of load_html
-        webview_config.preferences().setValue_forKey_(True,
-            'allowFileAccessFromFileURLs')
+        #
+        webview_config.preferences().setValue_forKey_(True, 'allowFileAccessFromFileURLs')
 
         if inline_media is not None:
             webview_config.allowsInlineMediaPlayback = inline_media
         webview_config.allowsAirPlayForMediaPlayback = airplay_media
         webview_config.allowsPictureInPictureMediaPlayback = pip_media
-
+        
+        '''
         nav_delegate = WKWebView.CustomNavigationDelegate.new()
         retain_global(nav_delegate)
         nav_delegate._pythonistawebview = weakref.ref(self)
@@ -111,8 +112,10 @@ class WKWebView(ui.View):
         ui_delegate = WKWebView.CustomUIDelegate.new()
         retain_global(ui_delegate)
         ui_delegate._pythonistawebview = weakref.ref(self)
+        '''
 
-        self._create_webview(webview_config, nav_delegate, ui_delegate)
+        #self._create_webview(webview_config, nav_delegate, ui_delegate)
+        self._create_webview(webview_config, None, None)
 
         self.swipe_navigation = swipe_navigation
 
@@ -122,8 +125,8 @@ class WKWebView(ui.View):
             initWithFrame_configuration_(
             ((0,0), (self.width, self.height)), webview_config).autorelease()
         self.webview.autoresizingMask = 2 + 16 # WH
-        self.webview.setNavigationDelegate_(nav_delegate)
-        self.webview.setUIDelegate_(ui_delegate)
+        #self.webview.setNavigationDelegate_(nav_delegate)
+        #self.webview.setUIDelegate_(ui_delegate)
         self.objc_instance.addSubview_(self.webview)
 
     def layout(self):
@@ -516,6 +519,7 @@ class WKWebView(ui.View):
     # https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html
 
     def webView_didCommitNavigation_(_self, _cmd, _webview, _navigation):
+        print('didCommitNavigation')
         delegate_instance = ObjCInstance(_self)
         webview = delegate_instance._pythonistawebview()
         deleg = webview.delegate
@@ -524,6 +528,7 @@ class WKWebView(ui.View):
                 deleg.webview_did_start_load(webview)
 
     def webView_didFinishNavigation_(_self, _cmd, _webview, _navigation):
+        print('didFinishNavigation')
         delegate_instance = ObjCInstance(_self)
         webview = delegate_instance._pythonistawebview()
         deleg = webview.delegate
@@ -722,19 +727,28 @@ if __name__ == '__main__':
   '''
 
     r = ui.View(background_color='black')
-
+    '''
     v = MyWebView(
         name='DemoWKWebView',
         delegate=MyWebViewDelegate(),
         swipe_navigation=True,
         data_detectors=(WKWebView.PHONE_NUMBER,WKWebView.LINK),
         frame=r.bounds, flex='WH')
+    '''
+    v = WKWebView()
+    v.flex = 'WH'
+    
+    
     r.add_subview(v)
+    import pathlib
+    uri = pathlib.Path('./public/index.html')
+    v.load_url(str(uri))
 
     r.present() # Use 'panel' if you want to view console in another tab
+    #v.load_url(str(uri))
 
     #v.disable_all()
-    v.load_html(html)
+    #v.load_html(html)
     #v.load_url('http://omz-software.com/pythonista/',
     #    no_cache=False, timeout=5)
     #v.load_url('file://some/local/file.html')
