@@ -26,7 +26,7 @@ graph TD;
 ```
 
 ```mermaid
-Pyramid graphics
+pie title Pets adopted by volunteers
     "Sky" : 386
     "Sunny side of pyramid" : 85
     "Shady side of pyramid" : 15
