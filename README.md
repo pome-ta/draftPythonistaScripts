@@ -26,7 +26,7 @@ graph TD;
 ```
 
 ```mermaid
-Pyramid
+Pyramid graphics
     "Sky" : 386
     "Sunny side of pyramid" : 85
     "Shady side of pyramid" : 15
