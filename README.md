@@ -26,9 +26,9 @@ graph TD;
 ```
 
 ```mermaid
-pie title Pets adopted by volunteers
-    "空" : 386
-    "ピラミッドに日があたってる側" : 85
-    "ピラミッドに日があたってない側" : 15
+pyramid
+    "Sky" : 386
+    "Sunny side of pyramid" : 85
+    "Shady side of pyramid" : 15
 ```
 
