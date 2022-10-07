@@ -1,14 +1,11 @@
 from objc_util import c, load_framework, ObjCClass, ObjCInstance
 import ctypes
 
+# まだ動かない
 
+simd_equal = c.simd_equal
 
-
-#void vvceil(double *, const double *, const int *);
-
-vvceil = c.vvceil
-
-MTLCreateSystemDefaultDevice.argtypes = []
-MTLCreateSystemDefaultDevice.restype = ctypes.c_void_p
-m = ObjCInstance(MTLCreateSystemDefaultDevice())
+simd_equal.argtypes = []
+simd_equal.restype = ctypes.c_void_p
+m = ObjCInstance(simd_equal())
 
