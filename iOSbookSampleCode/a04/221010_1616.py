@@ -8,6 +8,31 @@ AVAudioRecorder = ObjCClass('AVAudioRecorder')
 
 # xxx: `objc_util` では、設定済み？
 # NSURL = ObjCClass('NSURL')
+'''  todo: enum.Enum だと落ちる
+``` .log
+*** -[__NSDictionaryM setObject:forKey:]: object cannot be nil (key: AVFormatIDKey)
+```
+import enum
+class AVAudioQuality(enum.Enum):
+  AVAudioQualityMin = 0
+  AVAudioQualityLow = 32
+  AVAudioQualityMedium = 64
+  AVAudioQualityHigh = 96
+  AVAudioQualityMax = 127
+
+class AVFormatIDKey(enum.Enum):  #UInt32
+  kAudioFormatLinearPCM      = 1819304813
+  kAudioFormatAppleIMA4      = 1768775988
+  kAudioFormatMPEG4AAC       = 1633772320
+  kAudioFormatMACE3          = 1296122675
+  kAudioFormatMACE6          = 1296122678
+  kAudioFormatULaw           = 1970037111
+  kAudioFormatALaw           = 1634492791
+  kAudioFormatMPEGLayer1     = 778924081
+  kAudioFormatMPEGLayer2     = 778924082
+  kAudioFormatMPEGLayer3     = 778924083
+  kAudioFormatAppleLossless  = 1634492771
+'''
 
 
 class AVAudioQuality:
@@ -48,28 +73,28 @@ def avaudio_recorder_record(
     file_name,
     duration,
     save_dir='./out',
-    _AVFormatIDKey=AVFormatIDKey.kAudioFormatLinearPCM,
-    _AVSampleRateKey=44100.00,
-    _AVNumberOfChannelsKey=2,
-    _AVEncoderAudioQualityKey=AVAudioQuality.AVAudioQualityMedium):
+    avFormatIDKey=AVFormatIDKey.kAudioFormatLinearPCM,
+    avSampleRateKey=44100.00,
+    avNumberOfChannelsKey=2,
+    avEncoderAudioQualityKey=AVAudioQuality.AVAudioQualityMedium):
   file_path = prepare_file_path(file_name, save_dir)
   record_file_url = NSURL.fileURLWithPath_(f'{file_path.absolute()}')
 
   shared_avaudio_session = AVAudioSession.sharedInstance()
-
   category_set = shared_avaudio_session.setCategory_error_(
     'AVAudioSessionCategoryPlayAndRecord', None)
 
   settings = {
-    '_AVFormatIDKey': _AVFormatIDKey,
-    '_AVSampleRateKey': _AVSampleRateKey,
-    '_AVNumberOfChannelsKey': _AVSampleRateKey,
-    '_AVEncoderAudioQualityKey': _AVEncoderAudioQualityKey
+    'AVFormatIDKey': avFormatIDKey,
+    'AVSampleRateKey': avSampleRateKey,
+    'AVNumberOfChannelsKey': avNumberOfChannelsKey,
+    'AVEncoderAudioQualityKey': avEncoderAudioQualityKey
   }
 
   AVAudioRecorder_ = AVAudioRecorder.alloc().initWithURL_settings_error_(
     record_file_url, settings, None)
 
+  # xxx: この変数なんだ？
   started_recording = AVAudioRecorder_.record()
 
   time.sleep(duration)
