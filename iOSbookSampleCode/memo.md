@@ -1,3 +1,35 @@
+# 📝 2022/10/11
+
+## `scipy` の`signal.spectrogram`
+
+めんどくさそうだから、ペンディング
+
+
+## モーション関係の`CMMotionManager`
+
+### `startAccelerometerUpdatesToQueue_withHandler_` の内部
+
+[startAccelerometerUpdatesToQueue:withHandler: | Apple Developer Documentation](https://developer.apple.com/documentation/coremotion/cmmotionmanager/1616148-startaccelerometerupdatestoqueue)
+
+[CMAccelerometerHandler | Apple Developer Documentation](https://developer.apple.com/documentation/coremotion/cmaccelerometerhandler?language=objc)
+
+
+- `NSOperationQueue`
+  - `NSOperationQueue.mainQueue()`
+    - `NSOperationQueue.currentQueue()` は`null` だった
+  - 単純に突っ込めば良さそう
+- `CMAccelerometerHandler`
+  - `Type Alias` だから深掘り
+  - `CMAccelerometerData`
+
+`block` 使う、、、
+
+> CMAccelerometerHandler型のブロックは、処理すべき加速度センサーのデータがあるときに呼び出される。startAccelerometerUpdatesToQueue:withHandler:に第2引数としてこのブロックを渡す。このタイプのブロックは値を返さないが、2つの引数を取る。
+
+
+
+
+
 # 📝 2022/10/10
 
 ## `AVAudioRecorder` の`settings`
@@ -25,3 +57,4 @@
 
 
 `wave` モジュールで進めるにあたり、ステレオ16bit の決め打ちで読み出してる
+
