@@ -14,18 +14,19 @@ def wavfile_read(path):
     data = _data.reshape([nframes, nchannels], order='C')
     return framerate, data
 
-# 信号
+
+# スペクトログラム
+# xxx: 多分違う
 if __name__ == '__main__':
   file_path = './out/record.wav'
 
   samplerate, data = wavfile_read(file_path)
   length = data.shape[0] / samplerate
 
-  time = np.linspace(0., length, data.shape[0])
-  plt.plot(time, data[:, 0], label='Left channel')
-  plt.plot(time, data[:, 1], label='Right channel')
-  plt.legend()
-  plt.xlabel('Time [s]')
-  plt.ylabel('Amplitude')
+  plt.specgram(data[:, 0], Fs=samplerate)
+  
+  plt.xlabel('Time [sec]')
+  plt.ylabel('Frequency')
+  #plt.ylim([0,2500])
   plt.show()
 
