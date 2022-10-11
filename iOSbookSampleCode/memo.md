@@ -27,6 +27,12 @@
 > CMAccelerometerHandler型のブロックは、処理すべき加速度センサーのデータがあるときに呼び出される。startAccelerometerUpdatesToQueue:withHandler:に第2引数としてこのブロックを渡す。このタイプのブロックは値を返さないが、2つの引数を取る。
 
 
+### プル型とプッシュ型？
+
+[加速度センサとジャイロで体の動きを感じるアプリを作る（1/3） - ＠IT](https://atmarkit.itmedia.co.jp/fsmart/articles/ios_sensor02/01.html)
+
+
+[startAccelerometerUpdates | Apple Developer Documentation](https://developer.apple.com/documentation/coremotion/cmmotionmanager/1616171-startaccelerometerupdates?language=objc)
 
 
 
