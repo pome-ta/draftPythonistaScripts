@@ -145,3 +145,4 @@ cython_debug/
 .idea/
 .pystaenv/
 
+/glsl/randomNoise/img/rgbaNoiseMedium4Shadertoy.png
