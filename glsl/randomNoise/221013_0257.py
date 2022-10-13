@@ -19,4 +19,5 @@ if __name__ == '__main__':
   #m: list = [math.sin((i / (n / 1e2)) * math.pi) for i in range(int(n))]
   lpy: list = [i / (q / 1e2) for i in range(int(q))]
   lnp = np.arange(0.0, 10.0, 0.001, dtype=np.float32)
+  uint32 = lnp.astype(np.uint32)
   
