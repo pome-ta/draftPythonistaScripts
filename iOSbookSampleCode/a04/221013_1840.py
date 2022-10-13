@@ -12,15 +12,15 @@ if not CMMotionManager_.isAccelerometerAvailable():
   print('Accelerometer in NOT Available.')
   raise
 
-CMMotionManager_.accelerometerUpdateInterval = 10  # 単位は秒
+CMMotionManager_.accelerometerUpdateInterval = 1  # 単位は秒
 
 
 def _handler(_cmd, _data, _error):
   accelerometerData = ObjCInstance(_data)
-  pdbg.state(accelerometerData)
+  #pdbg.state(accelerometerData)
   print('😇----')
-  pdbg.state(accelerometerData.acceleration())
-  print(accelerometerData.acceleration().from_tuple)
+  #pdbg.state(accelerometerData.acceleration())
+  print(accelerometerData.acceleration().a)
 
 
 accelerometer_handler = ObjCBlock(
@@ -43,6 +43,9 @@ if __name__ == '__main__':
   #mainQueue
   #print(NSOperationQueue.currentQueue())
   #print(NSOperationQueue.mainQueue())
+  pdbg.state(CMMotionManager_.accelerometerData())
   time.sleep(3)
+  #pdbg.state(CMMotionManager_.accelerometerData())
+  print(CMMotionManager_.accelerometerData())
   CMMotionManager_.stopAccelerometerUpdates()
 
