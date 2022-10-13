@@ -2,8 +2,6 @@ import time
 import ctypes
 from objc_util import ObjCClass, ObjCBlock, ObjCInstance
 
-import pdbg
-
 NSOperationQueue = ObjCClass('NSOperationQueue')
 CMMotionManager = ObjCClass('CMMotionManager')
 
@@ -16,11 +14,16 @@ class MotionAccelerometer:
       print('Accelerometer in NOT Available.')
       raise
     self.accelerometerUpdateInterval = update_interval
-    
+
     self.accelerometer_handler = ObjCBlock(
       self.__handler,
       restype=None,
       argtypes=[ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p])
+
+  def get_accelerometer_data(self, timer=3):
+    self.startAccelerometerUpdates()
+    self.stopAccelerometerUpdates(3)
+    return self.accelerometerData
 
   def startAccelerometerUpdates(self):
     self.CMMotionManager.accelerometerUpdateInterval = self.accelerometerUpdateInterval
@@ -45,8 +48,29 @@ class MotionAccelerometer:
 
 
 if __name__ == '__main__':
+  import matplotlib.pyplot as plt
   ma = MotionAccelerometer()
-  ma.startAccelerometerUpdates()
-  ma.stopAccelerometerUpdates(2)
-  print(ma.accelerometerData)
+  accelerometerData = ma.get_accelerometer_data()
+
+  x = []
+  y = []
+  z = []
+  t = []
+  for a in accelerometerData:
+    x.append(a['x'])
+    y.append(a['y'])
+    z.append(a['z'])
+    t.append(a['at'])
+
+  plt.scatter(t, x, c='r')
+  plt.scatter(t, y, c='g')
+  plt.scatter(t, z, c='b')
+  
+  plt.plot(t, x, c='r')
+  plt.plot(t, y, c='g')
+  plt.plot(t, z, c='b')
+  
+  plt.xlabel('Time (s)')
+  plt.ylabel('Acclerometer (m/s^2)')
+  plt.show()
 
