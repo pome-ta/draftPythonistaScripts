@@ -2,7 +2,6 @@
 
 Pythonista の editor を、アプリ上でつかう
 
-
 ベース [pome-ta/pysta_codeEditor](https://github.com/pome-ta/pysta_codeEditor)
 
 これのsimple 版
@@ -12,4 +11,4 @@ Pythonista の editor を、アプリ上でつかう
 ## todo
 
 - シンタックスハイライト
-- 
+-

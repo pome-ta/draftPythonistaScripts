@@ -4,12 +4,9 @@
 
 あとは、issue 書きながら調整
 
-
 あと、文章的なのも
 
-
 ## mermaid サポートテスト
-
 
 ```mermaid
  graph TD;
@@ -32,10 +29,8 @@ pie title pyramid
     "Shady side of pyramid" : 15
 ```
 
-
 ## TeX or LaTeX テスト
 
-
 When $a \ne 0$, there are two solutions
-to $(ax^2 + bx + c = 0)$ and they are 
+to $(ax^2 + bx + c = 0)$ and they are
 $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
