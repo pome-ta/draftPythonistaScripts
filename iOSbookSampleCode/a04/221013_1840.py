@@ -30,8 +30,8 @@ class MotionAccelerometer:
     self.CMMotionManager.startAccelerometerUpdatesToQueue_withHandler_(
       NSOperationQueue.mainQueue(), self.accelerometer_handler)
 
-  def stopAccelerometerUpdates(self, timer=3):
-    time.sleep(timer)
+  def stopAccelerometerUpdates(self, duration=3):
+    time.sleep(duration)
     self.CMMotionManager.stopAccelerometerUpdates()
 
   def append_data(self, data):
