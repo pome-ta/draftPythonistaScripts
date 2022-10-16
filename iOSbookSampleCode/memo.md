@@ -1,3 +1,12 @@
+# 📝 2022/10/16
+
+## `AVAudioRecorder` の録音
+
+- `recordForDuration_`
+- `redord`
+
+結果的に、Python 側の`time` を設置しないといけない
+
 # 📝 2022/10/11
 
 ## `scipy` の`signal.spectrogram`
