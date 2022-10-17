@@ -13,6 +13,19 @@ AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
 AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
 
 
+class CameraView:
+  def __init__(self):
+    pass
+
+
+class CameraViewController:
+  def __init__(self):
+    self._cameraFeedSession = None
+
+  def viewDidAppear(self):
+    pass
+
+
 # [PythonやJupyterでiPhone/iPad先端機能を簡単･自由にプログラミング！「土台篇」：hirax](https://techbookfest.org/product/wTZTyeibm5GQ5XgdfMrEBV?productVariantID=kRDmN1udbEYZUWbETdwL8r)
 class LiveCameraView(ui.View):
   def __init__(self, device=0, *args, **kwargs):
