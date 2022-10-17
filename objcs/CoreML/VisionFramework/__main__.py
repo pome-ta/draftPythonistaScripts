@@ -7,29 +7,38 @@ import pdbg
 VNDetectHumanHandPoseRequest = ObjCClass('VNDetectHumanHandPoseRequest')
 VNImageRequestHandler = ObjCClass('VNImageRequestHandler')
 
+AVCaptureSession = ObjCClass('AVCaptureSession')
+AVCaptureDevice = ObjCClass('AVCaptureDevice')
+AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
+AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
+
 
 # [PythonやJupyterでiPhone/iPad先端機能を簡単･自由にプログラミング！「土台篇」：hirax](https://techbookfest.org/product/wTZTyeibm5GQ5XgdfMrEBV?productVariantID=kRDmN1udbEYZUWbETdwL8r)
 class LiveCameraView(ui.View):
   def __init__(self, device=0, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
-    self._session = ObjCClass('AVCaptureSession').alloc().init()
-    self._session.setSessionPreset_('AVCaptureSessionPresetHigh')
-    inputDevices = ObjCClass('AVCaptureDevice').devices()
+
+    self._session = AVCaptureSession.alloc().init()
+    sessionPreset = 'AVCaptureSessionPresetHigh'
+    self._session.setSessionPreset_(sessionPreset)
+    inputDevices = AVCaptureDevice.devices()
     self._inputDevice = inputDevices[device]
 
-    deviceInput = ObjCClass(
-      'AVCaptureDeviceInput').deviceInputWithDevice_error_(
-        self._inputDevice, None)
+    deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
+      self._inputDevice, None)
     if self._session.canAddInput_(deviceInput):
       self._session.addInput_(deviceInput)
-    self._previewLayer = ObjCClass(
-      'AVCaptureVideoPreviewLayer').alloc().initWithSession_(self._session)
-    self._previewLayer.setVideoGravity_('AVLayerVideoGravityResizeAspectFill')
+    self._previewLayer = AVCaptureVideoPreviewLayer.alloc().initWithSession_(
+      self._session)
+
+    videoGravity = 'AVLayerVideoGravityResizeAspectFill'
+    self._previewLayer.setVideoGravity_(videoGravity)
     #rootLayer = ObjCInstance(self).layer()
     rootLayer = self.objc_instance.layer()
     rootLayer.setMasksToBounds_(True)
-    self._previewLayer.setFrame_(
-      CGRect(CGPoint(-70, 0), CGSize(self.height, self.height)))
+
+    frame = CGRect(CGPoint(-70, 0), CGSize(self.height, self.height))
+    self._previewLayer.setFrame_(frame)
     rootLayer.insertSublayer_atIndex_(self._previewLayer, 0)
     self._session.startRunning()
 
