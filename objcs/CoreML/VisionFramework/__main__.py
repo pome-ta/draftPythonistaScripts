@@ -1,4 +1,6 @@
-from objc_util import ObjCClass, CGRect, CGPoint, CGSize
+import math
+
+from objc_util import ObjCClass, CGRect, CGPoint
 import ui
 
 import pdbg
@@ -12,10 +14,54 @@ AVCaptureDevice = ObjCClass('AVCaptureDevice')
 AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
 AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
 
+CAShapeLayer = ObjCClass('CAShapeLayer')
+UIBezierPath = ObjCClass('UIBezierPath')
+UIColor = ObjCClass('UIColor')
+'''
+frame = CGRect((0, 0), (100, 100))
+flex_w, flex_h = (1 << 1), (1 << 4)
+'''
 
-class CameraView:
-  def __init__(self):
-    pass
+
+class CameraView(ui.View):
+  def __init__(self, frame=CGRect((0, 0), (100, 100)), *args, **kwargs):
+    ui.View.__init__(self, *args, **kwargs)
+    self.flex = 'WH'
+    #self.bg_color = 'blue'
+
+    self.previewLayer = AVCaptureVideoPreviewLayer.alloc().init()
+    #self.previewLayer.setFrame_(frame)
+    #pdbg.state(self._overlayLayer)
+
+    # [Swift, Objective-C を Xamarin.iOS に移植する際のポイント（2）　UIView.Layerの差し替え - 個人的なメモ](https://hiro128.hatenablog.jp/entry/2017/09/30/234916)
+    self.objc_instance.layer().addSublayer_(self.previewLayer)
+
+    self._overlayLayer = CAShapeLayer.alloc().init()
+    self.showPoints()
+
+  def layout(self):
+    self.previewLayer.frame = self.objc_instance.bounds()
+
+    self._overlayLayer.frame = self.previewLayer.bounds()
+
+  def showPoints(self):
+    self._overlayLayer.setLineWidth_(20.0)
+    blueColor = UIColor.blueColor().cgColor()
+    cyanColor = UIColor.cyanColor().cgColor()
+    self._overlayLayer.setStrokeColor_(blueColor)
+    self._overlayLayer.setFillColor_(cyanColor)
+    self.previewLayer.addSublayer_(self._overlayLayer)
+    
+    center = CGPoint(200, 200)
+    radius = 100.0
+    startAngle = 0.125 * math.pi
+    endAngle = 1.875 * math.pi
+    
+    arc = UIBezierPath.alloc().init()
+    arc.addArcWithCenter_radius_startAngle_endAngle_clockwise_(center, radius, startAngle, endAngle, True)
+    
+    #pdbg.state(arc.CGPath())
+    self._overlayLayer.setPath_(arc.CGPath())
 
 
 class CameraViewController:
@@ -26,52 +72,12 @@ class CameraViewController:
     pass
 
 
-# [PythonやJupyterでiPhone/iPad先端機能を簡単･自由にプログラミング！「土台篇」：hirax](https://techbookfest.org/product/wTZTyeibm5GQ5XgdfMrEBV?productVariantID=kRDmN1udbEYZUWbETdwL8r)
-class LiveCameraView(ui.View):
-  def __init__(self, device=0, *args, **kwargs):
-    ui.View.__init__(self, *args, **kwargs)
-
-    self._session = AVCaptureSession.alloc().init()
-    sessionPreset = 'AVCaptureSessionPresetHigh'
-    self._session.setSessionPreset_(sessionPreset)
-    inputDevices = AVCaptureDevice.devices()
-    self._inputDevice = inputDevices[device]
-
-    deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
-      self._inputDevice, None)
-    if self._session.canAddInput_(deviceInput):
-      self._session.addInput_(deviceInput)
-    self._previewLayer = AVCaptureVideoPreviewLayer.alloc().initWithSession_(
-      self._session)
-
-    videoGravity = 'AVLayerVideoGravityResizeAspectFill'
-    self._previewLayer.setVideoGravity_(videoGravity)
-    #rootLayer = ObjCInstance(self).layer()
-    rootLayer = self.objc_instance.layer()
-    rootLayer.setMasksToBounds_(True)
-
-    frame = CGRect(CGPoint(-70, 0), CGSize(self.height, self.height))
-    self._previewLayer.setFrame_(frame)
-    rootLayer.insertSublayer_atIndex_(self._previewLayer, 0)
-    self._session.startRunning()
-
-  def will_close(self):
-    self._session.stopRunning()
-
-  def layout(self):
-    if not self._session.isRunning():
-      self._session.startRunning()
-
-
 class View(ui.View):
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'maroon'
-    self.rootview = LiveCameraView(frame=(0, 0, 576, 576))
-    self.add_subview(self.rootview)
-
-  def will_close(self):
-    self.rootview.will_close()
+    cm = CameraView()
+    self.add_subview(cm)
 
 
 if __name__ == '__main__':
