@@ -17,10 +17,6 @@ AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
 CAShapeLayer = ObjCClass('CAShapeLayer')
 UIBezierPath = ObjCClass('UIBezierPath')
 UIColor = ObjCClass('UIColor')
-'''
-frame = CGRect((0, 0), (100, 100))
-flex_w, flex_h = (1 << 1), (1 << 4)
-'''
 
 
 class CameraView(ui.View):
@@ -29,21 +25,22 @@ class CameraView(ui.View):
     self.flex = 'WH'
     self.bg_color = 'green'
 
-    self.previewLayer = AVCaptureVideoPreviewLayer.alloc().init()
-    #self.previewLayer.setFrame_(frame)
-    #pdbg.state(self._overlayLayer)
+    self.init()
+    self.setupOverlay()
+    self.setCAShapeLayer()
 
+  def init(self):
+    self.previewLayer = AVCaptureVideoPreviewLayer.alloc().init()
+    self._overlayLayer = CAShapeLayer.alloc().init()
+
+  def setupOverlay(self):
     # [Swift, Objective-C を Xamarin.iOS に移植する際のポイント（2）　UIView.Layerの差し替え - 個人的なメモ](https://hiro128.hatenablog.jp/entry/2017/09/30/234916)
     self.objc_instance.layer().addSublayer_(self.previewLayer)
-
-    self._overlayLayer = CAShapeLayer.alloc().init()
-    self.setCAShapeLayer()
+    pdbg.state(self.previewLayer)
 
   def layout(self):
     self.previewLayer.frame = self.objc_instance.bounds()
-
     self._overlayLayer.frame = self.previewLayer.bounds()
-    
     self.showPoints(self._overlayLayer.frame().size)
 
   def showPoints(self, size):
@@ -59,7 +56,6 @@ class CameraView(ui.View):
     arc.addArcWithCenter_radius_startAngle_endAngle_clockwise_(
       center, radius, startAngle, endAngle, True)
 
-    #pdbg.state(arc.CGPath())
     self._overlayLayer.setPath_(arc.CGPath())
 
   def setCAShapeLayer(self):
@@ -73,10 +69,27 @@ class CameraView(ui.View):
 
 class CameraViewController:
   def __init__(self):
+    self._cameraView = CameraView()
     self._cameraFeedSession = None
 
   def viewDidAppear(self):
-    pass
+    # xxx: エラーハンドリング飛ばしてる
+    self._cameraView.previewLayer.setVideoGravity_(
+      'AVLayerVideoGravityResizeAspectFill')
+
+    self.setupAVSession()
+    self._cameraView.previewLayer.setSession_(self._cameraFeedSession)
+    self._cameraFeedSession.startRunning()
+
+  def setupAVSession(self):
+    # xxx: 
+    _videoDevice = AVCaptureDevice.devices()
+    videoDevice = _videoDevice[device]
+    deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
+      videoDevice, None)
+      
+    session = AVCaptureSession.alloc().init()
+    session.setSessionPreset_('AVCaptureSessionPresetHigh')
 
 
 class View(ui.View):
