@@ -1,6 +1,6 @@
 import math
 
-from objc_util import ObjCClass, CGRect, CGPoint
+from objc_util import ObjCClass, CGRect, CGPoint, ns
 import ui
 
 import pdbg
@@ -12,6 +12,7 @@ VNImageRequestHandler = ObjCClass('VNImageRequestHandler')
 AVCaptureSession = ObjCClass('AVCaptureSession')
 AVCaptureDevice = ObjCClass('AVCaptureDevice')
 AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
+AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
 AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
 
 CAShapeLayer = ObjCClass('CAShapeLayer')
@@ -36,7 +37,6 @@ class CameraView(ui.View):
   def setupOverlay(self):
     # [Swift, Objective-C を Xamarin.iOS に移植する際のポイント（2）　UIView.Layerの差し替え - 個人的なメモ](https://hiro128.hatenablog.jp/entry/2017/09/30/234916)
     self.objc_instance.layer().addSublayer_(self.previewLayer)
-    pdbg.state(self.previewLayer)
 
   def layout(self):
     self.previewLayer.frame = self.objc_instance.bounds()
@@ -71,33 +71,57 @@ class CameraViewController:
   def __init__(self):
     self._cameraView = CameraView()
     self._cameraFeedSession = None
+    self.viewDidAppear()
 
   def viewDidAppear(self):
     # xxx: エラーハンドリング飛ばしてる
     self._cameraView.previewLayer.setVideoGravity_(
       'AVLayerVideoGravityResizeAspectFill')
-
     self.setupAVSession()
     self._cameraView.previewLayer.setSession_(self._cameraFeedSession)
     self._cameraFeedSession.startRunning()
 
+  def viewWillDisappear(self):
+    self._cameraFeedSession.stopRunning()
+
   def setupAVSession(self):
     # xxx: 
     _videoDevice = AVCaptureDevice.devices()
-    videoDevice = _videoDevice[device]
+    videoDevice = _videoDevice[0]
     deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
       videoDevice, None)
-      
+
     session = AVCaptureSession.alloc().init()
-    session.setSessionPreset_('AVCaptureSessionPresetHigh')
+    session.beginConfiguration()
+    high = 'AVCaptureSessionPresetHigh'
+    session.setSessionPreset_(high)
+    if session.canAddInput_(deviceInput):
+      session.addInput_(deviceInput)
+    else:
+      # xxx: 他のエラーも探す
+      print('Could not add video device input to the session')
+
+    dataOutput = AVCaptureVideoDataOutput.alloc().init()
+    dataOutput.alwaysDiscardsLateVideoFrames = True
+    #dataOutput.setVideoSettings_()
+    # todo: 後で調査調整
+    dataOutput.videoSettings = {
+      ns('kCVPixelBufferPixelFormatTypeKey'): int(1111970369)
+    }
+
+    session.commitConfiguration()
+    self._cameraFeedSession = session
 
 
 class View(ui.View):
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'maroon'
-    cm = CameraView()
-    self.add_subview(cm)
+    self.cameraViewController = CameraViewController()
+    self.add_subview(self.cameraViewController._cameraView)
+    
+  def will_close(self):
+    self.cameraViewController.viewWillDisappear()
 
 
 if __name__ == '__main__':

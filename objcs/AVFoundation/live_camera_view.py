@@ -4,6 +4,8 @@
 from objc_util import ObjCClass, CGRect, CGPoint, CGSize
 import ui
 
+import pdbg
+
 AVCaptureSession = ObjCClass('AVCaptureSession')
 AVCaptureDevice = ObjCClass('AVCaptureDevice')
 AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
@@ -14,9 +16,11 @@ class LiveCameraView(ui.View):
   def __init__(self, device=0, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self._session = AVCaptureSession.alloc().init()
+    #pdbg.state(self._session)
     self._session.setSessionPreset_('AVCaptureSessionPresetHigh')
     inputDevices = AVCaptureDevice.devices()
     self._inputDevice = inputDevices[device]
+    pdbg.state(self._inputDevice)
 
     deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
       self._inputDevice, None)
