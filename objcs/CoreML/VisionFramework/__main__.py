@@ -1,6 +1,6 @@
 import math
-
-from objc_util import create_objc_class, ObjCClass, CGRect, CGPoint, ns
+import ctypes
+from objc_util import c, create_objc_class, ObjCClass, ObjCInstance, CGRect, CGPoint, ns
 import ui
 
 import pdbg
@@ -20,8 +20,15 @@ CAShapeLayer = ObjCClass('CAShapeLayer')
 UIBezierPath = ObjCClass('UIBezierPath')
 UIColor = ObjCClass('UIColor')
 
+# [how can i access dispatch_get_main_queue | omz:forum](https://forum.omz-software.com/topic/6204/how-can-i-access-dispatch_get_main_queue/2)
+#dispatch_get_main_queue = c.dispatch_get_main_queue
 
-def captureOutput_didOutputSampleBuffer_fromConnection_(_self, _cmd, output, sampleBuffer, connection):
+dispatch_get_current_queue = c.dispatch_get_current_queue
+dispatch_get_current_queue.restype = ctypes.c_void_p
+
+
+def captureOutput_didOutputSampleBuffer_fromConnection_(
+    _self, _cmd, output, sampleBuffer, connection):
   print('joge')
 
 
@@ -81,6 +88,7 @@ class CameraView(ui.View):
 class CameraViewController:
   def __init__(self):
     self._cameraView = CameraView()
+    self._videoDataOutputQueue = ObjCInstance(dispatch_get_current_queue())
     self._cameraFeedSession = None
     self.viewDidAppear()
 
@@ -113,14 +121,21 @@ class CameraViewController:
       print('Could not add video device input to the session')
 
     dataOutput = AVCaptureVideoDataOutput.alloc().init()
-    dataOutput.alwaysDiscardsLateVideoFrames = True
-    #dataOutput.setVideoSettings_()
-    # todo: 後で調査調整
-    dataOutput.videoSettings = {
-      ns('kCVPixelBufferPixelFormatTypeKey'): int(1111970369)
-    }
-    # xxx: delegate
-    #sampleBufferDelegate.new()
+    #pdbg.state(session)
+    if (session.canAddOutput_(dataOutput)):
+      session.addOutput_(dataOutput)
+      dataOutput.alwaysDiscardsLateVideoFrames = True
+      # todo: 後で調査調整
+      dataOutput.videoSettings = {
+        ns('kCVPixelBufferPixelFormatTypeKey'): int(1111970369)
+      }
+      delegate = sampleBufferDelegate.new()
+      dataOutput.setSampleBufferDelegate_queue_(delegate,
+                                                self._videoDataOutputQueue)
+
+    else:
+      print('Could not add video data output to the session')
+
     session.commitConfiguration()
     self._cameraFeedSession = session
 
