@@ -29,7 +29,8 @@ dispatch_get_current_queue.restype = ctypes.c_void_p
 
 def captureOutput_didOutputSampleBuffer_fromConnection_(
     _self, _cmd, output, sampleBuffer, connection):
-  print('joge')
+  #print('joge')
+  pass
 
 
 sampleBufferDelegate = create_objc_class(
@@ -104,7 +105,7 @@ class CameraViewController:
     self._cameraFeedSession.stopRunning()
 
   def setupAVSession(self):
-    # xxx: 
+    # xxx: sample の初期呼び出しを飛ばしてる
     _videoDevice = AVCaptureDevice.devices()
     videoDevice = _videoDevice[0]
     deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
@@ -132,7 +133,6 @@ class CameraViewController:
       delegate = sampleBufferDelegate.new()
       dataOutput.setSampleBufferDelegate_queue_(delegate,
                                                 self._videoDataOutputQueue)
-
     else:
       print('Could not add video data output to the session')
 
