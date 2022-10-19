@@ -3,10 +3,10 @@
 
 ## 順番
 
-1. Pythonista のdraw 以外で描けるか確認
+- Pythonista のdraw 以外で描けるか確認
   - `CAShapeLayer`
   - `UIBezierPath`
-1. キャプチャ
+- キャプチャ
   - `CameraViewController`
   - `AVCaptureSession` 関係
     - ただ画面上に出すことは成功
