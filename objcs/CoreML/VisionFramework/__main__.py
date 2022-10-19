@@ -20,16 +20,12 @@ CAShapeLayer = ObjCClass('CAShapeLayer')
 UIBezierPath = ObjCClass('UIBezierPath')
 UIColor = ObjCClass('UIColor')
 
-# [how can i access dispatch_get_main_queue | omz:forum](https://forum.omz-software.com/topic/6204/how-can-i-access-dispatch_get_main_queue/2)
-#dispatch_get_main_queue = c.dispatch_get_main_queue
-
 dispatch_get_current_queue = c.dispatch_get_current_queue
 dispatch_get_current_queue.restype = ctypes.c_void_p
 
 
 def captureOutput_didOutputSampleBuffer_fromConnection_(
     _self, _cmd, output, sampleBuffer, connection):
-  #print('joge')
   pass
 
 
@@ -54,7 +50,6 @@ class CameraView(ui.View):
     self._overlayLayer = CAShapeLayer.alloc().init()
 
   def setupOverlay(self):
-    # [Swift, Objective-C を Xamarin.iOS に移植する際のポイント（2）　UIView.Layerの差し替え - 個人的なメモ](https://hiro128.hatenablog.jp/entry/2017/09/30/234916)
     self.objc_instance.layer().addSublayer_(self.previewLayer)
 
   def layout(self):
