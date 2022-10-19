@@ -1,6 +1,6 @@
 import math
 
-from objc_util import ObjCClass, CGRect, CGPoint, ns
+from objc_util import create_objc_class, ObjCClass, CGRect, CGPoint, ns
 import ui
 
 import pdbg
@@ -18,6 +18,26 @@ AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
 CAShapeLayer = ObjCClass('CAShapeLayer')
 UIBezierPath = ObjCClass('UIBezierPath')
 UIColor = ObjCClass('UIColor')
+
+
+def captureOutput_didOutputSampleBuffer_fromConnection_(
+    _self, _cmd, _output, _sample_buffer, _conn):
+  global processed_frames
+  # サンプルバッファを読み込む
+  _imageBuffer = CMSampleBufferGetImageBuffer(_sample_buffer)
+  # サンプルバッファをロック
+  CVPixelBufferLockBaseAddress(_imageBuffer, 0)
+  # サンプルバッファを使った処理
+  processPixelBuffer(_imageBuffer)
+  # サンプルバッファをアンロック
+  CVPixelBufferUnlockBaseAddress(_imageBuffer, 0)
+  processed_frames = processed_frames + 1
+
+
+sampleBufferDelegate = create_objc_class(
+  'sampleBufferDelegate',
+  methods=[captureOutput_didOutputSampleBuffer_fromConnection_],
+  protocols=['AVCaptureVideoDataOutputSampleBufferDelegate'])
 
 
 class CameraView(ui.View):
@@ -119,7 +139,7 @@ class View(ui.View):
     self.bg_color = 'maroon'
     self.cameraViewController = CameraViewController()
     self.add_subview(self.cameraViewController._cameraView)
-    
+
   def will_close(self):
     self.cameraViewController.viewWillDisappear()
 
