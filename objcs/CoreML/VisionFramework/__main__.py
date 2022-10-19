@@ -14,24 +14,15 @@ AVCaptureDevice = ObjCClass('AVCaptureDevice')
 AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
 AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
 AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
+#AVCaptureConnection = ObjCClass('AVCaptureConnection')
 
 CAShapeLayer = ObjCClass('CAShapeLayer')
 UIBezierPath = ObjCClass('UIBezierPath')
 UIColor = ObjCClass('UIColor')
 
 
-def captureOutput_didOutputSampleBuffer_fromConnection_(
-    _self, _cmd, _output, _sample_buffer, _conn):
-  global processed_frames
-  # サンプルバッファを読み込む
-  _imageBuffer = CMSampleBufferGetImageBuffer(_sample_buffer)
-  # サンプルバッファをロック
-  CVPixelBufferLockBaseAddress(_imageBuffer, 0)
-  # サンプルバッファを使った処理
-  processPixelBuffer(_imageBuffer)
-  # サンプルバッファをアンロック
-  CVPixelBufferUnlockBaseAddress(_imageBuffer, 0)
-  processed_frames = processed_frames + 1
+def captureOutput_didOutputSampleBuffer_fromConnection_(_self, _cmd, output, sampleBuffer, connection):
+  print('joge')
 
 
 sampleBufferDelegate = create_objc_class(
@@ -128,7 +119,8 @@ class CameraViewController:
     dataOutput.videoSettings = {
       ns('kCVPixelBufferPixelFormatTypeKey'): int(1111970369)
     }
-
+    # xxx: delegate
+    #sampleBufferDelegate.new()
     session.commitConfiguration()
     self._cameraFeedSession = session
 
