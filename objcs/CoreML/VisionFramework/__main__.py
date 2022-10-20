@@ -1,6 +1,6 @@
 import math
 import ctypes
-from objc_util import c, create_objc_class, ObjCClass, ObjCInstance, CGRect, CGPoint, ns, sel
+from objc_util import c, create_objc_class, ObjCClass, ObjCInstance, CGRect, CGPoint, ns
 import ui
 
 import pdbg
@@ -14,7 +14,6 @@ AVCaptureDevice = ObjCClass('AVCaptureDevice')
 AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
 AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
 AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
-#AVCaptureConnection = ObjCClass('AVCaptureConnection')
 
 CAShapeLayer = ObjCClass('CAShapeLayer')
 UIBezierPath = ObjCClass('UIBezierPath')
@@ -22,21 +21,6 @@ UIColor = ObjCClass('UIColor')
 
 dispatch_get_current_queue = c.dispatch_get_current_queue
 dispatch_get_current_queue.restype = ctypes.c_void_p
-'''
-def captureOutput_didOutputSampleBuffer_fromConnection_(
-    _self, _cmd, _output, _sampleBuffer, _connection):
-  sampleBuffer = ObjCInstance(_sampleBuffer)
-  handler = VNImageRequestHandler.alloc(
-  ).initWithCMSampleBuffer_orientation_options_(
-    sampleBuffer, kCGImagePropertyOrientationUp, None)
-
-
-_methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
-_protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
-
-sampleBufferDelegate = create_objc_class(
-  'sampleBufferDelegate', methods=_methods, protocols=_protocols)
-'''
 
 
 class CameraView(ui.View):
@@ -90,7 +74,8 @@ class CameraViewController:
     self._cameraView = CameraView()
     self._videoDataOutputQueue = ObjCInstance(dispatch_get_current_queue())
     self._cameraFeedSession = None
-    self._handPoseRequest = VNDetectHumanHandPoseRequest.alloc().init().autorelease()
+    self._handPoseRequest = VNDetectHumanHandPoseRequest.alloc().init(
+    )  #.autorelease()
 
     self.viewDidLoad()
     self.viewDidAppear()
@@ -153,16 +138,16 @@ class CameraViewController:
       handler = VNImageRequestHandler.alloc(
       ).initWithCMSampleBuffer_orientation_options_(
         sampleBuffer, kCGImagePropertyOrientationUp, None).autorelease()
-      #pdbg.state(handler)
+
       handler.performRequests_error_([self._handPoseRequest], None)
-      
-      
-      pdbg.state(self._handPoseRequest.results().firstObject())
-      
-      #print(self._handPoseRequest.results().count())
-      #print(sel(self._handPoseRequest.results()))
-      #print(self._handPoseRequest.results)
-      #observation = 
+
+      observation = self._handPoseRequest.results().firstObject()
+
+      if (observation):
+        #pdbg.state(observation)
+        #
+        thumbPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameThumb', None)
+        print(thumbPoints)
 
     _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
     _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']

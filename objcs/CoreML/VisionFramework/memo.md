@@ -42,6 +42,27 @@ buffer を変数として持つには、Class 内かしら？
 メソッド化して、Class 内に設置して、`self` で呼び出すようにした
 
 
+## `autorelease()` いるいらない問題
+
+何を基準に必要なんだろうか？
+
+delegate のところは、`autorelease()` を付けておく
+
+
+## `recognizedPoints(.thumb)` の`.thumb` とかを探す
+
+これか？`VNHumanHandPoseObservationJointsGroupNameThumb`
+
+[VNHumanHandPoseObservationJointsGroupNameThumb | Apple Developer Documentation](https://developer.apple.com/documentation/vision/vnhumanhandposeobservationjointsgroupnamethumb?language=objc)
+
+
+[VNHumanHandPoseObservationJointsGroupName | Apple Developer Documentation](https://developer.apple.com/documentation/vision/vnhumanhandposeobservationjointsgroupname?changes=_10_8&language=objc)
+
+
+
+[.NET API Catalog](https://apisof.net/catalog/07929f76-9c5c-2bd2-50d0-6a477473f016)
+
+
 # 📝 2022/10/17
 
 
