@@ -6,6 +6,10 @@ import ui
 import pdbg
 
 # xxx: Vision framework のload は不要？
+
+#from objc_util import load_framework
+#load_framework('Vision')
+
 VNDetectHumanHandPoseRequest = ObjCClass('VNDetectHumanHandPoseRequest')
 VNImageRequestHandler = ObjCClass('VNImageRequestHandler')
 
@@ -21,6 +25,7 @@ UIColor = ObjCClass('UIColor')
 
 dispatch_get_current_queue = c.dispatch_get_current_queue
 dispatch_get_current_queue.restype = ctypes.c_void_p
+
 
 
 class CameraView(ui.View):
@@ -96,6 +101,7 @@ class CameraViewController:
 
   def setupAVSession(self):
     # xxx: sample の初期呼び出しを飛ばしてる
+    pdbg.state(AVCaptureDevice)
     _videoDevice = AVCaptureDevice.devices()
     videoDevice = _videoDevice[0]
     deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
@@ -144,10 +150,17 @@ class CameraViewController:
       observation = self._handPoseRequest.results().firstObject()
 
       if (observation):
-        #pdbg.state(observation)
-        #
-        thumbPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameThumb', None)
-        print(thumbPoints)
+        #pdbg.state(observation.availableGroupKeys())
+        #thumbPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameThumb', None)
+        
+        #indexFingerPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameIndexFinger', None)
+        
+        #print(f'thumbPoints: \n{thumbPoints}')
+        #print(f'indexFingerPoints: \n{indexFingerPoints}')
+        allPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameAll', None)
+        #print(allPoints)
+        
+        
 
     _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
     _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']

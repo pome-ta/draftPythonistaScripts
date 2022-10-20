@@ -1,3 +1,10 @@
+# 📝 2022/10/21
+
+
+## デバイスのインプット関係を整理
+
+[detector.py](https://gist.github.com/jsbain/424d4fe1a3c0b1ae3fd705d72f665c1e)
+
 # 📝 2022/10/20
 
 
@@ -61,6 +68,10 @@ delegate のところは、`autorelease()` を付けておく
 
 
 [.NET API Catalog](https://apisof.net/catalog/07929f76-9c5c-2bd2-50d0-6a477473f016)
+
+
+
+うぬー`None` を取得するぅー
 
 
 # 📝 2022/10/17
