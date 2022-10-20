@@ -90,7 +90,7 @@ class CameraViewController:
     self._cameraView = CameraView()
     self._videoDataOutputQueue = ObjCInstance(dispatch_get_current_queue())
     self._cameraFeedSession = None
-    self._handPoseRequest = VNDetectHumanHandPoseRequest.alloc().init()
+    self._handPoseRequest = VNDetectHumanHandPoseRequest.alloc().init().autorelease()
 
     self.viewDidLoad()
     self.viewDidAppear()
@@ -152,14 +152,13 @@ class CameraViewController:
       sampleBuffer = ObjCInstance(_sampleBuffer)
       handler = VNImageRequestHandler.alloc(
       ).initWithCMSampleBuffer_orientation_options_(
-        sampleBuffer, kCGImagePropertyOrientationUp, None)
+        sampleBuffer, kCGImagePropertyOrientationUp, None).autorelease()
       #pdbg.state(handler)
       handler.performRequests_error_([self._handPoseRequest], None)
       
-      try:
-        pdbg.state(self._handPoseRequest.results().objectAtIndex_(0))
-      except:
-        print('hoge')
+      
+      pdbg.state(self._handPoseRequest.results().firstObject())
+      
       #print(self._handPoseRequest.results().count())
       #print(sel(self._handPoseRequest.results()))
       #print(self._handPoseRequest.results)
