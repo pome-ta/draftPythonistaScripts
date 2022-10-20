@@ -27,7 +27,6 @@ dispatch_get_current_queue = c.dispatch_get_current_queue
 dispatch_get_current_queue.restype = ctypes.c_void_p
 
 
-
 class CameraView(ui.View):
   def __init__(self, frame=CGRect((0, 0), (100, 100)), *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
@@ -90,8 +89,8 @@ class CameraViewController:
 
   def viewDidAppear(self):
     # xxx: エラーハンドリング飛ばしてる
-    self._cameraView.previewLayer.setVideoGravity_(
-      'AVLayerVideoGravityResizeAspectFill')
+    _resizeAspectFill = 'AVLayerVideoGravityResizeAspectFill'
+    self._cameraView.previewLayer.setVideoGravity_(_resizeAspectFill)
     self.setupAVSession()
     self._cameraView.previewLayer.setSession_(self._cameraFeedSession)
     self._cameraFeedSession.startRunning()
@@ -102,20 +101,30 @@ class CameraViewController:
   def setupAVSession(self):
     # xxx: sample の初期呼び出しを飛ばしてる
     pdbg.state(AVCaptureDevice)
-    _videoDevice = AVCaptureDevice.devices()
-    videoDevice = _videoDevice[0]
+    #AVCaptureDeviceTypeBuiltInUltraWideCamera
+    _builtInWideAngleCamera = 'AVCaptureDeviceTypeBuiltInWideAngleCamera'
+    _builtInWideAngleCamera = 1
+    _video = 'AVMediaTypeVideo'
+    _front = 1  # AVCaptureDevicePositionFront
+    #videoDevice = AVCaptureDevice.defaultDeviceWithDeviceType_mediaType_position_(_builtInWideAngleCamera, _video, _front)
+    videoDevice = AVCaptureDevice.devicesWithMediaType_(_video)
+    #defaultDeviceWithDeviceType_mediaType_position_'
+    #_videoDevice = AVCaptureDevice.devices()
+    #videoDevice = _videoDevice[1]
+    #pdbg.state(_videoDevice)
     deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
       videoDevice, None)
 
     session = AVCaptureSession.alloc().init()
     session.beginConfiguration()
-    high = 'AVCaptureSessionPresetHigh'
-    session.setSessionPreset_(high)
+    _Preset_high = 'AVCaptureSessionPresetHigh'
+    session.setSessionPreset_(_Preset_high)
     if session.canAddInput_(deviceInput):
       session.addInput_(deviceInput)
     else:
       # xxx: 他のエラーも探す
       print('Could not add video device input to the session')
+      raise 
 
     dataOutput = AVCaptureVideoDataOutput.alloc().init()
     #pdbg.state(session)
@@ -152,15 +161,14 @@ class CameraViewController:
       if (observation):
         #pdbg.state(observation.availableGroupKeys())
         #thumbPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameThumb', None)
-        
+
         #indexFingerPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameIndexFinger', None)
-        
+
         #print(f'thumbPoints: \n{thumbPoints}')
         #print(f'indexFingerPoints: \n{indexFingerPoints}')
-        allPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameAll', None)
+        allPoints = observation.recognizedPointsForGroupKey_error_(
+          'VNHumanHandPoseObservationJointsGroupNameAll', None)
         #print(allPoints)
-        
-        
 
     _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
     _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
