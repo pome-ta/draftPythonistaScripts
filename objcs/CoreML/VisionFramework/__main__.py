@@ -1,6 +1,6 @@
 import math
 import ctypes
-from objc_util import c, create_objc_class, ObjCClass, ObjCInstance, CGRect, CGPoint, ns
+from objc_util import c, create_objc_class, ObjCClass, ObjCInstance, CGRect, CGPoint, ns, sel
 import ui
 
 import pdbg
@@ -22,17 +22,21 @@ UIColor = ObjCClass('UIColor')
 
 dispatch_get_current_queue = c.dispatch_get_current_queue
 dispatch_get_current_queue.restype = ctypes.c_void_p
-
-
+'''
 def captureOutput_didOutputSampleBuffer_fromConnection_(
-    _self, _cmd, output, sampleBuffer, connection):
-  pass
+    _self, _cmd, _output, _sampleBuffer, _connection):
+  sampleBuffer = ObjCInstance(_sampleBuffer)
+  handler = VNImageRequestHandler.alloc(
+  ).initWithCMSampleBuffer_orientation_options_(
+    sampleBuffer, kCGImagePropertyOrientationUp, None)
 
+
+_methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
+_protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
 
 sampleBufferDelegate = create_objc_class(
-  'sampleBufferDelegate',
-  methods=[captureOutput_didOutputSampleBuffer_fromConnection_],
-  protocols=['AVCaptureVideoDataOutputSampleBufferDelegate'])
+  'sampleBufferDelegate', methods=_methods, protocols=_protocols)
+'''
 
 
 class CameraView(ui.View):
@@ -86,7 +90,13 @@ class CameraViewController:
     self._cameraView = CameraView()
     self._videoDataOutputQueue = ObjCInstance(dispatch_get_current_queue())
     self._cameraFeedSession = None
+    self._handPoseRequest = VNDetectHumanHandPoseRequest.alloc().init()
+
+    self.viewDidLoad()
     self.viewDidAppear()
+
+  def viewDidLoad(self):
+    self._handPoseRequest.maximumHandCount = 1
 
   def viewDidAppear(self):
     # xxx: エラーハンドリング飛ばしてる
@@ -125,7 +135,7 @@ class CameraViewController:
       dataOutput.videoSettings = {
         ns('kCVPixelBufferPixelFormatTypeKey'): int(1111970369)
       }
-      delegate = sampleBufferDelegate.new()
+      delegate = self.create_sampleBufferDelegate()
       dataOutput.setSampleBufferDelegate_queue_(delegate,
                                                 self._videoDataOutputQueue)
     else:
@@ -133,6 +143,35 @@ class CameraViewController:
 
     session.commitConfiguration()
     self._cameraFeedSession = session
+
+  def create_sampleBufferDelegate(self):
+    def captureOutput_didOutputSampleBuffer_fromConnection_(
+        _self, _cmd, _output, _sampleBuffer, _connection):
+      kCGImagePropertyOrientationUp = 1
+
+      sampleBuffer = ObjCInstance(_sampleBuffer)
+      handler = VNImageRequestHandler.alloc(
+      ).initWithCMSampleBuffer_orientation_options_(
+        sampleBuffer, kCGImagePropertyOrientationUp, None)
+      #pdbg.state(handler)
+      handler.performRequests_error_([self._handPoseRequest], None)
+      
+      try:
+        pdbg.state(self._handPoseRequest.results().objectAtIndex_(0))
+      except:
+        print('hoge')
+      #print(self._handPoseRequest.results().count())
+      #print(sel(self._handPoseRequest.results()))
+      #print(self._handPoseRequest.results)
+      #observation = 
+
+    _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
+    _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
+
+    sampleBufferDelegate = create_objc_class(
+      'sampleBufferDelegate', methods=_methods, protocols=_protocols)
+
+    return sampleBufferDelegate.new()
 
 
 class View(ui.View):

@@ -34,7 +34,12 @@
 
 [how can i access dispatch_get_main_queue | omz:forum](https://forum.omz-software.com/topic/6204/how-can-i-access-dispatch_get_main_queue/2)
 
+## delegate をClass 内に配置？
 
+buffer を変数として持つには、Class 内かしら？
+
+
+メソッド化して、Class 内に設置して、`self` で呼び出すようにした
 
 
 # 📝 2022/10/17
