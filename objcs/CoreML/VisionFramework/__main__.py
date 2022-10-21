@@ -154,22 +154,22 @@ class CameraViewController:
       sampleBuffer = ObjCInstance(_sampleBuffer)
       handler = VNImageRequestHandler.alloc(
       ).initWithCMSampleBuffer_orientation_options_(
-        sampleBuffer, kCGImagePropertyOrientationUp, None).autorelease()
+        sampleBuffer, kCGImagePropertyOrientationUp, None)#.autorelease()
 
       handler.performRequests_error_([self._handPoseRequest], None)
 
       observation = self._handPoseRequest.results().firstObject()
 
       if (observation):
+        #pdbg.state(self._handPoseRequest.results())
         #pdbg.state(observation.availableGroupKeys())
-        #thumbPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameThumb', None)
+        thumbPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameThumb', None)
 
-        #indexFingerPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameIndexFinger', None)
+        indexFingerPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameIndexFinger', None)
 
-        #print(f'thumbPoints: \n{thumbPoints}')
-        #print(f'indexFingerPoints: \n{indexFingerPoints}')
-        allPoints = observation.recognizedPointsForGroupKey_error_(
-          'VNHumanHandPoseObservationJointsGroupNameAll', None)
+        print(f'thumbPoints: \n{thumbPoints}')
+        print(f'indexFingerPoints: \n{indexFingerPoints}')
+        #allPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameAll', None)
         #print(allPoints)
 
     _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
