@@ -5,6 +5,24 @@
 
 [detector.py](https://gist.github.com/jsbain/424d4fe1a3c0b1ae3fd705d72f665c1e)
 
+
+`AVCaptureDevice.defaultDeviceWithDeviceType_mediaType_position_(_builtInWideAngleCamera, _video, _front)`
+
+だめだから、
+
+`videoDevice = AVCaptureDevice.devices()[1]`
+
+Pythonista がもう起動してるから？（読み込んでるから？）
+
+
+`420f` = `1111970369`
+
+ちゃんと確認する
+
+> Bi-Planar Component Y'CbCr 8-bit 4:2:0, full-range (luma=[0,255] chroma=[1,255]). baseAddr points to a big-endian CVPlanarPixelBufferInfo_YCbCrBiPlanar struct.
+
+[kCVPixelFormatType_420YpCbCr8BiPlanarFullRange | Apple Developer Documentation](https://developer.apple.com/documentation/corevideo/1563591-pixel_format_identifiers/kcvpixelformattype_420ypcbcr8biplanarfullrange?language=objc)
+
 # 📝 2022/10/20
 
 

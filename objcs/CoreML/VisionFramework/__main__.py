@@ -1,6 +1,6 @@
 import math
 import ctypes
-from objc_util import c, create_objc_class, ObjCClass, ObjCInstance, CGRect, CGPoint, ns
+from objc_util import c, create_objc_class, ObjCClass, ObjCInstance, CGRect, CGPoint
 import ui
 
 import pdbg
@@ -100,16 +100,18 @@ class CameraViewController:
 
   def setupAVSession(self):
     # xxx: sample の初期呼び出しを飛ばしてる
-    pdbg.state(AVCaptureDevice)
+    #pdbg.state(AVCaptureDevice)
     #AVCaptureDeviceTypeBuiltInUltraWideCamera
+    '''
     _builtInWideAngleCamera = 'AVCaptureDeviceTypeBuiltInWideAngleCamera'
     _builtInWideAngleCamera = 1
     _video = 'AVMediaTypeVideo'
     _front = 1  # AVCaptureDevicePositionFront
+    '''
     #videoDevice = AVCaptureDevice.defaultDeviceWithDeviceType_mediaType_position_(_builtInWideAngleCamera, _video, _front)
-    videoDevice = AVCaptureDevice.devicesWithMediaType_(_video)
+    #videoDevice = AVCaptureDevice.devicesWithMediaType_(_video)
     #defaultDeviceWithDeviceType_mediaType_position_'
-    #_videoDevice = AVCaptureDevice.devices()
+    videoDevice = AVCaptureDevice.devices()[1]
     #videoDevice = _videoDevice[1]
     #pdbg.state(_videoDevice)
     deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
@@ -124,7 +126,7 @@ class CameraViewController:
     else:
       # xxx: 他のエラーも探す
       print('Could not add video device input to the session')
-      raise 
+      raise
 
     dataOutput = AVCaptureVideoDataOutput.alloc().init()
     #pdbg.state(session)
@@ -133,7 +135,7 @@ class CameraViewController:
       dataOutput.alwaysDiscardsLateVideoFrames = True
       # todo: 後で調査調整
       dataOutput.videoSettings = {
-        ns('kCVPixelBufferPixelFormatTypeKey'): int(1111970369)
+        'kCVPixelBufferPixelFormatTypeKey': 1111970369  #420f
       }
       delegate = self.create_sampleBufferDelegate()
       dataOutput.setSampleBufferDelegate_queue_(delegate,
