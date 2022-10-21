@@ -1,6 +1,6 @@
 import ctypes
 
-from objc_util import ObjCClass
+from objc_util import c, ObjCClass, ObjCInstance
 import ui
 
 import pdbg
@@ -11,7 +11,16 @@ AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
 
 
 class CMVideoDimensions(ctypes.Structure):
-  _fields_ = [('width', ctypes.c_float), ('height', ctypes.c_float)]
+  _fields_ = [('width', ctypes.c_int32), ('height', ctypes.c_int32)]
+
+
+CMFormatDescriptionGetMediaSubType = c.CMFormatDescriptionGetMediaSubType
+CMFormatDescriptionGetMediaSubType.argtypes = [ctypes.c_void_p]
+CMFormatDescriptionGetMediaSubType.restype = ctypes.c_void_p
+
+CMVideoFormatDescriptionGetDimensions = c.CMVideoFormatDescriptionGetDimensions
+CMVideoFormatDescriptionGetDimensions.argtypes = [ctypes.c_void_p]
+CMVideoFormatDescriptionGetDimensions.restype = CMVideoDimensions
 
 
 class ViewController:
@@ -27,19 +36,35 @@ class ViewController:
   # --- AVCapture Setup
   def _setupAVCaptureSession(self):
     captureSession = AVCaptureSession.alloc().init()
+    self._configureFrontCamera_for_(captureSession)
 
   def _highestResolution420Format_for_(self, device):
+    kCVPixelFormatType_420YpCbCr8BiPlanarFullRange = 875704422
     highestResolutionFormat = None
     highestResolutionDimensions = CMVideoDimensions(0, 0)
+
     for _format in device.formats():
       deviceFormat = _format
+      deviceFormatDescription = deviceFormat.formatDescription()
 
+      if (CMFormatDescriptionGetMediaSubType(deviceFormatDescription) ==
+          kCVPixelFormatType_420YpCbCr8BiPlanarFullRange):
+        candidateDimensions = CMVideoFormatDescriptionGetDimensions(
+          ObjCInstance(deviceFormatDescription))
 
-def _configureFrontCamera_for_(self, captureSession):
-  device = AVCaptureDevice.devices()[1]  # front
-  deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(device, None)
-  if captureSession.canAddInput_(deviceInput):
-    captureSession.addInput_(deviceInput)
+        if ((highestResolutionFormat != None) or
+            (candidateDimensions.width > highestResolutionDimensions.width)):
+          highestResolutionFormat = deviceFormat
+          highestResolutionDimensions = candidateDimensions
+
+        #
+  def _configureFrontCamera_for_(self, captureSession):
+    device = AVCaptureDevice.devices()[1]  # front
+    deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
+      device, None)
+    if captureSession.canAddInput_(deviceInput):
+      captureSession.addInput_(deviceInput)
+    self._highestResolution420Format_for_(device)
 
 
 class View(ui.View):
