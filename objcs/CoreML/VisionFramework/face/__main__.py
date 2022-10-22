@@ -1,6 +1,6 @@
 import ctypes
 
-from objc_util import c, ObjCClass, ObjCInstance
+from objc_util import c, create_objc_class, ObjCClass, ObjCInstance
 import ui
 
 import pdbg
@@ -8,6 +8,9 @@ import pdbg
 AVCaptureSession = ObjCClass('AVCaptureSession')
 AVCaptureDevice = ObjCClass('AVCaptureDevice')
 AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
+AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
+
+kCVPixelFormatType_420YpCbCr8BiPlanarFullRange = 875704422
 
 
 class CMVideoDimensions(ctypes.Structure):
@@ -22,6 +25,9 @@ CMVideoFormatDescriptionGetDimensions = c.CMVideoFormatDescriptionGetDimensions
 CMVideoFormatDescriptionGetDimensions.argtypes = [ctypes.c_void_p]
 CMVideoFormatDescriptionGetDimensions.restype = CMVideoDimensions
 
+dispatch_get_current_queue = c.dispatch_get_current_queue
+dispatch_get_current_queue.restype = ctypes.c_void_p
+
 
 class ViewController:
   def __init__(self):
@@ -34,12 +40,15 @@ class ViewController:
     self.session = self._setupAVCaptureSession()
 
   # --- AVCapture Setup
+  # - Tag: CreateCaptureSession
   def _setupAVCaptureSession(self):
     captureSession = AVCaptureSession.alloc().init()
-    self._configureFrontCamera_for_(captureSession)
+    inputDevice = self._configureFrontCamera_captureSession_(captureSession)
+    self._configureVideoDataOutput_inputDevice_resolution_captureSession_(
+      inputDevice['device'], inputDevice['resolution'], captureSession)
 
-  def _highestResolution420Format_for_(self, device):
-    kCVPixelFormatType_420YpCbCr8BiPlanarFullRange = 875704422
+  # - Tag: ConfigureDeviceResolution
+  def _highestResolution420Format_device_(self, device):
     highestResolutionFormat = None
     highestResolutionDimensions = CMVideoDimensions(0, 0)
 
@@ -60,17 +69,51 @@ class ViewController:
     if (highestResolutionFormat != None):
       resolution = (highestResolutionDimensions.width,
                     highestResolutionDimensions.height)
-      return (highestResolutionFormat, resolution)
+      return {'format': highestResolutionFormat, 'resolution': resolution}
     return None
 
-  def _configureFrontCamera_for_(self, captureSession):
+  def _configureFrontCamera_captureSession_(self, captureSession):
     device = AVCaptureDevice.devices()[1]  # front
     deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
       device, None)
     if captureSession.canAddInput_(deviceInput):
       captureSession.addInput_(deviceInput)
-    highestResolution = self._highestResolution420Format_for_(device)
-    print(highestResolution)
+    highestResolution = self._highestResolution420Format_device_(device)
+    if (device.lockForConfiguration_(None)):
+      device.activeFormat = highestResolution['format']
+      device.unlockForConfiguration()
+      return {'device': device, 'resolution': highestResolution['resolution']}
+    else:
+      print('NSError(domain: "ViewController", code: 1, userInfo: nil)')
+      raise
+
+  # - Tag: CreateSerialDispatchQueue
+  def _configureVideoDataOutput_inputDevice_resolution_captureSession_(
+      self, inputDevice, resolution, captureSession):
+    videoDataOutput = AVCaptureVideoDataOutput.alloc().init()
+    videoDataOutput.alwaysDiscardsLateVideoFrames = True
+
+    videoDataOutputQueue = ObjCInstance(dispatch_get_current_queue())
+    if (captureSession.canAddOutput(videoDataOutput)):
+      captureSession.addOutput(videoDataOutput)
+
+    #pdbg.state(videoDataOutput.connectionWithMediaType_('AVMediaTypeVideo'))
+    #vide
+    pdbg.state(videoDataOutput.connectionWithMediaType_('vide'))
+
+  def create_sampleBufferDelegate(self):
+    # --- /delegate
+    def captureOutput_output_sampleBuffer_connection_(
+        _self, _cmd, _output, _sampleBuffer, _connection):
+      sampleBuffer = ObjCInstance(_sampleBuffer)
+
+    # --- delegate/
+    _methods = [captureOutput_output_sampleBuffer_connection_]
+    _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
+
+    sampleBufferDelegate = create_objc_class(
+      'sampleBufferDelegate', methods=_methods, protocols=_protocols)
+    return sampleBufferDelegate.new()
 
 
 class View(ui.View):
