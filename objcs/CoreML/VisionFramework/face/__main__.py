@@ -11,10 +11,14 @@ AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
 AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
 AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
 
+VNTrackObjectRequest = ObjCClass('VNTrackObjectRequest')
+VNDetectFaceRectanglesRequest = ObjCClass('VNDetectFaceRectanglesRequest')
+
 UIColor = ObjCClass('UIColor')
 
 kCVPixelFormatType_420YpCbCr8BiPlanarFullRange = 875704422
 _resizeAspectFill = 'AVLayerVideoGravityResizeAspectFill'
+
 
 class CMVideoDimensions(ctypes.Structure):
   _fields_ = [('width', ctypes.c_int32), ('height', ctypes.c_int32)]
@@ -36,7 +40,7 @@ class ViewController:
   def __init__(self, _previewView):
     # Main view for showing camera content.
     self.previewView = _previewView
-    
+
     # AVCapture variables to hold sequence data
     self.session = None  # AVCaptureSession
     self.previewLayer = None  # AVCaptureVideoPreviewLayer
@@ -46,7 +50,7 @@ class ViewController:
 
     self.captureDevice = None  # AVCaptureDevice
     self.captureDeviceResolution = None  # CGSize
-    
+
     # Layer UI for drawing Vision results
     self.rootLayer = None  # CALayer
 
@@ -54,6 +58,12 @@ class ViewController:
 
   def viewDidLoad(self):
     self.session = self._setupAVCaptureSession()
+    self.prepareVisionRequest()
+    self.session.startRunning()
+
+  # todo: 終了処理を追加
+  def viewWillDisappear(self):
+    self.session.stopRunning()
 
   # --- AVCapture Setup
   # - Tag: CreateCaptureSession
@@ -63,8 +73,12 @@ class ViewController:
     self._configureVideoDataOutput_inputDevice_resolution_captureSession_(
       inputDevice['device'], inputDevice['resolution'], captureSession)
     self._designatePreviewLayer_captureSession_(captureSession)
+    return captureSession
+    # xxx: エラー処理は飛ばす
+    # ex: self.teardownAVCapture()
 
   # - Tag: ConfigureDeviceResolution
+
   def _highestResolution420Format_device_(self, device):
     highestResolutionFormat = None
     highestResolutionDimensions = CMVideoDimensions(0, 0)
@@ -137,7 +151,7 @@ class ViewController:
     videoPreviewLayer.name = 'CameraPreview'
     videoPreviewLayer.backgroundColor = UIColor.blackColor().cgColor()
     videoPreviewLayer.videoGravity = _resizeAspectFill
-    
+
     previewRootLayer = self.previewView.layer()
     self.rootLayer = previewRootLayer
     # todo: 元から`True`
@@ -145,9 +159,14 @@ class ViewController:
     # xxx: サイズが`100` かも
     videoPreviewLayer.frame = previewRootLayer.bounds()
     previewRootLayer.addSublayer_(videoPreviewLayer)
-    
-    
-    
+
+  # --- Performing Vision Requests
+  # - Tag: WriteCompletionHandler
+  def prepareVisionRequest(self):
+    #pdbg.state(VNTrackObjectRequest)
+    #pdbg.state(VNDetectFaceRectanglesRequest.alloc())
+    #faceDetectionRequest = VNDetectFaceRectanglesRequest.alloc().initWithCompletionHandler_()
+    pass
 
   def create_sampleBufferDelegate(self):
     # --- /delegate
@@ -168,13 +187,13 @@ class View(ui.View):
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'maroon'
-    
+
     # xxx: 先に呼ぶ？
     self.present(style='fullscreen', orientations=['portrait'])
     self.view_controller = ViewController(self.objc_instance)
 
   def will_close(self):
-    pass
+    self.view_controller.viewWillDisappear()
 
 
 if __name__ == '__main__':
