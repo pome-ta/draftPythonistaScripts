@@ -57,14 +57,20 @@ class ViewController:
           highestResolutionFormat = deviceFormat
           highestResolutionDimensions = candidateDimensions
 
-        #
+    if (highestResolutionFormat != None):
+      resolution = (highestResolutionDimensions.width,
+                    highestResolutionDimensions.height)
+      return (highestResolutionFormat, resolution)
+    return None
+
   def _configureFrontCamera_for_(self, captureSession):
     device = AVCaptureDevice.devices()[1]  # front
     deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
       device, None)
     if captureSession.canAddInput_(deviceInput):
       captureSession.addInput_(deviceInput)
-    self._highestResolution420Format_for_(device)
+    highestResolution = self._highestResolution420Format_for_(device)
+    print(highestResolution)
 
 
 class View(ui.View):
