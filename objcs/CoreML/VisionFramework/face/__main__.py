@@ -9,9 +9,12 @@ AVCaptureSession = ObjCClass('AVCaptureSession')
 AVCaptureDevice = ObjCClass('AVCaptureDevice')
 AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
 AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
+AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
+
+UIColor = ObjCClass('UIColor')
 
 kCVPixelFormatType_420YpCbCr8BiPlanarFullRange = 875704422
-
+_resizeAspectFill = 'AVLayerVideoGravityResizeAspectFill'
 
 class CMVideoDimensions(ctypes.Structure):
   _fields_ = [('width', ctypes.c_int32), ('height', ctypes.c_int32)]
@@ -30,12 +33,22 @@ dispatch_get_current_queue.restype = ctypes.c_void_p
 
 
 class ViewController:
-  def __init__(self):
+  def __init__(self, _previewView):
+    # Main view for showing camera content.
+    self.previewView = _previewView
+    
     # AVCapture variables to hold sequence data
-    self.session = None
+    self.session = None  # AVCaptureSession
+    self.previewLayer = None  # AVCaptureVideoPreviewLayer
 
-    self.videoDataOutput = None
-    self.videoDataOutputQueue = None
+    self.videoDataOutput = None  # AVCaptureVideoDataOutput
+    self.videoDataOutputQueue = None  # DispatchQueue
+
+    self.captureDevice = None  # AVCaptureDevice
+    self.captureDeviceResolution = None  # CGSize
+    
+    # Layer UI for drawing Vision results
+    self.rootLayer = None  # CALayer
 
     self.viewDidLoad()
 
@@ -49,6 +62,7 @@ class ViewController:
     inputDevice = self._configureFrontCamera_captureSession_(captureSession)
     self._configureVideoDataOutput_inputDevice_resolution_captureSession_(
       inputDevice['device'], inputDevice['resolution'], captureSession)
+    self._designatePreviewLayer_captureSession_(captureSession)
 
   # - Tag: ConfigureDeviceResolution
   def _highestResolution420Format_device_(self, device):
@@ -100,7 +114,7 @@ class ViewController:
     if (captureSession.canAddOutput(videoDataOutput)):
       captureSession.addOutput(videoDataOutput)
 
-    # todo: 不要かも
+    # todo: 不要？`=` でエラーになる
     #videoDataOutput.connectionWithMediaType_('vide').isEnabled = True
 
     captureConnection = videoDataOutput.connectionWithMediaType_('vide')
@@ -108,9 +122,32 @@ class ViewController:
     if (captureConnection.isCameraIntrinsicMatrixDeliverySupported()):
       # todo: 元から`True`
       captureConnection.isCameraIntrinsicMatrixDeliveryEnabled = True
-    #pdbg.state(captureConnection.isCameraIntrinsicMatrixDeliverySupported())
+
     self.videoDataOutput = videoDataOutput
     self.videoDataOutputQueue = videoDataOutputQueue
+
+    self.captureDevice = inputDevice
+    self.captureDeviceResolution = resolution
+
+  # - Tag: DesignatePreviewLayer
+  def _designatePreviewLayer_captureSession_(self, captureSession):
+    videoPreviewLayer = AVCaptureVideoPreviewLayer.alloc().initWithSession_(
+      captureSession)
+    self.previewLayer = videoPreviewLayer
+    videoPreviewLayer.name = 'CameraPreview'
+    videoPreviewLayer.backgroundColor = UIColor.blackColor().cgColor()
+    videoPreviewLayer.videoGravity = _resizeAspectFill
+    
+    previewRootLayer = self.previewView.layer()
+    self.rootLayer = previewRootLayer
+    # todo: 元から`True`
+    previewRootLayer.masksToBounds = True
+    # xxx: サイズが`100` かも
+    videoPreviewLayer.frame = previewRootLayer.bounds()
+    previewRootLayer.addSublayer_(videoPreviewLayer)
+    
+    
+    
 
   def create_sampleBufferDelegate(self):
     # --- /delegate
@@ -131,7 +168,10 @@ class View(ui.View):
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'maroon'
-    self.view_controller = ViewController()
+    
+    # xxx: 先に呼ぶ？
+    self.present(style='fullscreen', orientations=['portrait'])
+    self.view_controller = ViewController(self.objc_instance)
 
   def will_close(self):
     pass
@@ -139,5 +179,5 @@ class View(ui.View):
 
 if __name__ == '__main__':
   view = View()
-  view.present(style='fullscreen', orientations=['portrait'])
+  #view.present(style='fullscreen', orientations=['portrait'])
 
