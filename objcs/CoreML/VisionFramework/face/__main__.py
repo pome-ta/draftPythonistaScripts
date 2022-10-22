@@ -34,6 +34,9 @@ class ViewController:
     # AVCapture variables to hold sequence data
     self.session = None
 
+    self.videoDataOutput = None
+    self.videoDataOutputQueue = None
+
     self.viewDidLoad()
 
   def viewDidLoad(self):
@@ -97,9 +100,17 @@ class ViewController:
     if (captureSession.canAddOutput(videoDataOutput)):
       captureSession.addOutput(videoDataOutput)
 
-    #pdbg.state(videoDataOutput.connectionWithMediaType_('AVMediaTypeVideo'))
-    #vide
-    pdbg.state(videoDataOutput.connectionWithMediaType_('vide'))
+    # todo: 不要かも
+    #videoDataOutput.connectionWithMediaType_('vide').isEnabled = True
+
+    captureConnection = videoDataOutput.connectionWithMediaType_('vide')
+
+    if (captureConnection.isCameraIntrinsicMatrixDeliverySupported()):
+      # todo: 元から`True`
+      captureConnection.isCameraIntrinsicMatrixDeliveryEnabled = True
+    #pdbg.state(captureConnection.isCameraIntrinsicMatrixDeliverySupported())
+    self.videoDataOutput = videoDataOutput
+    self.videoDataOutputQueue = videoDataOutputQueue
 
   def create_sampleBufferDelegate(self):
     # --- /delegate
