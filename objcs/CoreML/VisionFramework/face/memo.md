@@ -1,3 +1,40 @@
+# 📝 2022/10/24
+
+
+## `completionHandler`
+
+`VNDetectFaceRectanglesRequest(completionHandler:` この呼び出し方法が不明だった。クロージャでは？と、勘付いた自分を褒めたい
+
+
+
+``` .swift
+let faceDetectionRequest = VNDetectFaceRectanglesRequest(completionHandler: { (request, error) in
+    
+    if error != nil {
+        print("FaceDetection error: \(String(describing: error)).")
+    }
+    
+    guard let faceDetectionRequest = request as? VNDetectFaceRectanglesRequest,
+        let results = faceDetectionRequest.results as? [VNFaceObservation] else {
+            return
+    }
+    DispatchQueue.main.async {
+        // Add the observations to the tracking list
+        for observation in results {
+            let faceTrackingRequest = VNTrackObjectRequest(detectedObjectObservation: observation)
+            requests.append(faceTrackingRequest)
+        }
+        self.trackingRequests = requests
+    }
+})
+```
+
+
+[Swift クロージャーについて　サルだとわからん - IT人材育成コネクト](https://connect-solution.net/jp/2019/11/23/swift-%e3%82%af%e3%83%ad%e3%83%bc%e3%82%b8%e3%83%a3%e3%83%bc%e3%81%ab%e3%81%a4%e3%81%84%e3%81%a6%e3%80%80%e3%82%b5%e3%83%ab%e3%81%a0%e3%81%a8%e3%82%8f%e3%81%8b%e3%82%89%e3%82%93/)
+
+[Swift completionHandlerについて - IT人材育成コネクト](https://connect-solution.net/jp/2021/07/11/swift-completionhandler-2/)
+
+
 # 📝 2022/10/23
 
 ## `create_objc_class`
