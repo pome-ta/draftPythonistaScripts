@@ -13,6 +13,7 @@ AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
 
 VNTrackObjectRequest = ObjCClass('VNTrackObjectRequest')
 VNDetectFaceRectanglesRequest = ObjCClass('VNDetectFaceRectanglesRequest')
+VNRectangleObservation = ObjCClass('VNRectangleObservation')
 
 UIColor = ObjCClass('UIColor')
 
