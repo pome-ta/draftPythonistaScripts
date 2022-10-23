@@ -126,6 +126,10 @@ class ViewController:
     videoDataOutput.alwaysDiscardsLateVideoFrames = True
 
     videoDataOutputQueue = ObjCInstance(dispatch_get_current_queue())
+    delegate = self.create_sampleBufferDelegate()
+    videoDataOutput.setSampleBufferDelegate_queue_(delegate,
+                                                   videoDataOutputQueue)
+
     if (captureSession.canAddOutput(videoDataOutput)):
       captureSession.addOutput(videoDataOutput)
 
@@ -171,12 +175,12 @@ class ViewController:
 
   def create_sampleBufferDelegate(self):
     # --- /delegate
-    def captureOutput_output_sampleBuffer_connection_(
-        _self, _cmd, _output, _sampleBuffer, _connection):
+    def captureOutput_sampleBuffer_connection_(_self, _cmd, _output,
+                                               _sampleBuffer, _connection):
       sampleBuffer = ObjCInstance(_sampleBuffer)
+      # --- delegate/
 
-    # --- delegate/
-    _methods = [captureOutput_output_sampleBuffer_connection_]
+    _methods = [captureOutput_sampleBuffer_connection_]
     _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
 
     sampleBufferDelegate = create_objc_class(
