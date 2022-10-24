@@ -1,22 +1,28 @@
 # import 'pythonista'
 # coding: utf-8
 
-__all__ = ['c', 'LP64', 'CGFloat', 'NSInteger', 'NSUInteger', 'NSNotFound', 'NSUTF8StringEncoding', 'NS_UTF8',
-           'CGPoint', 'CGSize', 'CGVector', 'CGRect', 'CGAffineTransform', 'UIEdgeInsets', 'NSRange', 'sel',
-           'ObjCClass', 'ObjCInstance', 'ObjCClassMethod', 'ObjCInstanceMethod', 'NSObject', 'NSArray',
-           'NSMutableArray', 'NSDictionary', 'NSMutableDictionary', 'NSSet', 'NSMutableSet', 'NSString',
-           'NSMutableString', 'NSData', 'NSMutableData', 'NSNumber', 'NSURL', 'NSEnumerator', 'NSThread', 'NSBundle',
-           'UIColor', 'UIImage', 'UIBezierPath', 'UIApplication', 'UIView', 'ObjCBlock', 'ns', 'nsurl', 'retain_global',
-           'release_global', 'on_main_thread', 'create_objc_class',
-           'Structure', 'sizeof', 'byref', 'c_void_p', 'c_char', 'c_byte', 'c_char_p', 'c_double', 'c_float', 'c_int',
-           'c_longlong', 'c_short', 'c_bool', 'c_long', 'c_int32', 'c_ubyte', 'c_uint', 'c_ushort', 'c_ulong',
-           'c_ulonglong', 'POINTER', 'pointer', 'load_framework', 'nsdata_to_bytes', 'uiimage_to_png']
+__all__ = [
+  'c', 'LP64', 'CGFloat', 'NSInteger', 'NSUInteger', 'NSNotFound',
+  'NSUTF8StringEncoding', 'NS_UTF8', 'CGPoint', 'CGSize', 'CGVector', 'CGRect',
+  'CGAffineTransform', 'UIEdgeInsets', 'NSRange', 'sel', 'ObjCClass',
+  'ObjCInstance', 'ObjCClassMethod', 'ObjCInstanceMethod', 'NSObject',
+  'NSArray', 'NSMutableArray', 'NSDictionary', 'NSMutableDictionary', 'NSSet',
+  'NSMutableSet', 'NSString', 'NSMutableString', 'NSData', 'NSMutableData',
+  'NSNumber', 'NSURL', 'NSEnumerator', 'NSThread', 'NSBundle', 'UIColor',
+  'UIImage', 'UIBezierPath', 'UIApplication', 'UIView', 'ObjCBlock', 'ns',
+  'nsurl', 'retain_global', 'release_global', 'on_main_thread',
+  'create_objc_class', 'Structure', 'sizeof', 'byref', 'c_void_p', 'c_char',
+  'c_byte', 'c_char_p', 'c_double', 'c_float', 'c_int', 'c_longlong',
+  'c_short', 'c_bool', 'c_long', 'c_int32', 'c_ubyte', 'c_uint', 'c_ushort',
+  'c_ulong', 'c_ulonglong', 'POINTER', 'pointer', 'load_framework',
+  'nsdata_to_bytes', 'uiimage_to_png'
+]
 
 try:
   import ctypes
 except ImportError:
   raise NotImplementedError(
-      "objc_util requires ctypes, which doesn't seem to be available.")
+    "objc_util requires ctypes, which doesn't seem to be available.")
 
 from ctypes import Structure, sizeof, byref, cdll, pydll, c_void_p, c_char, c_byte, c_char_p, c_double, c_float, c_int, \
     c_longlong, c_short, c_bool, c_long, c_int32, c_ubyte, c_uint, c_ushort, c_ulong, c_ulonglong, POINTER, pointer
@@ -178,13 +184,13 @@ class CGRect(Structure):
 
 
 class CGAffineTransform(Structure):
-  _fields_ = [('a', CGFloat), ('b', CGFloat), ('c', CGFloat),
-              ('d', CGFloat), ('tx', CGFloat), ('ty', CGFloat)]
+  _fields_ = [('a', CGFloat), ('b', CGFloat), ('c', CGFloat), ('d', CGFloat),
+              ('tx', CGFloat), ('ty', CGFloat)]
 
 
 class UIEdgeInsets(Structure):
-  _fields_ = [('top', CGFloat), ('left', CGFloat),
-              ('bottom', CGFloat), ('right', CGFloat)]
+  _fields_ = [('top', CGFloat), ('left', CGFloat), ('bottom', CGFloat),
+              ('right', CGFloat)]
 
 
 class NSRange(Structure):
@@ -193,14 +199,35 @@ class NSRange(Structure):
 
 # c.f. https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles
 # /ocrtTypeEncodings.html
-type_encodings = {'c': c_byte, 'i': c_int, 's': c_short, 'l': c_int32, 'q': c_longlong,
-                  'C': c_ubyte, 'I': c_uint, 'S': c_ushort, 'L': c_ulong, 'Q': c_ulonglong,
-                  'f': c_float, 'd': c_double, 'B': c_bool, 'v': None, '*': c_char_p,
-                  '@': c_void_p, '#': c_void_p, ':': c_void_p,
-                  '{CGPoint}': CGPoint, '{CGSize}': CGSize, '{CGRect}': CGRect, '{CGVector}': CGVector,
-                  '{CGAffineTransform}': CGAffineTransform, '{UIEdgeInsets}': UIEdgeInsets, '{_NSRange}': NSRange,
-                  '?': c_void_p, '@?': c_void_p
-                  }
+type_encodings = {
+  'c': c_byte,
+  'i': c_int,
+  's': c_short,
+  'l': c_int32,
+  'q': c_longlong,
+  'C': c_ubyte,
+  'I': c_uint,
+  'S': c_ushort,
+  'L': c_ulong,
+  'Q': c_ulonglong,
+  'f': c_float,
+  'd': c_double,
+  'B': c_bool,
+  'v': None,
+  '*': c_char_p,
+  '@': c_void_p,
+  '#': c_void_p,
+  ':': c_void_p,
+  '{CGPoint}': CGPoint,
+  '{CGSize}': CGSize,
+  '{CGRect}': CGRect,
+  '{CGVector}': CGVector,
+  '{CGAffineTransform}': CGAffineTransform,
+  '{UIEdgeInsets}': UIEdgeInsets,
+  '{_NSRange}': NSRange,
+  '?': c_void_p,
+  '@?': c_void_p
+}
 
 
 def split_encoding(encoding):
@@ -270,8 +297,8 @@ def _struct_class_from_fields(fields):
     if isinstance(field, tuple):
       struct_fields.append(field)
     else:
-      struct_fields.append(
-          (string_lowercase[i], _struct_class_from_fields(field)))
+      struct_fields.append((string_lowercase[i],
+                            _struct_class_from_fields(field)))
       i += 1
   AnonymousStructure._fields_ = struct_fields
   return AnonymousStructure
@@ -349,7 +376,7 @@ def parse_types(type_encoding):
       t = type_encodings[enc_str]
       return t
     except KeyError:
-      raise NotImplementedError('Unsupported type encoding (%s)' % (enc_str,))
+      raise NotImplementedError('Unsupported type encoding (%s)' % (enc_str, ))
 
   encoded_types = filter_list(lambda x: bool(x), split_encoding(type_encoding))
   encoded_argtypes = encoded_types[3:]
@@ -425,7 +452,7 @@ def resolve_cls_method(cls, name, args, kwargs):
   if len(valid_names) == 1:
     return valid_names[0]
   elif len(valid_names) == 0:
-    raise AttributeError('No method found for %s' % (name,))
+    raise AttributeError('No method found for %s' % (name, ))
   else:
     raise AttributeError('Method name is ambiguous')
 
@@ -444,14 +471,14 @@ def resolve_instance_method(obj, name, args, kwargs):
     try:
       possibly_property = len(args) == 0 and len(kwargs) == 0
       meth = ObjCInstanceMethod(
-          obj, method_name, allow_property=possibly_property)
+        obj, method_name, allow_property=possibly_property)
       valid_names.append((method_name, kwarg_order))
     except AttributeError:
       pass
   if len(valid_names) == 1:
     return valid_names[0]
   elif len(valid_names) == 0:
-    raise AttributeError('No method found for %s' % (name,))
+    raise AttributeError('No method found for %s' % (name, ))
   else:
     raise AttributeError('Method name is ambiguous')
 
@@ -483,13 +510,13 @@ class ObjCClass(object):
 
     self.ptr = objc_getClass(name)
     if self.ptr is None:
-      raise ValueError('no Objective-C class named \'%s\' found' % (name,))
+      raise ValueError('no Objective-C class named \'%s\' found' % (name, ))
     self._as_parameter_ = self.ptr
     self.class_name = name
     self._cached_methods = {}
 
   def __str__(self):
-    return '<ObjCClass: %s>' % (self.class_name,)
+    return '<ObjCClass: %s>' % (self.class_name, )
 
   def __eq__(self, other):
     return isinstance(other, ObjCClass) and self.class_name == other.class_name
@@ -511,8 +538,8 @@ class ObjCClass(object):
     py_methods = []
     while objc_class_ptr is not None:
       num_methods = c_uint(0)
-      method_list_ptr = class_copyMethodList(
-          objc_class_ptr, byref(num_methods))
+      method_list_ptr = class_copyMethodList(objc_class_ptr,
+                                             byref(num_methods))
       for i in xrange(num_methods.value):
         selector = method_getName(method_list_ptr[i])
         sel_name = sel_getName(selector)
@@ -543,7 +570,7 @@ class ObjCClass(object):
         n = n.decode('ascii')
       class_names.append(n)
     filtered_list = class_names if prefix is None else filter_list(
-        lambda x: x.startswith(prefix), class_names)
+      lambda x: x.startswith(prefix), class_names)
     return sorted(filtered_list)
 
   @classmethod
@@ -624,7 +651,7 @@ class ObjCInstance(object):
   def __iter__(self):
     if any(self.isKindOfClass_(c) for c in (NSArray, NSDictionary, NSSet)):
       return ObjCIterator(self)
-    raise TypeError('%s is not iterable' % (self._get_objc_classname(),))
+    raise TypeError('%s is not iterable' % (self._get_objc_classname(), ))
 
   def __nonzero__(self):
     try:
@@ -639,12 +666,13 @@ class ObjCInstance(object):
     if any(self.isKindOfClass_(c) for c in (NSArray, NSDictionary, NSSet)):
       return self.count()
     raise TypeError('object of type \'%s\' has no len()' %
-                    (self._get_objc_classname(),))
+                    (self._get_objc_classname(), ))
 
   def __getitem__(self, key):
     if self.isKindOfClass_(NSArray):
       if not isinstance(key, (int, long)):
-        raise TypeError('array indices must be integers not %s' % (type(key),))
+        raise TypeError('array indices must be integers not %s' %
+                        (type(key), ))
       array_length = self.count()
       if key < 0:
         # a[-1] is equivalent to a[len(a) - 1]
@@ -658,12 +686,13 @@ class ObjCInstance(object):
       # NOTE: Unlike Python dicts, NSDictionary returns nil (None) for keys that don't exist.
       return self.objectForKey_(ns_key)
     raise TypeError('%s does not support __getitem__' %
-                    (self._get_objc_classname(),))
+                    (self._get_objc_classname(), ))
 
   def __delitem__(self, key):
     if self.isKindOfClass_(NSMutableArray):
       if not isinstance(key, (int, long)):
-        raise TypeError('array indices must be integers not %s' % (type(key),))
+        raise TypeError('array indices must be integers not %s' %
+                        (type(key), ))
       array_length = self.count()
       if key < 0:
         # a[-1] is equivalent to a[len(a) - 1]
@@ -676,12 +705,13 @@ class ObjCInstance(object):
       return self.removeObjectForKey_(ns_key)
     else:
       raise TypeError('%s does not support __delitem__' %
-                      (self._get_objc_classname(),))
+                      (self._get_objc_classname(), ))
 
   def __setitem__(self, key, value):
     if self.isKindOfClass_(NSMutableArray):
       if not isinstance(key, (int, long)):
-        raise TypeError('array indices must be integers not %s' % (type(key),))
+        raise TypeError('array indices must be integers not %s' %
+                        (type(key), ))
       array_length = self.count()
       if key < 0:
         # a[-1] is equivalent to a[len(a) - 1]
@@ -693,7 +723,7 @@ class ObjCInstance(object):
       self.setObject_forKey_(ns(value), ns(key))
     else:
       raise TypeError('%s does not support __setitem__' %
-                      (self._get_objc_classname(),))
+                      (self._get_objc_classname(), ))
 
   def __getattr__(self, attr):
     cached_method = self._cached_methods.get(attr, None)
@@ -722,8 +752,8 @@ class ObjCInstance(object):
     py_methods = []
     while objc_class_ptr is not None:
       num_methods = c_uint(0)
-      method_list_ptr = class_copyMethodList(
-          objc_class_ptr, byref(num_methods))
+      method_list_ptr = class_copyMethodList(objc_class_ptr,
+                                             byref(num_methods))
       for i in xrange(num_methods.value):
         selector = method_getName(method_list_ptr[i])
         sel_name = sel_getName(selector)
@@ -754,8 +784,15 @@ def _get_possible_selector_names(method_name):
   # and the selector is generated simply by replacing underscores with colons, but in case the selector also
   # contains underscores, the mapping is ambiguous, so all permutations of colons and underscores need to be checked.
   izip_longest = itertools.zip_longest if PY3 else itertools.izip_longest
-  return [''.join([x + y for x, y in izip_longest(method_name.split('_'), s, fillvalue='')]) for s in
-          [''.join(x) for x in itertools.product(':_', repeat=len(method_name.split('_')) - 1)]]
+  return [
+    ''.join([
+      x + y for x, y in izip_longest(method_name.split('_'), s, fillvalue='')
+    ])
+    for s in [
+      ''.join(x)
+      for x in itertools.product(':_', repeat=len(method_name.split('_')) - 1)
+    ]
+  ]
 
 
 def _auto_wrap(arg, typecode, argtype):
@@ -786,13 +823,13 @@ class ObjCClassMethodProxy(object):
       # If the class doesn't exist anymore, don't do anything
       # (this is unlikely to happen in practice)
       return
-    cache_key = '%i/' % (len(args),) + ','.join(sorted(kwargs.keys()))
+    cache_key = '%i/' % (len(args), ) + ','.join(sorted(kwargs.keys()))
     cached = self.method_cache.get(cache_key)
     if cached:
       method, kwarg_order = cached
     else:
-      method_name, kwarg_order = resolve_cls_method(
-          cls, self.name, args, kwargs)
+      method_name, kwarg_order = resolve_cls_method(cls, self.name, args,
+                                                    kwargs)
       method = ObjCClassMethod(cls, method_name)
       self.method_cache[cache_key] = (method, kwarg_order)
     ordered_args = list(args) + [kwargs[key] for key in kwarg_order]
@@ -822,8 +859,8 @@ class ObjCClassMethod(object):
       self.method = method
       self.encoding = method_getTypeEncoding(method)
     else:
-      raise AttributeError(
-          'No class method found for selector "%s"' % (self.sel_name))
+      raise AttributeError('No class method found for selector "%s"' %
+                           (self.sel_name))
 
   def __call__(self, *args, **kwargs):
     cls = self.cls
@@ -837,12 +874,13 @@ class ObjCClassMethod(object):
     except KeyError:
       restype, argtypes, argtype_encodings = parse_types(type_encoding)
       if len(args) != len(argtypes) - 2:
-        raise TypeError('expected %i arguments, got %i' %
-                        (len(argtypes) - 2, len(args)))
+        raise TypeError('expected %i arguments, got %i' % (len(argtypes) - 2,
+                                                           len(args)))
       # Automatically convert Python strings to NSString etc. for object arguments
       # (this is a no-op for arguments that are already `ObjCInstance` objects):
-      args = tuple(_auto_wrap(
-          a, argtype_encodings[i], argtypes[i + 2]) for i, a in enumerate(args))
+      args = tuple(
+        _auto_wrap(a, argtype_encodings[i], argtypes[i + 2])
+        for i, a in enumerate(args))
     objc_msgSend = c['objc_msgSend']
     objc_msgSend.argtypes = argtypes
     objc_msgSend.restype = restype
@@ -871,13 +909,13 @@ class ObjCInstanceMethodProxy(object):
       # If the instance doesn't exist anymore, don't do anything
       # (this is unlikely to happen in practice)
       return
-    cache_key = '%i/' % (len(args),) + ','.join(sorted(kwargs.keys()))
+    cache_key = '%i/' % (len(args), ) + ','.join(sorted(kwargs.keys()))
     cached = self.method_cache.get(cache_key)
     if cached:
       method, kwarg_order = cached
     else:
       method_name, kwarg_order = resolve_instance_method(
-          obj, self.name, args, kwargs)
+        obj, self.name, args, kwargs)
       method = ObjCInstanceMethod(obj, method_name)
       self.method_cache[cache_key] = (method, kwarg_order)
     ordered_args = list(args) + [kwargs[key] for key in kwarg_order]
@@ -908,7 +946,8 @@ class ObjCInstanceMethod(object):
           self.sel_name = possible_sel_name
           break
     if allow_property and not method and (
-            (method_name.startswith('set') and self.sel_name.endswith(':')) or self.sel_name.find(':') == -1):
+      (method_name.startswith('set') and self.sel_name.endswith(':')) or
+        self.sel_name.find(':') == -1):
       # Looks like it could be a property
       prop_name = method_name
       if method_name.startswith('set'):
@@ -943,8 +982,8 @@ class ObjCInstanceMethod(object):
       self.method = method
       self.encoding = method_getTypeEncoding(method)
     elif not self.encoding:
-      raise AttributeError(
-          'No method found for selector "%s"' % (self.sel_name))
+      raise AttributeError('No method found for selector "%s"' %
+                           (self.sel_name))
 
   def __call__(self, *args, **kwargs):
     obj = self.obj
@@ -958,12 +997,13 @@ class ObjCInstanceMethod(object):
     except KeyError:
       restype, argtypes, argtype_encodings = parse_types(type_encoding)
       if len(args) != len(argtypes) - 2:
-        raise TypeError('expected %i arguments, got %i' %
-                        (len(argtypes) - 2, len(args)))
+        raise TypeError('expected %i arguments, got %i' % (len(argtypes) - 2,
+                                                           len(args)))
       # Automatically convert Python strings to NSString etc. for object arguments
       # (this is a no-op for arguments that are already `ObjCInstance` objects):
-      args = tuple(_auto_wrap(
-          a, argtype_encodings[i], argtypes[i + 2]) for i, a in enumerate(args))
+      args = tuple(
+        _auto_wrap(a, argtype_encodings[i], argtypes[i + 2])
+        for i, a in enumerate(args))
 
     if not LP64 and restype and issubclass(restype, Structure):
       retval = restype()
@@ -1021,23 +1061,31 @@ UIView = ObjCClass('UIView')
 
 
 def load_framework(name):
-  return NSBundle.bundleWithPath_('/System/Library/Frameworks/%s.framework' % (name,)).load()
+  return NSBundle.bundleWithPath_('/System/Library/Frameworks/%s.framework' %
+                                  (name, )).load()
 
 
 # These are hard-coded for __dir__ (listing all NSObject methods dynamically would add tons of cruft from categories)
 # NOTE: This only includes *commonly-used* methods (a lot of this is pretty low-level runtime stuff that isn't needed
 #       very often. It can still be listed when calling dir() on an actual instance of NSObject)
-NSObject_class_methods = ['alloc', 'new', 'superclass', 'isSubclassOfClass_', 'instancesRespondToSelector_',
-                          'description', 'cancelPreviousPerformRequestsWithTarget_',
-                          'cancelPreviousPerformRequestsWithTarget_selector_object_']
-NSObject_instance_methods = ['init', 'copy', 'mutableCopy', 'dealloc', 'performSelector_withObject_afterDelay_',
-                             'performSelectorOnMainThread_withObject_waitUntilDone_',
-                             'performSelectorInBackground_withObject_']
+NSObject_class_methods = [
+  'alloc', 'new', 'superclass', 'isSubclassOfClass_',
+  'instancesRespondToSelector_', 'description',
+  'cancelPreviousPerformRequestsWithTarget_',
+  'cancelPreviousPerformRequestsWithTarget_selector_object_'
+]
+NSObject_instance_methods = [
+  'init', 'copy', 'mutableCopy', 'dealloc',
+  'performSelector_withObject_afterDelay_',
+  'performSelectorOnMainThread_withObject_waitUntilDone_',
+  'performSelectorInBackground_withObject_'
+]
 
 
 class _block_descriptor(Structure):
-  _fields_ = [('reserved', c_ulong), ('size', c_ulong), ('copy_helper', c_void_p), ('dispose_helper', c_void_p),
-              ('signature', c_char_p)]
+  _fields_ = [('reserved', c_ulong), ('size', c_ulong),
+              ('copy_helper', c_void_p), ('dispose_helper',
+                                          c_void_p), ('signature', c_char_p)]
 
 
 class ObjCBlock(object):
@@ -1049,8 +1097,8 @@ class ObjCBlock(object):
     InvokeFuncType = ctypes.CFUNCTYPE(restype, *argtypes)
 
     class block_literal(Structure):
-      _fields_ = [('isa', c_void_p), ('flags', c_int), ('reserved', c_int), ('invoke', InvokeFuncType),
-                  ('descriptor', _block_descriptor)]
+      _fields_ = [('isa', c_void_p), ('flags', c_int), ('reserved', c_int), (
+        'invoke', InvokeFuncType), ('descriptor', _block_descriptor)]
 
     block = block_literal()
     block.flags = (1 << 28)
@@ -1185,8 +1233,8 @@ except ValueError:
   imp = IMPTYPE(OMMainThreadDispatcher_invoke_imp)
   retain_global(imp)
   NSObject = ObjCClass('NSObject')
-  class_ptr = objc_allocateClassPair(
-      NSObject.ptr, OMMainThreadDispatcher_name, 0)
+  class_ptr = objc_allocateClassPair(NSObject.ptr, OMMainThreadDispatcher_name,
+                                     0)
   class_addMethod(class_ptr, sel('invoke'), imp, b'v16@0:0')
   objc_registerClassPair(class_ptr)
   OMMainThreadDispatcher = ObjCClass(OMMainThreadDispatcher_name)
@@ -1206,7 +1254,7 @@ def on_main_thread(func):
     dispatcher.kwargs = kwargs
     dispatcher.retval = None
     dispatcher.performSelectorOnMainThread_withObject_waitUntilDone_(
-        sel('invoke'), None, True)
+      sel('invoke'), None, True)
     retval = dispatcher.retval
     dispatcher.release()
     return retval
@@ -1214,7 +1262,12 @@ def on_main_thread(func):
   return new_func
 
 
-def _add_method(method, class_ptr, superclass, basename, protocols, is_classmethod=False):
+def _add_method(method,
+                class_ptr,
+                superclass,
+                basename,
+                protocols,
+                is_classmethod=False):
   """Helper function for create_objc_class, don't use directly (will usually crash)!"""
   if hasattr(method, 'selector'):
     sel_name = method.selector
@@ -1244,21 +1297,23 @@ def _add_method(method, class_ptr, superclass, basename, protocols, is_classmeth
         protocol = objc_getProtocol(protocol_name)
         if protocol:
           # Try optional method first...
-          method_desc = protocol_getMethodDescription(
-              protocol, sel(sel_name), False, True)
+          method_desc = protocol_getMethodDescription(protocol,
+                                                      sel(sel_name), False,
+                                                      True)
           if not method_desc or not method_desc.types:
             # ... then required method
             method_desc = protocol_getMethodDescription(
-                protocol, sel(sel_name), True, True)
+              protocol, sel(sel_name), True, True)
           if method_desc and method_desc.types:
             type_encoding = method_desc.types
             break
     if not type_encoding:
       # Fall back to "action" type encoding as the default, i.e. void return type, all arguments are objects...
       num_args = len(re.findall(':', sel_name))
-      type_encoding = 'v%i@0:8%s' % (
-          sizeof(c_void_p) * (num_args + 2),
-          ''.join('@%i' % ((i + 2) * sizeof(c_void_p),) for i in xrange(num_args)))
+      type_encoding = 'v%i@0:8%s' % (sizeof(c_void_p) * (num_args + 2),
+                                     ''.join('@%i' % (
+                                       (i + 2) * sizeof(c_void_p), )
+                                             for i in xrange(num_args)))
 
   if hasattr(method, 'restype') and hasattr(method, 'argtypes'):
     restype = method.restype
@@ -1280,7 +1335,12 @@ def _add_method(method, class_ptr, superclass, basename, protocols, is_classmeth
   class_addMethod(class_ptr, sel(sel_name), imp, type_encoding)
 
 
-def create_objc_class(name, superclass=NSObject, methods=[], classmethods=[], protocols=[], debug=True):
+def create_objc_class(name,
+                      superclass=NSObject,
+                      methods=[],
+                      classmethods=[],
+                      protocols=[],
+                      debug=True):
   """Create and return a new Objective-C class"""
   basename = name
   if debug:
@@ -1338,8 +1398,9 @@ def _objc_exception_handler(_exc):
   exc = ObjCInstance(_exc)
   with open(os.path.expanduser('~/Documents/_objc_exception.txt'), 'w') as f:
     import datetime
-    f.write('The app was terminated due to an Objective-C exception. Details below:\n\n%s\n%s\n' % (
-        datetime.datetime.now(), exc))
+    f.write(
+      'The app was terminated due to an Objective-C exception. Details below:\n\n%s\n%s\n'
+      % (datetime.datetime.now(), exc))
 
 
 _handler = ExceptionHandlerFuncType(_objc_exception_handler)
@@ -1351,3 +1412,4 @@ def autoreleasepool():
   pool = ObjCClass('NSAutoreleasePool').new()
   yield
   pool.drain()
+
