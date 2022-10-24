@@ -4,6 +4,8 @@ from objc_util import ObjCClass, NSData, nsurl
 
 import pdbg
 
+VNDetectFaceRectanglesRequest = ObjCClass('VNDetectFaceRectanglesRequest')
+
 UIImage = ObjCClass('UIImage')
 
 
@@ -16,6 +18,10 @@ def get_image_absolutepath(path):
   else:
     print('画像が見つかりません')
     raise
+
+
+def faceDetection():
+  request = VNDetectFaceRectanglesRequest.alloc().init()  
 
 
 if __name__ == '__main__':
