@@ -11,9 +11,10 @@ AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
 AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
 AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
 
-VNTrackObjectRequest = ObjCClass('VNTrackObjectRequest')
+#VNTrackObjectRequest = ObjCClass('VNTrackObjectRequest')
 VNDetectFaceRectanglesRequest = ObjCClass('VNDetectFaceRectanglesRequest')
-VNRectangleObservation = ObjCClass('VNRectangleObservation')
+#VNRectangleObservation = ObjCClass('VNRectangleObservation')
+VNSequenceRequestHandler = ObjCClass('VNSequenceRequestHandler')
 
 UIColor = ObjCClass('UIColor')
 
@@ -51,6 +52,9 @@ class ViewController:
 
     self.captureDevice = None  # AVCaptureDevice
     self.captureDeviceResolution = None  # CGSize
+    
+    
+    self.detectionRequests = None  # [VNDetectFaceRectanglesRequest]
 
     # Layer UI for drawing Vision results
     self.rootLayer = None  # CALayer
@@ -171,7 +175,12 @@ class ViewController:
     #pdbg.state(VNTrackObjectRequest)
     #pdbg.state(VNDetectFaceRectanglesRequest.alloc())
     #faceDetectionRequest = VNDetectFaceRectanglesRequest.alloc().initWithCompletionHandler_()
-    pass
+    #pass
+    faceDetectionRequest = VNDetectFaceRectanglesRequest.alloc().init()
+    #pdbg.state(faceDetectionRequest)
+    self.detectionRequests = [faceDetectionRequest]
+    self.sequenceRequestHandler = VNSequenceRequestHandler
+    
 
   def create_sampleBufferDelegate(self):
     # --- /delegate
