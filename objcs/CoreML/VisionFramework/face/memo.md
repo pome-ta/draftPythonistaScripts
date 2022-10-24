@@ -35,6 +35,13 @@ let faceDetectionRequest = VNDetectFaceRectanglesRequest(completionHandler: { (r
 [Swift completionHandlerについて - IT人材育成コネクト](https://connect-solution.net/jp/2021/07/11/swift-completionhandler-2/)
 
 
+## Photo からはじめるか、、、
+
+画像借り場所
+
+[ios-vision/multi-face.png at master · googlesamples/ios-vision](https://github.com/googlesamples/ios-vision/blob/master/FaceDetectorDemo/FaceDetector/multi-face.png)
+
+
 # 📝 2022/10/23
 
 ## `create_objc_class`
