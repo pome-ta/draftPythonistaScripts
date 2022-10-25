@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from objc_util import ObjCClass, NSData, nsurl
+import ui
 
 import pdbg
 
@@ -43,6 +44,18 @@ def faceDetection(img_path):
   observation = request.results()
   #pdbg.state(observation)
   print(observation)
+
+
+class View(ui.View):
+  def __init__(self, *args, **kwargs):
+    ui.View.__init__(self, *args, **kwargs)
+    self.bg_color = 'maroon'
+    # xxx: 先に呼ぶ？
+    self.present(style='fullscreen', orientations=['portrait'])
+    #self.view_controller = ViewController(self.objc_instance)
+
+  def will_close(self):
+    pass
 
 
 if __name__ == '__main__':
