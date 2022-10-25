@@ -147,4 +147,5 @@ cython_debug/
 .pystaenv/
 
 /glsl/randomNoise/img/rgbaNoiseMedium4Shadertoy.png
-/objcs/CoreML/VisionFramework/face/img/multi-face.png
+/objcs/CoreML/VisionFramework/face/img/
+
