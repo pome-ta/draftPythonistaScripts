@@ -46,6 +46,7 @@ def faceDetection(img_path):
 
 
 if __name__ == '__main__':
-  img_file_path = './img/multi-face.png'
+  #img_file_path = './img/multi-face.png'
+  img_file_path = './img/sample01.png'
   faceDetection(img_file_path)
 
