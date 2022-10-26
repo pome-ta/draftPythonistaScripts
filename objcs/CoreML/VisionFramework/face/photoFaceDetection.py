@@ -1,7 +1,7 @@
 from pathlib import Path
 import ctypes
 
-from objc_util import c, ObjCClass, NSData, nsurl, CGSize, CGFloat
+from objc_util import c, ObjCInstance, ObjCClass, NSData, nsurl, CGSize, CGRect, CGPoint, CGFloat
 import ui
 
 import pdbg
@@ -12,11 +12,41 @@ VNImageRequestHandler = ObjCClass('VNImageRequestHandler')
 UIImageView = ObjCClass('UIImageView')
 UIImage = ObjCClass('UIImage')
 
+#UIColor = ObjCClass('UIColor')
 
 UIGraphicsBeginImageContextWithOptions = c.UIGraphicsBeginImageContextWithOptions
 
-UIGraphicsBeginImageContextWithOptions.argtypes = [CGSize, ctypes.c_bool, CGFloat]
+UIGraphicsBeginImageContextWithOptions.argtypes = [
+  CGSize, ctypes.c_bool, CGFloat
+]
 UIGraphicsBeginImageContextWithOptions.restype = None
+
+UIGraphicsEndImageContext = c.UIGraphicsBeginImageContext
+UIGraphicsEndImageContext.argtypes = []
+UIGraphicsEndImageContext.restype = None
+
+UIGraphicsGetCurrentContext = c.UIGraphicsGetCurrentContext
+UIGraphicsGetCurrentContext.argtypes = []
+UIGraphicsGetCurrentContext.restype = ctypes.c_void_p
+
+UIGraphicsGetImageFromCurrentImageContext = c.UIGraphicsGetImageFromCurrentImageContext
+UIGraphicsGetImageFromCurrentImageContext.argtypes = []
+UIGraphicsGetImageFromCurrentImageContext.restype = ctypes.c_void_p
+
+CGContextSetLineWidth = c.CGContextSetLineWidth
+CGContextSetLineWidth.argtypes = [ctypes.c_void_p, CGFloat]
+CGContextSetLineWidth.restype = None
+
+CGContextSetRGBStrokeColor = c.CGContextSetRGBStrokeColor
+CGContextSetRGBStrokeColor.argtypes = [
+  ctypes.c_void_p, CGFloat, CGFloat, CGFloat, CGFloat
+]
+CGContextSetRGBStrokeColor.restype = None
+
+CGContextStrokeRect = c.CGContextStrokeRect
+CGContextStrokeRect.argtypes = [ctypes.c_void_p, CGRect]
+CGContextStrokeRect.restype = None
+
 
 def _get_sample_img():
   # todo: 事後取得用
@@ -62,10 +92,12 @@ class ViewController:
 
     image = self.drawFaceRectangle_image_observation_(self.originalImage,
                                                       observation)
-    self.imageView = UIImageView.alloc().initWithImage_(self.originalImage)
+    #self.imageView = UIImageView.alloc().initWithImage_(self.originalImage)
+    self.imageView = UIImageView.alloc().initWithImage_(image)
 
     #pdbg.state(observation)
     #print(observation)
+    #pdbg.state(ObjCInstance(image))
 
   def drawFaceRectangle_image_observation_(self, image,
                                            observation) -> UIImage:
@@ -75,8 +107,21 @@ class ViewController:
     imageSize = image.size()
     #pdbg.state(imageSize)
     UIGraphicsBeginImageContextWithOptions(imageSize, False, 0.0)
-    
-    
+    context = UIGraphicsGetCurrentContext()
+    image.drawInRect_(CGRect(CGPoint(0.0), imageSize))
+    CGContextSetLineWidth(context, 4.0)
+    CGContextSetRGBStrokeColor(
+      context, 0.0, 0.5, 1.0, 1.0)
+    #pdbg.state(observation)
+    for ob in observation:
+      CGContextStrokeRect(context, ob.boundingBox())
+      
+    drawnImage = UIGraphicsGetImageFromCurrentImageContext()
+    #pdbg.state(image)
+    #pdbg.state(ObjCInstance(context).init())
+    #pdbg.state(ObjCInstance(context))
+    UIGraphicsEndImageContext()
+    return ObjCInstance(drawnImage)
 
 
 class View(ui.View):
