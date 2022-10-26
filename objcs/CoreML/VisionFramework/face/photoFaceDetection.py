@@ -1,6 +1,7 @@
 from pathlib import Path
+import ctypes
 
-from objc_util import ObjCClass, NSData, nsurl
+from objc_util import c, ObjCClass, NSData, nsurl, CGSize, CGFloat
 import ui
 
 import pdbg
@@ -11,6 +12,11 @@ VNImageRequestHandler = ObjCClass('VNImageRequestHandler')
 UIImageView = ObjCClass('UIImageView')
 UIImage = ObjCClass('UIImage')
 
+
+UIGraphicsBeginImageContextWithOptions = c.UIGraphicsBeginImageContextWithOptions
+
+UIGraphicsBeginImageContextWithOptions.argtypes = [CGSize, ctypes.c_bool, CGFloat]
+UIGraphicsBeginImageContextWithOptions.restype = None
 
 def _get_sample_img():
   # todo: 事後取得用
@@ -34,29 +40,43 @@ def get_UIImage(path: str) -> UIImage:
   return _uiImage
 
 
-def faceDetection(img_path):
-  originalImage = get_UIImage(img_path)
-  cgImage = originalImage.CGImage()
-  request = VNDetectFaceRectanglesRequest.alloc().init()
-  handler = VNImageRequestHandler.alloc().initWithCGImage_options_(
-    cgImage, None)
-
-  handler.performRequests_error_([request], None)
-
-  observation = request.results()
-  #pdbg.state(observation)
-  #print(observation)
-
-
+# xxx: sample 通りではなく独自解釈
 class ViewController:
   def __init__(self, _previewView):
-    # Main view for showing camera content.
     self.previewView = _previewView
-    #pdbg.state(self.previewView)
-    originalImage = get_UIImage(img_file_path)
-    self.image_view = UIImageView.alloc().initWithImage_(originalImage)
-    self.previewView.addSubview_(self.image_view)
-    #pdbg.state(originalImage)
+    self.originalImage = get_UIImage(img_file_path)
+    self.imageView = None
+    self.faceDetection()
+
+    self.previewView.addSubview_(self.imageView)
+
+  def faceDetection(self):
+    cgImage = self.originalImage.CGImage()
+    request = VNDetectFaceRectanglesRequest.alloc().init()
+    handler = VNImageRequestHandler.alloc().initWithCGImage_options_(
+      cgImage, None)
+
+    handler.performRequests_error_([request], None)
+
+    observation = request.results()
+
+    image = self.drawFaceRectangle_image_observation_(self.originalImage,
+                                                      observation)
+    self.imageView = UIImageView.alloc().initWithImage_(self.originalImage)
+
+    #pdbg.state(observation)
+    #print(observation)
+
+  def drawFaceRectangle_image_observation_(self, image,
+                                           observation) -> UIImage:
+    _height = image.size().height
+    _width = image.size().width
+    #imageSize = [_width, _height]  # xxx: 順番合ってる？
+    imageSize = image.size()
+    #pdbg.state(imageSize)
+    UIGraphicsBeginImageContextWithOptions(imageSize, False, 0.0)
+    
+    
 
 
 class View(ui.View):

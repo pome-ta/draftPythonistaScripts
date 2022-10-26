@@ -1,3 +1,20 @@
+# 📝 2022/10/26
+
+
+## `UIImageView`
+
+`setImage_` だめそう？
+
+
+`initWithImage_` で指定した方が載る
+
+## `UIGraphicsBeginImageContextWithOptions`
+
+
+
+[Pythonista/objcnew.py at master · tdamdouni/Pythonista](https://github.com/tdamdouni/Pythonista/blob/master/objc/objcnew.py)
+
+
 # 📝 2022/10/25
 
 ## `photoFaceDetection.py` 静止画で取得
