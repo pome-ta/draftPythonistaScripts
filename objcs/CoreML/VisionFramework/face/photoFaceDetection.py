@@ -7,6 +7,8 @@ import pdbg
 
 VNDetectFaceRectanglesRequest = ObjCClass('VNDetectFaceRectanglesRequest')
 VNImageRequestHandler = ObjCClass('VNImageRequestHandler')
+
+UIImageView = ObjCClass('UIImageView')
 UIImage = ObjCClass('UIImage')
 
 
@@ -43,8 +45,18 @@ def faceDetection(img_path):
 
   observation = request.results()
   #pdbg.state(observation)
-  print(observation)
+  #print(observation)
 
+
+class ViewController:
+  def __init__(self, _previewView):
+    # Main view for showing camera content.
+    self.previewView = _previewView
+    #pdbg.state(self.previewView)
+    originalImage = get_UIImage(img_file_path)
+    self.image_view = UIImageView.alloc().initWithImage_(originalImage)
+    self.previewView.addSubview_(self.image_view)
+    #pdbg.state(self.image_view)
 
 class View(ui.View):
   def __init__(self, *args, **kwargs):
@@ -52,14 +64,15 @@ class View(ui.View):
     self.bg_color = 'maroon'
     # xxx: 先に呼ぶ？
     self.present(style='fullscreen', orientations=['portrait'])
-    #self.view_controller = ViewController(self.objc_instance)
+    self.view_controller = ViewController(self.objc_instance)
 
   def will_close(self):
     pass
 
 
 if __name__ == '__main__':
-  #img_file_path = './img/multi-face.png'
-  img_file_path = './img/sample01.png'
-  faceDetection(img_file_path)
+  img_file_path = './img/multi-face.png'
+  #img_file_path = './img/sample01.png'
+  #faceDetection(img_file_path)
+  view = View()
 
