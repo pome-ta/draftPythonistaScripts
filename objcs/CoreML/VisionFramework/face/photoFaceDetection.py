@@ -56,7 +56,8 @@ class ViewController:
     originalImage = get_UIImage(img_file_path)
     self.image_view = UIImageView.alloc().initWithImage_(originalImage)
     self.previewView.addSubview_(self.image_view)
-    pdbg.state(originalImage)
+    #pdbg.state(originalImage)
+
 
 class View(ui.View):
   def __init__(self, *args, **kwargs):
