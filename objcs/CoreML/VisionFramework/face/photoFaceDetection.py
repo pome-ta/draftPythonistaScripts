@@ -92,8 +92,8 @@ class ViewController:
 
     image = self.drawFaceRectangle_image_observation_(self.originalImage,
                                                       observation)
-    #self.imageView = UIImageView.alloc().initWithImage_(self.originalImage)
-    self.imageView = UIImageView.alloc().initWithImage_(image)
+    self.imageView = UIImageView.alloc().initWithImage_(self.originalImage)
+    #self.imageView = UIImageView.alloc().initWithImage_(image)
 
     #pdbg.state(observation)
     #print(observation)
@@ -110,18 +110,24 @@ class ViewController:
     context = UIGraphicsGetCurrentContext()
     image.drawInRect_(CGRect(CGPoint(0.0), imageSize))
     CGContextSetLineWidth(context, 4.0)
-    CGContextSetRGBStrokeColor(
-      context, 0.0, 0.5, 1.0, 1.0)
+    CGContextSetRGBStrokeColor(context, 0.0, 0.5, 1.0, 1.0)
     #pdbg.state(observation)
-    for ob in observation:
-      CGContextStrokeRect(context, ob.boundingBox())
-      
-    drawnImage = UIGraphicsGetImageFromCurrentImageContext()
+    for n, ob in enumerate(observation):
+      #CGContextStrokeRect(context, ob.boundingBox())
+      self.converted_size_(ob, imageSize)
+      if not (n):
+        break
+
+    #drawnImage = UIGraphicsGetImageFromCurrentImageContext()
     #pdbg.state(image)
     #pdbg.state(ObjCInstance(context).init())
     #pdbg.state(ObjCInstance(context))
     UIGraphicsEndImageContext()
-    return ObjCInstance(drawnImage)
+    #return ObjCInstance(drawnImage)
+
+  def converted_size_(self, boundingBox, size):
+    #pdbg.state(boundingBox.boundingBox().origin)
+    pdbg.state(boundingBox.boundingBox().size)
 
 
 class View(ui.View):
