@@ -1,3 +1,62 @@
+# 📝 2022/10/27
+
+## 方針変更
+
+sample のCore Graphics ではなく、`CAShapeLayer` で、`UIImageView` の上から`UIBezierPath` を描画
+
+
+つまり、以下Function たちは、不要に😇
+
+供養 🍚
+
+``` .py
+UIGraphicsBeginImageContextWithOptions = c.UIGraphicsBeginImageContextWithOptions
+
+UIGraphicsBeginImageContextWithOptions.argtypes = [
+  CGSize, ctypes.c_bool, CGFloat
+]
+UIGraphicsBeginImageContextWithOptions.restype = None
+
+UIGraphicsEndImageContext = c.UIGraphicsBeginImageContext
+UIGraphicsEndImageContext.argtypes = []
+UIGraphicsEndImageContext.restype = None
+
+UIGraphicsGetCurrentContext = c.UIGraphicsGetCurrentContext
+UIGraphicsGetCurrentContext.argtypes = []
+UIGraphicsGetCurrentContext.restype = ctypes.c_void_p
+
+UIGraphicsGetImageFromCurrentImageContext = c.UIGraphicsGetImageFromCurrentImageContext
+UIGraphicsGetImageFromCurrentImageContext.argtypes = []
+UIGraphicsGetImageFromCurrentImageContext.restype = ctypes.c_void_p
+
+CGContextSetLineWidth = c.CGContextSetLineWidth
+CGContextSetLineWidth.argtypes = [ctypes.c_void_p, CGFloat]
+CGContextSetLineWidth.restype = None
+
+CGContextSetRGBStrokeColor = c.CGContextSetRGBStrokeColor
+CGContextSetRGBStrokeColor.argtypes = [
+  ctypes.c_void_p, CGFloat, CGFloat, CGFloat, CGFloat
+]
+CGContextSetRGBStrokeColor.restype = None
+
+CGContextStrokeRect = c.CGContextStrokeRect
+CGContextStrokeRect.argtypes = [ctypes.c_void_p, CGRect]
+CGContextStrokeRect.restype = None
+
+```
+
+
+
+## `CAShapeLayer` とか`UIBezierPath` とか
+
+
+`setFillColor_` で、`UIColor.clearColor().CGColor()` と、`clearColor` を呼ぶことで
+
+
+中身が透過される、`setFillColor_` を呼ばなないと、黒になる
+
+
+
 # 📝 2022/10/26
 
 

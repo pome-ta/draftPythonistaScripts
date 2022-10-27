@@ -12,40 +12,9 @@ VNImageRequestHandler = ObjCClass('VNImageRequestHandler')
 UIImageView = ObjCClass('UIImageView')
 UIImage = ObjCClass('UIImage')
 
-#UIColor = ObjCClass('UIColor')
-
-UIGraphicsBeginImageContextWithOptions = c.UIGraphicsBeginImageContextWithOptions
-
-UIGraphicsBeginImageContextWithOptions.argtypes = [
-  CGSize, ctypes.c_bool, CGFloat
-]
-UIGraphicsBeginImageContextWithOptions.restype = None
-
-UIGraphicsEndImageContext = c.UIGraphicsBeginImageContext
-UIGraphicsEndImageContext.argtypes = []
-UIGraphicsEndImageContext.restype = None
-
-UIGraphicsGetCurrentContext = c.UIGraphicsGetCurrentContext
-UIGraphicsGetCurrentContext.argtypes = []
-UIGraphicsGetCurrentContext.restype = ctypes.c_void_p
-
-UIGraphicsGetImageFromCurrentImageContext = c.UIGraphicsGetImageFromCurrentImageContext
-UIGraphicsGetImageFromCurrentImageContext.argtypes = []
-UIGraphicsGetImageFromCurrentImageContext.restype = ctypes.c_void_p
-
-CGContextSetLineWidth = c.CGContextSetLineWidth
-CGContextSetLineWidth.argtypes = [ctypes.c_void_p, CGFloat]
-CGContextSetLineWidth.restype = None
-
-CGContextSetRGBStrokeColor = c.CGContextSetRGBStrokeColor
-CGContextSetRGBStrokeColor.argtypes = [
-  ctypes.c_void_p, CGFloat, CGFloat, CGFloat, CGFloat
-]
-CGContextSetRGBStrokeColor.restype = None
-
-CGContextStrokeRect = c.CGContextStrokeRect
-CGContextStrokeRect.argtypes = [ctypes.c_void_p, CGRect]
-CGContextStrokeRect.restype = None
+CAShapeLayer = ObjCClass('CAShapeLayer')
+UIBezierPath = ObjCClass('UIBezierPath')
+UIColor = ObjCClass('UIColor')
 
 
 def _get_sample_img():
@@ -70,15 +39,59 @@ def get_UIImage(path: str) -> UIImage:
   return _uiImage
 
 
+def parseCGRect(cg_rect: CGRect) -> tuple:
+  _origin = cg_rect.origin
+  _size = cg_rect.size
+  origin_x = _origin.x
+  origin_y = _origin.y
+  size_width = _size.width
+  size_height = _size.height
+  return (origin_x, origin_y, size_width, size_height)
+
+
+class RectangleShapeLayer:
+  def __init__(self, bounds: CGRect, frame: CGRect, strokeColor=None,fillColor=None):
+
+    self.layer = CAShapeLayer.alloc().init()
+    self.layer.frame = bounds
+    self.rect = UIBezierPath.bezierPathWithRect_(frame)
+    #self.rect.stroke()
+    #self.size = size
+
+    # xxx: 書き方良くないけど、取り敢えず、、、
+    greenColor = UIColor.greenColor().cgColor()
+    clearColor = UIColor.clearColor().CGColor()
+    self.strokeColor = strokeColor if strokeColor else greenColor
+    self.fillColor = fillColor if fillColor else clearColor
+    
+    
+    self.setup()
+
+  def setup(self):
+    #self.layer.isOpaque = False
+    self.layer.setLineWidth_(2.0)
+    self.layer.setStrokeColor_(self.strokeColor)
+    self.layer.setFillColor_(self.fillColor)
+    self.layer.setPath_(self.rect.CGPath())
+    #pdbg.state(self.rect)
+
+
 # xxx: sample 通りではなく独自解釈
+# xxx: 無駄にクソデカClass
 class ViewController:
   def __init__(self, _previewView):
     self.previewView = _previewView
     self.originalImage = get_UIImage(img_file_path)
-    self.imageView = None
+    self.imageView = UIImageView.alloc().initWithImage_(self.originalImage)
+    self.overlayLayer = CAShapeLayer.alloc().init()
+    self.setupOverlay()
     self.faceDetection()
 
     self.previewView.addSubview_(self.imageView)
+
+  def setupOverlay(self):
+    self.overlayLayer.frame = self.imageView.bounds()
+    self.imageView.layer().addSublayer_(self.overlayLayer)
 
   def faceDetection(self):
     cgImage = self.originalImage.CGImage()
@@ -87,47 +100,31 @@ class ViewController:
       cgImage, None)
 
     handler.performRequests_error_([request], None)
+    observation_array = request.results()
+    self.drawFaceRectangle_observations_(observation_array)
 
-    observation = request.results()
-
-    image = self.drawFaceRectangle_image_observation_(self.originalImage,
-                                                      observation)
-    self.imageView = UIImageView.alloc().initWithImage_(self.originalImage)
-    #self.imageView = UIImageView.alloc().initWithImage_(image)
-
-    #pdbg.state(observation)
-    #print(observation)
-    #pdbg.state(ObjCInstance(image))
-
-  def drawFaceRectangle_image_observation_(self, image,
-                                           observation) -> UIImage:
-    _height = image.size().height
-    _width = image.size().width
-    #imageSize = [_width, _height]  # xxx: 順番合ってる？
-    imageSize = image.size()
-    #pdbg.state(imageSize)
-    UIGraphicsBeginImageContextWithOptions(imageSize, False, 0.0)
-    context = UIGraphicsGetCurrentContext()
-    image.drawInRect_(CGRect(CGPoint(0.0), imageSize))
-    CGContextSetLineWidth(context, 4.0)
-    CGContextSetRGBStrokeColor(context, 0.0, 0.5, 1.0, 1.0)
-    #pdbg.state(observation)
-    for n, ob in enumerate(observation):
-      #CGContextStrokeRect(context, ob.boundingBox())
-      self.converted_size_(ob, imageSize)
+  def drawFaceRectangle_observations_(self, observations):
+    bounds = self.overlayLayer.frame()
+    _, _, layerWidth, layerHeight = parseCGRect(bounds)
+    
+    for n, observation in enumerate(observations):
+      #pdbg.state(observation.boundingBox())
+      #pdbg.state(observation)
+      _x, _y, _width, _height = parseCGRect(observation.boundingBox())
+      #pdbg.state(observation.boundingBox())
+      print(_y)
+      x =  _x * layerWidth
+      y =  (_y) * layerHeight
+      width =  _width * layerWidth
+      height =  _height * layerHeight
+      frame = CGRect(CGPoint(x, y), CGSize(width, height))
+      #frame = observation.boundingBox()
+      rect = RectangleShapeLayer(bounds, frame)
+      self.overlayLayer.addSublayer_(rect.layer)
+      #pdbg.state(frame.origin.x)
       if not (n):
-        break
-
-    #drawnImage = UIGraphicsGetImageFromCurrentImageContext()
-    #pdbg.state(image)
-    #pdbg.state(ObjCInstance(context).init())
-    #pdbg.state(ObjCInstance(context))
-    UIGraphicsEndImageContext()
-    #return ObjCInstance(drawnImage)
-
-  def converted_size_(self, boundingBox, size):
-    #pdbg.state(boundingBox.boundingBox().origin)
-    pdbg.state(boundingBox.boundingBox().size)
+        #break
+        pass
 
 
 class View(ui.View):
@@ -136,6 +133,7 @@ class View(ui.View):
     self.bg_color = 'maroon'
     # xxx: 先に呼ぶ？
     self.present(style='fullscreen', orientations=['portrait'])
+    #self.present(style='fullscreen')
     self.view_controller = ViewController(self.objc_instance)
 
   def will_close(self):
