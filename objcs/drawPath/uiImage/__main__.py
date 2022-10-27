@@ -36,19 +36,18 @@ class ViewController:
     self.originalImage = get_UIImage(img_file_path)
 
     self.imageView = UIImageView.alloc().initWithImage_(self.originalImage)
-    
+
     self.overlayLayer = CAShapeLayer.alloc().init()
     self.setupOverlay()
     self.setCAShapeLayer()
     #pdbg.state(self.overlayLayer.frame().size)
-    
-    
+
     self.previewView.addSubview_(self.imageView)
 
   def setupOverlay(self):
     self.overlayLayer.frame = self.previewView.bounds()
     self.drawPath()
-    
+
   def setCAShapeLayer(self):
     self.overlayLayer.setLineWidth_(20.0)
     blueColor = UIColor.blueColor().cgColor()
@@ -56,7 +55,7 @@ class ViewController:
     self.overlayLayer.setStrokeColor_(blueColor)
     self.overlayLayer.setFillColor_(cyanColor)
     self.imageView.layer().addSublayer_(self.overlayLayer)
-    
+
   def drawPath(self):
     height = 500
     width = 500
@@ -86,9 +85,8 @@ class View(ui.View):
 
 
 if __name__ == '__main__':
-  img_file_path = '../../CoreML/VisionFramework/face/img/sample01.png'
-  #img_file_path = '../../CoreML/VisionFramework/face/img/multi-face.png'
-  
-  
+  #img_file_path = '../../CoreML/VisionFramework/face/img/sample01.png'
+  img_file_path = '../../CoreML/VisionFramework/face/img/multi-face.png'
+
   view = View()
 
