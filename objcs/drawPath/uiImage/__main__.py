@@ -3,8 +3,11 @@ from pathlib import Path
 from objc_util import ObjCClass, nsurl, NSData
 import ui
 
+import pdbg
+
 UIImageView = ObjCClass('UIImageView')
 UIImage = ObjCClass('UIImage')
+CAShapeLayer = ObjCClass('CAShapeLayer')
 
 
 def get_image_absolutepath(path):
@@ -27,9 +30,17 @@ class ViewController:
   def __init__(self, _previewView):
     self.previewView = _previewView
     self.originalImage = get_UIImage(img_file_path)
-    self.imageView = None
+
     self.imageView = UIImageView.alloc().initWithImage_(self.originalImage)
+    
+    self.overlayLayer = CAShapeLayer.alloc().init()
+    pdbg.state(self.overlayLayer.frame().size)
+    
+    
     self.previewView.addSubview_(self.imageView)
+
+  def setupOverlay(self):
+    pass
 
 
 class View(ui.View):
