@@ -31,14 +31,11 @@ def get_UIImage(path: str) -> UIImage:
 
 
 class RectangleShapeLayer:
-  def __init__(self,
-               bounds: CGRect,
-               frame: CGRect,
-               strokeColor=None,
-               fillColor=None):
-
+  def __init__(self, size: CGSize, strokeColor=None, fillColor=None):
+    
     self.layer = CAShapeLayer.alloc().init()
-    self.layer.frame = bounds
+    frame  = CGRect(CGPoint(0.0, 0.0), size)
+    self.layer.frame = frame
     self.rect = UIBezierPath.bezierPathWithRect_(frame)
     #self.size = size
 
@@ -48,12 +45,15 @@ class RectangleShapeLayer:
     self.strokeColor = strokeColor if strokeColor else blueColor
     self.fillColor = fillColor if fillColor else cyanColor
     self.setup()
+    
 
   def setup(self):
     self.layer.setLineWidth_(20.0)
     self.layer.setStrokeColor_(self.strokeColor)
     self.layer.setFillColor_(self.fillColor)
     self.layer.setPath_(self.rect.CGPath())
+    
+    
 
 
 class ViewController:
@@ -62,28 +62,50 @@ class ViewController:
     self.originalImage = get_UIImage(img_file_path)
 
     self.imageView = UIImageView.alloc().initWithImage_(self.originalImage)
+
     self.overlayLayer = CAShapeLayer.alloc().init()
     self.setupOverlay()
+    self.setCAShapeLayer()
+
     self.previewView.addSubview_(self.imageView)
 
   def setupOverlay(self):
-    bounds = self.imageView.bounds()
-    self.overlayLayer.frame = bounds
+    self.overlayLayer.frame = self.imageView.bounds()
+    #pdbg.state(self.overlayLayer)
     self.imageView.layer().addSublayer_(self.overlayLayer)
-    _width = bounds.size.width
-    _height = bounds.size.height
+    rect = RectangleShapeLayer(CGSize(100.0, 100.0))
+    #pdbg.state(rect.layer)
+    self.overlayLayer.addSublayer_(rect.layer)
+    #self.imageView.layer().addSublayer_(rect.layer)
+    self.drawPath()
+    #pdbg.state(self.overlayLayer)
 
-    count = 10
-    base = _width / count
-    x = 0
+  def setCAShapeLayer(self):
+    self.overlayLayer.setLineWidth_(20.0)
+    blueColor = UIColor.blueColor().cgColor()
+    cyanColor = UIColor.cyanColor().cgColor()
+    self.overlayLayer.setStrokeColor_(blueColor)
+    self.overlayLayer.setFillColor_(cyanColor)
+    #self.imageView.layer().addSublayer_(self.overlayLayer)
 
-    for _ in range(count):
-      _point = CGPoint(x, 0.0)
-      _size = CGSize(base, base)
-      frame = CGRect(_point, _size)
-      rect = RectangleShapeLayer(bounds, frame)
-      self.overlayLayer.addSublayer_(rect.layer)
-      x += base
+  def drawPath(self):
+    height = 500
+    width = 500
+
+    center = CGPoint(width / 2, height / 2)
+    radius = 100.0
+    startAngle = 0.125 * math.pi
+    endAngle = 1.875 * math.pi
+
+    arc = UIBezierPath.alloc().init()
+    #pdbg.state(UIBezierPath)
+    arc.addArcWithCenter_radius_startAngle_endAngle_clockwise_(
+      center, radius, startAngle, endAngle, True)
+
+    
+    rect = RectangleShapeLayer(CGSize(100.0, 100.0))
+    self.overlayLayer.setPath_(arc.CGPath())
+    #self.overlayLayer.setPath_(rect.rect.CGPath())
 
 
 class View(ui.View):
