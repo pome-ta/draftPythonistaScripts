@@ -58,6 +58,9 @@ class ViewController:
 
     # Layer UI for drawing Vision results
     self.rootLayer = None  # CALayer
+    
+    
+    #self.sequenceRequestHandler = VNSequenceRequestHandler.alloc().init() # lazy?
 
     self.viewDidLoad()
 
@@ -172,14 +175,12 @@ class ViewController:
   # --- Performing Vision Requests
   # - Tag: WriteCompletionHandler
   def prepareVisionRequest(self):
-    #pdbg.state(VNTrackObjectRequest)
-    #pdbg.state(VNDetectFaceRectanglesRequest.alloc())
-    #faceDetectionRequest = VNDetectFaceRectanglesRequest.alloc().initWithCompletionHandler_()
-    #pass
     faceDetectionRequest = VNDetectFaceRectanglesRequest.alloc().init()
-    #pdbg.state(faceDetectionRequest)
+    
     self.detectionRequests = [faceDetectionRequest]
-    self.sequenceRequestHandler = VNSequenceRequestHandler
+    self.sequenceRequestHandler = VNSequenceRequestHandler.alloc().init()
+    #pdbg.state(faceDetectionRequest.)
+    
     
 
   def create_sampleBufferDelegate(self):
