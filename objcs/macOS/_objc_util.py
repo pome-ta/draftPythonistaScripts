@@ -512,7 +512,7 @@ class ObjCClass(object):
     print(f'pre: {name}')
     self.ptr = objc_getClass(name)
     if self.ptr is None:
-      raise ValueError('no Objective-C class named \'%s\' found' % (name, ))
+      raise ValueError(f'no Objective-C class named \'{name}\' found')
     self._as_parameter_ = self.ptr
     self.class_name = name
     self._cached_methods = {}
@@ -1045,21 +1045,21 @@ NSArray = ObjCClass('NSArray')
 NSMutableArray = ObjCClass('NSMutableArray')
 NSSet = ObjCClass('NSSet')
 NSMutableSet = ObjCClass('NSMutableSet')
-NSString = ObjCClass('NSString')
-NSMutableString = ObjCClass('NSMutableString')
+# NSString = ObjCClass('NSString')
+# NSMutableString = ObjCClass('NSMutableString')
 NSData = ObjCClass('NSData')
 NSMutableData = ObjCClass('NSMutableData')
-NSNumber = ObjCClass('NSNumber')
+# NSNumber = ObjCClass('NSNumber')
 NSURL = ObjCClass('NSURL')
 NSEnumerator = ObjCClass('NSEnumerator')
-NSThread = ObjCClass('NSThread')
-NSBundle = ObjCClass('NSBundle')
+# NSThread = ObjCClass('NSThread')
+# NSBundle = ObjCClass('NSBundle')
 
-UIColor = ObjCClass('UIColor')
-UIImage = ObjCClass('UIImage')
-UIBezierPath = ObjCClass('UIBezierPath')
-UIApplication = ObjCClass('UIApplication')
-UIView = ObjCClass('UIView')
+# UIColor = ObjCClass('UIColor')
+# UIImage = ObjCClass('UIImage')
+# UIBezierPath = ObjCClass('UIBezierPath')
+# UIApplication = ObjCClass('UIApplication')
+# UIView = ObjCClass('UIView')
 
 
 def load_framework(name):
