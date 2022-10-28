@@ -1,10 +1,8 @@
 # 📝 2022/10/21
 
-
 ## デバイスのインプット関係を整理
 
 [detector.py](https://gist.github.com/jsbain/424d4fe1a3c0b1ae3fd705d72f665c1e)
-
 
 `AVCaptureDevice.defaultDeviceWithDeviceType_mediaType_position_(_builtInWideAngleCamera, _video, _front)`
 
@@ -13,7 +11,6 @@
 `videoDevice = AVCaptureDevice.devices()[1]`
 
 Pythonista がもう起動してるから？（読み込んでるから？）
-
 
 `420f` = `1111970369`
 
@@ -25,7 +22,6 @@ Pythonista がもう起動してるから？（読み込んでるから？）
 
 # 📝 2022/10/20
 
-
 ## 順番
 
 - Pythonista のdraw 以外で描けるか確認
@@ -36,18 +32,13 @@ Pythonista がもう起動してるから？（読み込んでるから？）
   - `AVCaptureSession` 関係
     - ただ画面上に出すことは成功
 
-
-
 ## `self.objc_instance.layer()`
 
 実装の仕方ちがう
 
-
 [Swift, Objective-C を Xamarin.iOS に移植する際のポイント（2）　UIView.Layerの差し替え - 個人的なメモ](https://hiro128.hatenablog.jp/entry/2017/09/30/234916)
 
-
 余裕があったら調べる
-
 
 ## カメラをキャプチャする
 
@@ -63,9 +54,7 @@ Pythonista がもう起動してるから？（読み込んでるから？）
 
 buffer を変数として持つには、Class 内かしら？
 
-
 メソッド化して、Class 内に設置して、`self` で呼び出すようにした
-
 
 ## `autorelease()` いるいらない問題
 
@@ -73,35 +62,20 @@ buffer を変数として持つには、Class 内かしら？
 
 delegate のところは、`autorelease()` を付けておく
 
-
 ## `recognizedPoints(.thumb)` の`.thumb` とかを探す
 
 これか？`VNHumanHandPoseObservationJointsGroupNameThumb`
 
 [VNHumanHandPoseObservationJointsGroupNameThumb | Apple Developer Documentation](https://developer.apple.com/documentation/vision/vnhumanhandposeobservationjointsgroupnamethumb?language=objc)
 
-
 [VNHumanHandPoseObservationJointsGroupName | Apple Developer Documentation](https://developer.apple.com/documentation/vision/vnhumanhandposeobservationjointsgroupname?changes=_10_8&language=objc)
-
-
 
 [.NET API Catalog](https://apisof.net/catalog/07929f76-9c5c-2bd2-50d0-6a477473f016)
 
-
-
 うぬー`None` を取得するぅー
 
-
 # 📝 2022/10/17
-
 
 [Detect Body and Hand Pose with Vision - WWDC20 - Videos - Apple Developer](https://developer.apple.com/videos/play/wwdc2020/10653/)
 
 [Detecting Hand Poses with Vision | Apple Developer Documentation](https://developer.apple.com/documentation/vision/detecting_hand_poses_with_vision?language=objc)
-
-
-
-
-
-
-

@@ -2,19 +2,11 @@
 
 [OpenGLES-Pythonista](https://github.com/Cethric/OpenGLES-Pythonista)
 
-
 [OpenGLES-Pythonista/tree/master/it/math)](https://github.com/Cethric/OpenGLES-Pythonista/tree/master/it/math) を使って objc でのsimd ぽいことをする
-
-
 
 ## `vector` ではなく、`<SIMD>` ？
 
 とりあえず進めて、`import` で、`as` でなんとかするか
-
-
-
-
-
 
 ## `parse_struct` の挙動
 
@@ -27,15 +19,11 @@ from objc_util import *
 
 だったが、Pythonista3 では、明示的に呼び出し
 
-
 ``` .py
 from objc_util import parse_struct
 ```
 
-
 Vector2 は、`fff` ってなってるけど、ええのかな？`_fields_` が3つってこと？
-
-
 
 ### 何のために呼ぶのか？
 
@@ -43,27 +31,19 @@ Vector2 は、`fff` ってなってるけど、ええのかな？`_fields_` が3
 
 ``` .py
 def parse_struct(encoding):
-	comps = _enclosed.parseString(encoding).asList()[0]
-	struct_name = comps[0]
-	struct_members = comps[2:]
-	fields = _list_to_fields(_result_to_list(struct_members))
-	struct_class = _struct_class_from_fields(fields)
-	struct_class.__name__ = (struct_name + '_Structure').replace('?', '_')
-	return struct_class
+ comps = _enclosed.parseString(encoding).asList()[0]
+ struct_name = comps[0]
+ struct_members = comps[2:]
+ fields = _list_to_fields(_result_to_list(struct_members))
+ struct_class = _struct_class_from_fields(fields)
+ struct_class.__name__ = (struct_name + '_Structure').replace('?', '_')
+ return struct_class
 
 ```
 
 glk のeffect で呼び出してるっぽいから、コメントアウト
 
-
-
 ## Vector 同士の演算
-
-
-
-
-
-
 
 ## 備考
 
@@ -1179,7 +1159,7 @@ type_encodings['@?'] = ObjCBlock
 
 def ns(py_obj):
   '''Convert common Python objects to their ObjC equivalents, i.e. str => NSString, int/float => NSNumber, list => NSMutableArray, dict => NSMutableDictionary, bytearray => NSData, set => NSMutableSet. Nested structures (list/dict/set) are supported. If an object is already an instance of ObjCInstance, it is left untouched.
-		'''
+  '''
   if isinstance(py_obj, ObjCInstance):
     return py_obj
   if isinstance(py_obj, c_void_p):
@@ -1464,8 +1444,3 @@ def autoreleasepool():
   pool.drain()
 
 ```
-
-
-
-
-

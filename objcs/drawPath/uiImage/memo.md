@@ -11,6 +11,6 @@
 - `UIImageView` と同サイズのwrap 作る
 - wrap の中で、描画を重ねる？
 
-# todo:
+# todo
 
 - アルバムからピックアップ
