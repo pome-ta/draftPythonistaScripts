@@ -59,8 +59,6 @@ class RectangleShapeLayer:
     self.layer = CAShapeLayer.alloc().init()
     self.layer.frame = bounds
     self.rect = UIBezierPath.bezierPathWithRect_(frame)
-    #self.rect.stroke()
-    #self.size = size
 
     # xxx: 書き方良くないけど、取り敢えず、、、
     greenColor = UIColor.greenColor().cgColor()
@@ -71,12 +69,10 @@ class RectangleShapeLayer:
     self.setup()
 
   def setup(self):
-    #self.layer.isOpaque = False
     self.layer.setLineWidth_(2.0)
     self.layer.setStrokeColor_(self.strokeColor)
     self.layer.setFillColor_(self.fillColor)
     self.layer.setPath_(self.rect.CGPath())
-    #pdbg.state(self.rect)
 
 
   # xxx: sample 通りではなく独自解釈
@@ -110,11 +106,8 @@ class ViewController:
     bounds = self.overlayLayer.frame()
     _, _, layerWidth, layerHeight = parseCGRect(bounds)
 
-    for n, observation in enumerate(observations):
-      #pdbg.state(observation.boundingBox())
-      #pdbg.state(observation)
+    for observation in observations:
       _x, _y, _width, _height = parseCGRect(observation.boundingBox())
-      #pdbg.state(observation.boundingBox())
 
       width = _width * layerWidth
       height = _height * layerHeight
@@ -123,13 +116,8 @@ class ViewController:
       y = (layerHeight - height) - (_y * layerHeight)
 
       frame = CGRect(CGPoint(x, y), CGSize(width, height))
-      #frame = observation.boundingBox()
       rect = RectangleShapeLayer(bounds, frame)
       self.overlayLayer.addSublayer_(rect.layer)
-      #pdbg.state(frame.origin.x)
-      if not (n):
-        #break
-        pass
 
 
 class View(ui.View):
@@ -138,7 +126,6 @@ class View(ui.View):
     self.bg_color = 'maroon'
     # xxx: 先に呼ぶ？
     self.present(style='fullscreen', orientations=['portrait'])
-    #self.present(style='fullscreen')
     self.view_controller = ViewController(self.objc_instance)
 
   def will_close(self):
@@ -148,6 +135,5 @@ class View(ui.View):
 if __name__ == '__main__':
   img_file_path = './img/multi-face.png'
   #img_file_path = './img/sample01.png'
-  #faceDetection(img_file_path)
   view = View()
 
