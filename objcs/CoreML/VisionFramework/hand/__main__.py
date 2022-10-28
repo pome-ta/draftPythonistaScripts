@@ -6,7 +6,6 @@ import ui
 import pdbg
 
 # xxx: Vision framework のload は不要？
-
 #from objc_util import load_framework
 #load_framework('Vision')
 
@@ -100,20 +99,9 @@ class CameraViewController:
 
   def setupAVSession(self):
     # xxx: sample の初期呼び出しを飛ばしてる
-    #pdbg.state(AVCaptureDevice)
-    #AVCaptureDeviceTypeBuiltInUltraWideCamera
-    '''
-    _builtInWideAngleCamera = 'AVCaptureDeviceTypeBuiltInWideAngleCamera'
-    _builtInWideAngleCamera = 1
-    _video = 'AVMediaTypeVideo'
-    _front = 1  # AVCaptureDevicePositionFront
-    '''
-    #videoDevice = AVCaptureDevice.defaultDeviceWithDeviceType_mediaType_position_(_builtInWideAngleCamera, _video, _front)
-    #videoDevice = AVCaptureDevice.devicesWithMediaType_(_video)
-    #defaultDeviceWithDeviceType_mediaType_position_'
-    videoDevice = AVCaptureDevice.devices()[1]
-    #videoDevice = _videoDevice[1]
-    #pdbg.state(_videoDevice)
+    
+    # todo: [0]- back, [1]- front
+    videoDevice = AVCaptureDevice.devices()[0]
     deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
       videoDevice, None)
 
@@ -129,7 +117,7 @@ class CameraViewController:
       raise
 
     dataOutput = AVCaptureVideoDataOutput.alloc().init()
-    #pdbg.state(session)
+    
     if (session.canAddOutput_(dataOutput)):
       session.addOutput_(dataOutput)
       dataOutput.alwaysDiscardsLateVideoFrames = True

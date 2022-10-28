@@ -1,6 +1,6 @@
 import ctypes
 
-from objc_util import c, create_objc_class, ObjCClass, ObjCInstance
+from objc_util import c, create_objc_class, ObjCClass, ObjCInstance, on_main_thread
 import ui
 
 import pdbg
@@ -174,12 +174,13 @@ class ViewController:
 
   # --- Performing Vision Requests
   # - Tag: WriteCompletionHandler
+  @on_main_thread
   def prepareVisionRequest(self):
     faceDetectionRequest = VNDetectFaceRectanglesRequest.alloc().init()
     
     self.detectionRequests = [faceDetectionRequest]
     self.sequenceRequestHandler = VNSequenceRequestHandler.alloc().init()
-    #pdbg.state(faceDetectionRequest.)
+    pdbg.state(faceDetectionRequest.results())
     
     
 
