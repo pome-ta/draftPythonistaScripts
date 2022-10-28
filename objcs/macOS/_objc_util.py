@@ -505,9 +505,11 @@ class ObjCClass(object):
     return cached_class
 
   def __init__(self, name):
+    print(f'ini: {name}')
     if PY3 and isinstance(name, str):
       name = name.encode('ascii')
 
+    print(f'pre: {name}')
     self.ptr = objc_getClass(name)
     if self.ptr is None:
       raise ValueError('no Objective-C class named \'%s\' found' % (name, ))
