@@ -50,7 +50,11 @@ def parseCGRect(cg_rect: CGRect) -> tuple:
 
 
 class RectangleShapeLayer:
-  def __init__(self, bounds: CGRect, frame: CGRect, strokeColor=None,fillColor=None):
+  def __init__(self,
+               bounds: CGRect,
+               frame: CGRect,
+               strokeColor=None,
+               fillColor=None):
 
     self.layer = CAShapeLayer.alloc().init()
     self.layer.frame = bounds
@@ -63,8 +67,7 @@ class RectangleShapeLayer:
     clearColor = UIColor.clearColor().CGColor()
     self.strokeColor = strokeColor if strokeColor else greenColor
     self.fillColor = fillColor if fillColor else clearColor
-    
-    
+
     self.setup()
 
   def setup(self):
@@ -76,8 +79,8 @@ class RectangleShapeLayer:
     #pdbg.state(self.rect)
 
 
-# xxx: sample 通りではなく独自解釈
-# xxx: 無駄にクソデカClass
+  # xxx: sample 通りではなく独自解釈
+  # xxx: 無駄にクソデカClass
 class ViewController:
   def __init__(self, _previewView):
     self.previewView = _previewView
@@ -106,17 +109,19 @@ class ViewController:
   def drawFaceRectangle_observations_(self, observations):
     bounds = self.overlayLayer.frame()
     _, _, layerWidth, layerHeight = parseCGRect(bounds)
-    
+
     for n, observation in enumerate(observations):
       #pdbg.state(observation.boundingBox())
       #pdbg.state(observation)
       _x, _y, _width, _height = parseCGRect(observation.boundingBox())
       #pdbg.state(observation.boundingBox())
-      print(_y)
-      x =  _x * layerWidth
-      y =  (_y) * layerHeight
-      width =  _width * layerWidth
-      height =  _height * layerHeight
+
+      width = _width * layerWidth
+      height = _height * layerHeight
+      x = _x * layerWidth
+      # todo: 左下原点から、右上原点に
+      y = (layerHeight - height) - (_y * layerHeight)
+
       frame = CGRect(CGPoint(x, y), CGSize(width, height))
       #frame = observation.boundingBox()
       rect = RectangleShapeLayer(bounds, frame)
