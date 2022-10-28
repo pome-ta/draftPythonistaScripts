@@ -1412,4 +1412,3 @@ def autoreleasepool():
   pool = ObjCClass('NSAutoreleasePool').new()
   yield
   pool.drain()
-
