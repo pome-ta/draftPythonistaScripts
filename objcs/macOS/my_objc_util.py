@@ -1,19 +1,21 @@
-from ctypes import c_bool, c_char_p, sizeof, c_void_p, cdll
-
-LP64 = (sizeof(c_void_p) == 8)
+from ctypes import cdll, c_char_p, c_void_p
 
 c = cdll.LoadLibrary(None)
 
-class_getName = c.class_getName
-class_getName.restype = c_char_p
-class_getName.argtypes = [c_void_p]
 
-class_getSuperclass = c.class_getSuperclass
-class_getSuperclass.restype = c_void_p
-class_getSuperclass.argtypes = [c_void_p]
+objc_getClass: cdll = c.objc_getClass
+objc_getClass.argtypes = [c_char_p]
+objc_getClass.restype = c_void_p
 
-class_addMethod = c.class_addMethod
-class_addMethod.restype = c_bool
+
+class ObjCClass:
+  def __init__(self, name: str):
+    print(name)
+    _name = name.encode('ascii')
+    print(_name)
+    self.ptr = objc_getClass(_name)
+    print(self.ptr)
+
 
 if __name__ == '__main__':
-  print(class_getName)
+  NSObject = ObjCClass('NSObject')
