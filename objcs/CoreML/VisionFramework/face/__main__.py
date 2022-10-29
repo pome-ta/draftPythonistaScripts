@@ -11,9 +11,7 @@ AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
 AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
 AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
 
-#VNTrackObjectRequest = ObjCClass('VNTrackObjectRequest')
 VNDetectFaceRectanglesRequest = ObjCClass('VNDetectFaceRectanglesRequest')
-#VNRectangleObservation = ObjCClass('VNRectangleObservation')
 VNSequenceRequestHandler = ObjCClass('VNSequenceRequestHandler')
 
 UIColor = ObjCClass('UIColor')
@@ -52,14 +50,12 @@ class ViewController:
 
     self.captureDevice = None  # AVCaptureDevice
     self.captureDeviceResolution = None  # CGSize
-    
-    
+
     self.detectionRequests = None  # [VNDetectFaceRectanglesRequest]
 
     # Layer UI for drawing Vision results
     self.rootLayer = None  # CALayer
-    
-    
+
     #self.sequenceRequestHandler = VNSequenceRequestHandler.alloc().init() # lazy?
 
     self.viewDidLoad()
@@ -174,24 +170,25 @@ class ViewController:
 
   # --- Performing Vision Requests
   # - Tag: WriteCompletionHandler
-  @on_main_thread
+  #@on_main_thread
   def prepareVisionRequest(self):
     faceDetectionRequest = VNDetectFaceRectanglesRequest.alloc().init()
-    
+
     self.detectionRequests = [faceDetectionRequest]
     self.sequenceRequestHandler = VNSequenceRequestHandler.alloc().init()
-    pdbg.state(faceDetectionRequest.results())
-    
-    
 
   def create_sampleBufferDelegate(self):
     # --- /delegate
-    def captureOutput_sampleBuffer_connection_(_self, _cmd, _output,
-                                               _sampleBuffer, _connection):
+    def captureOutput_didOutputSampleBuffer_fromConnection_(
+        _self, _cmd, _output, _sampleBuffer, _connection):
+      requestHandlerOptions = None
+
       sampleBuffer = ObjCInstance(_sampleBuffer)
+      pdbg.state(sampleBuffer)
+      raise 
       # --- delegate/
 
-    _methods = [captureOutput_sampleBuffer_connection_]
+    _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
     _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
 
     sampleBufferDelegate = create_objc_class(
