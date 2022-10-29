@@ -135,6 +135,7 @@ class CameraViewController:
     self._cameraFeedSession = session
 
   def create_sampleBufferDelegate(self):
+    # --- /delegate
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
       kCGImagePropertyOrientationUp = 1
@@ -160,6 +161,7 @@ class CameraViewController:
         #allPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameAll', None)
         #print(allPoints)
 
+    # --- delegate/
     _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
     _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
 
