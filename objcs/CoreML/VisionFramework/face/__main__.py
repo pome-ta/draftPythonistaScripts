@@ -13,8 +13,11 @@ AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
 
 VNDetectFaceRectanglesRequest = ObjCClass('VNDetectFaceRectanglesRequest')
 VNSequenceRequestHandler = ObjCClass('VNSequenceRequestHandler')
+VNImageRequestHandler = ObjCClass('VNImageRequestHandler')
 
 UIColor = ObjCClass('UIColor')
+
+UIDevice = ObjCClass('UIDevice')
 
 kCVPixelFormatType_420YpCbCr8BiPlanarFullRange = 875704422
 _resizeAspectFill = 'AVLayerVideoGravityResizeAspectFill'
@@ -35,6 +38,14 @@ CMVideoFormatDescriptionGetDimensions.restype = CMVideoDimensions
 dispatch_get_current_queue = c.dispatch_get_current_queue
 dispatch_get_current_queue.restype = ctypes.c_void_p
 
+CMSampleBufferGetImageBuffer = c.CMSampleBufferGetImageBuffer
+CMSampleBufferGetImageBuffer.argtypes = [ctypes.c_void_p]
+CMSampleBufferGetImageBuffer.restype = ctypes.c_void_p
+'''
+CMGetAttachment = c.CMGetAttachment
+CMGetAttachment.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p]
+CMGetAttachment.restype = ctypes.c_void_p
+'''
 
 class ViewController:
   def __init__(self, _previewView):
@@ -168,13 +179,27 @@ class ViewController:
     videoPreviewLayer.frame = previewRootLayer.bounds()
     previewRootLayer.addSublayer_(videoPreviewLayer)
 
+  def exifOrientationForDeviceOrientation(self, deviceOrientation):
+    if (deviceOrientation == 2):  # portraitUpsideDown
+      return 7  # rightMirrored
+    elif (deviceOrientation == 4):  # landscapeLeft
+      return 5  # downMirrored
+    elif (deviceOrientation == 3):  # landscapeRight
+      return 4  # upMirrored
+    else:
+      return 6  # leftMirrored
+
+  def exifOrientationForCurrentDeviceOrientation(self):
+    device_orientation = UIDevice.currentDevice().orientation()
+    return self.exifOrientationForDeviceOrientation(device_orientation)
+
   # --- Performing Vision Requests
   # - Tag: WriteCompletionHandler
   #@on_main_thread
   def prepareVisionRequest(self):
     faceDetectionRequest = VNDetectFaceRectanglesRequest.alloc().init()
 
-    self.detectionRequests = [faceDetectionRequest]
+    self.detectionRequests = faceDetectionRequest
     self.sequenceRequestHandler = VNSequenceRequestHandler.alloc().init()
 
   def create_sampleBufferDelegate(self):
@@ -183,9 +208,17 @@ class ViewController:
         _self, _cmd, _output, _sampleBuffer, _connection):
       requestHandlerOptions = None
 
-      sampleBuffer = ObjCInstance(_sampleBuffer)
-      pdbg.state(sampleBuffer)
-      raise 
+      #cameraIntrinsicData = CMGetAttachment(_sampleBuffer, 'kCMSampleBufferAttachmentKey_CameraIntrinsicMatrix', None)
+
+      #sampleBuffer = ObjCInstance(_sampleBuffer)
+      pixelBuffer = CMSampleBufferGetImageBuffer(_sampleBuffer)
+      #pdbg.state(ObjCInstance(pixelBuffer))
+      #exifOrientation = self.exifOrientationForCurrentDeviceOrientation()
+      #pdbg.state(ObjCInstance(pixelBuffer))
+      #pdbg.state(self.detectionRequests.results())
+
+      #imageRequestHandler = VNImageRequestHandler
+
       # --- delegate/
 
     _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
