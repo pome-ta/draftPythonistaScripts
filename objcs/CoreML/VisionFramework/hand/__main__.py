@@ -99,7 +99,7 @@ class CameraViewController:
 
   def setupAVSession(self):
     # xxx: sample の初期呼び出しを飛ばしてる
-    
+
     # todo: [0]- back, [1]- front
     videoDevice = AVCaptureDevice.devices()[0]
     deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
@@ -117,7 +117,7 @@ class CameraViewController:
       raise
 
     dataOutput = AVCaptureVideoDataOutput.alloc().init()
-    
+
     if (session.canAddOutput_(dataOutput)):
       session.addOutput_(dataOutput)
       dataOutput.alwaysDiscardsLateVideoFrames = True
@@ -141,27 +141,33 @@ class CameraViewController:
       kCGImagePropertyOrientationUp = 1
 
       sampleBuffer = ObjCInstance(_sampleBuffer)
+      # todo: `autorelease()` 必要かも
       handler = VNImageRequestHandler.alloc(
       ).initWithCMSampleBuffer_orientation_options_(
-        sampleBuffer, kCGImagePropertyOrientationUp, None)#.autorelease()
+        sampleBuffer, kCGImagePropertyOrientationUp, None).autorelease()
 
       handler.performRequests_error_([self._handPoseRequest], None)
 
       observation = self._handPoseRequest.results().firstObject()
 
       if (observation):
+        #pdbg.state(observation)
         #pdbg.state(self._handPoseRequest.results())
         #pdbg.state(observation.availableGroupKeys())
-        thumbPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameThumb', None)
+        thumbPoints = observation.recognizedPointsForGroupKey_error_(
+          'VNHumanHandPoseObservationJointsGroupNameThumb', None)
 
-        indexFingerPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameIndexFinger', None)
+        indexFingerPoints = observation.recognizedPointsForGroupKey_error_(
+          'VNHumanHandPoseObservationJointsGroupNameIndexFinger', None)
 
+        #
         print(f'thumbPoints: \n{thumbPoints}')
-        print(f'indexFingerPoints: \n{indexFingerPoints}')
+        #print(f'indexFingerPoints: \n{indexFingerPoints}')
         #allPoints = observation.recognizedPointsForGroupKey_error_('VNHumanHandPoseObservationJointsGroupNameAll', None)
         #print(allPoints)
 
-    # --- delegate/
+      # --- delegate/
+
     _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
     _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
 

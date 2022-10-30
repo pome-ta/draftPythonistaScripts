@@ -41,11 +41,11 @@ dispatch_get_current_queue.restype = ctypes.c_void_p
 CMSampleBufferGetImageBuffer = c.CMSampleBufferGetImageBuffer
 CMSampleBufferGetImageBuffer.argtypes = [ctypes.c_void_p]
 CMSampleBufferGetImageBuffer.restype = ctypes.c_void_p
-'''
+
 CMGetAttachment = c.CMGetAttachment
 CMGetAttachment.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p]
 CMGetAttachment.restype = ctypes.c_void_p
-'''
+
 
 class ViewController:
   def __init__(self, _previewView):
@@ -204,11 +204,12 @@ class ViewController:
 
   def create_sampleBufferDelegate(self):
     # --- /delegate
+    
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
       requestHandlerOptions = None
 
-      #cameraIntrinsicData = CMGetAttachment(_sampleBuffer, 'kCMSampleBufferAttachmentKey_CameraIntrinsicMatrix', None)
+      cameraIntrinsicData = CMGetAttachment(_sampleBuffer, 'kCMSampleBufferAttachmentKey_CameraIntrinsicMatrix', None)
 
       #sampleBuffer = ObjCInstance(_sampleBuffer)
       pixelBuffer = CMSampleBufferGetImageBuffer(_sampleBuffer)
