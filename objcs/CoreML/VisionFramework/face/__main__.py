@@ -15,6 +15,8 @@ VNDetectFaceRectanglesRequest = ObjCClass('VNDetectFaceRectanglesRequest')
 VNSequenceRequestHandler = ObjCClass('VNSequenceRequestHandler')
 VNImageRequestHandler = ObjCClass('VNImageRequestHandler')
 
+
+
 UIColor = ObjCClass('UIColor')
 
 UIDevice = ObjCClass('UIDevice')
@@ -209,7 +211,7 @@ class ViewController:
         _self, _cmd, _output, _sampleBuffer, _connection):
       requestHandlerOptions = None
 
-      cameraIntrinsicData = CMGetAttachment(_sampleBuffer, 'kCMSampleBufferAttachmentKey_CameraIntrinsicMatrix', None)
+      #cameraIntrinsicData = CMGetAttachment(_sampleBuffer, 'RPVideoSampleOrientationKey', None)
 
       #sampleBuffer = ObjCInstance(_sampleBuffer)
       pixelBuffer = CMSampleBufferGetImageBuffer(_sampleBuffer)
