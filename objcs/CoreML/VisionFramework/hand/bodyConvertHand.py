@@ -27,14 +27,17 @@ dispatch_get_current_queue.restype = ctypes.c_void_p
 class CameraView(ui.View):
   def __init__(self, frame=CGRect((0, 0), (100, 100)), *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
-    self.flex = 'WH'
     self.bg_color = 'green'
+    self.flex = 'WH'
+    self.previewLayer = None  # AVCaptureVideoPreviewLayer
+    self.overlayLayer = None  # CAShapeLayer
+    self.layer = self.objc_instance.layer()
     self.init()
 
   def init(self):
     self.previewLayer = AVCaptureVideoPreviewLayer.alloc().init()
     self.overlayLayer = CAShapeLayer.alloc().init()
-    self.layer = self.objc_instance.layer()
+
     self.setupOverlay()
     self.setCAShapeLayer()
 
@@ -82,10 +85,6 @@ class CameraViewController:
     self.viewDidLoad()
     self.viewDidAppear()
 
-  # todo: 独自に生やした
-  def layout(self):
-    self.previewLayer.frame = self.cameraView.bounds()
-
   def viewDidLoad(self):
     self.handPoseRequest.maximumHandCount = 1
 
@@ -94,10 +93,7 @@ class CameraViewController:
     self.cameraView.previewLayer.setSession_(self.cameraSession)
 
     _resizeAspectFill = 'AVLayerVideoGravityResizeAspectFill'
-    #self.previewLayer.videoGravity = _resizeAspectFill
     self.cameraView.previewLayer.setVideoGravity_(_resizeAspectFill)
-    #self.cameraView.layer.addSublayer_(self.previewLayer)
-    #self.layout()
     self.cameraSession.startRunning()
 
   def viewWillDisappear(self):
@@ -133,9 +129,28 @@ class CameraViewController:
     session.commitConfiguration()
     self.cameraSession = session
 
+  def detectedHandPose_request(self, request):
+    results = request.results()
+    for n, result in enumerate(results):
+      _all = 'VNIPOAll'  # VNHumanHandPoseObservationJointsGroupNameAll
+      handParts = result.recognizedPointsForJointsGroupName_error_(_all, None)
+      vnhlkidpi = handParts['VNHLKIDIP']
+      x = vnhlkidpi.x()
+      y = vnhlkidpi.y()
+      #print(type(vnhlkidpi))
+      #print('----')
+      #pdbg.state(x)
+      #print(vnhlkidpi)
+      greenColor = UIColor.greenColor().cgColor()
+      self.cameraView.overlayLayer.setStrokeColor_(greenColor)
+
+      if not n:  # todo: first?
+        break
+
   def create_sampleBufferDelegate(self):
     # --- /delegate
     sequenceHandler = VNSequenceRequestHandler.alloc().init().autorelease()
+    self.handParts = None
 
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
@@ -145,24 +160,9 @@ class CameraViewController:
       sequenceHandler.performRequests_onCMSampleBuffer_orientation_error_(
         [self.handPoseRequest], sampleBuffer, _right, None)
 
-      results = self.handPoseRequest.results()
-      for n, result in enumerate(results):
-        _all = 'VNIPOAll'  # VNHumanHandPoseObservationJointsGroupNameAll
-        observation = result.recognizedPointsForJointsGroupName_error_(
-          _all, None)
-        #print(f'nm: {result.availableJointNames()}')
-        #print(f'gr{result.availableJointsGroupNames()}')
-        #VNHLKIDIP
-        vnhlkidpi = observation['VNHLKIDIP']
-        x = vnhlkidpi.x()
-        y = vnhlkidpi.y()
-        #print(type(vnhlkidpi))
-        print('----')
-        pdbg.state(x)
-        print(vnhlkidpi)
+      if self.handPoseRequest.results():
+        self.detectedHandPose_request(self.handPoseRequest)
 
-        if not n:  # todo: first?
-          break
       # --- delegate/
 
     _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
