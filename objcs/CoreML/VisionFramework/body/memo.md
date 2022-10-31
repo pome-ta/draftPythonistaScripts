@@ -48,8 +48,17 @@ videoDevice = AVCaptureDevice.defaultDeviceWithMediaType_('vide')
 [face_detector.py strange behavior | omz:forum](https://forum.omz-software.com/topic/6434/face_detector-py-strange-behavior/22)
 
 
+前は、ダメだったきがするのだけど、なぜかできた、、、`vide` の所かしら？
 
 
+``` .py
+    _builtInWideAngleCamera = 'AVCaptureDeviceTypeBuiltInWideAngleCamera'
+    _video = 'vide'
+    _front = 2  # back -> 1
+    videoDevice = AVCaptureDevice.defaultDeviceWithDeviceType_mediaType_position_(
+      _builtInWideAngleCamera, _video, _front)
+
+```
 
 
 # 📝 2022/10/30

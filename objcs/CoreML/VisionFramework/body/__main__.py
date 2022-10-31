@@ -48,10 +48,12 @@ class CameraViewController:
     _Preset_high = 'AVCaptureSessionPresetHigh'
     session.setSessionPreset_(_Preset_high)
 
-    videoDevice = AVCaptureDevice.defaultDeviceWithMediaType_('vide')
-    #videoDevice.position = 1
-    pdbg.state(videoDevice)
-    
+    _builtInWideAngleCamera = 'AVCaptureDeviceTypeBuiltInWideAngleCamera'
+    _video = 'vide'
+    _front = 2  # back -> 1
+    videoDevice = AVCaptureDevice.defaultDeviceWithDeviceType_mediaType_position_(
+      _builtInWideAngleCamera, _video, _front)
+
     deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
       videoDevice, None)
 
@@ -73,7 +75,7 @@ class CameraViewController:
     # --- /delegate
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
-      requestHandlerOptions = None
+      pass
       # --- delegate/
 
     _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
