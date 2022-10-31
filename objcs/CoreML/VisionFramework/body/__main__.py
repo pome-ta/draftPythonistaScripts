@@ -25,6 +25,7 @@ class CameraViewController:
 
     self.viewDidAppear()
 
+  # todo: 独自に生やした
   def layout(self):
     self.previewLayer.frame = self.cameraView.bounds()
 
@@ -35,7 +36,6 @@ class CameraViewController:
     _resizeAspectFill = 'AVLayerVideoGravityResizeAspectFill'
     self.previewLayer.videoGravity = _resizeAspectFill
     self.cameraView.layer().addSublayer_(self.previewLayer)
-
     self.layout()
     self.cameraSession.startRunning()
 
@@ -49,6 +49,9 @@ class CameraViewController:
     session.setSessionPreset_(_Preset_high)
 
     videoDevice = AVCaptureDevice.defaultDeviceWithMediaType_('vide')
+    #videoDevice.position = 1
+    pdbg.state(videoDevice)
+    
     deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
       videoDevice, None)
 
@@ -85,7 +88,6 @@ class View(ui.View):
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'maroon'
-
     # xxx: 先に呼ぶ？
     #self.present(style='fullscreen', orientations=['portrait'])
     self.cvc = CameraViewController(self.objc_instance)

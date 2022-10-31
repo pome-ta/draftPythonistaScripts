@@ -29,6 +29,29 @@
 今のところ、問題は出ていないし、すっきりするので「取り敢えずヨシ！」してる
 
 
+## キャプチャの画面比率
+
+
+(現状)気にしてないけど、アスペクト比とかどうなんやろ？あってる？
+
+
+## カメラのフロント・バック
+
+いまの呼び出しでは、バックしか適用できないのでは？
+
+``` .py
+videoDevice = AVCaptureDevice.defaultDeviceWithMediaType_('vide')
+```
+
+
+
+[face_detector.py strange behavior | omz:forum](https://forum.omz-software.com/topic/6434/face_detector-py-strange-behavior/22)
+
+
+
+
+
+
 # 📝 2022/10/30
 
 顔も手も、キャプチャで実装できてないけどやってみる😂
