@@ -15,19 +15,6 @@ dispatch_get_current_queue = c.dispatch_get_current_queue
 dispatch_get_current_queue.restype = ctypes.c_void_p
 
 
-
-def parseCGRect(cg_rect: CGRect) -> tuple:
-  _origin = cg_rect.origin
-  _size = cg_rect.size
-  origin_x = _origin.x
-  origin_y = _origin.y
-  size_width = _size.width
-  size_height = _size.height
-  return (origin_x, origin_y, size_width, size_height)
-
-
-
-
 class CameraViewController:
   def __init__(self, cameraView):
     self.cameraView = cameraView
@@ -35,27 +22,23 @@ class CameraViewController:
     self.cameraSession = None  # AVCaptureSession
     self.delegate = self.create_sampleBufferDelegate()
     self.cameraQueue = ObjCInstance(dispatch_get_current_queue())
-    #self.cameraQueue = dispatch_get_current_queue()
+
     self.viewDidAppear()
-  
+
   def layout(self):
     self.previewLayer.frame = self.cameraView.bounds()
-  
+
   def viewDidAppear(self):
     self.prepareAVSession()
-    self.previewLayer = AVCaptureVideoPreviewLayer.alloc().initWithSession_(self.cameraSession)
+    self.previewLayer = AVCaptureVideoPreviewLayer.alloc().initWithSession_(
+      self.cameraSession)
     _resizeAspectFill = 'AVLayerVideoGravityResizeAspectFill'
     self.previewLayer.videoGravity = _resizeAspectFill
     self.cameraView.layer().addSublayer_(self.previewLayer)
-    
-    self.previewLayer.frame = self.cameraView.bounds()
-    #pdbg.state(self.previewView)
-    
+
+    self.layout()
     self.cameraSession.startRunning()
-    
-    
-    
-    
+
   def viewWillDisappear(self):
     self.cameraSession.stopRunning()
 
@@ -71,12 +54,15 @@ class CameraViewController:
 
     if session.canAddInput_(deviceInput):
       session.addInput_(deviceInput)
+    else:
+      raise
 
     dataOutput = AVCaptureVideoDataOutput.alloc().init()
     if session.canAddOutput_(dataOutput):
       session.addOutput_(dataOutput)
-      dataOutput.setSampleBufferDelegate_queue_(self.delegate,
-                                                self.cameraQueue)
+    else:
+      raise
+    dataOutput.setSampleBufferDelegate_queue_(self.delegate, self.cameraQueue)
     session.commitConfiguration()
     self.cameraSession = session
 
@@ -103,6 +89,7 @@ class View(ui.View):
     # xxx: 先に呼ぶ？
     #self.present(style='fullscreen', orientations=['portrait'])
     self.cvc = CameraViewController(self.objc_instance)
+
   def layout(self):
     self.cvc.layout()
 
