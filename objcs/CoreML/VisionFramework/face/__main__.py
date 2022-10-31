@@ -146,8 +146,9 @@ class ViewController:
     videoDataOutput.setSampleBufferDelegate_queue_(delegate,
                                                    videoDataOutputQueue)
 
-    if (captureSession.canAddOutput(videoDataOutput)):
-      captureSession.addOutput(videoDataOutput)
+    
+    if (captureSession.canAddOutput_(videoDataOutput)):
+      captureSession.addOutput_(videoDataOutput)
 
     # todo: 不要？`=` でエラーになる
     #videoDataOutput.connectionWithMediaType_('vide').isEnabled = True

@@ -7,6 +7,8 @@ import pdbg
 
 AVCaptureSession = ObjCClass('AVCaptureSession')
 AVCaptureDevice = ObjCClass('AVCaptureDevice')
+AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
+AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
 
 dispatch_get_current_queue = c.dispatch_get_current_queue
 dispatch_get_current_queue.restype = ctypes.c_void_p
@@ -29,11 +31,18 @@ class CameraViewController:
     _Preset_high = 'AVCaptureSessionPresetHigh'
     session.setSessionPreset_(_Preset_high)
     
-    _BuiltInWideAngleCamera = 1
-    _video = 'vide'
-    _front = 2
-    videoDevice = AVCaptureDevice.defaultDeviceWithDeviceType_mediaType_position_(_BuiltInWideAngleCamera, _video, _front)
-    pdbg.state(videoDevice)
+    videoDevice = AVCaptureDevice.defaultDeviceWithMediaType_('vide')
+    deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
+      videoDevice, None)
+    
+    if session.canAddInput_(deviceInput):
+      session.addInput_(deviceInput)
+    
+    dataOutput = AVCaptureVideoDataOutput.alloc().init()
+    
+    
+    
+    pdbg.state(session)
 
   def create_sampleBufferDelegate(self):
     # --- /delegate
