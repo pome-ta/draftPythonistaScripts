@@ -1,5 +1,6 @@
 # 📝 2022/10/31
 
+[iOS 14 Vision Body Pose Detection: Count Squat Reps in a SwiftUI Workout App | by Philipp Gehrke | Better Programming](https://betterprogramming.pub/ios-14-vision-body-pose-detection-count-squat-reps-in-a-workout-c88991f7cad4)
 
 
 [Visionで身体や手のポーズを検出する – WWDC2020│](https://plum-plus.jp/2020/11/06/vision%e3%81%a7%e8%ba%ab%e4%bd%93%e3%82%84%e6%89%8b%e3%81%ae%e3%83%9d%e3%83%bc%e3%82%ba%e3%82%92%e6%a4%9c%e5%87%ba%e3%81%99%e3%82%8b-wwdc2020/)
