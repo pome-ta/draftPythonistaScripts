@@ -1,6 +1,6 @@
 import ctypes
 
-from objc_util import c, ObjCClass, ObjCInstance, create_objc_class, CGRect
+from objc_util import c, ObjCClass, ObjCInstance, create_objc_class
 import ui
 
 import pdbg
