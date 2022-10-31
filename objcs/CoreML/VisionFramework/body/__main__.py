@@ -11,6 +11,9 @@ AVCaptureDevice = ObjCClass('AVCaptureDevice')
 AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
 AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
 
+VNSequenceRequestHandler = ObjCClass('VNSequenceRequestHandler')
+VNDetectHumanBodyPoseRequest = ObjCClass('VNDetectHumanBodyPoseRequest')
+
 dispatch_get_current_queue = c.dispatch_get_current_queue
 dispatch_get_current_queue.restype = ctypes.c_void_p
 
@@ -50,7 +53,7 @@ class CameraViewController:
 
     _builtInWideAngleCamera = 'AVCaptureDeviceTypeBuiltInWideAngleCamera'
     _video = 'vide'
-    _front = 2  # back -> 1
+    _front = 1  # back -> 1
     videoDevice = AVCaptureDevice.defaultDeviceWithDeviceType_mediaType_position_(
       _builtInWideAngleCamera, _video, _front)
 
@@ -73,9 +76,31 @@ class CameraViewController:
 
   def create_sampleBufferDelegate(self):
     # --- /delegate
+    sequenceHandler = VNSequenceRequestHandler.alloc().init().autorelease()
+
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
-      pass
+      sampleBuffer = ObjCInstance(_sampleBuffer)
+      humanBodyRequest = VNDetectHumanBodyPoseRequest.alloc().init()
+
+      _right = 6  # kCGImagePropertyOrientationRight
+      sequenceHandler.performRequests_onCMSampleBuffer_orientation_error_(
+        [humanBodyRequest], sampleBuffer, _right, None)
+
+      results = humanBodyRequest.results()
+      for n, result in enumerate(results):
+
+        #recognizedPointsForJointsGroupName:error:
+        #VNHumanBodyPoseObservationJointsGroupNameAll
+        _all = 'VNHumanBodyPoseObservationJointsGroupNameAll'
+        #bodyParts = result.recognizedPointForJointName_error_(_all, None)
+
+        #pdbg.state(result.availableJointNames())
+        print(f'nm: {result.availableJointNames()}')
+        print(f'gr{result.availableJointsGroupNames()}')
+        #pdbg.state(bodyParts)
+        if not n:  # todo: first?
+          break
       # --- delegate/
 
     _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]

@@ -60,6 +60,44 @@ videoDevice = AVCaptureDevice.defaultDeviceWithMediaType_('vide')
 
 ```
 
+## `VNDetectHumanBodyPoseRequest` の、`results`
+
+
+
+``` .log
+availableJointNames: (
+    "right_upLeg_joint",
+    "right_forearm_joint",
+    "left_leg_joint",
+    "left_hand_joint",
+    "left_ear_joint",
+    "left_forearm_joint",
+    "right_leg_joint",
+    "right_foot_joint",
+    "right_shoulder_1_joint",
+    "neck_1_joint",
+    "left_upLeg_joint",
+    "left_foot_joint",
+    root,
+    "right_hand_joint",
+    "left_eye_joint",
+    "head_joint",
+    "right_eye_joint",
+    "right_ear_joint",
+    "left_shoulder_1_joint"
+)
+availableJointsGroupNames(
+    VNBLKFACE,
+    VNBLKTORSO,
+    VNBLKLARM,
+    VNBLKRARM,
+    VNBLKLLEG,
+    VNBLKRLEG,
+    VNIPOAll
+)
+
+
+```
 
 # 📝 2022/10/30
 
