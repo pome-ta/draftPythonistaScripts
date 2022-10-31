@@ -96,15 +96,20 @@ class CameraViewController:
 
       results = self.handPoseRequest.results()
       for n, result in enumerate(results):
-
-        #_all = 'VNHumanHandPoseObservationJointsGroupNameAll'
-        _all = 'VNIPOAll'
+        _all = 'VNIPOAll'  # VNHumanHandPoseObservationJointsGroupNameAll
         observation = result.recognizedPointsForJointsGroupName_error_(
           _all, None)
         #print(f'nm: {result.availableJointNames()}')
         #print(f'gr{result.availableJointsGroupNames()}')
-        #pdbg.state(observation)
-        print(observation)
+        #VNHLKIDIP
+        vnhlkidpi = observation['VNHLKIDIP']
+        x = vnhlkidpi.x()
+        y = vnhlkidpi.y()
+        #print(type(vnhlkidpi))
+        print('----')
+        pdbg.state(x)
+        print(vnhlkidpi)
+
         if not n:  # todo: first?
           break
       # --- delegate/
