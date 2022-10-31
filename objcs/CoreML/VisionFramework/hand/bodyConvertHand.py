@@ -1,6 +1,7 @@
 import ctypes
+import math
 
-from objc_util import c, ObjCClass, ObjCInstance, create_objc_class
+from objc_util import c, ObjCClass, ObjCInstance, create_objc_class, CGRect, CGPoint
 import ui
 
 import pdbg
@@ -12,18 +13,67 @@ AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
 AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
 
 VNSequenceRequestHandler = ObjCClass('VNSequenceRequestHandler')
-VNDetectHumanBodyPoseRequest = ObjCClass('VNDetectHumanBodyPoseRequest')
-
 VNDetectHumanHandPoseRequest = ObjCClass('VNDetectHumanHandPoseRequest')
+
+CAShapeLayer = ObjCClass('CAShapeLayer')
+UIBezierPath = ObjCClass('UIBezierPath')
+
+UIColor = ObjCClass('UIColor')
 
 dispatch_get_current_queue = c.dispatch_get_current_queue
 dispatch_get_current_queue.restype = ctypes.c_void_p
 
 
+class CameraView(ui.View):
+  def __init__(self, frame=CGRect((0, 0), (100, 100)), *args, **kwargs):
+    ui.View.__init__(self, *args, **kwargs)
+    self.flex = 'WH'
+    self.bg_color = 'green'
+    self.init()
+
+  def init(self):
+    self.previewLayer = AVCaptureVideoPreviewLayer.alloc().init()
+    self.overlayLayer = CAShapeLayer.alloc().init()
+    self.layer = self.objc_instance.layer()
+    self.setupOverlay()
+    self.setCAShapeLayer()
+
+  def setupOverlay(self):
+    self.layer.addSublayer_(self.previewLayer)
+
+  def layout(self):
+    self.previewLayer.frame = self.objc_instance.bounds()
+    self.overlayLayer.frame = self.previewLayer.bounds()
+    self.showPoints(self.overlayLayer.frame().size)
+
+  def showPoints(self, size):
+    height = size.height
+    width = size.width
+
+    center = CGPoint(width / 2, height / 2)
+    radius = 100.0
+    startAngle = 0.125 * math.pi
+    endAngle = 1.875 * math.pi
+
+    arc = UIBezierPath.alloc().init()
+    arc.addArcWithCenter_radius_startAngle_endAngle_clockwise_(
+      center, radius, startAngle, endAngle, True)
+
+    self.overlayLayer.setPath_(arc.CGPath())
+
+  def setCAShapeLayer(self):
+    self.overlayLayer.setLineWidth_(20.0)
+    blueColor = UIColor.blueColor().cgColor()
+    cyanColor = UIColor.cyanColor().cgColor()
+    self.overlayLayer.setStrokeColor_(blueColor)
+    self.overlayLayer.setFillColor_(cyanColor)
+    self.previewLayer.addSublayer_(self.overlayLayer)
+
+
 class CameraViewController:
-  def __init__(self, cameraView):
-    self.cameraView = cameraView
-    self.previewLayer = None  # AVCaptureVideoPreviewLayer
+  def __init__(self):
+    self.cameraView = CameraView()
+    #self.previewLayer = None  # AVCaptureVideoPreviewLayer
     self.cameraSession = None  # AVCaptureSession
     self.delegate = self.create_sampleBufferDelegate()
     self.cameraQueue = ObjCInstance(dispatch_get_current_queue())
@@ -41,12 +91,13 @@ class CameraViewController:
 
   def viewDidAppear(self):
     self.prepareAVSession()
-    self.previewLayer = AVCaptureVideoPreviewLayer.alloc().initWithSession_(
-      self.cameraSession)
+    self.cameraView.previewLayer.setSession_(self.cameraSession)
+
     _resizeAspectFill = 'AVLayerVideoGravityResizeAspectFill'
-    self.previewLayer.videoGravity = _resizeAspectFill
-    self.cameraView.layer().addSublayer_(self.previewLayer)
-    self.layout()
+    #self.previewLayer.videoGravity = _resizeAspectFill
+    self.cameraView.previewLayer.setVideoGravity_(_resizeAspectFill)
+    #self.cameraView.layer.addSublayer_(self.previewLayer)
+    #self.layout()
     self.cameraSession.startRunning()
 
   def viewWillDisappear(self):
@@ -128,10 +179,8 @@ class View(ui.View):
     self.bg_color = 'maroon'
     # xxx: 先に呼ぶ？
     #self.present(style='fullscreen', orientations=['portrait'])
-    self.cvc = CameraViewController(self.objc_instance)
-
-  def layout(self):
-    self.cvc.layout()
+    self.cvc = CameraViewController()
+    self.add_subview(self.cvc.cameraView)
 
   def will_close(self):
     self.cvc.viewWillDisappear()
