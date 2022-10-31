@@ -14,6 +14,8 @@ AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
 VNSequenceRequestHandler = ObjCClass('VNSequenceRequestHandler')
 VNDetectHumanBodyPoseRequest = ObjCClass('VNDetectHumanBodyPoseRequest')
 
+VNDetectHumanHandPoseRequest = ObjCClass('VNDetectHumanHandPoseRequest')
+
 dispatch_get_current_queue = c.dispatch_get_current_queue
 dispatch_get_current_queue.restype = ctypes.c_void_p
 
@@ -25,12 +27,17 @@ class CameraViewController:
     self.cameraSession = None  # AVCaptureSession
     self.delegate = self.create_sampleBufferDelegate()
     self.cameraQueue = ObjCInstance(dispatch_get_current_queue())
+    self.handPoseRequest = VNDetectHumanHandPoseRequest.alloc().init()
 
+    self.viewDidLoad()
     self.viewDidAppear()
 
   # todo: 独自に生やした
   def layout(self):
     self.previewLayer.frame = self.cameraView.bounds()
+
+  def viewDidLoad(self):
+    self.handPoseRequest.maximumHandCount = 1
 
   def viewDidAppear(self):
     self.prepareAVSession()
@@ -53,9 +60,10 @@ class CameraViewController:
 
     _builtInWideAngleCamera = 'AVCaptureDeviceTypeBuiltInWideAngleCamera'
     _video = 'vide'
-    _front = 1  # back -> 1
+    _front = 2  # back -> 1
+    _back = 1
     videoDevice = AVCaptureDevice.defaultDeviceWithDeviceType_mediaType_position_(
-      _builtInWideAngleCamera, _video, _front)
+      _builtInWideAngleCamera, _video, _back)
 
     deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
       videoDevice, None)
@@ -81,24 +89,22 @@ class CameraViewController:
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
       sampleBuffer = ObjCInstance(_sampleBuffer)
-      humanBodyRequest = VNDetectHumanBodyPoseRequest.alloc().init()
 
       _right = 6  # kCGImagePropertyOrientationRight
       sequenceHandler.performRequests_onCMSampleBuffer_orientation_error_(
-        [humanBodyRequest], sampleBuffer, _right, None)
+        [self.handPoseRequest], sampleBuffer, _right, None)
 
-      results = humanBodyRequest.results()
+      results = self.handPoseRequest.results()
       for n, result in enumerate(results):
 
-        #recognizedPointsForJointsGroupName:error:
-        #VNHumanBodyPoseObservationJointsGroupNameAll
-        _all = 'VNHumanBodyPoseObservationJointsGroupNameAll'
-        #bodyParts = result.recognizedPointForJointName_error_(_all, None)
-
-        #pdbg.state(result.availableJointNames())
-        print(f'nm: {result.availableJointNames()}')
-        print(f'gr{result.availableJointsGroupNames()}')
-        #pdbg.state(bodyParts)
+        #_all = 'VNHumanHandPoseObservationJointsGroupNameAll'
+        _all = 'VNIPOAll'
+        observation = result.recognizedPointsForJointsGroupName_error_(
+          _all, None)
+        #print(f'nm: {result.availableJointNames()}')
+        #print(f'gr{result.availableJointsGroupNames()}')
+        #pdbg.state(observation)
+        print(observation)
         if not n:  # todo: first?
           break
       # --- delegate/

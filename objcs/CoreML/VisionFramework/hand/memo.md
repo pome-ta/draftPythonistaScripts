@@ -6,6 +6,82 @@
 [Visionで身体や手のポーズを検出する – WWDC2020│](https://plum-plus.jp/2020/11/06/vision%e3%81%a7%e8%ba%ab%e4%bd%93%e3%82%84%e6%89%8b%e3%81%ae%e3%83%9d%e3%83%bc%e3%82%ba%e3%82%92%e6%a4%9c%e5%87%ba%e3%81%99%e3%82%8b-wwdc2020/)
 
 
+### `VNSequenceRequestHandler`
+
+> 概要
+> このハンドラをインスタンス化すると、一連の画像に対してVisionリクエストを実行することができる。VNImageRequestHandlerとは異なり、作成時に画像を指定することはない。その代わり、performメソッドの1つを呼び続けるときに、各画像フレームを1つずつ供給する。
+
+``` .log
+availableJointNames: (
+    VNHLKRPIP,
+    VNHLKTMP,
+    VNHLKMTIP,
+    VNHLKRMCP,
+    VNHLKRDIP,
+    VNHLKITIP,
+    VNHLKMPIP,
+    VNHLKTTIP,
+    VNHLKTIP,
+    VNHLKIPIP,
+    VNHLKPTIP,
+    VNHLKWRI,
+    VNHLKPPIP,
+    VNHLKMMCP,
+    VNHLKMDIP,
+    VNHLKTCMC,
+    VNHLKIMCP,
+    VNHLKIDIP,
+    VNHLKPMCP,
+    VNHLKPDIP,
+    VNHLKRTIP
+)
+availableJointsGroupNames(
+    VNHLRKT,
+    VNHLRKM,
+    VNHLRKI,
+    VNHLRKR,
+    VNHLRKP,
+    VNIPOAll
+)
+
+```
+
+
+
+``` .log
+# VNIPOAll
+{
+    VNHLKIDIP = "[0.350816; 0.344648]";
+    VNHLKIMCP = "[0.203235; 0.273218]";
+    VNHLKIPIP = "[0.255140; 0.318929]";
+    VNHLKITIP = "[0.430193; 0.372914]";
+    VNHLKMDIP = "[0.401088; 0.339046]";
+    VNHLKMMCP = "[0.214535; 0.259824]";
+    VNHLKMPIP = "[0.311639; 0.300414]";
+    VNHLKMTIP = "[0.467750; 0.365228]";
+    VNHLKPDIP = "[0.441783; 0.296928]";
+    VNHLKPMCP = "[0.196608; 0.222184]";
+    VNHLKPPIP = "[0.293252; 0.243112]";
+    VNHLKPTIP = "[0.500727; 0.321662]";
+    VNHLKRDIP = "[0.422160; 0.319209]";
+    VNHLKRMCP = "[0.205185; 0.249156]";
+    VNHLKRPIP = "[0.326009; 0.285425]";
+    VNHLKRTIP = "[0.477980; 0.343198]";
+    VNHLKTCMC = "[0.173057; 0.244838]";
+    VNHLKTIP = "[0.339841; 0.309450]";
+    VNHLKTMP = "[0.231377; 0.279885]";
+    VNHLKTTIP = "[0.412918; 0.348824]";
+    VNHLKWRI = "[0.144244; 0.148627]";
+}
+```
+
+
+
+#### `VNImageRequestHandler`
+
+> 概要
+> このハンドラをインスタンス化すると、1つの画像に対してVisionリクエストを実行できる。作成時に画像と、オプションで完了ハンドラを指定し、リクエストの実行を開始するために performRequests:error: を呼び出す。
+
 # 📝 2022/10/21
 
 ## デバイスのインプット関係を整理
