@@ -25,8 +25,17 @@ UITextView = ObjCClass('UITextView')
 dispatch_get_current_queue = c.dispatch_get_current_queue
 dispatch_get_current_queue.restype = ctypes.c_void_p
 
+@on_main_thread
+def dispatch_queue_create(_name, parent):
+  _func = c.dispatch_queue_create
+  _func.argtypes = [ctypes.c_char_p, ctypes.c_void_p]
+  _func.restype = ctypes.c_void_p
+  name = _name.encode('ascii')
+  return ObjCInstance(_func(name, parent))
 
+#@on_main_thread
 class CameraView(ui.View):
+  @on_main_thread
   def __init__(self, frame=CGRect((0, 0), (100, 100)), *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'green'
@@ -36,15 +45,19 @@ class CameraView(ui.View):
     self.layer = self.objc_instance.layer()
     self.log = None  # UITextView
     self.init()
+    self.setupOverlay()
+    self.setCAShapeLayer()
     
-    interval = 60
-    self.update_interval = 1/interval
+    #interval = 60
+    #self.update_interval = 1/interval
 
     self.log.text = 'ほげ'
-    
+  
+  '''
   def update(self):
     self.set_needs_display()
-
+  '''
+  @on_main_thread
   def init(self):
     self.previewLayer = AVCaptureVideoPreviewLayer.alloc().init()
     self.overlayLayer = CAShapeLayer.alloc().init()
@@ -52,21 +65,27 @@ class CameraView(ui.View):
     #self.log.setOpaque_(False)
     self.log.setEditable_(False)
     self.log.backgroundColor = UIColor.clearColor()
-    #pdbg.state(self.log)
 
-    self.setupOverlay()
-    self.setCAShapeLayer()
-
+  @on_main_thread
   def setupOverlay(self):
     self.layer.addSublayer_(self.previewLayer)
     self.objc_instance.addSubview_(self.log)
 
+  @on_main_thread
   def layout(self):
     self.previewLayer.frame = self.objc_instance.bounds()
     self.overlayLayer.frame = self.previewLayer.bounds()
     self.log.frame = self.previewLayer.bounds()
     #self.showPoints(self.overlayLayer.frame().size)
+    
+  def did_load(self):
+    self.layout()
 
+  @on_main_thread
+  def log_update(self, text):
+    self.log.text = f'{text}'
+  
+  @on_main_thread
   def showPoints(self, size):
     height = size.height
     width = size.width
@@ -82,6 +101,7 @@ class CameraView(ui.View):
 
     self.overlayLayer.setPath_(arc.CGPath())
 
+  @on_main_thread
   def setCAShapeLayer(self):
     self.overlayLayer.setLineWidth_(20.0)
     blueColor = UIColor.blueColor().cgColor()
@@ -90,23 +110,30 @@ class CameraView(ui.View):
     self.overlayLayer.setFillColor_(cyanColor)
     self.previewLayer.addSublayer_(self.overlayLayer)
 
-
+@on_main_thread
 class CameraViewController:
+  @on_main_thread
   def __init__(self):
     self.cameraView = CameraView()
+    #self.cameraView.did_load()
     #self.previewLayer = None  # AVCaptureVideoPreviewLayer
     self.cameraSession = None  # AVCaptureSession
     self.delegate = self.create_sampleBufferDelegate()
-    self.cameraQueue = ObjCInstance(dispatch_get_current_queue())
+    #self.cameraQueue = ObjCInstance(dispatch_get_current_queue())
+    
+    self.cameraQueue = dispatch_queue_create('imageDispatch', None)
+    
     self.handPoseRequest = VNDetectHumanHandPoseRequest.alloc().init(
-    ).autorelease()
+    )#.autorelease()
 
     self.viewDidLoad()
     self.viewDidAppear()
 
+  @on_main_thread
   def viewDidLoad(self):
     self.handPoseRequest.maximumHandCount = 1
 
+  @on_main_thread
   def viewDidAppear(self):
     self.prepareAVSession()
     self.cameraView.previewLayer.setSession_(self.cameraSession)
@@ -115,9 +142,11 @@ class CameraViewController:
     self.cameraView.previewLayer.setVideoGravity_(_resizeAspectFill)
     self.cameraSession.startRunning()
 
+  @on_main_thread
   def viewWillDisappear(self):
     self.cameraSession.stopRunning()
 
+  @on_main_thread
   def prepareAVSession(self):
     session = AVCaptureSession.alloc().init()
     session.beginConfiguration()
@@ -148,6 +177,7 @@ class CameraViewController:
     session.commitConfiguration()
     self.cameraSession = session
 
+  @on_main_thread
   def detectedHandPose_request(self, request):
     results = request.results()
     for n, result in enumerate(results):
@@ -170,29 +200,36 @@ class CameraViewController:
       if not n:  # todo: first?
         break
 
+  @on_main_thread
   def create_sampleBufferDelegate(self):
-    # --- /delegate
-    sequenceHandler = VNSequenceRequestHandler.alloc().init().autorelease()
-    _right = 6  # kCGImagePropertyOrientationRight
-    self.handParts = None
-    self.counter = 0
-
+    
+    #@on_main_thread
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
       sampleBuffer = ObjCInstance(_sampleBuffer)
-      #self.cameraView.set_needs_display()
-
-      
       sequenceHandler.performRequests_onCMSampleBuffer_orientation_error_(
         [self.handPoseRequest], sampleBuffer, _right, None)
 
       #pdbg.state(self.handPoseRequest)
       self.counter += 1
-      self.cameraView.log.text = f'{self.handPoseRequest.results()}: {self.counter}'
+      #self.cameraView.log.text = f'{self.handPoseRequest.results()}: {self.counter}'
+      #print(self.counter)
+      self.cameraView.log_update(self.counter)
+      self.cameraView.set_needs_display()
+      #print(self.counter)
+      #pdbg.state(self.handPoseRequest.results())
       if self.handPoseRequest.results():
-        self.detectedHandPose_request(self.handPoseRequest)
+        pass
+        #self.detectedHandPose_request(self.handPoseRequest)
 
       # --- delegate/
+
+    
+    # --- /delegate
+    sequenceHandler = VNSequenceRequestHandler.alloc().init()#.autorelease()
+    _right = 6  # kCGImagePropertyOrientationRight
+    self.handParts = None
+    self.counter = 0
 
     _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
     _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
@@ -203,6 +240,7 @@ class CameraViewController:
 
 
 class View(ui.View):
+  @on_main_thread
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'maroon'
@@ -213,9 +251,11 @@ class View(ui.View):
 
   def will_close(self):
     self.cvc.viewWillDisappear()
+    #print(self.cvc.counter)
 
 
 if __name__ == '__main__':
   view = View()
+  #view.did_load()
   view.present(style='fullscreen', orientations=['portrait'])
 
