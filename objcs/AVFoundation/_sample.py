@@ -2,7 +2,7 @@
 # based on Cethric's image capture gist....
 #FRAME_PROC_INTERVAL = 15  #num frames to skip. 1=go as fast as possible, 5=every fifth frame
 import ui
-from objc_util import ObjCClass, ObjCInstance, create_objc_class, c, on_main_thread
+from objc_util import *
 import ctypes
 #from objc_util import autoreleasepool
 AVCaptureDevice = ObjCClass('AVCaptureDevice')
@@ -12,9 +12,9 @@ AVCaptureSession = ObjCClass('AVCaptureSession')
 AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
 AVCaptureStillImageOutput = ObjCClass('AVCaptureStillImageOutput')
 AVCaptureConnection = ObjCClass('AVCaptureConnection')
-#UIImage = ObjCClass('UIImage')
-#CIImage = ObjCClass('CIImage')
-#CIDetector = ObjCClass('CIDetector')
+UIImage = ObjCClass('UIImage')
+CIImage = ObjCClass('CIImage')
+CIDetector = ObjCClass('CIDetector')
 '''
 CIDetectorTypeRectangle = ObjCInstance(
   c_void_p.in_dll(c, 'CIDetectorTypeRectangle'))
@@ -61,7 +61,6 @@ def CMTimeMake(value, scale):
   cm.CMTimeValue = value
   return cm
 """
-
 
 def dispatch_queue_create(name, parent):
   func = c.dispatch_queue_create
@@ -284,10 +283,7 @@ def compute_fps():
       view.fps, view.processed_frames,
       len(faces), len(rects), view.heartbeat, error_str))
 
-
 cnt = 0
-
-
 def captureOutput_didOutputSampleBuffer_fromConnection_(
     _cmd, _self, _output, _buffer, _connection):
   #view.frame_count = (view.frame_count + 1)
@@ -331,15 +327,15 @@ delegate_call = create_objc_class(
   'delegate_call',
   protocols=['AVCaptureVideoDataOutputSampleBufferDelegate'],
   methods=[captureOutput_didOutputSampleBuffer_fromConnection_])
-
+  
 DESIRED_FPS = 5
+
 '''
   methods=[
     captureOutput_didOutputSampleBuffer_fromConnection_,
     captureOutput_didDropSampleBuffer_fromConnection_
   ])
 '''
-
 
 @on_main_thread
 def set_frame_rate(inputDevice, captureSession, desired_fps):
@@ -427,7 +423,6 @@ class CameraView(ui.View):
     self.captureSession.stopRunning()
     #dispatch_release(self.queue)
 
-
 '''
 class PathView(ui.View):
   def __init__(self, *args, **kwargs):
@@ -453,7 +448,6 @@ class PathView(ui.View):
     self.draw_rects(view.faces, (0, 1, 0, 0.5))
 '''
 
-
 class CustomView(ui.View):
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
@@ -470,12 +464,15 @@ class CustomView(ui.View):
   def did_load(self):
     self['camera'].set_layer()
     #self['imageview1'].image = ui.Image.named('test:Numbers')
+    
 
   def present(self, *args, **kwargs):
     ui.View.present(self, *args, **kwargs)
 
   def will_close(self):
     self['camera'].will_close()
+
+
 
 
 view = CustomView()
@@ -490,4 +487,5 @@ view.add_subview(cv)
 #view.add_subview(lbl)
 view.did_load()
 view.present()
+
 

@@ -62,9 +62,10 @@ class CameraViewController:
   def viewWillDisappear(self):
     self.captureSession.stopRunning()
 
+  #@ui.in_background
   def create_sampleBufferDelegate(self):
     self.cnt = 0
-
+    
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
       sampleBuffer = ObjCInstance(_sampleBuffer)
@@ -85,6 +86,7 @@ class View(ui.View):
     #self.bg_color = 'maroon'
     self.cvc = CameraViewController(self)
     
+  @ui.in_background
   def did_load(self):
     self.cvc.set_layer()
 
