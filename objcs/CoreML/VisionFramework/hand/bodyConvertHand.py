@@ -1,7 +1,7 @@
 import ctypes
 import math
 
-from objc_util import c, ObjCClass, ObjCInstance, create_objc_class, CGRect, CGPoint
+from objc_util import c, ObjCClass, ObjCInstance, create_objc_class, CGRect, CGPoint, on_main_thread
 import ui
 
 import pdbg
@@ -20,6 +20,8 @@ UIBezierPath = ObjCClass('UIBezierPath')
 
 UIColor = ObjCClass('UIColor')
 
+UITextView = ObjCClass('UITextView')
+
 dispatch_get_current_queue = c.dispatch_get_current_queue
 dispatch_get_current_queue.restype = ctypes.c_void_p
 
@@ -32,21 +34,37 @@ class CameraView(ui.View):
     self.previewLayer = None  # AVCaptureVideoPreviewLayer
     self.overlayLayer = None  # CAShapeLayer
     self.layer = self.objc_instance.layer()
+    self.log = None  # UITextView
     self.init()
+    
+    interval = 60
+    self.update_interval = 1/interval
+
+    self.log.text = 'ほげ'
+    
+  def update(self):
+    self.set_needs_display()
 
   def init(self):
     self.previewLayer = AVCaptureVideoPreviewLayer.alloc().init()
     self.overlayLayer = CAShapeLayer.alloc().init()
+    self.log = UITextView.alloc().init()
+    #self.log.setOpaque_(False)
+    self.log.setEditable_(False)
+    self.log.backgroundColor = UIColor.clearColor()
+    #pdbg.state(self.log)
 
     self.setupOverlay()
     self.setCAShapeLayer()
 
   def setupOverlay(self):
     self.layer.addSublayer_(self.previewLayer)
+    self.objc_instance.addSubview_(self.log)
 
   def layout(self):
     self.previewLayer.frame = self.objc_instance.bounds()
     self.overlayLayer.frame = self.previewLayer.bounds()
+    self.log.frame = self.previewLayer.bounds()
     #self.showPoints(self.overlayLayer.frame().size)
 
   def showPoints(self, size):
@@ -80,7 +98,8 @@ class CameraViewController:
     self.cameraSession = None  # AVCaptureSession
     self.delegate = self.create_sampleBufferDelegate()
     self.cameraQueue = ObjCInstance(dispatch_get_current_queue())
-    self.handPoseRequest = VNDetectHumanHandPoseRequest.alloc().init()
+    self.handPoseRequest = VNDetectHumanHandPoseRequest.alloc().init(
+    ).autorelease()
 
     self.viewDidLoad()
     self.viewDidAppear()
@@ -131,9 +150,8 @@ class CameraViewController:
 
   def detectedHandPose_request(self, request):
     results = request.results()
-    #print(results)
     for n, result in enumerate(results):
-      print(result)
+      #print(result)
       _all = 'VNIPOAll'  # VNHumanHandPoseObservationJointsGroupNameAll
       handParts = result.recognizedPointsForJointsGroupName_error_(_all, None)
       vnhlkidpi = handParts['VNHLKIDIP']
@@ -146,9 +164,8 @@ class CameraViewController:
       #greenColor = UIColor.greenColor().cgColor()
       #self.cameraView.overlayLayer.setStrokeColor_(greenColor)
       size = self.cameraView.overlayLayer.frame().size
-      
+
       self.cameraView.showPoints(size)
-      
 
       if not n:  # todo: first?
         break
@@ -156,18 +173,22 @@ class CameraViewController:
   def create_sampleBufferDelegate(self):
     # --- /delegate
     sequenceHandler = VNSequenceRequestHandler.alloc().init().autorelease()
+    _right = 6  # kCGImagePropertyOrientationRight
     self.handParts = None
+    self.counter = 0
 
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
       sampleBuffer = ObjCInstance(_sampleBuffer)
-      
+      #self.cameraView.set_needs_display()
 
-      _right = 6  # kCGImagePropertyOrientationRight
+      
       sequenceHandler.performRequests_onCMSampleBuffer_orientation_error_(
         [self.handPoseRequest], sampleBuffer, _right, None)
-      
 
+      #pdbg.state(self.handPoseRequest)
+      self.counter += 1
+      self.cameraView.log.text = f'{self.handPoseRequest.results()}: {self.counter}'
       if self.handPoseRequest.results():
         self.detectedHandPose_request(self.handPoseRequest)
 
