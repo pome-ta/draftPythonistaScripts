@@ -73,10 +73,11 @@ class CameraView(ui.View):
 
   @on_main_thread
   def layout(self):
-    self.previewLayer.frame = self.objc_instance.bounds()
-    self.overlayLayer.frame = self.previewLayer.bounds()
-    self.log.frame = self.previewLayer.bounds()
+    #self.previewLayer.frame = self.objc_instance.bounds()
+    #self.overlayLayer.frame = self.previewLayer.bounds()
+    #self.log.frame = self.previewLayer.bounds()
     #self.showPoints(self.overlayLayer.frame().size)
+    pass
     
   def did_load(self):
     self.layout()
@@ -121,7 +122,7 @@ class CameraViewController:
     self.delegate = self.create_sampleBufferDelegate()
     #self.cameraQueue = ObjCInstance(dispatch_get_current_queue())
     
-    self.cameraQueue = dispatch_queue_create('imageDispatch', None)
+    #self.cameraQueue = dispatch_queue_create('imageDispatch', None)
     
     self.handPoseRequest = VNDetectHumanHandPoseRequest.alloc().init(
     )#.autorelease()
@@ -157,8 +158,9 @@ class CameraViewController:
     _video = 'vide'
     _front = 2  # back -> 1
     _back = 1
-    videoDevice = AVCaptureDevice.defaultDeviceWithDeviceType_mediaType_position_(
-      _builtInWideAngleCamera, _video, _back)
+    videoDevice = AVCaptureDevice.defaultDeviceWithDeviceType_mediaType_position_(_builtInWideAngleCamera, _video, _back)
+    
+    #videoDevice = AVCaptureDevice.devices()[0]
 
     deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
       videoDevice, None)
@@ -173,6 +175,8 @@ class CameraViewController:
       session.addOutput_(dataOutput)
     else:
       raise
+    
+    self.cameraQueue = dispatch_queue_create('imageDispatch', None)
     dataOutput.setSampleBufferDelegate_queue_(self.delegate, self.cameraQueue)
     session.commitConfiguration()
     self.cameraSession = session
@@ -213,9 +217,9 @@ class CameraViewController:
       #pdbg.state(self.handPoseRequest)
       self.counter += 1
       #self.cameraView.log.text = f'{self.handPoseRequest.results()}: {self.counter}'
-      #print(self.counter)
+      print(self.counter)
       self.cameraView.log_update(self.counter)
-      self.cameraView.set_needs_display()
+      #self.cameraView.set_needs_display()
       #print(self.counter)
       #pdbg.state(self.handPoseRequest.results())
       if self.handPoseRequest.results():
