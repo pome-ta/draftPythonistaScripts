@@ -47,7 +47,7 @@ class CameraView(ui.View):
   def layout(self):
     self.previewLayer.frame = self.objc_instance.bounds()
     self.overlayLayer.frame = self.previewLayer.bounds()
-    self.showPoints(self.overlayLayer.frame().size)
+    #self.showPoints(self.overlayLayer.frame().size)
 
   def showPoints(self, size):
     height = size.height
@@ -131,7 +131,9 @@ class CameraViewController:
 
   def detectedHandPose_request(self, request):
     results = request.results()
+    #print(results)
     for n, result in enumerate(results):
+      print(result)
       _all = 'VNIPOAll'  # VNHumanHandPoseObservationJointsGroupNameAll
       handParts = result.recognizedPointsForJointsGroupName_error_(_all, None)
       vnhlkidpi = handParts['VNHLKIDIP']
@@ -141,8 +143,12 @@ class CameraViewController:
       #print('----')
       #pdbg.state(x)
       #print(vnhlkidpi)
-      greenColor = UIColor.greenColor().cgColor()
-      self.cameraView.overlayLayer.setStrokeColor_(greenColor)
+      #greenColor = UIColor.greenColor().cgColor()
+      #self.cameraView.overlayLayer.setStrokeColor_(greenColor)
+      size = self.cameraView.overlayLayer.frame().size
+      
+      self.cameraView.showPoints(size)
+      
 
       if not n:  # todo: first?
         break
@@ -155,10 +161,12 @@ class CameraViewController:
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
       sampleBuffer = ObjCInstance(_sampleBuffer)
+      
 
       _right = 6  # kCGImagePropertyOrientationRight
       sequenceHandler.performRequests_onCMSampleBuffer_orientation_error_(
         [self.handPoseRequest], sampleBuffer, _right, None)
+      
 
       if self.handPoseRequest.results():
         self.detectedHandPose_request(self.handPoseRequest)

@@ -75,6 +75,7 @@ availableJointsGroupNames(
 }
 ```
 
+[Body Anatomy: Upper Extremity Joints | The Hand Society](https://www.assh.org/handcare/safety/joints)
 
 
 #### `VNImageRequestHandler`
