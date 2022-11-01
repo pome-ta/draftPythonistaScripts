@@ -1,10 +1,12 @@
 # coding: utf-8
+
+# [detector.py](https://gist.github.com/jsbain/424d4fe1a3c0b1ae3fd705d72f665c1e)
 # based on Cethric's image capture gist....
-#FRAME_PROC_INTERVAL = 15  #num frames to skip. 1=go as fast as possible, 5=every fifth frame
+FRAME_PROC_INTERVAL = 15  #num frames to skip. 1=go as fast as possible, 5=every fifth frame
 import ui
 from objc_util import *
 import ctypes
-#from objc_util import autoreleasepool
+from objc_util import autoreleasepool
 AVCaptureDevice = ObjCClass('AVCaptureDevice')
 AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
 AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
@@ -15,7 +17,7 @@ AVCaptureConnection = ObjCClass('AVCaptureConnection')
 UIImage = ObjCClass('UIImage')
 CIImage = ObjCClass('CIImage')
 CIDetector = ObjCClass('CIDetector')
-'''
+
 CIDetectorTypeRectangle = ObjCInstance(
   c_void_p.in_dll(c, 'CIDetectorTypeRectangle'))
 CIDetectorTypeFace = ObjCInstance(c_void_p.in_dll(c, 'CIDetectorTypeFace'))
@@ -44,8 +46,8 @@ kDroppedFrameReason = ObjCInstance(
 CMGetAttachment = c.CMGetAttachment
 CMGetAttachment.argtypes = [c_void_p, c_void_p, c_void_p]
 CMGetAttachment.restype = c_void_p
-'''
-"""
+
+
 class CMTime(ctypes.Structure):
   _fields_ = [
     ('CMTimeValue', ctypes.c_int64),
@@ -60,7 +62,7 @@ def CMTimeMake(value, scale):
   cm.CMTimeScale = scale
   cm.CMTimeValue = value
   return cm
-"""
+
 
 def dispatch_queue_create(name, parent):
   func = c.dispatch_queue_create
@@ -72,8 +74,7 @@ def dispatch_queue_create(name, parent):
 def dispatch_get_current_queue():
   func = c.dispatch_get_current_queue
   func.argtypes = []
-  #func.restype = c_void_p
-  func.restype = ctypes.c_void_p
+  func.restype = c_void_p
   return ObjCInstance(func())
 
 
@@ -283,14 +284,10 @@ def compute_fps():
       view.fps, view.processed_frames,
       len(faces), len(rects), view.heartbeat, error_str))
 
-cnt = 0
+
 def captureOutput_didOutputSampleBuffer_fromConnection_(
     _cmd, _self, _output, _buffer, _connection):
-  #view.frame_count = (view.frame_count + 1)
-  global cnt
-  cnt += 1
-  print(cnt)
-  '''
+  view.frame_count = (view.frame_count + 1)
   if view.frame_count >= FRAME_PROC_INTERVAL:
     view.frame_count = 0
     buffer = ObjCInstance(_buffer)
@@ -305,9 +302,8 @@ def captureOutput_didOutputSampleBuffer_fromConnection_(
     #imageRep.writeToFile_atomically_('test.png', True)
     #imageRep.writeToFile_atomically_('test.jpg', True)
     #change_image(image)
-  #compute_fps()
-  #pv.set_needs_display()
-  '''
+  compute_fps()
+  pv.set_needs_display()
 
 
 def captureOutput_didDropSampleBuffer_fromConnection_(_self, _cmd, output,
@@ -326,21 +322,16 @@ def captureOutput_didDropSampleBuffer_fromConnection_(_self, _cmd, output,
 delegate_call = create_objc_class(
   'delegate_call',
   protocols=['AVCaptureVideoDataOutputSampleBufferDelegate'],
-  methods=[captureOutput_didOutputSampleBuffer_fromConnection_])
-  
-DESIRED_FPS = 5
-
-'''
   methods=[
     captureOutput_didOutputSampleBuffer_fromConnection_,
     captureOutput_didDropSampleBuffer_fromConnection_
   ])
-'''
+DESIRED_FPS = 5
+
 
 @on_main_thread
 def set_frame_rate(inputDevice, captureSession, desired_fps):
   #this doesnt seem to work at all!
-  # memo: set_frame_rate(self.inputDevice, self.captureSession, DESIRED_FPS)
   supported_rates = inputDevice.activeFormat().videoSupportedFrameRateRanges()[
     0]
   #print('min support',supported_rates.minFrameRate())
@@ -392,30 +383,28 @@ class CameraView(ui.View):
     self.captureVideoPreviewLayer = AVCaptureVideoPreviewLayer.layerWithSession_(
       self.captureSession)
 
-    #queue_test = dispatch_queue_create(b'imageDispatch', None)
-    queue_test = dispatch_get_current_queue()
+    queue_test = dispatch_queue_create(b'imageDispatch', None)
+    #queue_test = dispatch_get_current_queue()
 
     #self.inputDevice.lockForConfiguration_(None)
 
     print(self.captureOutput.connections()[0].videoMinFrameDuration().a)
-    print('aaaaaaa')
     callback = delegate_call.alloc().init()
     self.captureOutput.setSampleBufferDelegate_queue_(callback, queue_test)
     self.queue = queue_test
 
   def present(self, *args, **kwargs):
-    print('ppp')
     ui.View.present(self, *args, **kwargs)
     self.set_layer()
 
-  #@on_main_thread
+  @on_main_thread
   def set_layer(self):
     v = ObjCInstance(self)
     self.captureVideoPreviewLayer.setFrame_(v.bounds())
     self.captureVideoPreviewLayer.setVideoGravity_(
       'AVLayerVideoGravityResizeAspectFill')
-    #v.layer().addSublayer_(self.captureVideoPreviewLayer)
-    #set_frame_rate(self.inputDevice, self.captureSession, DESIRED_FPS)
+    v.layer().addSublayer_(self.captureVideoPreviewLayer)
+    set_frame_rate(self.inputDevice, self.captureSession, DESIRED_FPS)
     self.captureSession.startRunning()
 
   @on_main_thread
@@ -423,7 +412,7 @@ class CameraView(ui.View):
     self.captureSession.stopRunning()
     #dispatch_release(self.queue)
 
-'''
+
 class PathView(ui.View):
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
@@ -446,25 +435,23 @@ class PathView(ui.View):
   def draw(self):
     self.draw_rects(view.rects, (1, 0, 0, 0.5))
     self.draw_rects(view.faces, (0, 1, 0, 0.5))
-'''
+
 
 class CustomView(ui.View):
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.frame = (0, 0, 800, 600)
-    #self.fps = 0
-    #self.heartbeat = 0
+    self.fps = 0
+    self.heartbeat = 0
     self.frame_count = 0
     self.processed_frames = 0
     self.last_time = time.perf_counter()
     self.faces = []
     self.rects = []
-    #self['camera'].set_layer()
 
   def did_load(self):
     self['camera'].set_layer()
     #self['imageview1'].image = ui.Image.named('test:Numbers')
-    
 
   def present(self, *args, **kwargs):
     ui.View.present(self, *args, **kwargs)
@@ -473,19 +460,16 @@ class CustomView(ui.View):
     self['camera'].will_close()
 
 
-
-
 view = CustomView()
 cv = CameraView(frame=(0, 0, 400, 600), name='camera')
-#pv = PathView(frame=(0, 0, 400, 600), name='path')
+pv = PathView(frame=(0, 0, 400, 600), name='path')
 #iv=ui.ImageView(name='imageview1', frame=(400,0,400,600))
-#lbl = ui.Label(name='lbl', frame=(0, 0, 800, 200))
-#lbl.text_color = '#fbff99'
+lbl = ui.Label(name='lbl', frame=(0, 0, 800, 200))
+lbl.text_color = '#fbff99'
 view.add_subview(cv)
-#view.add_subview(pv)
+view.add_subview(pv)
 #view.add_subview(iv)
-#view.add_subview(lbl)
+view.add_subview(lbl)
 view.did_load()
 view.present()
-
 
