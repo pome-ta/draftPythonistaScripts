@@ -25,7 +25,7 @@ UITextView = ObjCClass('UITextView')
 dispatch_get_current_queue = c.dispatch_get_current_queue
 dispatch_get_current_queue.restype = ctypes.c_void_p
 
-@on_main_thread
+# @on_main_thread
 def dispatch_queue_create(_name, parent):
   _func = c.dispatch_queue_create
   _func.argtypes = [ctypes.c_char_p, ctypes.c_void_p]
@@ -35,7 +35,7 @@ def dispatch_queue_create(_name, parent):
 
 #@on_main_thread
 class CameraView(ui.View):
-  @on_main_thread
+  # @on_main_thread
   def __init__(self, frame=CGRect((0, 0), (100, 100)), *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'green'
@@ -57,7 +57,7 @@ class CameraView(ui.View):
   def update(self):
     self.set_needs_display()
   '''
-  @on_main_thread
+  # @on_main_thread
   def init(self):
     self.previewLayer = AVCaptureVideoPreviewLayer.alloc().init()
     self.overlayLayer = CAShapeLayer.alloc().init()
@@ -66,12 +66,12 @@ class CameraView(ui.View):
     self.log.setEditable_(False)
     self.log.backgroundColor = UIColor.clearColor()
 
-  @on_main_thread
+  # @on_main_thread
   def setupOverlay(self):
     self.layer.addSublayer_(self.previewLayer)
     self.objc_instance.addSubview_(self.log)
 
-  @on_main_thread
+  # @on_main_thread
   def layout(self):
     #self.previewLayer.frame = self.objc_instance.bounds()
     #self.overlayLayer.frame = self.previewLayer.bounds()
@@ -82,11 +82,11 @@ class CameraView(ui.View):
   def did_load(self):
     self.layout()
 
-  @on_main_thread
+  # @on_main_thread
   def log_update(self, text):
     self.log.text = f'{text}'
   
-  @on_main_thread
+  # @on_main_thread
   def showPoints(self, size):
     height = size.height
     width = size.width
@@ -102,7 +102,7 @@ class CameraView(ui.View):
 
     self.overlayLayer.setPath_(arc.CGPath())
 
-  @on_main_thread
+  # @on_main_thread
   def setCAShapeLayer(self):
     self.overlayLayer.setLineWidth_(20.0)
     blueColor = UIColor.blueColor().cgColor()
@@ -111,9 +111,9 @@ class CameraView(ui.View):
     self.overlayLayer.setFillColor_(cyanColor)
     self.previewLayer.addSublayer_(self.overlayLayer)
 
-@on_main_thread
+# @on_main_thread
 class CameraViewController:
-  @on_main_thread
+  # @on_main_thread
   def __init__(self):
     self.cameraView = CameraView()
     #self.cameraView.did_load()
@@ -130,11 +130,11 @@ class CameraViewController:
     self.viewDidLoad()
     self.viewDidAppear()
 
-  @on_main_thread
+  # @on_main_thread
   def viewDidLoad(self):
     self.handPoseRequest.maximumHandCount = 1
 
-  @on_main_thread
+  # @on_main_thread
   def viewDidAppear(self):
     self.prepareAVSession()
     self.cameraView.previewLayer.setSession_(self.cameraSession)
@@ -143,11 +143,11 @@ class CameraViewController:
     self.cameraView.previewLayer.setVideoGravity_(_resizeAspectFill)
     self.cameraSession.startRunning()
 
-  @on_main_thread
+  # @on_main_thread
   def viewWillDisappear(self):
     self.cameraSession.stopRunning()
 
-  @on_main_thread
+  # @on_main_thread
   def prepareAVSession(self):
     session = AVCaptureSession.alloc().init()
     session.beginConfiguration()
@@ -181,7 +181,7 @@ class CameraViewController:
     session.commitConfiguration()
     self.cameraSession = session
 
-  @on_main_thread
+  # @on_main_thread
   def detectedHandPose_request(self, request):
     results = request.results()
     for n, result in enumerate(results):
@@ -204,7 +204,7 @@ class CameraViewController:
       if not n:  # todo: first?
         break
 
-  @on_main_thread
+  # @on_main_thread
   def create_sampleBufferDelegate(self):
     
     #@on_main_thread
@@ -244,7 +244,7 @@ class CameraViewController:
 
 
 class View(ui.View):
-  @on_main_thread
+  # @on_main_thread
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'maroon'
