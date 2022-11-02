@@ -39,6 +39,7 @@ def dispatch_release(queue_obj):
   return func(ObjCInstance(queue_obj).ptr)
 
 
+'''
 cnt = 0
 
 
@@ -54,6 +55,7 @@ delegate_call = create_objc_class(
   'delegate_call',
   protocols=['AVCaptureVideoDataOutputSampleBufferDelegate'],
   methods=[captureOutput_didOutputSampleBuffer_fromConnection_])
+'''
 
 
 class CameraView(ui.View):
@@ -80,19 +82,13 @@ class CameraView(ui.View):
     #queue_test = dispatch_queue_create(b'imageDispatch', None)
     queue_test = dispatch_get_current_queue()
 
-    callback = delegate_call.alloc().init()
+    #callback = delegate_call.alloc().init()
+    callback = self.create_sampleBufferDelegate().alloc().init()
+
     self.captureOutput.setSampleBufferDelegate_queue_(callback, queue_test)
     self.queue = queue_test
     self.set_layer()
 
-  '''
-  def present(self, *args, **kwargs):
-    print('ppp')
-    ui.View.present(self, *args, **kwargs)
-    self.set_layer()
-  '''
-
-  #@on_main_thread
   def set_layer(self):
     v = ObjCInstance(self)
     self.captureVideoPreviewLayer.setFrame_(v.bounds())
@@ -105,6 +101,22 @@ class CameraView(ui.View):
   def will_close(self):
     self.captureSession.stopRunning()
     #dispatch_release(self.queue)
+
+  def create_sampleBufferDelegate(self):
+    self.cnt = 0
+
+    def captureOutput_didOutputSampleBuffer_fromConnection_(
+        _self, _cmd, _output, _sampleBuffer, _connection):
+      sampleBuffer = ObjCInstance(_sampleBuffer)
+      self.cnt += 1
+      print(self.cnt)
+
+    _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
+    _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
+
+    sampleBufferDelegate = create_objc_class(
+      'sampleBufferDelegate', methods=_methods, protocols=_protocols)
+    return sampleBufferDelegate
 
 
 class CustomView(ui.View):
