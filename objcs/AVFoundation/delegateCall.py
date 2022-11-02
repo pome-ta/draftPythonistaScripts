@@ -67,12 +67,20 @@ class CameraViewController(ui.View):
     self.cnt = 0
 
     def captureOutput_didOutputSampleBuffer_fromConnection_(
-        _cmd, _self, _output, _sampleBuffer, _connection):
+        _self, _cmd, _output, _sampleBuffer, _connection):
       sampleBuffer = ObjCInstance(_sampleBuffer)
       self.cnt += 1
       print(self.cnt)
 
-    _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
+    def captureOutput_didDropSampleBuffer_fromConnection_(
+        _felf, _cmd, _output, _sampleBuffer, _connection):
+      sampleBuffer = ObjCInstance(_sampleBuffer)
+      print('drop')
+
+    _methods = [
+      captureOutput_didOutputSampleBuffer_fromConnection_,
+      captureOutput_didDropSampleBuffer_fromConnection_
+    ]
     _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
 
     sampleBufferDelegate = create_objc_class(
