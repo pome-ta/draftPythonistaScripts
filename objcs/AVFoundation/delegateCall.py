@@ -17,9 +17,8 @@ def dispatch_get_current_queue():
   return ObjCInstance(func())
 
 
-class CameraViewController:
-  def __init__(self, py_uiview):
-    self.py_uiview = py_uiview
+class CameraViewController(ui.View):
+  def __init__(self):
     self.inputDevice = AVCaptureDevice.devices()[0]
     self.captureInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
       self.inputDevice, None)
@@ -48,11 +47,10 @@ class CameraViewController:
     callback = self.create_sampleBufferDelegate()
     self.captureOutput.setSampleBufferDelegate_queue_(callback, queue_test)
     self.queue = queue_test
-    #self.set_layer()
+    self.set_layer()
 
-  @on_main_thread
   def set_layer(self):
-    v = ObjCInstance(self.py_uiview)
+    v = ObjCInstance(self)
     self.captureVideoPreviewLayer.setFrame_(v.bounds())
     self.captureVideoPreviewLayer.setVideoGravity_(
       'AVLayerVideoGravityResizeAspectFill')
@@ -84,12 +82,11 @@ class View(ui.View):
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     #self.bg_color = 'maroon'
-    self.cvc = CameraViewController(self)
+    self.cvc = CameraViewController()
     
-  @ui.in_background
-  def did_load(self):
-    self.cvc.set_layer()
-
+  def present(self, *args, **kwargs):
+    ui.View.present(self, *args, **kwargs)
+    
   def will_close(self):
     self.cvc.viewWillDisappear()
 
@@ -97,6 +94,5 @@ class View(ui.View):
 if __name__ == '__main__':
   view = View()
   #view.present(style='fullscreen', orientations=['portrait'])
-  view.did_load()
   view.present()
 
