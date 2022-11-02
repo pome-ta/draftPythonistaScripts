@@ -123,6 +123,7 @@ class CustomView(ui.View):
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.frame = (0, 0, 800, 600)
+    self.present()
     self.cv = CameraView(frame=(0, 0, 400, 600), name='camera')
     self.add_subview(self.cv)
     '''self.frame_count = 0
@@ -157,5 +158,5 @@ view = CustomView()
 #view.add_subview(iv)
 #view.add_subview(lbl)
 #view.did_load()
-view.present()
+#view.present()
 
