@@ -49,8 +49,6 @@ class CameraViewController(ui.View):
     callback = self.create_sampleBufferDelegate()
     self.captureOutput.setSampleBufferDelegate_queue_(callback, queue_test)
 
-    #pdbg.state(self.captureOutput.alwaysDiscardsLateVideoFrames())
-
     self.queue = queue_test
     self.set_layer()
 
@@ -65,7 +63,6 @@ class CameraViewController(ui.View):
   def viewWillDisappear(self):
     self.captureSession.stopRunning()
 
-  #@ui.in_background
   def create_sampleBufferDelegate(self):
     self.cnt = 0
 
@@ -88,11 +85,6 @@ class View(ui.View):
     ui.View.__init__(self, *args, **kwargs)
     #self.bg_color = 'maroon'
     self.cvc = CameraViewController()
-
-  '''
-  def present(self, *args, **kwargs):
-    ui.View.present(self, *args, **kwargs)
-  '''
 
   def will_close(self):
     self.cvc.viewWillDisappear()
