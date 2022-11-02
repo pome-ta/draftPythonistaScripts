@@ -3,6 +3,8 @@ import ctypes
 from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread, c
 import ui
 
+import pdbg
+
 AVCaptureDevice = ObjCClass('AVCaptureDevice')
 AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
 AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
@@ -46,6 +48,9 @@ class CameraViewController(ui.View):
     queue_test = dispatch_get_current_queue()
     callback = self.create_sampleBufferDelegate()
     self.captureOutput.setSampleBufferDelegate_queue_(callback, queue_test)
+    
+    #pdbg.state(self.captureOutput.alwaysDiscardsLateVideoFrames())
+    
     self.queue = queue_test
     self.set_layer()
 
@@ -83,10 +88,10 @@ class View(ui.View):
     ui.View.__init__(self, *args, **kwargs)
     #self.bg_color = 'maroon'
     self.cvc = CameraViewController()
-    
+  '''
   def present(self, *args, **kwargs):
     ui.View.present(self, *args, **kwargs)
-    
+  '''
   def will_close(self):
     self.cvc.viewWillDisappear()
 

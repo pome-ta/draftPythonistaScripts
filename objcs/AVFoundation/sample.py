@@ -7,6 +7,8 @@ import ctypes
 import ui
 from objc_util import ObjCClass, ObjCInstance, create_objc_class, c, on_main_thread
 
+import pdbg
+
 AVCaptureDevice = ObjCClass('AVCaptureDevice')
 AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
 AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
@@ -38,7 +40,6 @@ def dispatch_release(queue_obj):
   func.restype = None
   return func(ObjCInstance(queue_obj).ptr)
 
-
 '''
 cnt = 0
 
@@ -56,7 +57,6 @@ delegate_call = create_objc_class(
   protocols=['AVCaptureVideoDataOutputSampleBufferDelegate'],
   methods=[captureOutput_didOutputSampleBuffer_fromConnection_])
 '''
-
 
 class CameraView(ui.View):
   #@on_main_thread
@@ -83,9 +83,9 @@ class CameraView(ui.View):
     queue_test = dispatch_get_current_queue()
 
     #callback = delegate_call.alloc().init()
-    callback = self.create_sampleBufferDelegate().alloc().init()
+    #callback = self.create_sampleBufferDelegate().alloc().init()
 
-    self.captureOutput.setSampleBufferDelegate_queue_(callback, queue_test)
+    #self.captureOutput.setSampleBufferDelegate_queue_(callback, queue_test)
     self.queue = queue_test
     self.set_layer()
 
@@ -102,6 +102,8 @@ class CameraView(ui.View):
     self.captureSession.stopRunning()
     #dispatch_release(self.queue)
 
+
+
   def create_sampleBufferDelegate(self):
     self.cnt = 0
 
@@ -110,6 +112,8 @@ class CameraView(ui.View):
       sampleBuffer = ObjCInstance(_sampleBuffer)
       self.cnt += 1
       print(self.cnt)
+      this = ObjCInstance(_self)
+      #pdbg.state(this)
 
     _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
     _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
@@ -119,12 +123,15 @@ class CameraView(ui.View):
     return sampleBufferDelegate
 
 
+
 class CustomView(ui.View):
+  #@on_main_thread
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.frame = (0, 0, 800, 600)
-    self.present()
+    #self.present()
     self.cv = CameraView(frame=(0, 0, 400, 600), name='camera')
+    self.delegate_set()
     self.add_subview(self.cv)
     '''self.frame_count = 0
     self.processed_frames = 0
@@ -133,6 +140,14 @@ class CustomView(ui.View):
     self.rects = []'''
     #self['camera'].set_layer()
 
+  @ui.in_background
+  def delegate_set(self):
+    delegate = self.cv.create_sampleBufferDelegate().alloc().init()
+    queue = self.cv.queue
+    self.cv.captureOutput.setSampleBufferDelegate_queue_(delegate, queue)
+    
+    
+  
   def did_load(self):
     self['camera'].set_layer()
     #self['imageview1'].image = ui.Image.named('test:Numbers')
@@ -158,5 +173,5 @@ view = CustomView()
 #view.add_subview(iv)
 #view.add_subview(lbl)
 #view.did_load()
-#view.present()
+view.present()
 
