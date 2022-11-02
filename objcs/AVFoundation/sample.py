@@ -131,7 +131,7 @@ class CustomView(ui.View):
     self.frame = (0, 0, 800, 600)
     #self.present()
     self.cv = CameraView(frame=(0, 0, 400, 600), name='camera')
-    self.delegate_set()
+    #self.delegate_set()
     self.add_subview(self.cv)
     '''self.frame_count = 0
     self.processed_frames = 0
@@ -140,7 +140,7 @@ class CustomView(ui.View):
     self.rects = []'''
     #self['camera'].set_layer()
 
-  @ui.in_background
+  #@on_main_thread
   def delegate_set(self):
     delegate = self.cv.create_sampleBufferDelegate().alloc().init()
     queue = self.cv.queue
@@ -174,4 +174,5 @@ view = CustomView()
 #view.add_subview(lbl)
 #view.did_load()
 view.present()
+view.delegate_set()
 

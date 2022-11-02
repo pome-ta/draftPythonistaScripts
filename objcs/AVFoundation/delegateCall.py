@@ -74,6 +74,8 @@ class CameraViewController(ui.View):
       sampleBuffer = ObjCInstance(_sampleBuffer)
       self.cnt += 1
       print(self.cnt)
+      #pdbg.state(self.captureSession.isRunning)
+      print(self.captureSession.isRunning())
 
     _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
     _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
