@@ -156,7 +156,6 @@ class CameraViewController:
   def detectedHandPose_request(self, request):
     results = request.results()
     for n, result in enumerate(results):
-      #print(result)
       _all = 'VNIPOAll'  # VNHumanHandPoseObservationJointsGroupNameAll
       handParts = result.recognizedPointsForJointsGroupName_error_(_all, None)
       vnhlkidpi = handParts['VNHLKIDIP']
@@ -189,22 +188,16 @@ class CameraViewController:
       sequenceHandler.performRequests_onCMSampleBuffer_orientation_error_(
         [self.handPoseRequest], sampleBuffer, _right, None)
 
-      #pdbg.state(self.handPoseRequest)
-      self.counter += 1
-      #self.cameraView.log.text = f'{self.handPoseRequest.results()}: {self.counter}'
-      #print(self.counter)
-      self.cameraView.log_update(f'did: {self.counter}')
-      #self.cameraView.set_needs_display()
-      #print(self.counter)
-      #pdbg.state(self.handPoseRequest.results())
+      self.cameraView.log_update(f'{self.handPoseRequest.results()}')
       if self.handPoseRequest.results():
         pass
         #self.detectedHandPose_request(self.handPoseRequest)
     def captureOutput_didDropSampleBuffer_fromConnection_(
         _felf, _cmd, _output, _sampleBuffer, _connection):
       sampleBuffer = ObjCInstance(_sampleBuffer)
+      
+      #self.cameraView.log_update(f'drp: {self.counter}')
       self.counter += 1
-      self.cameraView.log_update(f'drp: {self.counter}')
 
       # --- delegate/
 
@@ -221,7 +214,6 @@ class CameraViewController:
 
 
 class View(ui.View):
-  # @on_main_thread
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'maroon'
