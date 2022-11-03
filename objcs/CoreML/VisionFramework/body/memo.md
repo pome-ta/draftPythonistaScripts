@@ -1,19 +1,16 @@
-[[iOS] WWDC2020で紹介されたVision frameworkのbody pose検出を使ってみる | DevelopersIO](https://dev.classmethod.jp/articles/vision-body-pose/)
+# body
 
+[[iOS] WWDC2020で紹介されたVision frameworkのbody pose検出を使ってみる | DevelopersIO](https://dev.classmethod.jp/articles/vision-body-pose/)
 
 [iOS 14 Vision Body Pose Detection: Count Squat Reps in a SwiftUI Workout App | by Philipp Gehrke | Better Programming](https://betterprogramming.pub/ios-14-vision-body-pose-detection-count-squat-reps-in-a-workout-c88991f7cad4)
 
-
 # 📝 2022/10/31
-
 
 ## `frame` と`bounds`
 
 親のサイズ継承をする場合、`frame` と`bounds` どっちをどっちに投げればいいのだろうか？
 
-
 ### `layout` メソッドを独自に生やす
-
 
 `ui.View` の継承として、考えてみている。
 
@@ -28,12 +25,9 @@
 
 今のところ、問題は出ていないし、すっきりするので「取り敢えずヨシ！」してる
 
-
 ## キャプチャの画面比率
 
-
 (現状)気にしてないけど、アスペクト比とかどうなんやろ？あってる？
-
 
 ## カメラのフロント・バック
 
@@ -43,13 +37,9 @@
 videoDevice = AVCaptureDevice.defaultDeviceWithMediaType_('vide')
 ```
 
-
-
 [face_detector.py strange behavior | omz:forum](https://forum.omz-software.com/topic/6434/face_detector-py-strange-behavior/22)
 
-
 前は、ダメだったきがするのだけど、なぜかできた、、、`vide` の所かしら？
-
 
 ``` .py
     _builtInWideAngleCamera = 'AVCaptureDeviceTypeBuiltInWideAngleCamera'
@@ -61,8 +51,6 @@ videoDevice = AVCaptureDevice.defaultDeviceWithMediaType_('vide')
 ```
 
 ## `VNDetectHumanBodyPoseRequest` の、`results`
-
-
 
 ``` .log
 availableJointNames: (
@@ -103,12 +91,9 @@ availableJointsGroupNames(
 
 顔も手も、キャプチャで実装できてないけどやってみる😂
 
-
 ## 書き方
 
 本来`private` のものは、`_hoge` として書き進めた方が良さそう。しかし、`self._hoge` を呼び出すのにPythonista だと予測が出ないので、`self.hoge` と書く
-
-
 
 [UIViewControllerのライフサイクル - Qiita](https://qiita.com/motokiee/items/0ca628b4cc74c8c5599d)
 
