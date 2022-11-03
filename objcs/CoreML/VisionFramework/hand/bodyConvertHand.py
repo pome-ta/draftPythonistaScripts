@@ -1,7 +1,7 @@
 import ctypes
 import math
 
-from objc_util import c, ObjCClass, ObjCInstance, create_objc_class, CGRect, CGPoint, on_main_thread
+from objc_util import c, ObjCClass, ObjCInstance, create_objc_class, CGSize, CGRect, CGPoint, on_main_thread
 import ui
 
 import pdbg
@@ -22,8 +22,11 @@ UIColor = ObjCClass('UIColor')
 
 UITextView = ObjCClass('UITextView')
 
-dispatch_get_current_queue = c.dispatch_get_current_queue
-dispatch_get_current_queue.restype = ctypes.c_void_p
+
+def dispatch_get_current_queue():
+  _func = c.dispatch_get_current_queue
+  _func.restype = ctypes.c_void_p
+  return ObjCInstance(_func())
 
 
 def dispatch_queue_create(_name, parent):
@@ -32,6 +35,16 @@ def dispatch_queue_create(_name, parent):
   _func.restype = ctypes.c_void_p
   name = _name.encode('ascii')
   return ObjCInstance(_func(name, parent))
+
+
+def parseCGRect(cg_rect: CGRect) -> tuple:
+  _origin = cg_rect.origin
+  _size = cg_rect.size
+  origin_x = _origin.x
+  origin_y = _origin.y
+  size_width = _size.width
+  size_height = _size.height
+  return (origin_x, origin_y, size_width, size_height)
 
 
 class CameraView(ui.View):
@@ -50,31 +63,36 @@ class CameraView(ui.View):
   def init(self):
     self.previewLayer = AVCaptureVideoPreviewLayer.alloc().init()
     self.overlayLayer = CAShapeLayer.alloc().init()
+
     self.log = UITextView.alloc().init()
-    #self.log.setOpaque_(False)
     self.log.setEditable_(False)
     self.log.backgroundColor = UIColor.clearColor()
 
   def setupOverlay(self):
     self.layer.addSublayer_(self.previewLayer)
+
     self.objc_instance.addSubview_(self.log)
 
   def layout(self):
     self.previewLayer.frame = self.objc_instance.bounds()
     self.overlayLayer.frame = self.previewLayer.bounds()
     self.log.frame = self.previewLayer.bounds()
-    #self.showPoints(self.overlayLayer.frame().size)
 
   @on_main_thread
   def log_update(self, text):
     self.log.text = f'{text}'
 
-  def showPoints(self, size):
-    height = size.height
-    width = size.width
+  @on_main_thread
+  def showPoints(self, _x, _y):
+    #height = size.height
+    #width = size.width
+    _, _, _width, _height = parseCGRect(self.overlayLayer.frame())
+    x = _width - (_width * (1 - _x))
+    y = _height - (_height * _y)
 
-    center = CGPoint(width / 2, height / 2)
-    radius = 100.0
+    center = CGPoint(x, y)
+    #center = CGPoint(_width / 2, _height / 2)
+    radius = 8.0
     startAngle = 0.125 * math.pi
     endAngle = 1.875 * math.pi
 
@@ -85,7 +103,7 @@ class CameraView(ui.View):
     self.overlayLayer.setPath_(arc.CGPath())
 
   def setCAShapeLayer(self):
-    self.overlayLayer.setLineWidth_(20.0)
+    self.overlayLayer.setLineWidth_(2.0)
     blueColor = UIColor.blueColor().cgColor()
     cyanColor = UIColor.cyanColor().cgColor()
     self.overlayLayer.setStrokeColor_(blueColor)
@@ -98,7 +116,7 @@ class CameraViewController:
     self.cameraView = CameraView()
     self.cameraSession = None  # AVCaptureSession
     self.delegate = self.create_sampleBufferDelegate()
-    #self.cameraQueue = ObjCInstance(dispatch_get_current_queue())
+    #self.cameraQueue = dispatch_get_current_queue()
 
     self.cameraQueue = dispatch_queue_create('imageDispatch', None)
 
@@ -152,24 +170,29 @@ class CameraViewController:
     dataOutput.setSampleBufferDelegate_queue_(self.delegate, self.cameraQueue)
     session.commitConfiguration()
     self.cameraSession = session
+    
+    self.finger_names = ['VNHLKIDIP', 'VNHLKITIP']
 
   def detectedHandPose_request(self, request):
     results = request.results()
     for n, result in enumerate(results):
       _all = 'VNIPOAll'  # VNHumanHandPoseObservationJointsGroupNameAll
       handParts = result.recognizedPointsForJointsGroupName_error_(_all, None)
-      vnhlkidpi = handParts['VNHLKIDIP']
+      #vnhlkidpi = handParts['VNHLKIDIP']
+      #vnhlkidpi = handParts['VNHLKITIP']
+      for name in self.finger_names:
+        finger = handParts[name]
+        x = finger.x()
+        y = finger.y()
+        #self.cameraView.log_update(f'{handParts}')
+        self.cameraView.showPoints(x, y)
+        
+      '''
       x = vnhlkidpi.x()
       y = vnhlkidpi.y()
-      #print(type(vnhlkidpi))
-      #print('----')
-      #pdbg.state(x)
-      #print(vnhlkidpi)
-      #greenColor = UIColor.greenColor().cgColor()
-      #self.cameraView.overlayLayer.setStrokeColor_(greenColor)
-      size = self.cameraView.overlayLayer.frame().size
-
-      self.cameraView.showPoints(size)
+      self.cameraView.log_update(f'{handParts}')
+      self.cameraView.showPoints(x, y)
+      '''
 
       if not n:  # todo: first?
         break
@@ -179,25 +202,27 @@ class CameraViewController:
     sequenceHandler = VNSequenceRequestHandler.alloc().init()  #.autorelease()
     _right = 6  # kCGImagePropertyOrientationRight
     self.handParts = None
-    self.counter = 0
 
     # --- /delegate
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
+      
       sampleBuffer = ObjCInstance(_sampleBuffer)
+      #pdbg.state(sampleBuffer)
       sequenceHandler.performRequests_onCMSampleBuffer_orientation_error_(
         [self.handPoseRequest], sampleBuffer, _right, None)
 
-      self.cameraView.log_update(f'{self.handPoseRequest.results()}')
+      #self.cameraView.log_update(f'{self.handPoseRequest.results()}')
       if self.handPoseRequest.results():
-        pass
-        #self.detectedHandPose_request(self.handPoseRequest)
+        self.detectedHandPose_request(self.handPoseRequest)
+      
+
     def captureOutput_didDropSampleBuffer_fromConnection_(
         _felf, _cmd, _output, _sampleBuffer, _connection):
-      sampleBuffer = ObjCInstance(_sampleBuffer)
+      ObjCInstance(_sampleBuffer)  # todo: 呼ぶだけ
       
-      #self.cameraView.log_update(f'drp: {self.counter}')
-      self.counter += 1
+      #pdbg.state(sampleBuffer)
+      
 
       # --- delegate/
 
@@ -210,10 +235,11 @@ class CameraViewController:
 
     sampleBufferDelegate = create_objc_class(
       'sampleBufferDelegate', methods=_methods, protocols=_protocols)
-    return sampleBufferDelegate.new()
+    return sampleBufferDelegate.alloc().init()
 
 
 class View(ui.View):
+  #@on_main_thread
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'maroon'

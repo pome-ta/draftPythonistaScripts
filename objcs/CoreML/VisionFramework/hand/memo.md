@@ -1,5 +1,48 @@
 # 📝 2022/11/03
 
+
+## `VNHumanHandPoseObservationJointsGroupNameAll` a.k.a `VNIPOAll` 調査
+
+> ランドマークは各指に4つと手首に1つで合計21ある
+
+[Visionで身体や手のポーズを検出する – WWDC2020│](https://plum-plus.jp/2020/11/06/vision%e3%81%a7%e8%ba%ab%e4%bd%93%e3%82%84%e6%89%8b%e3%81%ae%e3%83%9d%e3%83%bc%e3%82%ba%e3%82%92%e6%a4%9c%e5%87%ba%e3%81%99%e3%82%8b-wwdc2020/)
+
+
+`VN` は、`Vision`
+`H` は、hand
+`L` は、Landmark
+`K` は、Key
+
+
+- 人差し指(`I`: index)
+  - `VNHLKIDIP` : 第一関節
+  - `VNHLKIMCP` : 付け根
+  - `VNHLKIPIP` : 第二関節
+  - `VNHLKITIP` : 先
+
+
+
+
+
+
+VNHLKMDIP
+VNHLKMMCP
+VNHLKMPIP
+VNHLKMTIP
+VNHLKPDIP
+VNHLKPMCP
+VNHLKPPIP
+VNHLKPTIP
+VNHLKRDIP
+VNHLKRMCP
+VNHLKRPIP
+VNHLKRTIP
+VNHLKTCMC
+VNHLKTIP
+VNHLKTMP
+VNHLKTTIP
+VNHLKWRI
+
 ## delegate 呼べた？
 
 `captureOutput_didOutputSampleBuffer_fromConnection_` のみ呼び出していたが、`captureOutput_didDropSampleBuffer_fromConnection_` も呼び出してみてる
