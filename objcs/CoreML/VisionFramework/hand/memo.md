@@ -1,3 +1,41 @@
+# 📝 2022/11/03
+
+## delegate 呼べた？
+
+`captureOutput_didOutputSampleBuffer_fromConnection_` のみ呼び出していたが、`captureOutput_didDropSampleBuffer_fromConnection_` も呼び出してみてる
+
+
+[captureOutput:didDropSampleBuffer:fromConnection: | Apple Developer Documentation](https://developer.apple.com/documentation/avfoundation/avcapturevideodataoutputsamplebufferdelegate/1388468-captureoutput?language=objc)
+
+
+
+
+> ディスカッション
+
+> 遅延ビデオフレームがドロップされるたびに、Delegate はこのメッセージを受け取ります。このメソッドは、ドロップされたフレームごとに 1 回呼び出されます。出力の sampleBufferCallbackQueue プロパティで指定されたディスパッチ キューで呼び出されます。
+
+> sampleBuffer には、フレームがドロップされた理由の詳細を示す kCMSampleBufferAttachmentKey_DroppedFrameReason 添付ファイルが含まれます。フレームがドロップされた理由は、フレームが遅延したため (kCMSampleBufferDroppedFrameReason_FrameWasLate) で、通常クライアントの処理に時間がかかりすぎたために起こりました。また、フレームを提供するモジュールがバッファ不足のため、ドロップされることもあります（kCMSampleBufferDroppedFrameReason_OutOfBuffers）。サンプルバッファを提供するモジュールが不連続を経験し（kCMSampleBufferDroppedFrameReason_Discontinuity）、未知の数のフレームが失われた場合にも、フレームがドロップされることがあります。この状態は、通常、システムがビジー状態であることが原因です。
+
+> このメソッドは、ビデオフレームの出力を担当する同じディスパッチキューで呼び出されるため、ドロップされたビデオフレームの追加など、キャプチャパフォーマンスの問題を防ぐために効率的である必要があります。
+
+
+
+
+[captureOutput:didOutputSampleBuffer:fromConnection: | Apple Developer Documentation](https://developer.apple.com/documentation/avfoundation/avcapturevideodataoutputsamplebufferdelegate/1385775-captureoutput?language=objc)
+
+
+> ディスカッション
+
+> videoSettings プロパティで指定された通りにデコードまたは再エンコードして、新しいビデオ フレームをキャプチャして出力すると、ディレゲートはこのメッセージを受信します。デリゲートは、提供されたビデオフレームを他の API と組み合わせて使用し、さらに処理することができます。
+
+> このメソッドは、出力の sampleBufferCallbackQueue プロパティによって指定されたディスパッチ キューで呼び出されます。定期的に呼び出されるため、ドロップフレームを含むキャプチャパフォーマンスの問題を防ぐために効率的でなければなりません。
+> このメソッドの範囲外でCMSampleBufferオブジェクトを参照する必要がある場合は、CFRetainし、それが終了したらCFReleaseする必要があります。
+
+> 最適なパフォーマンスを維持するために、いくつかのサンプルバッファは、デバイスシステムと他のキャプチャ入力によって再使用される必要があるかもしれないメモリのプールを直接参照します。これは、非圧縮のデバイスネイティブキャプチャで、メモリブロックのコピーをできるだけ少なくする場合によくあることです。複数のサンプルバッファがそのようなメモリプールを長く参照していると、入力は新しいサンプルをメモリにコピーすることができなくなり、それらのサンプルはドロップされます。
+
+> もしアプリケーションが提供された CMSampleBufferRef オブジェクトを長く保持することでサンプルのドロップを引き起こしているが、サンプルデータに長期間アクセスする必要がある場合、データを新しいバッファにコピーしてからサンプルバッファを解放し（以前に保持していた場合）、それが参照するメモリを再使用できるようにすることを検討してください。
+
+
 # 📝 2022/11/02
 
 ## `delegate` を class 内に入れると、60 くらいで呼び出さなくなる
@@ -8,9 +46,13 @@
 
 > ここ([iPhone のカメラでリアルタイム顔検出（Pythonista 編） - Qiita](https://qiita.com/inasawa/items/3e730c338bcefd522fb8))から face_detector.py を勉強させていただきました。
 > ここでは、ビデオカメラのフレームに対してリアルタイムに検出器を適用しています。
+
 > 問題は 80-90 フレームで発生します。スクリプトは単に停止しますが、アプリケーションはクラッシュしません。
+
 > なぜ止まるのか、どうすれば防げるのかがわかりません。
+
 > 何かアイデアはありますか？
+
 
 ```.py
 # coding: utf-8
@@ -185,7 +227,9 @@ if __name__ == '__main__':
 ### JonB
 
 > もし、frame_xounter が大きくなったら、frame_counter と last frame time を定期的に 0 にリセットする方法を追加することを検討してもよいでしょう。
+
 > または、フレーム時間、frame_counter、および現在時間で更新されるラベルを持つ - これらはコールバック内のロジックで使用されるからです。
+
 
 ### pavlinb
 
@@ -194,22 +238,31 @@ if __name__ == '__main__':
 ### JonB
 
 > わかりました、いくつか問題があるようです。
+
 > まず、didDropSampleBuffer デリゲートメソッドを実装し、フレームが遅れた理由を表示する必要があります。
+
 > 2 つ目は、minFrameDuration を設定して、デリゲートが必要以上に呼び出されないようにする必要があります。古いバージョンでは、これは output.minFrameDuration にあったと思います。新しい iOS バージョンでは、接続で設定すると思います、 output.connections[0].videoMinFrameDuration
+
 > 第三に、どのディスパッチキューで呼び出されるかという問題があります。あるいは、デリゲートは常にできるだけ速く戻る必要があり、別のスレッドで重い仕事を呼び出し、そうでなければデータを落とします。
+
 > 後で改良した gist を投稿します。
 
 ### pavlinb
 
 > もう一つの良い例をここ([Image capture system with AVCaptureStillImageOutput.](https://gist.github.com/Cethric/83a4b2ccf25798d5e074))でテストしてみました。
+
 > このスクリプトでは
+
 > `self.captureOutput.setMinFrameDuration_(CMTimeMake(1, 2), argtypes=[CMTime], restype=None)` を実装しています。
+
 > `CMTimeMake(.,.)`を使っています。
+
 > 残念ながら、このスクリプトもハングアップしてしまいます。
 
 ### JonB
 
 > Cethric のものをベースにしたバージョンを持っています。後日、きれいにして投稿します。ドロップフレームのコールバックを実装したので、何が問題かわかると思います。
+
 > 私が見つけた 1 つの問題は、minFrameDuration を設定する様々な方法が機能しないことです。つまり、コールバックが高い確率で呼び出されるのです。
 
 ### pavlinb
@@ -218,13 +271,17 @@ if __name__ == '__main__':
 
 しかし、`camera.captureDevice` (`AVCaptureDevice`)にも`setActiveVideoMinFrameDuration` が存在します。
 
+
 > どちらも動作させることができませんでした。
 
 ### JonB
 
 > これを試してみてください。 [detector.py](https://gist.github.com/jsbain/424d4fe1a3c0b1ae3fd705d72f665c1e)
+
 > FRAME_PROC_INTERVAL を、FrameLate が常に表示されなくなるまで増やすか、または 1 に設定してできるだけ速くします。
+
 > 実際の最小フレーム間隔を設定するためには、多くの輪をくぐり抜ける必要があります。DESIRED_FPS を変更することで、30fps 未満にできるかどうかを確認することができます。
+
 > これはハングアップしますか？ もしそうなら、最初のフレームが戻ってきたときにどんなメッセージが出ますか？
 
 # 📝 2022/10/31
@@ -236,6 +293,7 @@ if __name__ == '__main__':
 ### `VNSequenceRequestHandler`
 
 > 概要
+
 > このハンドラをインスタンス化すると、一連の画像に対して Vision リクエストを実行することができる。VNImageRequestHandler とは異なり、作成時に画像を指定することはない。その代わり、perform メソッドの 1 つを呼び続けるときに、各画像フレームを 1 つずつ供給する。
 
 ```.log
