@@ -65,6 +65,7 @@ class CameraViewController(ui.View):
 
   def create_sampleBufferDelegate(self):
     self.cnt = 0
+    self.drp = 0
 
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
@@ -75,7 +76,8 @@ class CameraViewController(ui.View):
     def captureOutput_didDropSampleBuffer_fromConnection_(
         _felf, _cmd, _output, _sampleBuffer, _connection):
       sampleBuffer = ObjCInstance(_sampleBuffer)
-      print('drop')
+      self.drp += 1
+      print(f'drp: {self.drp}')
 
     _methods = [
       captureOutput_didOutputSampleBuffer_fromConnection_,

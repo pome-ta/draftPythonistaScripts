@@ -101,9 +101,17 @@ class CameraViewController:
         #pdbg.state(bodyParts)
         if not n:  # todo: first?
           break
+
+    def captureOutput_didDropSampleBuffer_fromConnection_(
+        _felf, _cmd, _output, _sampleBuffer, _connection):
+      sampleBuffer = ObjCInstance(_sampleBuffer)
+
       # --- delegate/
 
-    _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
+    _methods = [
+      captureOutput_didOutputSampleBuffer_fromConnection_,
+      captureOutput_didDropSampleBuffer_fromConnection_,
+    ]
     _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
 
     sampleBufferDelegate = create_objc_class(

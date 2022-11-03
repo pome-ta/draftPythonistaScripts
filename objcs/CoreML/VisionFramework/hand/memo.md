@@ -4,6 +4,9 @@
 
 `captureOutput_didOutputSampleBuffer_fromConnection_` のみ呼び出していたが、`captureOutput_didDropSampleBuffer_fromConnection_` も呼び出してみてる
 
+`didDropSampleBuffer` の方で、`sampleBuffer` を呼び出すことで、`didOutputSampleBuffer` へ帰ってくるぽい？
+
+
 
 [captureOutput:didDropSampleBuffer:fromConnection: | Apple Developer Documentation](https://developer.apple.com/documentation/avfoundation/avcapturevideodataoutputsamplebufferdelegate/1388468-captureoutput?language=objc)
 
