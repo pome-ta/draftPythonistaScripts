@@ -1,5 +1,4 @@
 import ctypes
-import math
 
 from objc_util import c, ObjCClass, ObjCInstance, create_objc_class, CGRect, CGPoint, on_main_thread
 import ui
@@ -41,7 +40,6 @@ class CameraView(ui.View):
   def init(self):
     self.previewLayer = AVCaptureVideoPreviewLayer.alloc().init()
     self.log = UITextView.alloc().init()
-    #self.log.setOpaque_(False)
     self.log.setEditable_(False)
     self.log.backgroundColor = UIColor.clearColor()
 
@@ -112,7 +110,6 @@ class CameraViewController:
     self.cameraSession = session
 
   def create_sampleBufferDelegate(self):
-
     self.counter = 0
 
     # --- /delegate
