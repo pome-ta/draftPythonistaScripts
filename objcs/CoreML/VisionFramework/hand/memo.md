@@ -7,13 +7,9 @@
 ### pavlinb
 
 > ここ([iPhone のカメラでリアルタイム顔検出（Pythonista 編） - Qiita](https://qiita.com/inasawa/items/3e730c338bcefd522fb8))から face_detector.py を勉強させていただきました。
-
 > ここでは、ビデオカメラのフレームに対してリアルタイムに検出器を適用しています。
-
 > 問題は 80-90 フレームで発生します。スクリプトは単に停止しますが、アプリケーションはクラッシュしません。
-
 > なぜ止まるのか、どうすれば防げるのかがわかりません。
-
 > 何かアイデアはありますか？
 
 ```.py
@@ -189,7 +185,6 @@ if __name__ == '__main__':
 ### JonB
 
 > もし、frame_xounter が大きくなったら、frame_counter と last frame time を定期的に 0 にリセットする方法を追加することを検討してもよいでしょう。
-
 > または、フレーム時間、frame_counter、および現在時間で更新されるラベルを持つ - これらはコールバック内のロジックで使用されるからです。
 
 ### pavlinb
@@ -199,31 +194,22 @@ if __name__ == '__main__':
 ### JonB
 
 > わかりました、いくつか問題があるようです。
-
 > まず、didDropSampleBuffer デリゲートメソッドを実装し、フレームが遅れた理由を表示する必要があります。
-
 > 2 つ目は、minFrameDuration を設定して、デリゲートが必要以上に呼び出されないようにする必要があります。古いバージョンでは、これは output.minFrameDuration にあったと思います。新しい iOS バージョンでは、接続で設定すると思います、 output.connections[0].videoMinFrameDuration
-
 > 第三に、どのディスパッチキューで呼び出されるかという問題があります。あるいは、デリゲートは常にできるだけ速く戻る必要があり、別のスレッドで重い仕事を呼び出し、そうでなければデータを落とします。
-
 > 後で改良した gist を投稿します。
 
 ### pavlinb
 
 > もう一つの良い例をここ([Image capture system with AVCaptureStillImageOutput.](https://gist.github.com/Cethric/83a4b2ccf25798d5e074))でテストしてみました。
-
 > このスクリプトでは
-
 > `self.captureOutput.setMinFrameDuration_(CMTimeMake(1, 2), argtypes=[CMTime], restype=None)` を実装しています。
-
 > `CMTimeMake(.,.)`を使っています。
-
 > 残念ながら、このスクリプトもハングアップしてしまいます。
 
 ### JonB
 
 > Cethric のものをベースにしたバージョンを持っています。後日、きれいにして投稿します。ドロップフレームのコールバックを実装したので、何が問題かわかると思います。
-
 > 私が見つけた 1 つの問題は、minFrameDuration を設定する様々な方法が機能しないことです。つまり、コールバックが高い確率で呼び出されるのです。
 
 ### pavlinb
@@ -237,11 +223,8 @@ if __name__ == '__main__':
 ### JonB
 
 > これを試してみてください。 [detector.py](https://gist.github.com/jsbain/424d4fe1a3c0b1ae3fd705d72f665c1e)
-
 > FRAME_PROC_INTERVAL を、FrameLate が常に表示されなくなるまで増やすか、または 1 に設定してできるだけ速くします。
-
 > 実際の最小フレーム間隔を設定するためには、多くの輪をくぐり抜ける必要があります。DESIRED_FPS を変更することで、30fps 未満にできるかどうかを確認することができます。
-
 > これはハングアップしますか？ もしそうなら、最初のフレームが戻ってきたときにどんなメッセージが出ますか？
 
 # 📝 2022/10/31
@@ -350,13 +333,13 @@ Pythonista がもう起動してるから？（読み込んでるから？）
 
 ## 順番
 
--   Pythonista の draw 以外で描けるか確認
-    -   `CAShapeLayer`
-    -   `UIBezierPath`
--   キャプチャ
-    -   `CameraViewController`
-    -   `AVCaptureSession` 関係
-        -   ただ画面上に出すことは成功
+- Pythonista の draw 以外で描けるか確認
+  - `CAShapeLayer`
+  - `UIBezierPath`
+- キャプチャ
+  - `CameraViewController`
+  - `AVCaptureSession` 関係
+    - ただ画面上に出すことは成功
 
 ## `self.objc_instance.layer()`
 
