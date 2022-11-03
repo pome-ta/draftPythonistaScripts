@@ -1,7 +1,9 @@
 console.log('top');
 
-window.addEventListener('DOMContentLoaded', () => {
-  console.log('DOMContentLoaded');
-}, false);
-
-
+window.addEventListener(
+  'DOMContentLoaded',
+  () => {
+    console.log('DOMContentLoaded');
+  },
+  false
+);

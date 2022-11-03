@@ -4,10 +4,4 @@
 
 うわぁこれ、`ctypes` で関数めちゃくちゃ使うやつだ、、、
 
-
-
-
 - [SwiftでCore MIDI](https://qiita.com/yohki/items/cb8820026730c7729a2e)
-
-
-
