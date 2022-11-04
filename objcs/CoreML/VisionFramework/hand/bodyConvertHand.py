@@ -173,6 +173,7 @@ class CameraViewController:
     
     self.finger_names = ['VNHLKIDIP', 'VNHLKITIP']
 
+  @on_main_thread
   def detectedHandPose_request(self, request):
     results = request.results()
     for n, result in enumerate(results):
