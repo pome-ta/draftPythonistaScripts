@@ -1,21 +1,14 @@
 from pathlib import Path
 from shutil import rmtree
 
-dash = '---\n'
-tags = 'tags: Pythonista3 Python3\n'
-author = 'author: pome-ta\n'
-slide = 'slide: false\n'
+tags = 'tags: Pythonista3 Python3 MobileApp Mobile\n'
 
 
 def create_article(day, path):
   day_count = f'{day+1:02}'
   body = [
-    dash,
     f'title: {day_count}目の記事(メモ欄)\n',
     tags,
-    author,
-    slide,
-    dash,
     f'この記事は、[Pythonista3 Advent Calendar 2022](https://qiita.com/advent-calendar/2022/pythonista3) の{day_count}日目の記事です。\n\n## \n',
   ]
   article = Path(path, f'day{day_count}', f'day{day_count}.md')
