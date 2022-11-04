@@ -1,7 +1,7 @@
 from pathlib import Path
 from shutil import rmtree
 
-tags = 'tags: Pythonista3 Python3 MobileApp Mobile\n'
+tags = 'tags: Pythonista3 Python3 MobileApp Mobile\n\n'
 
 
 def create_article(day, path):
