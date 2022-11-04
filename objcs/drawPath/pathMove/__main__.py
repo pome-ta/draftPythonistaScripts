@@ -25,19 +25,21 @@ class ShapeLayerView(ui.View):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'green'
     self.flex = 'WH'
+    self.previewLayer = AVCaptureVideoPreviewLayer.new()
     self.overlayLayer = CAShapeLayer.new()
     self.objc_instance.layer().addSublayer_(self.overlayLayer)
 
   def layout(self):
+    self.previewLayer.frame = self.objc_instance.bounds()
     self.overlayLayer.frame = self.objc_instance.bounds()
 
 
 class UpdateViewController:
   def __init__(self):
-    self.delegate = self.create_sampleBufferDelegate()
+    self.delegate = self.create_delegate()
     self.cameraQueue = dispatch_queue_create('imageDispatch', None)
 
-  def create_sampleBufferDelegate(self):
+  def create_delegate(self):
     # --- /delegate
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
@@ -47,12 +49,10 @@ class UpdateViewController:
         _felf, _cmd, _output, _sampleBuffer, _connection):
       ObjCInstance(_sampleBuffer)  # todo: 呼ぶだけ
       # --- delegate/
-
     _methods = [
       captureOutput_didOutputSampleBuffer_fromConnection_,
       captureOutput_didDropSampleBuffer_fromConnection_,
     ]
-
     _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
 
     sampleBufferDelegate = create_objc_class(
