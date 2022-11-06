@@ -23,7 +23,7 @@ def get_feedback_generator():
 
 def get_folder_path(path='imgs'):
   data_path = Path(editor.get_path()).parent
-  target_path = Path(f'{data_path}', path)
+  target_path = Path(str(data_path), path)
   if not target_path.exists():
     target_path.mkdir()
   return [target_path, path]
@@ -49,7 +49,8 @@ def set_seveto_clipboard(img):
   save_path = Path(root_path, save_name).absolute()
 
   clipboard.set(f'![screenshot](./{parent_name}/{save_name})')
-  img.save(f'{save_path}')
+
+  img.save(str(save_path))
 
 
 def main():
