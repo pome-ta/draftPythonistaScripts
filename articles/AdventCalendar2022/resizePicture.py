@@ -10,6 +10,10 @@ import clipboard
 
 
 def get_feedback_generator():
+  """
+  call feedback ex:
+  `UIImpactFeedbackGenerator.impactOccurred()`
+  """
   style = 4  # 0-4 
   UIImpactFeedbackGenerator = ObjCClass('UIImpactFeedbackGenerator').new()
   UIImpactFeedbackGenerator.prepare()
