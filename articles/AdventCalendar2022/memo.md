@@ -6,11 +6,9 @@
 
 結局コピペして、移行しないと上書きしちゃうけど
 
-
 ## 画像とか
 
 リサイズしたり、gif に吐いたりしたい
-
 
 まずは、ピックアップするところ
 
@@ -20,18 +18,14 @@
 
 shortcut app の力をお借りしている
 
-
 gif のエンコードが少し改善の余地あり？
 
 # 📝 2022/11/03
 
-アウトプット練習のため、勢いでAdvent Calendar 2022 の登録をした
+アウトプット練習のため、勢いで Advent Calendar 2022 の登録をした
 
-Pythonista3のカレンダー | Advent Calendar 2022 - Qiita
+Pythonista3 のカレンダー | Advent Calendar 2022 - Qiita
 
 一カ月記事を書くとしてどうやって行くか整理したい
 
-
-
-
-[QiitaでGoogleアナリティクスを利用する手順 - Qiita](https://qiita.com/Qiita/items/c7f704e3786df3aa7a11)
+[Qiita で Google アナリティクスを利用する手順 - Qiita](https://qiita.com/Qiita/items/c7f704e3786df3aa7a11)
