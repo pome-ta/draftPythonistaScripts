@@ -1,6 +1,6 @@
 # body
 
-[[iOS] WWDC2020で紹介されたVision frameworkのbody pose検出を使ってみる | DevelopersIO](https://dev.classmethod.jp/articles/vision-body-pose/)
+[[iOS] WWDC2020 で紹介された Vision framework の body pose 検出を使ってみる | DevelopersIO](https://dev.classmethod.jp/articles/vision-body-pose/)
 
 [iOS 14 Vision Body Pose Detection: Count Squat Reps in a SwiftUI Workout App | by Philipp Gehrke | Better Programming](https://betterprogramming.pub/ios-14-vision-body-pose-detection-count-squat-reps-in-a-workout-c88991f7cad4)
 
@@ -16,7 +16,7 @@
 
 `layout` を親の`ui.View` が処理された時に呼び出されるようにして、画面サイズを取り敢えず調整している
 
-``` .py
+```.py
   def layout(self):
     self.previewLayer.frame = self.cameraView.bounds()
     print(f'cam: {parseCGRect(self.cameraView.frame())}')
@@ -33,7 +33,7 @@
 
 いまの呼び出しでは、バックしか適用できないのでは？
 
-``` .py
+```.py
 videoDevice = AVCaptureDevice.defaultDeviceWithMediaType_('vide')
 ```
 
@@ -41,7 +41,7 @@ videoDevice = AVCaptureDevice.defaultDeviceWithMediaType_('vide')
 
 前は、ダメだったきがするのだけど、なぜかできた、、、`vide` の所かしら？
 
-``` .py
+```.py
     _builtInWideAngleCamera = 'AVCaptureDeviceTypeBuiltInWideAngleCamera'
     _video = 'vide'
     _front = 2  # back -> 1
@@ -52,7 +52,7 @@ videoDevice = AVCaptureDevice.defaultDeviceWithMediaType_('vide')
 
 ## `VNDetectHumanBodyPoseRequest` の、`results`
 
-``` .log
+```.log
 availableJointNames: (
     "right_upLeg_joint",
     "right_forearm_joint",
@@ -89,12 +89,12 @@ availableJointsGroupNames(
 
 # 📝 2022/10/30
 
-顔も手も、キャプチャで実装できてないけどやってみる😂
+顔も手も、キャプチャで実装できてないけどやってみる 😂
 
 ## 書き方
 
-本来`private` のものは、`_hoge` として書き進めた方が良さそう。しかし、`self._hoge` を呼び出すのにPythonista だと予測が出ないので、`self.hoge` と書く
+本来`private` のものは、`_hoge` として書き進めた方が良さそう。しかし、`self._hoge` を呼び出すのに Pythonista だと予測が出ないので、`self.hoge` と書く
 
-[UIViewControllerのライフサイクル - Qiita](https://qiita.com/motokiee/items/0ca628b4cc74c8c5599d)
+[UIViewController のライフサイクル - Qiita](https://qiita.com/motokiee/items/0ca628b4cc74c8c5599d)
 
-[UIViewControllerまとめ - Qiita](https://qiita.com/edo_m18/items/189acd18f1ecc368b5b0)
+[UIViewController まとめ - Qiita](https://qiita.com/edo_m18/items/189acd18f1ecc368b5b0)
