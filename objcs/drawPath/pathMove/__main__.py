@@ -1,15 +1,26 @@
-from objc_util import ObjCClass, ObjCInstance, CGRect, CGPoint, CGSize
+import ctypes
+
+from objc_util import c, ObjCClass, ObjCInstance, create_objc_class, CGSize, CGRect, CGPoint, on_main_thread
 import ui
 
 import pdbg
 
-AVCaptureSession = ObjCClass('AVCaptureSession')
-
 AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
+AVCaptureSession = ObjCClass('AVCaptureSession')
+AVCaptureDevice = ObjCClass('AVCaptureDevice')
+AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
+AVCaptureVideoDataOutput = ObjCClass('AVCaptureVideoDataOutput')
 
 CAShapeLayer = ObjCClass('CAShapeLayer')
 UIBezierPath = ObjCClass('UIBezierPath')
+
 UIColor = ObjCClass('UIColor')
+
+
+def dispatch_get_current_queue():
+  _func = c.dispatch_get_current_queue
+  _func.restype = ctypes.c_void_p
+  return ObjCInstance(_func())
 
 
 def dispatch_queue_create(_name, parent):
@@ -20,26 +31,91 @@ def dispatch_queue_create(_name, parent):
   return ObjCInstance(_func(name, parent))
 
 
-class ShapeLayerView(ui.View):
+def parseCGRect(cg_rect: CGRect) -> tuple:
+  _origin = cg_rect.origin
+  _size = cg_rect.size
+  origin_x = _origin.x
+  origin_y = _origin.y
+  size_width = _size.width
+  size_height = _size.height
+  return (origin_x, origin_y, size_width, size_height)
+
+
+class CameraView(ui.View):
   def __init__(self, frame=CGRect((0, 0), (100, 100)), *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'green'
     self.flex = 'WH'
-    self.previewLayer = AVCaptureVideoPreviewLayer.new()
-    self.overlayLayer = CAShapeLayer.new()
-    self.objc_instance.layer().addSublayer_(self.overlayLayer)
+    self.previewLayer = None  # AVCaptureVideoPreviewLayer
+    self.overlayLayer = None  # CAShapeLayer
+    self.layer = self.objc_instance.layer()
+    self.init()
+    self.setupOverlay()
+
+  def init(self):
+    self.previewLayer = AVCaptureVideoPreviewLayer.alloc().init()
+    self.overlayLayer = CAShapeLayer.alloc().init()
+
+  def setupOverlay(self):
+    self.layer.addSublayer_(self.previewLayer)
 
   def layout(self):
     self.previewLayer.frame = self.objc_instance.bounds()
-    self.overlayLayer.frame = self.objc_instance.bounds()
+    self.overlayLayer.frame = self.previewLayer.bounds()
 
 
 class UpdateViewController:
   def __init__(self):
-    self.delegate = self.create_delegate()
+    self.cameraView = CameraView()
+    self.cameraSession = None  # AVCaptureSession
+    self.delegate = self.create_sampleBufferDelegate()
     self.cameraQueue = dispatch_queue_create('imageDispatch', None)
 
-  def create_delegate(self):
+    self.viewDidAppear()
+
+  def viewDidAppear(self):
+    self.prepareAVSession()
+    self.cameraView.previewLayer.setSession_(self.cameraSession)
+
+    _resizeAspectFill = 'AVLayerVideoGravityResizeAspectFill'
+    self.cameraView.previewLayer.setVideoGravity_(_resizeAspectFill)
+    self.cameraSession.startRunning()
+
+  def viewWillDisappear(self):
+    self.cameraSession.stopRunning()
+
+  def prepareAVSession(self):
+    session = AVCaptureSession.alloc().init()
+    session.beginConfiguration()
+    _Preset_high = 'AVCaptureSessionPresetHigh'
+    session.setSessionPreset_(_Preset_high)
+
+    _builtInWideAngleCamera = 'AVCaptureDeviceTypeBuiltInWideAngleCamera'
+    _video = 'vide'
+    _front = 2  # back -> 1
+    _back = 1
+    videoDevice = AVCaptureDevice.defaultDeviceWithDeviceType_mediaType_position_(
+      _builtInWideAngleCamera, _video, _back)
+
+    deviceInput = AVCaptureDeviceInput.deviceInputWithDevice_error_(
+      videoDevice, None)
+
+    if session.canAddInput_(deviceInput):
+      session.addInput_(deviceInput)
+    else:
+      raise
+
+    dataOutput = AVCaptureVideoDataOutput.alloc().init()
+    if session.canAddOutput_(dataOutput):
+      session.addOutput_(dataOutput)
+    else:
+      raise
+
+    dataOutput.setSampleBufferDelegate_queue_(self.delegate, self.cameraQueue)
+    session.commitConfiguration()
+    self.cameraSession = session
+
+  def create_sampleBufferDelegate(self):
     # --- /delegate
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
@@ -48,11 +124,14 @@ class UpdateViewController:
     def captureOutput_didDropSampleBuffer_fromConnection_(
         _felf, _cmd, _output, _sampleBuffer, _connection):
       ObjCInstance(_sampleBuffer)  # todo: 呼ぶだけ
+
       # --- delegate/
+
     _methods = [
       captureOutput_didOutputSampleBuffer_fromConnection_,
       captureOutput_didDropSampleBuffer_fromConnection_,
     ]
+
     _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
 
     sampleBufferDelegate = create_objc_class(
@@ -64,8 +143,11 @@ class View(ui.View):
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'maroon'
-    self.shapelayer_view = ShapeLayerView()
-    self.add_subview(self.shapelayer_view)
+    self.uvc = UpdateViewController()
+    self.add_subview(self.uvc.cameraView)
+
+  def will_close(self):
+    self.uvc.viewWillDisappear()
 
 
 if __name__ == '__main__':
