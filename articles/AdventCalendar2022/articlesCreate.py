@@ -35,4 +35,3 @@ if __name__ == '__main__':
   folder_name = 'content'
   event_period = 25
   main(folder_name, event_period)
-
