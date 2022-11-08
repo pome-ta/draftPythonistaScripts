@@ -46,18 +46,15 @@ class CameraView(ui.View):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'green'
     self.flex = 'WH'
-    self.previewLayer = None  # AVCaptureVideoPreviewLayer
-    self.overlayLayer = None  # CAShapeLayer
+    self.previewLayer = AVCaptureVideoPreviewLayer.new()
+    self.overlayLayer = CAShapeLayer.new()
     self.layer = self.objc_instance.layer()
-    self.init()
+
     self.setupOverlay()
 
-  def init(self):
-    self.previewLayer = AVCaptureVideoPreviewLayer.alloc().init()
-    self.overlayLayer = CAShapeLayer.alloc().init()
-
   def setupOverlay(self):
-    self.layer.addSublayer_(self.previewLayer)
+    #self.layer.addSublayer_(self.previewLayer)
+    pass
 
   def layout(self):
     self.previewLayer.frame = self.objc_instance.bounds()
@@ -85,7 +82,7 @@ class UpdateViewController:
     self.cameraSession.stopRunning()
 
   def prepareAVSession(self):
-    session = AVCaptureSession.alloc().init()
+    session = AVCaptureSession.new()
     session.beginConfiguration()
     _Preset_high = 'AVCaptureSessionPresetHigh'
     session.setSessionPreset_(_Preset_high)
@@ -110,20 +107,25 @@ class UpdateViewController:
       session.addOutput_(dataOutput)
     else:
       raise
-
     dataOutput.setSampleBufferDelegate_queue_(self.delegate, self.cameraQueue)
     session.commitConfiguration()
     self.cameraSession = session
 
   def create_sampleBufferDelegate(self):
+    self.counter = 0
+
     # --- /delegate
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
       sampleBuffer = ObjCInstance(_sampleBuffer)
+      print(f'-out: {self.counter}')
+      self.counter += 1
 
     def captureOutput_didDropSampleBuffer_fromConnection_(
         _felf, _cmd, _output, _sampleBuffer, _connection):
       ObjCInstance(_sampleBuffer)  # todo: 呼ぶだけ
+      print(f'drp-: {self.counter}')
+      self.counter += 1
 
       # --- delegate/
 
@@ -136,7 +138,7 @@ class UpdateViewController:
 
     sampleBufferDelegate = create_objc_class(
       'sampleBufferDelegate', methods=_methods, protocols=_protocols)
-    return sampleBufferDelegate.alloc().init()
+    return sampleBufferDelegate.new()
 
 
 class View(ui.View):
