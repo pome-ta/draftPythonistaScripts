@@ -49,12 +49,7 @@ class CameraView(ui.View):
     self.previewLayer = AVCaptureVideoPreviewLayer.new()
     self.overlayLayer = CAShapeLayer.new()
     self.layer = self.objc_instance.layer()
-
-    self.setupOverlay()
-
-  def setupOverlay(self):
-    #self.layer.addSublayer_(self.previewLayer)
-    pass
+    self.layer.addSublayer_(self.previewLayer)
 
   def layout(self):
     self.previewLayer.frame = self.objc_instance.bounds()
