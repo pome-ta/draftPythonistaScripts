@@ -17,12 +17,6 @@ UIBezierPath = ObjCClass('UIBezierPath')
 UIColor = ObjCClass('UIColor')
 
 
-def dispatch_get_current_queue():
-  _func = c.dispatch_get_current_queue
-  _func.restype = ctypes.c_void_p
-  return ObjCInstance(_func())
-
-
 def dispatch_queue_create(_name, parent):
   _func = c.dispatch_queue_create
   _func.argtypes = [ctypes.c_char_p, ctypes.c_void_p]
@@ -41,7 +35,7 @@ def parseCGRect(cg_rect: CGRect) -> tuple:
   return (origin_x, origin_y, size_width, size_height)
 
 
-class CameraView(ui.View):
+class ShapeView(ui.View):
   def __init__(self, frame=CGRect((0, 0), (100, 100)), *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'green'
@@ -58,7 +52,7 @@ class CameraView(ui.View):
 
 class UpdateViewController:
   def __init__(self):
-    self.cameraView = CameraView()
+    self.shapeView = ShapeView()
     self.cameraSession = None  # AVCaptureSession
     self.delegate = self.create_sampleBufferDelegate()
     self.cameraQueue = dispatch_queue_create('imageDispatch', None)
@@ -67,10 +61,10 @@ class UpdateViewController:
 
   def viewDidAppear(self):
     self.prepareAVSession()
-    self.cameraView.previewLayer.setSession_(self.cameraSession)
+    self.shapeView.previewLayer.setSession_(self.cameraSession)
 
     _resizeAspectFill = 'AVLayerVideoGravityResizeAspectFill'
-    self.cameraView.previewLayer.setVideoGravity_(_resizeAspectFill)
+    self.shapeView.previewLayer.setVideoGravity_(_resizeAspectFill)
     self.cameraSession.startRunning()
 
   def viewWillDisappear(self):
@@ -141,7 +135,7 @@ class View(ui.View):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'maroon'
     self.uvc = UpdateViewController()
-    self.add_subview(self.uvc.cameraView)
+    self.add_subview(self.uvc.shapeView)
 
   def will_close(self):
     self.uvc.viewWillDisappear()
