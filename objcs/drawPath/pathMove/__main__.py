@@ -15,6 +15,7 @@ CAShapeLayer = ObjCClass('CAShapeLayer')
 UIBezierPath = ObjCClass('UIBezierPath')
 
 UIColor = ObjCClass('UIColor')
+UITextView = ObjCClass('UITextView')
 
 
 def dispatch_queue_create(_name, parent):
@@ -45,9 +46,20 @@ class ShapeView(ui.View):
     self.layer = self.objc_instance.layer()
     self.layer.addSublayer_(self.previewLayer)
 
+    # todo: log
+    self.log = UITextView.new()
+    self.log.setEditable_(False)
+    self.log.backgroundColor = UIColor.clearColor()
+    self.objc_instance.addSubview_(self.log)
+
   def layout(self):
     self.previewLayer.frame = self.objc_instance.bounds()
     self.overlayLayer.frame = self.previewLayer.bounds()
+    self.log.frame = self.previewLayer.bounds()
+
+  @on_main_thread
+  def log_update(self, text):
+    self.log.text = f'{text}'
 
 
 class UpdateViewController:
@@ -107,13 +119,13 @@ class UpdateViewController:
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
       sampleBuffer = ObjCInstance(_sampleBuffer)
-      print(f'-out: {self.counter}')
+      self.shapeView.log_update(f'-did: {self.counter}')
       self.counter += 1
 
     def captureOutput_didDropSampleBuffer_fromConnection_(
         _felf, _cmd, _output, _sampleBuffer, _connection):
       ObjCInstance(_sampleBuffer)  # todo: 呼ぶだけ
-      print(f'drp-: {self.counter}')
+      self.shapeView.log_update(f'+drp: {self.counter}')
       self.counter += 1
 
       # --- delegate/
