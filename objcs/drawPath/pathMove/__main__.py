@@ -15,6 +15,7 @@ CAShapeLayer = ObjCClass('CAShapeLayer')
 UIBezierPath = ObjCClass('UIBezierPath')
 
 UIColor = ObjCClass('UIColor')
+
 UITextView = ObjCClass('UITextView')
 
 
@@ -44,7 +45,9 @@ class ShapeView(ui.View):
     self.previewLayer = AVCaptureVideoPreviewLayer.new()
     self.overlayLayer = CAShapeLayer.new()
     self.layer = self.objc_instance.layer()
-    self.layer.addSublayer_(self.previewLayer)
+    #self.layer.addSublayer_(self.previewLayer)
+    #self.layer.addSublayer_(self.overlayLayer)
+    self.setCAShapeLayer()
 
     # todo: log
     self.log = UITextView.new()
@@ -60,6 +63,16 @@ class ShapeView(ui.View):
   @on_main_thread
   def log_update(self, text):
     self.log.text = f'{text}'
+    
+    
+  def setCAShapeLayer(self):
+    self.overlayLayer.setLineWidth_(2.0)
+    blueColor = UIColor.blueColor().cgColor()
+    cyanColor = UIColor.cyanColor().cgColor()
+    self.overlayLayer.setStrokeColor_(blueColor)
+    self.overlayLayer.setFillColor_(cyanColor)
+    #self.previewLayer.addSublayer_(self.overlayLayer)
+    self.layer.addSublayer_(self.overlayLayer)
 
 
 class UpdateViewController:
