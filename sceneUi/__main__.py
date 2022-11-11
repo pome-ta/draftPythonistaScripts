@@ -3,9 +3,9 @@ import ui
 
 TITLE = 'プログラムでお絵描き'
 
-BG_COLOR = .872
-TINT_COLOR = .128
-TITLE_COLOR = .872
+BG_COLOR = 0.872
+TINT_COLOR = 0.128
+TITLE_COLOR = 0.872
 AF_COLOR = TINT_COLOR
 
 
@@ -49,15 +49,15 @@ class View(ui.View):
     btns = self.setup_nav()
     self.right_button_items = btns
     self.canvas = Canvas()
-    self.set_up(self.canvas)
+    self.set_up()
 
-  def set_up(self, view_scene):
+  def set_up(self):
     scene_view = scene.SceneView()
     scene_view.alpha = 1
     scene_view.frame_interval = 2
     scene_view.shows_fps = True
     scene_view.alpha = 0
-    scene_view.scene = view_scene
+    scene_view.scene = self.canvas
     self.scene_view = scene_view
     self.add_subview(self.scene_view)
     self.view_in()
@@ -73,7 +73,7 @@ class View(ui.View):
     w = self.width
     h = self.height * .96
     x = self.width / 2 - w / 2
-    wrap = ut.Path.rect(x, 0, W, h)
+    wrap = ui.Path.rect(x, 0, w, h)
     ui.set_color(BG_COLOR)
     wrap.fill()
 
