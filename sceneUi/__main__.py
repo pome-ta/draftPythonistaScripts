@@ -3,40 +3,25 @@ import ui
 
 
 class MainView(ui.View):
-  def __init__(self):
+  def __init__(self, canvas):
     self.bg_color = TINT_COLOR
     self.tint_color = TITLE_COLOR
     self.name = TITLE
+    self.height_ratio = 0.96  # todo: safe area
+
+    self.canvas = canvas
+    self.scene_view = None
 
     btns = self.setup_nav()
     self.right_button_items = btns
-    self.canvas = Canvas()
-    self.set_up()
 
-  def set_up(self):
-    scene_view = scene.SceneView()
-    scene_view.alpha = 1
-    scene_view.frame_interval = 2
-    scene_view.shows_fps = True
-    scene_view.alpha = 0
-    scene_view.scene = self.canvas
-    self.scene_view = scene_view
-    self.add_subview(self.scene_view)
-    self.view_in()
-
-  @ui.in_background
-  def view_in(self):
-    def animation():
-      self.scene_view.alpha = 1
-
-    ui.animate(animation, duration=.3)
+    self.setup_scene()
+    self.show_scene()
 
   def draw(self):
-    self.set_background()
-
-  def set_background(self):
+    # todo: init background color
     w = self.width
-    h = self.height * .96
+    h = self.height * self.height_ratio
     x = self.width / 2 - w / 2
     wrap = ui.Path.rect(x, 0, w, h)
     ui.set_color(BG_COLOR)
@@ -44,9 +29,32 @@ class MainView(ui.View):
 
   def layout(self):
     self.scene_view.width = self.width
-    self.scene_view.height = self.height * .96
+    self.scene_view.height = self.height * self.height_ratio
     self.scene_view.x = self.width / 2 - self.scene_view.width / 2
 
+  def setup_navigationbuttons(self):
+    
+    show_console_button = self.get_showbutton()
+    
+
+  def setup_scene(self):
+    scene_view = scene.SceneView()
+    scene_view.alpha = 1
+    scene_view.frame_interval = 2
+    scene_view.shows_fps = True
+    scene_view.alpha = 0
+    scene_view.scene = self.canvas
+    self.add_subview(scene_view)
+    self.scene_view = scene_view
+
+  @ui.in_background
+  def show_scene(self):
+    def dissolve():
+      self.scene_view.alpha = 1
+
+    ui.animate(dissolve, duration=.3)
+
+  
   def create_button(self, icon):
     btn_icon = ui.Image.named(icon)
     btn = ui.ButtonItem(image=btn_icon)
@@ -60,9 +68,10 @@ class MainView(ui.View):
 
   @ui.in_background
   def save_view(self, sender):
-    raw_img = self.canvas.view._debug_quicklook_()
-    png = ui.Image.from_data(raw_img, 2.0)
-    png.show()
+    raw_image = self.canvas.view._debug_quicklook_()
+    image = ui.Image.from_data(raw_image, 2.0)
+    image.show()
+
 
 class Canvas(scene.Scene):
   def __init__(self, *args, **kwargs):
@@ -103,7 +112,9 @@ if __name__ == '__main__':
   TITLE_COLOR = 0.872
   AF_COLOR = TINT_COLOR
 
-  view = MainView()
+  canvas = Canvas()
+
+  view = MainView(canvas)
   view.present(
     style='fullscreen',
     orientations='portrait',
