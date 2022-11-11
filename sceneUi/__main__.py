@@ -2,6 +2,12 @@ import scene
 import ui
 
 
+def create_button(icon_name):
+  button_icon = ui.Image.named(icon_name)
+  button = ui.ButtonItem(image=button_icon)
+  return button
+
+
 class MainView(ui.View):
   def __init__(self, canvas):
     self.bg_color = TINT_COLOR
@@ -12,9 +18,7 @@ class MainView(ui.View):
     self.canvas = canvas
     self.scene_view = None
 
-    btns = self.setup_nav()
-    self.right_button_items = btns
-
+    self.setup_navigationbuttons()
     self.setup_scene()
     self.show_scene()
 
@@ -31,11 +35,6 @@ class MainView(ui.View):
     self.scene_view.width = self.width
     self.scene_view.height = self.height * self.height_ratio
     self.scene_view.x = self.width / 2 - self.scene_view.width / 2
-
-  def setup_navigationbuttons(self):
-    
-    show_console_button = self.get_showbutton()
-    
 
   def setup_scene(self):
     scene_view = scene.SceneView()
@@ -54,20 +53,15 @@ class MainView(ui.View):
 
     ui.animate(dissolve, duration=.3)
 
-  
-  def create_button(self, icon):
-    btn_icon = ui.Image.named(icon)
-    btn = ui.ButtonItem(image=btn_icon)
-    return btn
+  def setup_navigationbuttons(self):
+    show_console_icon = 'iob:ios7_download_outline_32'
+    show_console_button = create_button(show_console_icon)
+    show_console_button.action = self.show_console
 
-  def setup_nav(self):
-    save_icon = 'iob:ios7_download_outline_32'
-    save_btn = self.create_button(save_icon)
-    save_btn.action = self.save_view
-    return [save_btn]
+    self.right_button_items = [show_console_button]
 
   @ui.in_background
-  def save_view(self, sender):
+  def show_console(self, sender):
     raw_image = self.canvas.view._debug_quicklook_()
     image = ui.Image.from_data(raw_image, 2.0)
     image.show()
