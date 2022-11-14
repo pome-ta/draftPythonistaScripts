@@ -26,8 +26,8 @@ class MainView(ui.View):
     # todo: init background color
     w = self.width
     h = self.height * self.height_ratio
-    x = self.width / 2 - w / 2
-    wrap = ui.Path.rect(x, 0, w, h)
+    #x = self.width / 2 - w / 2
+    wrap = ui.Path.rect(0, 0, w, h)
     ui.set_color(BG_COLOR)
     wrap.fill()
 
