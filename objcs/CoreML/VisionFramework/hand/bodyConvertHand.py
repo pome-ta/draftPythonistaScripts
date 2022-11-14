@@ -170,7 +170,7 @@ class CameraViewController:
     dataOutput.setSampleBufferDelegate_queue_(self.delegate, self.cameraQueue)
     session.commitConfiguration()
     self.cameraSession = session
-    
+
     self.finger_names = ['VNHLKIDIP', 'VNHLKITIP']
 
   @on_main_thread
@@ -187,7 +187,6 @@ class CameraViewController:
         y = finger.y()
         #self.cameraView.log_update(f'{handParts}')
         self.cameraView.showPoints(x, y)
-        
       '''
       x = vnhlkidpi.x()
       y = vnhlkidpi.y()
@@ -207,7 +206,7 @@ class CameraViewController:
     # --- /delegate
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
-      
+
       sampleBuffer = ObjCInstance(_sampleBuffer)
       #pdbg.state(sampleBuffer)
       sequenceHandler.performRequests_onCMSampleBuffer_orientation_error_(
@@ -216,14 +215,12 @@ class CameraViewController:
       #self.cameraView.log_update(f'{self.handPoseRequest.results()}')
       if self.handPoseRequest.results():
         self.detectedHandPose_request(self.handPoseRequest)
-      
 
     def captureOutput_didDropSampleBuffer_fromConnection_(
         _felf, _cmd, _output, _sampleBuffer, _connection):
       ObjCInstance(_sampleBuffer)  # todo: 呼ぶだけ
-      
+
       #pdbg.state(sampleBuffer)
-      
 
       # --- delegate/
 
