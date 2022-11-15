@@ -49,4 +49,3 @@ class View(ui.View):
 if __name__ == '__main__':
   img_file_path = '../../CoreML/VisionFramework/face/img/sample01.png'
   view = View()
-
