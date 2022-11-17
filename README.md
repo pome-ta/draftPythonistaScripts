@@ -39,5 +39,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## iOS GitHub app で直接編集できるってマ？
 
-はえーまじか
+わお、Runestone ベースのテキストエディタで編集できるやんけ、、、
+
+
 
