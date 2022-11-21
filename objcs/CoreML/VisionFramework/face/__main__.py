@@ -15,8 +15,6 @@ VNDetectFaceRectanglesRequest = ObjCClass('VNDetectFaceRectanglesRequest')
 VNSequenceRequestHandler = ObjCClass('VNSequenceRequestHandler')
 VNImageRequestHandler = ObjCClass('VNImageRequestHandler')
 
-
-
 UIColor = ObjCClass('UIColor')
 
 UIDevice = ObjCClass('UIDevice')
@@ -146,7 +144,6 @@ class ViewController:
     videoDataOutput.setSampleBufferDelegate_queue_(delegate,
                                                    videoDataOutputQueue)
 
-    
     if (captureSession.canAddOutput_(videoDataOutput)):
       captureSession.addOutput_(videoDataOutput)
 
@@ -207,7 +204,7 @@ class ViewController:
 
   def create_sampleBufferDelegate(self):
     # --- /delegate
-    
+
     def captureOutput_didOutputSampleBuffer_fromConnection_(
         _self, _cmd, _output, _sampleBuffer, _connection):
       requestHandlerOptions = None

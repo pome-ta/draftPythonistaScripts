@@ -108,7 +108,7 @@ class ViewController:
 
     for observation in observations:
       _x, _y, _width, _height = parseCGRect(observation.boundingBox())
-      
+
       width = _width * layerWidth
       height = _height * layerHeight
       x = _x * layerWidth
