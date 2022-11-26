@@ -37,7 +37,6 @@ class MainView(ui.View):
 
   def setup_scene(self):
     scene_view = scene.SceneView()
-    scene_view.alpha = 1
     scene_view.frame_interval = 2
     scene_view.shows_fps = True
     scene_view.alpha = 0
@@ -87,7 +86,9 @@ class Canvas(scene.Scene):
 
   @ui.in_background
   def update(self):
+    #print(f'{self.t}')  # 画面左下にlog として表示される
     pass
+
 
 if __name__ == '__main__':
   TITLE = 'プログラミングでお絵描き'
@@ -105,5 +106,4 @@ if __name__ == '__main__':
     orientations='portrait',
     title_bar_color=TINT_COLOR,
     title_color=TITLE_COLOR)
-
 
