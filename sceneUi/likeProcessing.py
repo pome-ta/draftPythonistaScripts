@@ -26,7 +26,6 @@ class MainView(ui.View):
     # todo: init background color
     w = self.width
     h = self.height * self.height_ratio
-    #x = self.width / 2 - w / 2
     wrap = ui.Path.rect(0, 0, w, h)
     ui.set_color(BG_COLOR)
     wrap.fill()
@@ -74,13 +73,13 @@ class Canvas(scene.Scene):
 
   @ui.in_background
   def setup(self):
-    self.set_line(50)
+    self.set_line(128)
 
   def set_line(self, dire):
     w2, h2 = self.size / 2
     path = ui.Path()
-    path.move_to(w2 - 128, h2 - 128)
-    path.line_to(w2 + 128, h2 + 128)
+    path.move_to(w2 - dire, h2 - dire)
+    path.line_to(w2 + dire, h2 + dire)
     line = scene.ShapeNode(parent=self)
     line.path = path
     line.stroke_color = 'red'
@@ -91,7 +90,7 @@ class Canvas(scene.Scene):
     pass
 
 if __name__ == '__main__':
-  TITLE = 'プログラムでお絵描き'
+  TITLE = 'プログラミングでお絵描き'
 
   BG_COLOR = 0.872
   TINT_COLOR = 0.128
