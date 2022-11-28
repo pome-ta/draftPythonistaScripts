@@ -83,12 +83,15 @@ def get_bundle_path(path=None):
 
 
 if __name__ == '__main__':
-  #uri = '/System/Library'
+  uri = '/System/Library'
+  uri = '/'
+  '''
   uri = None
   uri = os.getcwd() + '/../../../..'
   PA2UITheme = ObjCClass('PA2UITheme')
   theme_dict = PA2UITheme.sharedTheme().userThemesPath()
   uri = str(theme_dict) + '/../../..'
+  '''
 
   bundle_path = get_bundle_path(uri)
   fb = FolderBrowser(bundle_path)
