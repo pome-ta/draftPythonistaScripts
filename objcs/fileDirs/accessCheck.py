@@ -27,4 +27,3 @@ for n, d in enumerate(directly_list):
   else:
     print(f'{output}')
 
-
