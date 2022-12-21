@@ -1,8 +1,25 @@
-from objc_util import load_framework, ObjCClass, on_main_thread, ObjCInstance
+import ctypes
+
+from objc_util import c, load_framework, ObjCClass, on_main_thread, ObjCInstance
 from objc_util import UIColor
 import ui
 
 import pdbg
+
+
+class SCNMatrix4(ctypes.Structure):
+  _fields_ = [
+    ('mNumberChannels', ctypes.c_uint32),
+    ('mDataByteSize', ctypes.c_uint32),
+    ('mData', ctypes.c_void_p),
+  ]
+
+
+def SCNMatrix4MakeRotation(angle, x, y, z):
+  _func = c.SCNMatrix4MakeRotation
+  _func.argtypes = [ctypes.c_char_p, ctypes.c_void_p]
+  _func.restype = ctypes.c_void_p
+
 
 load_framework('SceneKit')
 
@@ -12,7 +29,6 @@ SCNNode = ObjCClass('SCNNode')
 
 SCNLight = ObjCClass('SCNLight')
 SCNCamera = ObjCClass('SCNCamera')
-
 
 SCNBox = ObjCClass('SCNBox')
 
@@ -27,7 +43,7 @@ class GameScene:
     # 呼び出しが面倒なので、変数化
     scene_rootNode_addChildNode_ = scene.rootNode().addChildNode_
 
-    box = SCNBox.boxWithWidth_height_length_chamferRadius_(2, 2, 2, 0.2)
+    box = SCNBox.boxWithWidth_height_length_chamferRadius_(2, 1, 1.5, 0.2)
     #box.firstMaterial().diffuse().contents = UIColor.blueColor()
     geometryNode = SCNNode.nodeWithGeometry_(box)
     '''
@@ -35,18 +51,17 @@ class GameScene:
       SCNAction.repeatActionForever_(
         SCNAction.rotateByX_y_z_duration_(0.0, 0.2, 0.1, 0.3)))
     '''
-    #pdbg.state(geometryNode.simdPosition().value)
-    simdPosition = ObjCInstance(geometryNode.simdPosition())
     
-    pdbg.state(simdPosition)
     scene_rootNode_addChildNode_(geometryNode)
+    
+    
+    pdbg.state(geometryNode.transform())
 
     # --- SCNLight
     lightNode = SCNNode.node()
     lightNode.light = SCNLight.light()
     lightNode.position = (0.0, 10.0, 10.0)
     scene_rootNode_addChildNode_(lightNode)
-    
 
     ambientLightNode = SCNNode.node()
     ambientLightNode.light = SCNLight.light()
