@@ -50,10 +50,12 @@ def SCNMatrix4MakeRotation(angle, x, y, z):
     ctypes.c_float,
   ]
   _func.restype = SCNMatrix4
-  pdbg.state(_func)
-  #_instance = _func(angle, x, y, z)
+  #pdbg.state(_func)
+  _instance = _func(angle, x, y, z)
+  #pdbg.state(_instance.a)
   #obj_instance = ObjCInstance(_instance)
   #return obj_instance
+  return _instance
 
 
 SCNScene = ObjCClass('SCNScene')
@@ -86,7 +88,8 @@ class GameScene:
     '''
 
     scene_rootNode_addChildNode_(geometryNode)
-    rt = SCNMatrix4MakeRotation(pi/2,1,0,0)
+    geometryNode.transform = SCNMatrix4MakeRotation(pi / 2, 1, 0, 0)
+    #pdbg.state(rt)
 
     #pdbg.state(geometryNode.transform())
 
