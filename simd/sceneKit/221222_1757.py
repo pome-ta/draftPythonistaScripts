@@ -1,10 +1,11 @@
 from math import pi
 import ctypes
 
-from objc_util import c, load_framework, ObjCClass
+from objc_util import c, load_framework, ObjCClass, _struct_class_from_fields, struct_from_tuple
 
 import pdbg
 
+load_framework('SceneKit')
 
 class SCNMatrix4(ctypes.Structure):
   _fields_ = [
@@ -46,3 +47,4 @@ def SCNMatrix4MakeRotation(angle, x, y, z):
 
 rt = SCNMatrix4MakeRotation(pi / 2, 1, 0, 0)
 
+st = _struct_class_from_fields(range(6))
