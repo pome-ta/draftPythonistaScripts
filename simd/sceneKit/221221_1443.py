@@ -9,32 +9,25 @@ import pdbg
 
 load_framework('SceneKit')
 
+
 class SCNMatrix4(ctypes.Structure):
   _fields_ = [
-    ('m00', ctypes.c_float),
-    ('m01', ctypes.c_float),
-    ('m02', ctypes.c_float),
-    ('m03', ctypes.c_float),
-    ('m04', ctypes.c_float),
-    ('m10', ctypes.c_float),
-    ('m11', ctypes.c_float),
-    ('m12', ctypes.c_float),
-    ('m13', ctypes.c_float),
-    ('m14', ctypes.c_float),
-    ('m20', ctypes.c_float),
-    ('m21', ctypes.c_float),
-    ('m22', ctypes.c_float),
-    ('m23', ctypes.c_float),
-    ('m24', ctypes.c_float),
-    ('m30', ctypes.c_float),
-    ('m31', ctypes.c_float),
-    ('m32', ctypes.c_float),
-    ('m33', ctypes.c_float),
-    ('m34', ctypes.c_float),
-    ('m40', ctypes.c_float),
-    ('m41', ctypes.c_float),
-    ('m42', ctypes.c_float),
-    ('m43', ctypes.c_float),
+    ('a', ctypes.c_float),
+    ('b', ctypes.c_float),
+    ('c', ctypes.c_float),
+    ('d', ctypes.c_float),
+    ('e', ctypes.c_float),
+    ('f', ctypes.c_float),
+    ('g', ctypes.c_float),
+    ('h', ctypes.c_float),
+    ('i', ctypes.c_float),
+    ('j', ctypes.c_float),
+    ('k', ctypes.c_float),
+    ('l', ctypes.c_float),
+    ('m', ctypes.c_float),
+    ('n', ctypes.c_float),
+    ('o', ctypes.c_float),
+    ('p', ctypes.c_float),
   ]
 
 
@@ -56,14 +49,11 @@ def SCNMatrix4MakeRotation(angle, x, y, z):
     ctypes.c_float,
     ctypes.c_float,
   ]
-  _func.restype = ctypes.c_void_p
+  _func.restype = SCNMatrix4
   pdbg.state(_func)
   #_instance = _func(angle, x, y, z)
   #obj_instance = ObjCInstance(_instance)
   #return obj_instance
-  
-
-
 
 
 SCNScene = ObjCClass('SCNScene')
@@ -96,10 +86,9 @@ class GameScene:
     '''
 
     scene_rootNode_addChildNode_(geometryNode)
-    #rt = SCNMatrix4MakeRotation(pi/2,1,0,0)
+    rt = SCNMatrix4MakeRotation(pi/2,1,0,0)
 
     #pdbg.state(geometryNode.transform())
-    
 
     # --- SCNLight
     lightNode = SCNNode.node()
