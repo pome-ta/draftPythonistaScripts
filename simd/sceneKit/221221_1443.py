@@ -1,27 +1,70 @@
+from math import pi
 import ctypes
 
-from objc_util import c, load_framework, ObjCClass, on_main_thread, ObjCInstance
+from objc_util import c, load_framework, ObjCClass, on_main_thread, ObjCInstance, _struct_class_from_fields
 from objc_util import UIColor
 import ui
 
 import pdbg
 
+load_framework('SceneKit')
 
+class SCNMatrix4(ctypes.Structure):
+  _fields_ = [
+    ('m00', ctypes.c_float),
+    ('m01', ctypes.c_float),
+    ('m02', ctypes.c_float),
+    ('m03', ctypes.c_float),
+    ('m04', ctypes.c_float),
+    ('m10', ctypes.c_float),
+    ('m11', ctypes.c_float),
+    ('m12', ctypes.c_float),
+    ('m13', ctypes.c_float),
+    ('m14', ctypes.c_float),
+    ('m20', ctypes.c_float),
+    ('m21', ctypes.c_float),
+    ('m22', ctypes.c_float),
+    ('m23', ctypes.c_float),
+    ('m24', ctypes.c_float),
+    ('m30', ctypes.c_float),
+    ('m31', ctypes.c_float),
+    ('m32', ctypes.c_float),
+    ('m33', ctypes.c_float),
+    ('m34', ctypes.c_float),
+    ('m40', ctypes.c_float),
+    ('m41', ctypes.c_float),
+    ('m42', ctypes.c_float),
+    ('m43', ctypes.c_float),
+  ]
+
+
+'''
 class SCNMatrix4(ctypes.Structure):
   _fields_ = [
     ('mNumberChannels', ctypes.c_uint32),
     ('mDataByteSize', ctypes.c_uint32),
     ('mData', ctypes.c_void_p),
   ]
+'''
 
 
 def SCNMatrix4MakeRotation(angle, x, y, z):
   _func = c.SCNMatrix4MakeRotation
-  _func.argtypes = [ctypes.c_char_p, ctypes.c_void_p]
+  _func.argtypes = [
+    ctypes.c_float,
+    ctypes.c_float,
+    ctypes.c_float,
+    ctypes.c_float,
+  ]
   _func.restype = ctypes.c_void_p
+  pdbg.state(_func)
+  #_instance = _func(angle, x, y, z)
+  #obj_instance = ObjCInstance(_instance)
+  #return obj_instance
+  
 
 
-load_framework('SceneKit')
+
 
 SCNScene = ObjCClass('SCNScene')
 SCNView = ObjCClass('SCNView')
@@ -51,11 +94,12 @@ class GameScene:
       SCNAction.repeatActionForever_(
         SCNAction.rotateByX_y_z_duration_(0.0, 0.2, 0.1, 0.3)))
     '''
-    
+
     scene_rootNode_addChildNode_(geometryNode)
+    #rt = SCNMatrix4MakeRotation(pi/2,1,0,0)
+
+    #pdbg.state(geometryNode.transform())
     
-    
-    pdbg.state(geometryNode.transform())
 
     # --- SCNLight
     lightNode = SCNNode.node()
