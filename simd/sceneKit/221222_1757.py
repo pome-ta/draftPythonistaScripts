@@ -47,4 +47,4 @@ def SCNMatrix4MakeRotation(angle, x, y, z):
 
 rt = SCNMatrix4MakeRotation(pi / 2, 1, 0, 0)
 
-st = _struct_class_from_fields(range(6))
+#st = _struct_class_from_fields(range(6))
