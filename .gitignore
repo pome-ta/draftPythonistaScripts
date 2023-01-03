@@ -151,3 +151,4 @@ cython_debug/
 /glsl/randomNoise/img/rgbaNoiseMedium4Shadertoy.png
 /objcs/CoreML/VisionFramework/face/img/
 
+/objcs/CoreML/stableDiffusion/models/
