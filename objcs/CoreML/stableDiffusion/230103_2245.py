@@ -1,7 +1,9 @@
+from pathlib import Path
 from objc_util import ObjCClass, NSBundle
 
 import pdbg
 
-resourceURL = NSBundle
+models_root_path = './models/coreml-stable-diffusion-v1-4_original_compiled'
 
-pdbg.state(resourceURL)
+root_path = Path(models_root_path)
+
