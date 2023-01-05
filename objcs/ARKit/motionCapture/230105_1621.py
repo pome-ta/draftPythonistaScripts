@@ -13,6 +13,7 @@ SCNNode = ObjCClass('SCNNode')
 SCNLight = ObjCClass('SCNLight')
 SCNCamera = ObjCClass('SCNCamera')
 
+SCNFloor = ObjCClass('SCNFloor')
 
 
 class GameScene:
@@ -24,25 +25,40 @@ class GameScene:
 
     # --- import
     robot_URL = nsurl('./character/robot.usdz')
-    
+
     # --- SCNScene
     scene = SCNScene.sceneWithURL_options_(robot_URL, None)
-    scene.background().contents = UIColor.yellowColor()
+    scene.background().contents = UIColor.systemGrayColor()
+
+    #UIColor.systemGray2Color()
+    #UIColor.systemWhiteColor()
 
     scene_rootNode_addChildNode_ = scene.rootNode().addChildNode_
 
     robotNode = scene.rootNode().objectInChildNodesAtIndex_(0)
-    
-    #pdbg.state(robotNode)
-    
 
+    #pdbg.state(robotNode)
+
+    # --- SCNFloor
+    floor = SCNFloor.floor()
+    floorNode = SCNNode.nodeWithGeometry_(floor)
+    floorNode.position = (0.0, -1.0, 0.0)
+
+    scene_rootNode_addChildNode_(floorNode)
 
     # --- SCNLight
     lightNode = SCNNode.node()
     lightNode.light = SCNLight.light()
-    #lightNode.castsShadow = True
-    lightNode.position = (0.0, 8.0, 8.0)
+    lightNode.castsShadow = True
+    lightNode.position = (0.0, 1.0, 1.0)
     scene_rootNode_addChildNode_(lightNode)
+
+    ambientLightNode = SCNNode.node()
+    ambientLightNode.light = SCNLight.light()
+    ambientLightNode.light().type = 'ambient'
+    #ambientLightNode.light().color = UIColor.redColor()
+    #ambientLightNode.light().color = UIColor.darkGrayColor()
+    scene_rootNode_addChildNode_(ambientLightNode)
 
     # --- SCNCamera
     camera = SCNCamera.camera()
@@ -107,7 +123,7 @@ class View(ui.View):
     ShowCameras = (1 << 10)
     '''
     _debugOptions = ((1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) | (1 << 10))
-    scnView.debugOptions = _debugOptions
+    #scnView.debugOptions = _debugOptions
 
     scnView.autorelease()
 
