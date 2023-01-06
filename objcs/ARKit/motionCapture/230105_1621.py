@@ -28,7 +28,7 @@ class GameScene:
 
     # --- SCNScene
     scene = SCNScene.sceneWithURL_options_(robot_URL, None)
-    #scene.background().contents = UIColor.systemGrayColor()
+    scene.background().contents = UIColor.systemGrayColor()
 
     #UIColor.systemGray2Color()
     #UIColor.systemWhiteColor()
@@ -36,8 +36,6 @@ class GameScene:
     scene_rootNode_addChildNode_ = scene.rootNode().addChildNode_
 
     robotNode = scene.rootNode().objectInChildNodesAtIndex_(0)
-
-    #pdbg.state(robotNode)
 
     # --- SCNFloor
     floor = SCNFloor.floor()
@@ -49,12 +47,17 @@ class GameScene:
     # --- SCNLight
     lightNode = SCNNode.node()
     lightNode.light = SCNLight.light()
-    lightNode.castsShadow = True
-    lightNode.position = (0.0, 1.0, 1.0)
+    lightNode.light().castsShadow = True
+    #lightNode.light().type = 'omni'
+    #lightNode.light().color = UIColor.blueColor()
+
+    lightNode.position = (8.0, 16.0, 16.0)
     scene_rootNode_addChildNode_(lightNode)
 
     ambientLightNode = SCNNode.node()
     ambientLightNode.light = SCNLight.light()
+    #ambientLightNode.light().castsShadow = True
+
     ambientLightNode.light().type = 'ambient'
     ambientLightNode.light().color = UIColor.redColor()
     #ambientLightNode.light().color = UIColor.darkGrayColor()
@@ -63,7 +66,7 @@ class GameScene:
     areaLightNode = SCNNode.node()
     areaLightNode.light = SCNLight.light()
     areaLightNode.light().type = 'area'
-    areaLightNode.light().color = UIColor.redColor()
+    areaLightNode.light().color = UIColor.greenColor()
 
     areaLightNode.position = (0.0, 0.0, 1.0)
     scene_rootNode_addChildNode_(areaLightNode)
@@ -71,7 +74,6 @@ class GameScene:
     # --- SCNCamera
     camera = SCNCamera.camera()
     '''
-
     camera.wantsHDR = True
     camera.bloomBlurRadius = 18.0
     camera.bloomIntensity = 1.0
