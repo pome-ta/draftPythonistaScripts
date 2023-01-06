@@ -5,9 +5,12 @@ import ui
 import pdbg
 
 load_framework('ARKit')
+load_framework('RealityKit')
 
 ARSCNView = ObjCClass('ARSCNView')
 ARBodyTrackingConfiguration = ObjCClass('ARBodyTrackingConfiguration')
+
+
 
 
 class ViewController:
