@@ -28,7 +28,7 @@ class GameScene:
 
     # --- SCNScene
     scene = SCNScene.sceneWithURL_options_(robot_URL, None)
-    scene.background().contents = UIColor.systemGrayColor()
+    #scene.background().contents = UIColor.systemGrayColor()
 
     #UIColor.systemGray2Color()
     #UIColor.systemWhiteColor()
@@ -56,9 +56,17 @@ class GameScene:
     ambientLightNode = SCNNode.node()
     ambientLightNode.light = SCNLight.light()
     ambientLightNode.light().type = 'ambient'
-    #ambientLightNode.light().color = UIColor.redColor()
+    ambientLightNode.light().color = UIColor.redColor()
     #ambientLightNode.light().color = UIColor.darkGrayColor()
-    scene_rootNode_addChildNode_(ambientLightNode)
+    #scene_rootNode_addChildNode_(ambientLightNode)
+
+    areaLightNode = SCNNode.node()
+    areaLightNode.light = SCNLight.light()
+    areaLightNode.light().type = 'area'
+    areaLightNode.light().color = UIColor.redColor()
+
+    areaLightNode.position = (0.0, 0.0, 1.0)
+    scene_rootNode_addChildNode_(areaLightNode)
 
     # --- SCNCamera
     camera = SCNCamera.camera()
