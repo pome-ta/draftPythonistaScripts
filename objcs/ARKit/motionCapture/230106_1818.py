@@ -15,7 +15,7 @@ class ViewController:
     self.arView: ARSCNView
     self.scene: GameScene
     self.viewDidLoad()
-    self.viewWillAppear()
+    self.viewDidAppear()
 
   def viewDidLoad(self):
     #scene = GameScene()
@@ -51,16 +51,15 @@ class ViewController:
     #self.scene = scene
     self.arView = arView
 
-  def viewWillAppear(self):
-    self.resetTracking()
+  def viewDidAppear(self):
+    if not ARBodyTrackingConfiguration.isSupported():
+      # todo: ちゃんと終了処理
+      print('未対応: This feature is only supported on devices with an A12 chip')
+    configuration = ARBodyTrackingConfiguration.new()
+    self.arView.session().runWithConfiguration_(configuration)
 
   def viewWillDisappear(self):
     self.arView.session().pause()
-
-  def resetTracking(self):
-    #configuration = ARWorldTrackingConfiguration.new()
-    #self.sceneView.session().runWithConfiguration_(configuration)
-    pass
 
 
 class View(ui.View):
@@ -77,3 +76,4 @@ class View(ui.View):
 if __name__ == '__main__':
   view = View()
   view.present(style='fullscreen', orientations=['portrait'])
+
