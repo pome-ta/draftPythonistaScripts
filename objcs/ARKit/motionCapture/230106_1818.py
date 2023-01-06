@@ -7,11 +7,12 @@ import pdbg
 load_framework('ARKit')
 
 ARSCNView = ObjCClass('ARSCNView')
+ARBodyTrackingConfiguration = ObjCClass('ARBodyTrackingConfiguration')
 
 
 class ViewController:
   def __init__(self):
-    self.sceneView: ARSCNView
+    self.arView: ARSCNView
     self.scene: GameScene
     self.viewDidLoad()
     self.viewWillAppear()
@@ -20,10 +21,10 @@ class ViewController:
     #scene = GameScene()
 
     _frame = ((0, 0), (100, 100))
-    sceneView = ARSCNView.alloc().initWithFrame_(_frame)
-    sceneView.autoresizingMask = (1 << 1) | (1 << 4)
-    sceneView.autoenablesDefaultLighting = True
-    sceneView.showsStatistics = True
+    arView = ARSCNView.alloc().initWithFrame_(_frame)
+    arView.autoresizingMask = (1 << 1) | (1 << 4)
+    arView.autoenablesDefaultLighting = True
+    arView.showsStatistics = True
     ''' debugOptions
     OptionNone = 0
     ShowPhysicsShapes = (1 << 0)
@@ -42,19 +43,19 @@ class ViewController:
     '''
 
     _debugOptions = (1 << 1) | (1 << 30) | (1 << 32)
-    sceneView.debugOptions = _debugOptions
+    arView.debugOptions = _debugOptions
 
-    #sceneView.scene = scene.scene
-    sceneView.autorelease()
+    #arView.scene = scene.scene
+    arView.autorelease()
 
     #self.scene = scene
-    self.sceneView = sceneView
+    self.arView = arView
 
   def viewWillAppear(self):
     self.resetTracking()
 
   def viewWillDisappear(self):
-    self.sceneView.session().pause()
+    self.arView.session().pause()
 
   def resetTracking(self):
     #configuration = ARWorldTrackingConfiguration.new()
@@ -67,7 +68,7 @@ class View(ui.View):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'maroon'
     self.vc = ViewController()
-    self.objc_instance.addSubview_(self.vc.sceneView)
+    self.objc_instance.addSubview_(self.vc.arView)
 
   def will_close(self):
     self.vc.viewWillDisappear()
