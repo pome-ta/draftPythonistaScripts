@@ -7,7 +7,7 @@ RealityKit がPythonista3 だと呼び出せない？
 
 14.2.0
 
-iPhone11
+iPhone11 16.2
 
 Team 入れてなかったから怒られた？
 
