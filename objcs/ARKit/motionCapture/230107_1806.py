@@ -9,7 +9,6 @@ load_framework('RealityKit')
 
 ARSCNView = ObjCClass('ARSCNView')
 ARBodyTrackingConfiguration = ObjCClass('ARBodyTrackingConfiguration')
-ARBodyAnchor = ObjCClass('ARBodyAnchor')
 
 
 class ViewController:
@@ -20,8 +19,6 @@ class ViewController:
     self.viewDidAppear()
 
   def viewDidLoad(self):
-    #scene = GameScene()
-
     _frame = ((0, 0), (100, 100))
     arScnView = ARSCNView.alloc().initWithFrame_(_frame)
     arScnView.autoresizingMask = (1 << 1) | (1 << 4)
@@ -47,14 +44,12 @@ class ViewController:
     _debugOptions = (1 << 1) | (1 << 30) | (1 << 32)
     arScnView.debugOptions = _debugOptions
 
-    #arView.scene = scene.scene
     arScnView.autorelease()
-    #self.scene = scene
     self.arScnView = arScnView
 
   def viewDidAppear(self):
     if not ARBodyTrackingConfiguration.isSupported():
-      # todo: ちゃんと終了処理
+      # xxx: ちゃんと終了処理をする
       print('未対応: This feature is only supported on devices with an A12 chip')
     configuration = ARBodyTrackingConfiguration.new()
     self.arScnView.session().runWithConfiguration_(configuration)
