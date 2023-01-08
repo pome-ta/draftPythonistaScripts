@@ -37,7 +37,12 @@ DEbugOptions で気がついたけど、ARView とARSCNView 違うんね
 
 書き換えてみてもいいかもな
 
-### 表示ログを出すようにする
+## ARSCNView
+
+
+face tracking の要領で取れるか？
+
+
 
 # 📝 2023/01/05
 

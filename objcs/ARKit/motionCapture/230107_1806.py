@@ -48,7 +48,6 @@ class ViewController:
 
     #arView.scene = scene.scene
     arScnView.autorelease()
-
     #self.scene = scene
     self.arScnView = arScnView
 
