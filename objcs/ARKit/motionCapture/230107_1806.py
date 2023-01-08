@@ -9,6 +9,7 @@ load_framework('RealityKit')
 
 ARSCNView = ObjCClass('ARSCNView')
 ARBodyTrackingConfiguration = ObjCClass('ARBodyTrackingConfiguration')
+ARBodyAnchor = ObjCClass('ARBodyAnchor')
 
 
 class ViewController:
