@@ -4,10 +4,30 @@
 [【Swift】iOSでStableDiffusionを使ってみた - Qiita](https://qiita.com/SNQ-2001/items/2d33dc535cf106189f75)
 
 
+[【SwiftUI】Core ML Stable Diffusionをアプリに実装する サンプルコード | thwork](https://thwork.net/2022/12/07/swiftui_core-ml-stable-diffusion_app_sample/)
+
+
+
+
 ## 調査流れ
 
+### `guard let resourceURL = Bundle.main.resourceURL` をしれっと取得したい
 
-`./iOSproj/iOSstableDiffusionDEMO/ViewModel.swift`
+
+```python
+from objc_util import NSBundle
+import pdbg
+
+pdbg.state(NSBundle.mainBundle())
+# `Pythonista3.App` がloaded
+
+
+```
+
+
+
+
+`.ひ/iproj/iOSstableDiffusionDEMO/ViewModel.swift`
 
 ```ViewModel.swift
 func loadModels() async {

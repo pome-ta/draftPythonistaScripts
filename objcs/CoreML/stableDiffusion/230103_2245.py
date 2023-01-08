@@ -36,5 +36,11 @@ i = [
 
 root_path = Path(models_root_path)
 
-print(list(root_path.iterdir()))
+#print(list(root_path.iterdir()))
+#pdbg.state(NSBundle)
+#pdbg.state(NSBundle.mainBundle())
+#pdbg.state(NSBundle.loadedBundles())
+#pdbg.state(NSBundle.mainBundle().sharedSupportPath())
+pdbg.state(NSBundle.allBundles())
+
 
