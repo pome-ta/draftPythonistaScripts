@@ -1,3 +1,16 @@
+# 📝 2023/01/09
+
+`FileManager.default.fileExists`
+
+
+- UnetChunk1
+- UnetChunk2
+
+持ってないけど、途中で処理する
+
+
+ギリギリまで、Python の`Path` で持たせて、呼び出す時に`nsurl` にする方針にしてみる
+
 # 📝 2023/01/08
 
 
@@ -20,7 +33,6 @@ import pdbg
 
 pdbg.state(NSBundle.mainBundle())
 # `Pythonista3.App` がloaded
-
 
 ```
 

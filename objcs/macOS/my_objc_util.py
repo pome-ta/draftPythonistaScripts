@@ -12,7 +12,7 @@ c = cdll.LoadLibrary(None)
 # objc_getClass.argtypes = [c_char_p]
 # objc_getClass.restype = c_void_p
 
-def objc_getClass(objc_className: str) -> cdll:
+def objc_getClass(objc_className: str) -> c_void_p:
   _func = c.objc_getClass
   _func.argtypes = [c_char_p]
   _func.restype = c_void_p
