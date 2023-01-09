@@ -1,4 +1,3 @@
-
 # 📝 2023/01/07
 
 RealityKit がPythonista3 だと呼び出せない？
@@ -39,10 +38,7 @@ DEbugOptions で気がついたけど、ARView とARSCNView 違うんね
 
 ## ARSCNView
 
-
 face tracking の要領で取れるか？
-
-
 
 # 📝 2023/01/05
 
