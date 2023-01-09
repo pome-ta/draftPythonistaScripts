@@ -23,11 +23,17 @@ Objective-Cクラスへのポインタのラッパーで、Objective-Cクラス�
 
 [Pythonのクラスコンストラクター。__new__と__init__ | システムトラスト技術ブログ](https://it-engineer-info.com/language/python/5686/)
 
+
+
+
 `__new__` が出てきたので。
 
 Singleton パターンってこと？
 
 > システム内でそのオブジェクトが一つしかないことを保証するデザインパターン
+
+
+[pythonで良い感じのシングルトンを書く - Blanktar](https://blanktar.jp/blog/2016/07/python-singleton)
 
 ### `NSString` とれない？
 

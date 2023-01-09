@@ -11,6 +11,20 @@
 
 ギリギリまで、Python の`Path` で持たせて、呼び出す時に`nsurl` にする方針にしてみる
 
+
+
+`BPETokenizer` struct で`init` が2つある。
+
+
+[pythonで良い感じのシングルトンを書く - Blanktar](https://blanktar.jp/blog/2016/07/python-singleton)
+
+
+[Python の __new__ ってなに？ | 民主主義に乾杯](https://python.ms/new/#_1-new-%E3%81%A8-init-%E3%81%AE%E9%81%95%E3%81%84)
+
+
+[クラスメソッドの使いどころを考えたけど分からなかった - Qiita](https://qiita.com/tagtagtag/items/6aa430e813b146047a5b)
+
+
 # 📝 2023/01/08
 
 

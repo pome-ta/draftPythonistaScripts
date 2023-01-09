@@ -6,7 +6,6 @@ import pdbg
 MLModelConfiguration = ObjCClass('MLModelConfiguration')
 
 models_root_path = './models/coreml-stable-diffusion-v1-4_original_compiled'
-
 """
 'TextEncoder.mlmodelc',
 'Unet.mlmodelc',
@@ -21,16 +20,6 @@ models_root_path = './models/coreml-stable-diffusion-v1-4_original_compiled'
 
 class ResourceURLs:
   def __init__(self, root_paths: Path):
-    self.resource_models = [
-      'TextEncoder.mlmodelc',
-      'Unet.mlmodelc',
-      'UnetChunk1.mlmodelc',
-      'UnetChunk2.mlmodelc',
-      'VAEDecoder.mlmodelc',
-      'SafetyChecker.mlmodelc',
-      'vocab.json',
-      'merges.txt',
-    ]
     self.textEncoderURL: Path
     self.unetURL: Path
     self.unetChunk1URL: Path
@@ -39,13 +28,23 @@ class ResourceURLs:
     self.safetyCheckerURL: Path
     self.vocabURL: Path
     self.mergesURL: Path
+    self._init(root_paths)
 
-  def _init(self, _root_paths):
-    self.textEncoderURL = nsurl(str(Path(
-      _root_paths, )))
+  def _init(self, _root):
+    self.textEncoderURL = Path(_root, 'TextEncoder.mlmodelc')
+    self.unetURL = Path(_root, 'Unet.mlmodelc')
+    self.unetChunk1URL = Path(_root, 'UnetChunk1.mlmodelc')
+    self.unetChunk2URL = Path(_root, 'UnetChunk2.mlmodelc')
+    self.decoderURL = Path(_root, 'VAEDecoder.mlmodelc')
+    self.safetyCheckerURL = Path(_root, 'SafetyChecker.mlmodelc')
+    self.vocabURL = Path(_root, 'vocab.json')
+    self.mergesURL = Path(_root, 'merges.txt')
 
-  def __appending_path(self, file_name):
-    return
+
+
+class BPETokenizer:
+  def __init__(self):
+    self.merges: 
 
 
 root_path = Path(models_root_path)
@@ -55,5 +54,7 @@ root_path = Path(models_root_path)
 #pdbg.state(NSBundle.mainBundle())
 #pdbg.state(NSBundle.loadedBundles())
 #pdbg.state(NSBundle.mainBundle().sharedSupportPath())
-pdbg.state(NSBundle.allBundles())
+#pdbg.state(NSBundle.allBundles())
+urls = ResourceURLs(root_path)
+config = MLModelConfiguration.new()
 
