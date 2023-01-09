@@ -6,6 +6,7 @@ import pdbg
 MLModelConfiguration = ObjCClass('MLModelConfiguration')
 
 models_root_path = './models/coreml-stable-diffusion-v1-4_original_compiled'
+
 """
 'TextEncoder.mlmodelc',
 'Unet.mlmodelc',
