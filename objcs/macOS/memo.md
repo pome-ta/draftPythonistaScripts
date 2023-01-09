@@ -21,6 +21,18 @@ Objective-Cクラスへのポインタのラッパーで、Objective-Cクラス�
 
 ### Python class のコンストラクタ
 
+[Pythonのクラスコンストラクター。__new__と__init__ | システムトラスト技術ブログ](https://it-engineer-info.com/language/python/5686/)
+
+`__new__` が出てきたので。
+
+Singleton パターンってこと？
+
+> システム内でそのオブジェクトが一つしかないことを保証するデザインパターン
+
+### `NSString` とれない？
+
+なんかこけるな？
+
 # 📝 2022/10/24
 
 ## 方針
