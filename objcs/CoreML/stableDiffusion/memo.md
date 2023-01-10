@@ -25,6 +25,12 @@
 [クラスメソッドの使いどころを考えたけど分からなかった - Qiita](https://qiita.com/tagtagtag/items/6aa430e813b146047a5b)
 
 
+
+[【Swift】Arrayの便利な変換関数たち | 2速で歩くヒト](https://www.2nd-walker.com/2020/09/02/swift-convenient-transforming-functions-of-array/#compactMap)
+
+`compactMap` は、`null` 入れない
+
+
 # 📝 2023/01/08
 
 

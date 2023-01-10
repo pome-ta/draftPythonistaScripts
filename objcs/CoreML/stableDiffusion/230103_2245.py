@@ -52,7 +52,7 @@ class BPETokenizer:
     self.padToken: str = '<|endoftext|>'
     # The unknown token.
     self.unknownToken: str = '<|endoftext|>'
-    
+
   def readMerges_url_(self):
     pass
 
@@ -64,5 +64,13 @@ config = MLModelConfiguration.new()
 
 content_url = urls.mergesURL
 content = content_url.read_text(encoding='utf-8')
+lines = content.split('\n')
+'''
+with content_url.open(encoding='utf-8') as f:
+  lines = f.readlines()
+'''
+#print(lines)
 
+for index, line in enumerate(lines):
+  pass
 
