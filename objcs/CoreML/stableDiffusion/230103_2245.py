@@ -41,10 +41,17 @@ class ResourceURLs:
     self.mergesURL = Path(_root, 'merges.txt')
 
 
-
 class BPETokenizer:
   def __init__(self):
-    self.merges: 
+    self.merges: list
+    self.vocabulary: list
+    self.startToken: str = '<|startoftext|>'
+    # The end token.
+    self.endToken: str = '<|endoftext|>'
+    # The token used for padding
+    self.padToken: str = '<|endoftext|>'
+    # The unknown token.
+    self.unknownToken: str = '<|endoftext|>'
 
 
 root_path = Path(models_root_path)
