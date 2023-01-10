@@ -16,6 +16,7 @@ extension BPETokenizer {
     }
 
     /// Read merges.txt file at URL into a dictionary mapping bigrams to the line number/rank/priority
+    // URL の merges.txt ファイルを、バイグラムを行番号/ランク/優先度にマッピングするディクショナリに読み込みます
     static func readMerges(url: URL) throws -> [TokenPair: Int] {
         let content = try String(contentsOf: url)
         let lines = content.split(separator: "\n")

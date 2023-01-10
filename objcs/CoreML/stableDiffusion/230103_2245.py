@@ -65,3 +65,4 @@ root_path = Path(models_root_path)
 urls = ResourceURLs(root_path)
 config = MLModelConfiguration.new()
 
+
