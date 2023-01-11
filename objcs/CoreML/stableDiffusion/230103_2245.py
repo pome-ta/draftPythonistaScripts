@@ -6,8 +6,6 @@ from pathlib import Path
 # MLModelConfiguration = ObjCClass('MLModelConfiguration')
 
 models_root_path = './models/coreml-stable-diffusion-v1-4_original_compiled'
-
-
 """
 'TextEncoder.mlmodelc',
 'Unet.mlmodelc',
@@ -73,8 +71,8 @@ class BPETokenizer:
     pass
 
 
-# root_path = Path(models_root_path)
-root_path = Path('./objcs/CoreML/stableDiffusion', models_root_path)
+root_path = Path(models_root_path)
+#root_path = Path('./objcs/CoreML/stableDiffusion', models_root_path)
 
 urls = ResourceURLs(root_path)
 # config = MLModelConfiguration.new()
@@ -97,6 +95,6 @@ for index, line in enumerate(lines):
     raise
   merges.append((TokenPair(pair[0], pair[1]), index))
 
-
 # print(merges)
 print(len(merges))
+

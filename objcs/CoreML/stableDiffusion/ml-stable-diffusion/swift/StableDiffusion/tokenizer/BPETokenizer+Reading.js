@@ -10,6 +10,7 @@ extension BPETokenizer {
     }
 
     /// Read vocab.json file at URL into a dictionary mapping a String to its Int token id
+    // URL の vocab.json ファイルを読み取り、文字列をその Int トークン ID にマッピングする辞書に読み込みます
     static func readVocabulary(url: URL) throws -> [String: Int] {
         let content = try Data(contentsOf: url)
         return try JSONDecoder().decode([String: Int].self, from: content)
