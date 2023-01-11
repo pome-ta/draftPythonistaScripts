@@ -80,7 +80,46 @@ merges
   (StableDiffusion.BPETokenizer.TokenPair(first: "r", second: "a"), 48),
   (StableDiffusion.BPETokenizer.TokenPair(first: "h", second: "a"), 49),
   (StableDiffusion.BPETokenizer.TokenPair(first: "d", second: "e"), 50),
-  (StableDiffusion.BPETokenizer.TokenPair(first: "o", second: "l"), 51)
+  (StableDiffusion.BPETokenizer.TokenPair(first: "o", second: "l"), 51),
+
+  (StableDiffusion.BPETokenizer.TokenPair(first: "un", second: "decided</w>"), 48857),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "so", second: "wn</w>"), 48858),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "rc", second: "n</w>"), 48859),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "north", second: "wales</w>"), 48860),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "htt", second: "r</w>"), 48861),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "fu", second: "mble</w>"), 48862),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "d", second: "its</w>"), 48863),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "comp", second: "elled</w>"), 48864),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "popu", second: "list</w>"), 48865),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "min", second: "ted</w>"), 48866),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "blan", second: "chett</w>"), 48867),
+  (StableDiffusion.BPETokenizer.TokenPair(first: ".", second: "\'\'</w>"), 48868),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "pro", second: "pulsion</w>"), 48869),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "m", second: "illa</w>"), 48870),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "au", second: "berg"), 48871),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "her", second: "tz</w>"), 48872),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "h", second: "ta</w>"), 48873),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "u", second: "daipur</w>"), 48874),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "serendip", second: "ity</w>"), 48875),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "azte", second: "cs</w>"), 48876),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "als", second: "ace</w>"), 48877),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "ðŁĲ", second: "ĳ</w>"), 48878),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "lu", second: "n</w>"), 48879),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "sho", second: "es"), 48880),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "char", second: "li</w>"), 48881),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "gar", second: "za</w>"), 48882),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "ðŁĴ", second: "Ł"), 48883),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "pro", second: "biotics</w>"), 48884),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "fox", second: "tv</w>"), 48885),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "ol", second: "is</w>"), 48886),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "mi", second: "ff"), 48887),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "loc", second: "alized</w>"), 48888),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "diffu", second: "ser</w>"), 48889),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "si", second: "gue</w>"), 48890),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "fun", second: "ko"), 48891),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "rend", second: "ous</w>"), 48892),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "ðŁĴ", second: "ĳ</w>"), 48893),
+  (StableDiffusion.BPETokenizer.TokenPair(first: "jeky", second: "ll</w>"), 48894)],
 ]
 Array<(TokenPair, Int)>
 ```
@@ -106,12 +145,11 @@ Array<(TokenPair, Int)>
 
 [クラスメソッドの使いどころを考えたけど分からなかった - Qiita](https://qiita.com/tagtagtag/items/6aa430e813b146047a5b)
 
-
-
 [【Swift】Arrayの便利な変換関数たち | 2速で歩くヒト](https://www.2nd-walker.com/2020/09/02/swift-convenient-transforming-functions-of-array/#compactMap)
 
 `compactMap` は、`null` 入れない
 
+`for` で回せないと思っていたら、最終空行でエラー喰ってただけでした
 
 # 📝 2023/01/08
 
@@ -120,10 +158,6 @@ Array<(TokenPair, Int)>
 [【Swift】Arrayの便利な変換関数たち | 2速で歩くヒト](https://www.2nd-walker.com/2020/09/02/swift-convenient-transforming-functions-of-array/#compactMap)
 
 `compactMap` は、`null` 入れない
-
-
->>>>>>>+main
-` をしれっと取得したい
 
 ```python
 from objc_util import NSBundle
@@ -134,7 +168,7 @@ pdbg.state(NSBundle.mainBundle())
 
 ```
 
-`.ひ/iproj/iOSstableDiffusionDEMO/ViewModel.swift`
+`./iproj/iOSstableDiffusionDEMO/ViewModel.swift`
 
 ```ViewModel.swift
 func loadModels() async {
@@ -157,7 +191,7 @@ func loadModels() async {
     
 ```
 
-### `let pipeline` を取る
+## `let pipeline` を取る
 
 `./ml-stable-diffusion/swift/StableDiffusion/pipeline/StableDiffusionPipeline+Resources.swift`
 

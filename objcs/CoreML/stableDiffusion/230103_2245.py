@@ -1,11 +1,13 @@
 from pathlib import Path
-from objc_util import ObjCClass, NSBundle, nsurl
+# from objc_util import ObjCClass, NSBundle, nsurl
 
-import pdbg
+# import pdbg
 
-MLModelConfiguration = ObjCClass('MLModelConfiguration')
+# MLModelConfiguration = ObjCClass('MLModelConfiguration')
 
 models_root_path = './models/coreml-stable-diffusion-v1-4_original_compiled'
+
+
 """
 'TextEncoder.mlmodelc',
 'Unet.mlmodelc',
@@ -51,6 +53,9 @@ class TokenPair:
     self.first = _first
     self.second = _second
 
+  def __str__(self) -> str:
+    return f'(first: "{self.first}", second: "{self.second}")'
+
 
 class BPETokenizer:
   def __init__(self):
@@ -68,20 +73,30 @@ class BPETokenizer:
     pass
 
 
-root_path = Path(models_root_path)
+# root_path = Path(models_root_path)
+root_path = Path('./objcs/CoreML/stableDiffusion', models_root_path)
 
 urls = ResourceURLs(root_path)
-config = MLModelConfiguration.new()
+# config = MLModelConfiguration.new()
 
 content_url = urls.mergesURL
 content = content_url.read_text(encoding='utf-8')
-lines = content.split('\n')
+# lines = content.split('\n')
+lines = content.splitlines()
 '''
 with content_url.open(encoding='utf-8') as f:
   lines = f.readlines()
 '''
-#print(lines)
+merges = []
 
 for index, line in enumerate(lines):
-  if line
+  if line[0] == '#':
+    continue
+  pair = line.split(' ')
+  if len(pair) != 2:
+    raise
+  merges.append((TokenPair(pair[0], pair[1]), index))
 
+
+# print(merges)
+print(len(merges))
