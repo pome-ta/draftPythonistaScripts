@@ -1,6 +1,16 @@
+# 📝 2023/01/12
+
+Python でclass 化を進めてみる
+
+ディレクトリ名を`stableDiffusionHandCode` とrename して、`stableDiffusion` にモジュールとして突っ込む予定。
+
+一つ一つ、写経のように丁寧にswift からPython へ書き換えているという意味で、`HandCode` とした。Hard Coding ではないので。
+
 # 📝 2023/01/11
 
 mac 側で、実機log 確認
+
+`Dictionary<String, Int>`
 
 ```log
 [
@@ -9,8 +19,6 @@ mac 側で、実機log 確認
 ```
 
 Python 通常の`json` で持ってきてええんかな？
-
-
 
 ```swift
 /// Read merges.txt file at URL into a dictionary mapping bigrams to the line number/rank/priority
