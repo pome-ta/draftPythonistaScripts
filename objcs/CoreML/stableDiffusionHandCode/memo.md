@@ -6,6 +6,15 @@ Python でclass 化を進めてみる
 
 一つ一つ、写経のように丁寧にswift からPython へ書き換えているという意味で、`HandCode` とした。Hard Coding ではないので。
 
+## class 化にあたり
+
+- `BPETokenizer+Reading.swift`
+- `StableDiffusionPipeline+Resources.swift`
+
+と、`+` で合体していることとかあるから、色々と考えないと
+
+モジュール作るの下手くそなので頑張る
+
 # 📝 2023/01/11
 
 mac 側で、実機log 確認
