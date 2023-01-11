@@ -8,6 +8,10 @@ mac 側で、実機log 確認
 ]
 ```
 
+Python 通常の`json` で持ってきてええんかな？
+
+
+
 ```swift
 /// Read merges.txt file at URL into a dictionary mapping bigrams to the line number/rank/priority
 static func readMerges(url: URL) throws -> [TokenPair: Int] {

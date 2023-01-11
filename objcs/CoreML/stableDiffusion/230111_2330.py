@@ -75,6 +75,11 @@ class BPETokenizer:
     pass
 
 
+class StableDiffusionPipeline:
+  def __init__(self):
+    pass
+
+
 root_path = Path(models_root_path)
 #root_path = Path('./objcs/CoreML/stableDiffusion', models_root_path)
 
