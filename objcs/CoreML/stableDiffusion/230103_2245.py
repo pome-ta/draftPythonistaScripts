@@ -41,6 +41,17 @@ class ResourceURLs:
     self.mergesURL = Path(_root, 'merges.txt')
 
 
+class TokenPair:
+  def __init__(self, first: str, second: str):
+    self.first: str
+    self.second: str
+    self._init(first, second)
+
+  def _init(self, _first: str, _second: str):
+    self.first = _first
+    self.second = _second
+
+
 class BPETokenizer:
   def __init__(self):
     self.merges: list

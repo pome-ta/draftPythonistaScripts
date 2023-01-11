@@ -171,6 +171,7 @@ public struct BPETokenizer {
 extension BPETokenizer {
 
     /// A hashable tuple of strings
+    // 文字列のハッシュ可能なタプル
     public struct TokenPair: Hashable {
         let first: String
         let second: String
