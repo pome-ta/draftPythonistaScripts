@@ -83,5 +83,5 @@ with content_url.open(encoding='utf-8') as f:
 #print(lines)
 
 for index, line in enumerate(lines):
-  pass
+  if line
 
