@@ -2,12 +2,12 @@ from pathlib import Path
 from objc_util import ObjCClass
 
 try:
-  from ..tokenizer.BPETokenizer_Reading import hoge
+  from ..tokenizer.BPETokenizer_Reading import BPETokenizer
 except:
   import sys
   sys.path.append(str(Path.cwd() / '..'))
 
-  from tokenizer.BPETokenizer_Reading import hoge
+  from tokenizer.BPETokenizer_Reading import BPETokenizer
 
 MLModelConfiguration = ObjCClass('MLModelConfiguration')
 
@@ -42,5 +42,5 @@ class StableDiffusionPipeline:
   def init_resourcesAt_configuration_disableSafety_reduceMemory_(
       self, _baseURL: Path):
     self.urls = ResourceURLs(_baseURL)
-    self.aaa = hoge()
+    self.aaa = BPETokenizer()
 
