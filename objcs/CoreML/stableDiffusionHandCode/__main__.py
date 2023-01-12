@@ -1,6 +1,6 @@
 from pathlib import Path
 #import stableDiffusion
-from stableDiffusion.pipeline import StableDiffusionPipeline
+from pyStableDiffusion.pipeline import StableDiffusionPipeline
 
 
 
