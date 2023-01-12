@@ -8,6 +8,7 @@ except:
 
   from tokenizer.BPETokenizer_Reading import BPETokenizer
 
+from .ManagedMLModel import ManagedMLModel
 
 class TextEncoder:
   def __init__(self, tokenizer: BPETokenizer, url: Path):
