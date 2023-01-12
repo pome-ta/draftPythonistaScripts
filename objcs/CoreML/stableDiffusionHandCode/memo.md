@@ -15,6 +15,16 @@ Python でclass 化を進めてみる
 
 モジュール作るの下手くそなので頑張る
 
+
+[【Python】構造体をなにかで代用する方法 | ゆうまるブログ](https://yumarublog.com/python/struct/amp/)
+
+
+### 親や兄弟階層のモジュール
+
+
+正しい読み込み方法がわからん、単体で確認するものではない？
+
+
 ## モデルデータ管理
 
 AirDrop で前飛ばなかったけなぁ。。
@@ -22,7 +32,7 @@ AirDrop で前飛ばなかったけなぁ。。
 今回は、iPhone を繋いでどこかのApp につっこんでゴニョゴニョした
 
 
-[【Python】構造体をなにかで代用する方法 | ゆうまるブログ](https://yumarublog.com/python/struct/amp/)
+
 
 # 📝 2023/01/11
 

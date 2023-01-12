@@ -1,6 +1,5 @@
 from pathlib import Path
 from objc_util import ObjCClass
-
 try:
   from ..tokenizer.BPETokenizer_Reading import BPETokenizer
 except:
@@ -8,6 +7,8 @@ except:
   sys.path.append(str(Path.cwd() / '..'))
 
   from tokenizer.BPETokenizer_Reading import BPETokenizer
+
+from .TextEncoder import TextEncoder
 
 MLModelConfiguration = ObjCClass('MLModelConfiguration')
 
@@ -42,5 +43,6 @@ class StableDiffusionPipeline:
   def init_resourcesAt_configuration_disableSafety_reduceMemory_(
       self, _baseURL: Path):
     self.urls = ResourceURLs(_baseURL)
-    self.aaa = BPETokenizer()
+    self.tokenizer = BPETokenizer(self.urls.mergesURL, self.urls.vocabURL)
+    self.textEncoder = TextEncoder(self.tokenizer, self.urls.textEncoderURL)
 

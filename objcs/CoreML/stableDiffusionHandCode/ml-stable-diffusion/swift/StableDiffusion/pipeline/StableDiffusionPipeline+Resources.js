@@ -76,6 +76,7 @@ public extension StableDiffusionPipeline {
         }
 
         // Construct pipeline
+        // パイプラインの構築
         self.init(textEncoder: textEncoder,
                   unet: unet,
                   decoder: decoder,
