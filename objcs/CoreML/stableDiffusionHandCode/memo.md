@@ -21,6 +21,9 @@ AirDrop で前飛ばなかったけなぁ。。
 
 今回は、iPhone を繋いでどこかのApp につっこんでゴニョゴニョした
 
+
+[【Python】構造体をなにかで代用する方法 | ゆうまるブログ](https://yumarublog.com/python/struct/amp/)
+
 # 📝 2023/01/11
 
 mac 側で、実機log 確認
