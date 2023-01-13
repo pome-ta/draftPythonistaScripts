@@ -1,15 +1,18 @@
 from pathlib import Path
 from objc_util import ObjCClass
-try:
+'''
+try
   from ..tokenizer.BPETokenizer_Reading import BPETokenizer
 except:
   import sys
   sys.path.append(str(Path.cwd() / '..'))
 
   from tokenizer.BPETokenizer_Reading import BPETokenizer
-
+'''
+from ..tokenizer.BPETokenizer_Reading import BPETokenizer
 from .TextEncoder import TextEncoder
 from .Unet import Unet
+from .Decoder import Decoder
 
 MLModelConfiguration = ObjCClass('MLModelConfiguration')
 
@@ -57,6 +60,7 @@ class StableDiffusionPipeline:
       print('12')
     else:
       self.unet = Unet(self.urls.unetURL, config)
+    self.decoder = Decoder(self.urls.decoderURL, config)
 
   def init(self):
     # todo: 最後に全部`self.` する
