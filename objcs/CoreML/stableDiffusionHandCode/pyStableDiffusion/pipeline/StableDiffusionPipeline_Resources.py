@@ -13,6 +13,7 @@ from ..tokenizer.BPETokenizer_Reading import BPETokenizer
 from .TextEncoder import TextEncoder
 from .Unet import Unet
 from .Decoder import Decoder
+from .SafetyChecker import SafetyChecker
 
 MLModelConfiguration = ObjCClass('MLModelConfiguration')
 
@@ -50,19 +51,30 @@ class StableDiffusionPipeline:
       config=MLModelConfiguration.new(),
       disableSafety=False,
       reduceMemory=False):
-    self.urls = ResourceURLs(_baseURL)
-    self.tokenizer = BPETokenizer(self.urls.mergesURL, self.urls.vocabURL)
-    self.textEncoder = TextEncoder(self.tokenizer, self.urls.textEncoderURL,
-                                   config)
+    urls = ResourceURLs(_baseURL)
+    tokenizer = BPETokenizer(urls.mergesURL, urls.vocabURL)
+    textEncoder = TextEncoder(tokenizer, urls.textEncoderURL, config)
 
-    self.unet: None
-    if self.urls.unetChunk1URL.exists() and self.urls.unetChunk2URL.exists():
+    unet: None
+    if urls.unetChunk1URL.exists() and urls.unetChunk2URL.exists():
       print('12')
     else:
-      self.unet = Unet(self.urls.unetURL, config)
-    self.decoder = Decoder(self.urls.decoderURL, config)
+      unet = Unet(urls.unetURL, config)
 
-  def init(self):
-    # todo: 最後に全部`self.` する
-    pass
+    decoder = Decoder(urls.decoderURL, config)
+
+    safetyChecker: None
+    if not (disableSafety) and urls.safetyCheckerURL.exists():
+      safetyChecker = SafetyChecker(urls.safetyCheckerURL, config)
+
+    self.init_textEncoder_unet_decoder_safetyChecker_reduceMemory(
+      textEncoder, unet, decoder, safetyChecker, reduceMemory)
+
+  def init_textEncoder_unet_decoder_safetyChecker_reduceMemory(
+      self, textEncoder, unet, decoder, safetyChecker, reduceMemory):
+    self.textEncoder = textEncoder
+    self.unet = unet,
+    self.decoder = decoder
+    self.safetyChecker = safetyChecker
+    self.reduceMemory = reduceMemory
 

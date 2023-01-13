@@ -2,7 +2,7 @@ from pathlib import Path
 from .ManagedMLModel import ManagedMLModel
 
 
-class Decoder:
+class SafetyChecker:
   def __init__(self, url: Path, configuration):
     self.models: ManagedMLModel
     self.init_modelAt_configuration_(url, configuration)
