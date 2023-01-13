@@ -41,9 +41,19 @@ class StableDiffusionPipeline:
     self.init_resourcesAt_configuration_disableSafety_reduceMemory_(baseURL)
 
   def init_resourcesAt_configuration_disableSafety_reduceMemory_(
-      self, _baseURL: Path, config=MLModelConfiguration.new()):
+      self,
+      _baseURL: Path,
+      config=MLModelConfiguration.new(),
+      disableSafety=False,
+      reduceMemory=False):
     self.urls = ResourceURLs(_baseURL)
     self.tokenizer = BPETokenizer(self.urls.mergesURL, self.urls.vocabURL)
     self.textEncoder = TextEncoder(self.tokenizer, self.urls.textEncoderURL,
                                    config)
+
+    unet: None
+    if self.urls.unetChunk1URL.exists() and self.urls.unetChunk2URL.exists():
+      print('12')
+    else:
+      print('u')
 

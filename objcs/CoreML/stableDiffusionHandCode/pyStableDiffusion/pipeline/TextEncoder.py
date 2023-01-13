@@ -22,4 +22,5 @@ class TextEncoder:
                                             _url: Path,
                                             _configuration):
     self.tokenizer = _tokenizer
+    self.model = ManagedMLModel(_url, _configuration)
 
