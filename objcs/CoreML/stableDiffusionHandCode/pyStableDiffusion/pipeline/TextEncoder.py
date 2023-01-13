@@ -10,14 +10,16 @@ except:
 
 from .ManagedMLModel import ManagedMLModel
 
+
 class TextEncoder:
-  def __init__(self, tokenizer: BPETokenizer, url: Path):
+  def __init__(self, tokenizer: BPETokenizer, url: Path, configuration):
     self.tokenizer: BPETokenizer
     self.model = None
-    self.init_tokenizer_modelAt_configuration_(tokenizer, url)
+    self.init_tokenizer_modelAt_configuration_(tokenizer, url, configuration)
 
   def init_tokenizer_modelAt_configuration_(self,
                                             _tokenizer: BPETokenizer,
-                                            _url: Path):
+                                            _url: Path,
+                                            _configuration):
     self.tokenizer = _tokenizer
 
