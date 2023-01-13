@@ -9,4 +9,3 @@ class SafetyChecker:
 
   def init_modelAt_configuration_(self, _url: Path, _configuration):
     self.models = ManagedMLModel(_url, _configuration)
-

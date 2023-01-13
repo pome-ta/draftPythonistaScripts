@@ -17,7 +17,8 @@ class TokenPair:
 
 
 class BPETokenizer:
-  def __init__(self, mergesURL: Path, vocabularyURL: Path):
+  # def __init__(self, mergesURL: Path, vocabularyURL: Path):
+  def __init__(self):
     self.merges: list
     self.vocabulary: dict
     self.startToken: str = '<|startoftext|>'
@@ -28,23 +29,30 @@ class BPETokenizer:
     # The unknown token.
     self.unknownToken: str = '<|endoftext|>'
 
-    self.merges = self.readMerges_url_(mergesURL)
-    self.vocabulary = self.readVocabulary_url(vocabularyURL)
+  @classmethod
+  def init_mergesAt_vocabularyAt_(cls, mergesURL: Path, vocabularyURL: Path):
+    _cls = cls()
+    _cls.merges = cls.readMerges_url_(mergesURL)
+    _cls.vocabulary = cls.readVocabulary_url_(vocabularyURL)
+    return _cls
 
-  def readVocabulary_url(self, url: Path) -> dict:
+  @staticmethod
+  def readVocabulary_url_(url: Path) -> dict:
     with open(url, encoding='utf-8') as f:
       vocabulary = json.load(f)
     return vocabulary
 
-  def readMerges_url_(self, url: Path) -> list:
+  @staticmethod
+  def readMerges_url_(url: Path) -> list:
     content = url.read_text(encoding='utf-8')
     lines = content.splitlines()
 
     merges = []
     for index, line in enumerate(lines):
-      if line[0] == '#': continue
+      if line[0] == '#':
+        continue
       pair = line.split(' ')
-      if len(pair) != 2: raise
+      if len(pair) != 2:
+        raise
       merges.append((TokenPair(pair[0], pair[1]), index))
     return merges
-
