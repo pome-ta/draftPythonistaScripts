@@ -1,5 +1,18 @@
 # `objc_util` 写経しつつ理解する
 
+# 📝 2023/01/12
+
+あらためて、[beeware/rubicon-objc: A bridge interface between Python and Objective-C.](https://github.com/beeware/rubicon-objc) をみたらシンプルで驚いた。こんなにさっぱりしていたっけか？
+
+macOS 上で、`NSString` が`objc-util` では呼べていないので、リポジトリ内の探索をおこなってみる
+
+## `objc/__init__.py`
+
+ここ地味に重要では？
+
+> `api`、`runtime`、`types` は、わかりやすくするために入れているだけです。なぜなら、以下の from-imports は、types と runtime モジュールをインポートして、暗黙のうちに `rubicon.objc` 名前空間に追加しているからです。
+> しかし、コレクションのインポートは重要である。コレクションからのクラスは直接使用されることを意図しておらず、その代わりにランタイムモジュールに登録されます（for_objcclassデコレータを使用）ので、PythonでFoundationコレクションを表すときにObjCInstanceの代わりとして使用されるのです。このモジュールがインポートされていない場合、登録は行われず、Foundation コレクションは Python で期待されるメソッド/演算子をサポートしません!
+
 # 📝 2023/01/09
 
 最低限実行までやってみたい
