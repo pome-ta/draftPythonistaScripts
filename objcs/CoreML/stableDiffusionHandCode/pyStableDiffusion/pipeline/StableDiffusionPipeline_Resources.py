@@ -9,6 +9,7 @@ except:
   from tokenizer.BPETokenizer_Reading import BPETokenizer
 
 from .TextEncoder import TextEncoder
+from .Unet import Unet
 
 MLModelConfiguration = ObjCClass('MLModelConfiguration')
 
@@ -51,9 +52,13 @@ class StableDiffusionPipeline:
     self.textEncoder = TextEncoder(self.tokenizer, self.urls.textEncoderURL,
                                    config)
 
-    unet: None
+    self.unet: None
     if self.urls.unetChunk1URL.exists() and self.urls.unetChunk2URL.exists():
       print('12')
     else:
-      print('u')
+      self.unet = Unet(self.urls.unetURL, config)
+
+  def init(self):
+    # todo: 最後に全部`self.` する
+    pass
 
