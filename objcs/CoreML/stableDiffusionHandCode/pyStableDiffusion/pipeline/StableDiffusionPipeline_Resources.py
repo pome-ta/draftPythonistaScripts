@@ -1,7 +1,6 @@
 from pathlib import Path
 
 from objc_util import ObjCClass
-
 '''
 try
   from ..tokenizer.BPETokenizer_Reading import BPETokenizer
@@ -18,6 +17,7 @@ from .Decoder import Decoder
 from .SafetyChecker import SafetyChecker
 
 MLModelConfiguration = ObjCClass('MLModelConfiguration')
+
 # class MLModelConfiguration:
 #   @classmethod
 #   def new(cls):
@@ -49,17 +49,22 @@ class ResourceURLs:
 
 class StableDiffusionPipeline:
   def __init__(self, baseURL: Path):
+    self.textEncoder: TextEncoder
+    self.unet: Unet
+    self.decoder: Decoder
+    self.safetyChecker: SafetyChecker
+    self.reduceMemory: bool
     self.init_resourcesAt_configuration_disableSafety_reduceMemory_(baseURL)
 
   def init_resourcesAt_configuration_disableSafety_reduceMemory_(
-          self,
-          _baseURL: Path,
-          config=MLModelConfiguration.new(),
-          disableSafety=False,
-          reduceMemory=False):
+      self,
+      _baseURL: Path,
+      config=MLModelConfiguration.new(),
+      disableSafety=False,
+      reduceMemory=False):
     urls = ResourceURLs(_baseURL)
     tokenizer = BPETokenizer.init_mergesAt_vocabularyAt_(
-        urls.mergesURL, urls.vocabURL)
+      urls.mergesURL, urls.vocabURL)
     textEncoder = TextEncoder(tokenizer, urls.textEncoderURL, config)
 
     unet: None
@@ -75,12 +80,13 @@ class StableDiffusionPipeline:
       safetyChecker = SafetyChecker(urls.safetyCheckerURL, config)
 
     self.init_textEncoder_unet_decoder_safetyChecker_reduceMemory(
-        textEncoder, unet, decoder, safetyChecker, reduceMemory)
+      textEncoder, unet, decoder, safetyChecker, reduceMemory)
 
   def init_textEncoder_unet_decoder_safetyChecker_reduceMemory(
-          self, textEncoder, unet, decoder, safetyChecker, reduceMemory):
+      self, textEncoder, unet, decoder, safetyChecker, reduceMemory):
     self.textEncoder = textEncoder
-    self.unet = unet,
+    self.unet = unet
     self.decoder = decoder
     self.safetyChecker = safetyChecker
     self.reduceMemory = reduceMemory
+
