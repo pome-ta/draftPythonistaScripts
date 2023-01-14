@@ -1,6 +1,8 @@
 from pathlib import Path
 
 from objc_util import ObjCClass
+
+from .StableDiffusionPipeline import _StableDiffusionPipeline
 '''
 try
   from ..tokenizer.BPETokenizer_Reading import BPETokenizer
@@ -47,32 +49,24 @@ class ResourceURLs:
     self.mergesURL = Path(_baseURL, 'merges.txt')
 
 
-class StableDiffusionPipeline:
-  def __init__(self, baseURL: Path):
-    self.textEncoder: TextEncoder
-    self.unet: Unet
-    self.decoder: Decoder
-    self.safetyChecker: SafetyChecker
-    self.reduceMemory: bool
-    self.init_resourcesAt_configuration_disableSafety_reduceMemory_(baseURL)
+class StableDiffusionPipeline(_StableDiffusionPipeline):
+  def __init__(self):
+    super().__init__()
 
-  def generateImages(self):
-    pass
-
-  def init_resourcesAt_configuration_disableSafety_reduceMemory_(
-      self,
-      _baseURL: Path,
-      config=MLModelConfiguration.new(),
-      disableSafety=False,
-      reduceMemory=False):
-    urls = ResourceURLs(_baseURL)
+  @classmethod
+  def init_resourcesAt_configuration_(cls,
+                                      baseURL: Path,
+                                      config=MLModelConfiguration.new(),
+                                      disableSafety=False,
+                                      reduceMemory=False):
+    urls = ResourceURLs(baseURL)
     tokenizer = BPETokenizer.init_mergesAt_vocabularyAt_(
       urls.mergesURL, urls.vocabURL)
     textEncoder = TextEncoder(tokenizer, urls.textEncoderURL, config)
 
     unet: None
     if urls.unetChunk1URL.exists() and urls.unetChunk2URL.exists():
-      print('12')
+      print('unetChunk1URL, unetChunk2URL')
     else:
       unet = Unet(urls.unetURL, config)
 
@@ -82,14 +76,8 @@ class StableDiffusionPipeline:
     if not (disableSafety) and urls.safetyCheckerURL.exists():
       safetyChecker = SafetyChecker(urls.safetyCheckerURL, config)
 
-    self.init_textEncoder_unet_decoder_safetyChecker_reduceMemory(
+    _cls = cls()
+    _cls.init_textEncoder_unet_decoder_safetyChecker_reduceMemory(
       textEncoder, unet, decoder, safetyChecker, reduceMemory)
-
-  def init_textEncoder_unet_decoder_safetyChecker_reduceMemory(
-      self, textEncoder, unet, decoder, safetyChecker, reduceMemory):
-    self.textEncoder = textEncoder
-    self.unet = unet
-    self.decoder = decoder
-    self.safetyChecker = safetyChecker
-    self.reduceMemory = reduceMemory
+    return _cls
 

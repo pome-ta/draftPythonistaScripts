@@ -46,9 +46,11 @@ public struct TextEncoder: ResourceManaging {
     public func encode(_ text: String) throws -> MLShapedArray<Float32> {
 
         // Get models expected input length
+        // モデルの予想される入力長を取得する
         let inputLength = inputShape.last!
 
         // Tokenize, padding to the expected length
+        // トークナイズ、予想される長さまでパディング
         var (tokens, ids) = tokenizer.tokenize(input: text, minCount: inputLength)
 
         // Truncate if necessary
@@ -60,6 +62,8 @@ public struct TextEncoder: ResourceManaging {
         }
 
         // Use the model to generate the embedding
+        // モデルを使用して埋め込みを生成する
+        
         return try encode(ids: ids)
     }
 

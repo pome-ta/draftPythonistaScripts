@@ -7,10 +7,13 @@ import Accelerate
 import CoreGraphics
 
 /// Schedulers compatible with StableDiffusionPipeline
+// StableDiffusionPipeline と互換性のあるスケジューラ
 public enum StableDiffusionScheduler {
     /// Scheduler that uses a pseudo-linear multi-step (PLMS) method
+    // 疑似線形マルチステップ (PLMS) メソッドを使用するスケジューラー
     case pndmScheduler
     /// Scheduler that uses a second order DPM-Solver++ algorithm
+    // 2 次 DPM-Solver++ アルゴリズムを使用するスケジューラー
     case dpmSolverMultistepScheduler
 }
 
@@ -35,6 +38,7 @@ public struct StableDiffusionPipeline: ResourceManaging {
     var safetyChecker: SafetyChecker? = nil
 
     /// Reports whether this pipeline can perform safety checks
+    // このパイプラインが安全性チェックを実行できるかどうかを報告します
     public var canSafetyCheck: Bool {
         safetyChecker != nil
     }
@@ -289,6 +293,7 @@ public struct StableDiffusionPipeline: ResourceManaging {
 @available(iOS 16.2, macOS 13.1, *)
 extension StableDiffusionPipeline {
     /// Sampling progress details
+    // サンプリングの進行状況の詳細
     public struct Progress {
         public let pipeline: StableDiffusionPipeline
         public let prompt: String
