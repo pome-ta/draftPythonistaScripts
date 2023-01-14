@@ -1,3 +1,74 @@
+# 📝 2023/01/14
+
+## `@classmethod` してみる
+
+呼び出し時、取り回し変数が解決？しかし、class 内部で処理というより、class 設計上の上をツルツルと動いている感覚
+
+## TextEncoder の`encode`
+
+### `encode` が2つある？
+
+`public func` と、そのままの`func` 、、、
+
+`public` 呼んでから、内部処理として呼ぶんか？
+
+Python としては、`_encode` として、呼ぼうかな
+
+```TextEncoder.swift
+/// Encode input text/string
+///
+///  - Parameters:
+///     - text: Input text to be tokenized and then embedded
+///  - Returns: Embedding representing the input text
+public func encode(_ text: String) throws -> MLShapedArray<Float32> {
+
+    // Get models expected input length
+    let inputLength = inputShape.last!
+
+    // Tokenize, padding to the expected length
+    var (tokens, ids) = tokenizer.tokenize(input: text, minCount: inputLength)
+
+    // Truncate if necessary
+    if ids.count > inputLength {
+        tokens = tokens.dropLast(tokens.count - inputLength)
+        ids = ids.dropLast(ids.count - inputLength)
+        let truncated = tokenizer.decode(tokens: tokens)
+        print("Needed to truncate input '\(text)' to '\(truncated)'")
+    }
+
+    // Use the model to generate the embedding
+    return try encode(ids: ids)
+}
+
+/// Prediction queue
+let queue = DispatchQueue(label: "textencoder.predict")
+
+func encode(ids: [Int]) throws -> MLShapedArray<Float32> {
+    let inputName = inputDescription.name
+    let inputShape = inputShape
+
+    let floatIds = ids.map { Float32($0) }
+    let inputArray = MLShapedArray<Float32>(scalars: floatIds, shape: inputShape)
+    let inputFeatures = try! MLDictionaryFeatureProvider(
+        dictionary: [inputName: MLMultiArray(inputArray)])
+
+    let result = try model.perform { model in
+        try model.prediction(from: inputFeatures)
+    }
+
+    let embeddingFeature = result.featureValue(for: "last_hidden_state")
+    return MLShapedArray<Float32>(converting: embeddingFeature!.multiArrayValue!)
+}
+```
+
+### `inputShape` ってどこ？
+
+下の方に定義してあったけど、
+
+[MLFeatureDescription | Apple Developer Documentation](https://developer.apple.com/documentation/coreml/mlfeaturedescription?language=objc)
+
+ここいらで何かをする感じか？
+
 # 📝 2023/01/12
 
 Python でclass 化を進めてみる
