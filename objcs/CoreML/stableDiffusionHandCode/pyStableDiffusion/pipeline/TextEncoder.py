@@ -24,4 +24,5 @@ class TextEncoder:
     self.tokenizer = _tokenizer
     self.model = ManagedMLModel(_url, _configuration)
     
-  def encode(self,)
+  def encode(self):
+    inputDescription: MLFeatureDescription
