@@ -10,4 +10,12 @@ resourceURL = Path(models_root_path)
 # resourceURL = Path('./objcs/CoreML/stableDiffusionHandCode', models_root_path)
 pipeline = StableDiffusionPipeline(resourceURL)
 
+
+
+
+prompt:str = "cat"
+imageCount: Int = 1
+stepCount: int = 2
+seed: int = 500
+step: Int = 2
 x = 1

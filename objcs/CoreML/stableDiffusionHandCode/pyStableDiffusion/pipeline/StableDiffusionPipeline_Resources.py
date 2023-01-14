@@ -56,6 +56,9 @@ class StableDiffusionPipeline:
     self.reduceMemory: bool
     self.init_resourcesAt_configuration_disableSafety_reduceMemory_(baseURL)
 
+  def generateImages(self):
+    pass
+
   def init_resourcesAt_configuration_disableSafety_reduceMemory_(
       self,
       _baseURL: Path,
