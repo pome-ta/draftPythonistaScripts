@@ -26,3 +26,4 @@ class TextEncoder:
     
   def encode(self):
     inputDescription: MLFeatureDescription
+    self.model.loadModel()

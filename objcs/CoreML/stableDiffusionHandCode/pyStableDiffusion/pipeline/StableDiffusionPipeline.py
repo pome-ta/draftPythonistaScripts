@@ -22,5 +22,5 @@ class _StableDiffusionPipeline:
                      seed: int=0,
                      guidanceScale: float=7.5,
                      disableSafety: bool=False):
-    pass
+    self.promptEmbedding = self.textEncoder.encode()
 

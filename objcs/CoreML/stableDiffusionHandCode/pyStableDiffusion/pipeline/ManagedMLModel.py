@@ -1,11 +1,15 @@
 from pathlib import Path
 
+from objc_util import ObjCClass, nsurl
+
+MLModel = ObjCClass('MLModel')
+
 
 class ManagedMLModel:
   def __init__(self, url: Path, configuration):
     self.modelURL: Path
     self.configuration: None
-    self.loadedModel: None  # MLModel?
+    self.loadedModel: MLModel  # MLModel?
     self.queue: None  # DispatchQueue
     self.init_modelAt_configuration_(url, configuration)
 
@@ -13,3 +17,10 @@ class ManagedMLModel:
     self.modelURL = _url
     self.configuration = _configuration
     self.loadedModel = None
+    
+
+  def loadModel(self):
+    modelURL = nsurl(str(self.modelURL.resolve()))
+    self.loadedModel = MLModel.modelWithContentsOfURL_configuration_error_(
+      self.modelURL, self.configuration, None)
+
