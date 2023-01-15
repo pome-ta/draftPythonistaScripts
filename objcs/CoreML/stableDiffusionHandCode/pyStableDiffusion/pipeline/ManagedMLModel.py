@@ -2,6 +2,8 @@ from pathlib import Path
 
 from objc_util import ObjCClass, nsurl
 
+import pdbg
+
 MLModel = ObjCClass('MLModel')
 
 
@@ -17,10 +19,9 @@ class ManagedMLModel:
     self.modelURL = _url
     self.configuration = _configuration
     self.loadedModel = None
-    
 
   def loadModel(self):
     modelURL = nsurl(str(self.modelURL.resolve()))
     self.loadedModel = MLModel.modelWithContentsOfURL_configuration_error_(
-      self.modelURL, self.configuration, None)
+      modelURL, self.configuration, None)
 

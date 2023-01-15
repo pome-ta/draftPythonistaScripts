@@ -50,11 +50,15 @@ public final class ManagedMLModel: ResourceManaging {
     }
 
     /// Perform an operation with the managed model via a supplied closure.
+    // 提供されたクロージャーを介してマネージド モデルで操作を実行します。
     ///  The model will be loaded and supplied to the closure and should only be
     ///  used within the closure to ensure all resource management is synchronized
+    
+    // モデルはクロージャーにロードされて提供され、すべてのリソース管理が確実に同期されるようにクロージャー内でのみ使用する必要があります
     ///
     /// - Parameters:
     ///     - body: Closure which performs and action on a loaded model
+            // ロードされたモデルに対して実行およびアクションを実行するクロージャー
     /// - Returns: The result of the closure
     /// - Throws: An error if the model cannot be loaded or if the closure throws
     public func perform<R>(_ body: (MLModel) throws -> R) throws -> R {
