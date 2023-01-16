@@ -90,6 +90,7 @@ public struct BPETokenizer {
     }
 
     /// Encode an input string to a sequence of tokens
+    // 入力文字列を一連のトークンにエンコードする
     func encode(input: String) -> [String] {
         let normalized = input.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let words = normalized.split(separator: " ")
@@ -97,6 +98,7 @@ public struct BPETokenizer {
     }
 
     /// Encode a single word into a sequence of tokens
+    // 1 つの単語を一連のトークンにエンコードする
     func encode(word: Substring) -> [String] {
         var tokens = word.map { String($0) }
         if let last = tokens.indices.last {

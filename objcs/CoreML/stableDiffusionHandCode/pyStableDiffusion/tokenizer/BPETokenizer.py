@@ -20,6 +20,16 @@ class _BPETokenizer:
     _cls.vocabulary = cls.readVocabulary_url_(vocabularyURL)
     return _cls
 
+  def tokenize(self, input_str: str, minCount: int=None):
+    tokens: list = []
+    tokens.append(self.startToken)
+    tokens.append(input_str)
+    tokens.append(self.endToken)
+    
+    
+    
+    
+
   @staticmethod
   def readVocabulary_url_(url: Path) -> dict:
     pass
