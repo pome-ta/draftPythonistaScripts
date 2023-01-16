@@ -24,4 +24,5 @@ class ManagedMLModel:
     modelURL = nsurl(str(self.modelURL.resolve()))
     self.loadedModel = MLModel.modelWithContentsOfURL_configuration_error_(
       modelURL, self.configuration, None)
+    pdbg.state(self.loadedModel.modelDescription().inputDescriptionsByName().allValues()[0].multiArrayConstraint().shape())
 
