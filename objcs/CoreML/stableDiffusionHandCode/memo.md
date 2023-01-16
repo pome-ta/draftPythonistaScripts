@@ -1,3 +1,104 @@
+# 📝 2023/01/16
+
+```log
+cat docs
+["cat", "docs"]
+encode tokens
+["c", "a", "t"]
+0..<3
+if last
+["c", "a", "t</w>"]
+while
+[StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "a"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "t</w>")]
+[StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "a"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "t</w>")]
+while
+[StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "at</w>")]
+[StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "at</w>")]
+while
+[]
+[]
+encode tokens
+["d", "o", "c", "s"]
+0..<4
+if last
+["d", "o", "c", "s</w>"]
+while
+[StableDiffusion.BPETokenizer.TokenPair(first: "d", second: "o"), StableDiffusion.BPETokenizer.TokenPair(first: "o", second: "c"), StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "s</w>")]
+[StableDiffusion.BPETokenizer.TokenPair(first: "d", second: "o"), StableDiffusion.BPETokenizer.TokenPair(first: "o", second: "c"), StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "s</w>")]
+while
+[StableDiffusion.BPETokenizer.TokenPair(first: "do", second: "c"), StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "s</w>")]
+[StableDiffusion.BPETokenizer.TokenPair(first: "do", second: "c"), StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "s</w>")]
+while
+[StableDiffusion.BPETokenizer.TokenPair(first: "do", second: "cs</w>")]
+[StableDiffusion.BPETokenizer.TokenPair(first: "do", second: "cs</w>")]
+while
+[]
+[]
+
+```
+
+```log
+while
+[StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "t</w>"), StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "a")]
+[StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "t</w>"), StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "a")]
+while
+[StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "at</w>")]
+[StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "at</w>")]
+while
+[]
+[]
+```
+
+```.swift
+// cat `0..<3`
+// docs `0..<4`
+if let last = tokens.indices.last {
+  tokens[last] = tokens[last] + "</w>"
+}
+```
+
+```log
+cat dog
+["cat", "dog"]
+encode tokens
+["c", "a", "t"]
+if last
+["c", "a", "t</w>"]
+encode tokens
+["d", "o", "g"]
+if last
+["d", "o", "g</w>"]
+bool
+tokens
+["<|startoftext|>", "cat</w>", "dog</w>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>"]
+ids
+[49406, 2368, 1929, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407]
+```
+
+```log
+cat
+["cat"]
+encode tokens
+["c", "a", "t"]
+if last
+["c", "a", "t</w>"]
+bool
+tokens
+["<|startoftext|>", "cat</w>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>"]
+ids
+[49406, 2368, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407]
+```
+
+```log
+cat
+["cat"]
+bool
+tokens
+["<|startoftext|>", "cat</w>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>", "<|endoftext|>"]
+ids
+[49406, 2368, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407, 49407]
+```
+
 # 📝 2023/01/14
 
 ## `@classmethod` してみる
