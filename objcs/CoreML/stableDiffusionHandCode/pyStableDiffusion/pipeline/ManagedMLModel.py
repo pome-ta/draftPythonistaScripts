@@ -21,11 +21,11 @@ class ManagedMLModel:
     self.loadedModel = None
 
   def perform(self):
+    self._loadModel()
     return self.loadedModel
-  
-  def loadModel(self):
+
+  def _loadModel(self):
     modelURL = nsurl(str(self.modelURL.resolve()))
     self.loadedModel = MLModel.modelWithContentsOfURL_configuration_error_(
       modelURL, self.configuration, None)
-    pdbg.state(self.loadedModel.modelDescription().inputDescriptionsByName().allValues()[0].multiArrayConstraint().shape())
 

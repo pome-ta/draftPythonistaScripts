@@ -58,6 +58,7 @@ public struct TextEncoder: ResourceManaging {
             tokens = tokens.dropLast(tokens.count - inputLength)
             ids = ids.dropLast(ids.count - inputLength)
             let truncated = tokenizer.decode(tokens: tokens)
+            // 入力「Ⓐ」を「Ⓑ」に切り詰める必要があります。
             print("Needed to truncate input '\(text)' to '\(truncated)'")
         }
 

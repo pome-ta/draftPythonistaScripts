@@ -1,6 +1,8 @@
 from pathlib import Path
 import json
 
+from .BPETokenizer import _BPETokenizer
+
 
 class TokenPair:
   def __init__(self, first: str, second: str):
@@ -16,25 +18,9 @@ class TokenPair:
     return f'(first: "{self.first}", second: "{self.second}")'
 
 
-class BPETokenizer:
-  # def __init__(self, mergesURL: Path, vocabularyURL: Path):
+class BPETokenizer(_BPETokenizer):
   def __init__(self):
-    self.merges: list
-    self.vocabulary: dict
-    self.startToken: str = '<|startoftext|>'
-    # The end token.
-    self.endToken: str = '<|endoftext|>'
-    # The token used for padding
-    self.padToken: str = '<|endoftext|>'
-    # The unknown token.
-    self.unknownToken: str = '<|endoftext|>'
-
-  @classmethod
-  def init_mergesAt_vocabularyAt_(cls, mergesURL: Path, vocabularyURL: Path):
-    _cls = cls()
-    _cls.merges = cls.readMerges_url_(mergesURL)
-    _cls.vocabulary = cls.readVocabulary_url_(vocabularyURL)
-    return _cls
+    super().__init__()
 
   @staticmethod
   def readVocabulary_url_(url: Path) -> dict:
@@ -56,3 +42,4 @@ class BPETokenizer:
         raise
       merges.append((TokenPair(pair[0], pair[1]), index))
     return merges
+

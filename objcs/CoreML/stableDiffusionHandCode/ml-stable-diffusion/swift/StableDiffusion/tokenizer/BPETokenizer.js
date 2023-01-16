@@ -62,6 +62,7 @@ public struct BPETokenizer {
         tokens.append(endToken)
 
         // Pad if there was a min length specified
+        // 最小長が指定されている場合はパディング
         if let minLen = minCount, minLen > tokens.count {
             tokens.append(contentsOf: repeatElement(padToken, count: minLen - tokens.count))
         }
