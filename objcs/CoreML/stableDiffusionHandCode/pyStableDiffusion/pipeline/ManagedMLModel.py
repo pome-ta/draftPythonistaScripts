@@ -20,6 +20,9 @@ class ManagedMLModel:
     self.configuration = _configuration
     self.loadedModel = None
 
+  def perform(self):
+    return self.loadedModel
+  
   def loadModel(self):
     modelURL = nsurl(str(self.modelURL.resolve()))
     self.loadedModel = MLModel.modelWithContentsOfURL_configuration_error_(
