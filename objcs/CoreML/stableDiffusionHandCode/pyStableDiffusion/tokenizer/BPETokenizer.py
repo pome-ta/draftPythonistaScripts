@@ -5,11 +5,19 @@ class TokenPair:
   def __init__(self, first: str, second: str):
     self.first: str = first
     self.second: str = second
+    
+  def __eq__(self, other):
+    if not isinstance(other, TokenPair):
+      return False
+    return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)
 
 
 class _BPETokenizer:
   def __init__(self):
-    self.merges: list
+    self.merges: dict
     self.vocabulary: dict
     self.startToken: str = '<|startoftext|>'
     # The end token.
