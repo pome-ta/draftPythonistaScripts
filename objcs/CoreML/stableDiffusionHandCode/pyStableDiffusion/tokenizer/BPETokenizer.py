@@ -51,7 +51,7 @@ class _BPETokenizer:
     #print(tokens)
     pairs = self.pairs_for_(tokens)
     #canMerge = list(filter(lambda p:self))
-    print(self.merges)
+    #print(self.merges)
     for i in pairs:
       print(i)
     return tokens
