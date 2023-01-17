@@ -12,6 +12,8 @@ class _BPETokenizer:
     self.padToken: str = '<|endoftext|>'
     # The unknown token.
     self.unknownToken: str = '<|endoftext|>'
+    self.unknownTokenID: int = 0
+    
 
   @classmethod
   def init_mergesAt_vocabularyAt_(cls, mergesURL: Path, vocabularyURL: Path):
@@ -21,10 +23,14 @@ class _BPETokenizer:
     return _cls
 
   def tokenize(self, input_str: str, minCount: int=None):
+    # xxx: property ?
+    self.unknownTokenID = self.vocabulary[self.unknownToken]
     tokens: list = []
     tokens.append(self.startToken)
     tokens.append(input_str)
     tokens.append(self.endToken)
+    
+    
     
     
     

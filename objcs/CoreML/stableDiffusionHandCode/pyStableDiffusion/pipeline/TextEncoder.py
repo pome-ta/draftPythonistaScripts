@@ -35,6 +35,7 @@ class TextEncoder:
     inputShape = self._inputShape()
     inputLength = inputShape[-1]
     print(inputLength)
+    self.tokenizer.tokenize('cat', inputLength)
 
   def _inputDescription(self):
     # xxx: getter/setter ?
