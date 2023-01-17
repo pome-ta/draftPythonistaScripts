@@ -34,8 +34,17 @@ class _BPETokenizer:
     normalized = input_str.strip().lower()
     words = normalized.split()
     print(words)
+    # xxx: `map` をやりたいだけ
+    h = list(map(lambda w: self.encode_word_(w), words))
+    print(h)
 
   def encode_word_(self, word: str) -> list:
+    tokens = [str(w) for w in word]
+    tokens[-1] = tokens[-1] + '</w>'
+    print(tokens)
+    return tokens
+
+  def pairs(self):
     pass
 
   @staticmethod

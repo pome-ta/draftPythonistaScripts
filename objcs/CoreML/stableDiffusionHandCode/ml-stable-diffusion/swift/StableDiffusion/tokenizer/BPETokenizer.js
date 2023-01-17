@@ -114,6 +114,7 @@ public struct BPETokenizer {
             }
 
             // If multiple merges are found, use the one with the lowest rank
+            // 複数のマージが見つかった場合は、ランクが最も低いものを使用します
             let shouldMerge = canMerge.min { merges[$0]! < merges[$1]! }!
             tokens = update(tokens, merging: shouldMerge)
         }
@@ -121,6 +122,7 @@ public struct BPETokenizer {
     }
 
     /// Get  the set of adjacent pairs / bigrams from a sequence of tokens
+    // 一連のトークンから隣接するペア/バイグラムのセットを取得します
     func pairs(for tokens: [String]) -> Set<TokenPair> {
         guard tokens.count > 1 else {
             return Set()
