@@ -13,7 +13,6 @@ class _BPETokenizer:
     # The unknown token.
     self.unknownToken: str = '<|endoftext|>'
     self.unknownTokenID: int = 0
-    
 
   @classmethod
   def init_mergesAt_vocabularyAt_(cls, mergesURL: Path, vocabularyURL: Path):
@@ -29,12 +28,15 @@ class _BPETokenizer:
     tokens.append(self.startToken)
     tokens.append(input_str)
     tokens.append(self.endToken)
-    
-    
-    
-    
-    
-    
+    self.encode_input_(' cat dog ')
+
+  def encode_input_(self, input_str: str) -> list:
+    normalized = input_str.strip().lower()
+    words = normalized.split()
+    print(words)
+
+  def encode_word_(self, word: str) -> list:
+    pass
 
   @staticmethod
   def readVocabulary_url_(url: Path) -> dict:

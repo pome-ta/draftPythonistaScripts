@@ -35,7 +35,7 @@ class TextEncoder:
     inputShape = self._inputShape()
     inputLength = inputShape[-1]
     print(inputLength)
-    self.tokenizer.tokenize('cat', inputLength)
+    self.tokenizer.tokenize('cat dog', inputLength)
 
   def _inputDescription(self):
     # xxx: getter/setter ?
@@ -43,28 +43,13 @@ class TextEncoder:
     # todo: `model.modelDescription.inputDescriptionsByName.first!.value`
     _inputDescription = perform.modelDescription().inputDescriptionsByName(
     ).allValues()[0]
-    #print(_inputDescription)
     return _inputDescription
 
   def _inputShape(self):
     inputDescription: MLFeatureDescription
     inputDescription = self._inputDescription()
-    #_inputShape = inputDescription.multiArrayConstraint().shape()
-    #print(_inputShape)
-    #pdbg.state(_inputShape)
-    #print(list(_inputShape))
-    #_inputShape = [int(i) for i in inputDescription.multiArrayConstraint().shape()]
-    #intValue
-
-    #print(_inputShape)
-    '''
-    for n, i in enumerate(inputDescription.multiArrayConstraint().shape()):
-      if n:
-        pdbg.state(i)
-    '''
     _inputShape = [
       i.intValue() for i in inputDescription.multiArrayConstraint().shape()
     ]
-    #print(_inputShape)
     return _inputShape
 
