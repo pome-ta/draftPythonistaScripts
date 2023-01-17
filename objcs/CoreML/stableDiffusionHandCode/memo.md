@@ -1,3 +1,103 @@
+# 📝 2023/01/17
+
+## 実機実行調査
+
+```log
+pairs
+[StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "t</w>"), StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "a")]
+canMerge
+[StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "t</w>"), StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "a")]
+should
+TokenPair(first: "a", second: "t</w>")
+pairs
+[StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "at</w>")]
+canMerge
+[StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "at</w>")]
+should
+TokenPair(first: "c", second: "at</w>")
+pairs
+[]
+canMerge
+[]
+tokens
+["cat</w>"]
+```
+
+結局同じものが帰ってきている？
+
+```log
+caaaatttttt
+["caaaatttttt"]
+pairs
+[StableDiffusion.BPETokenizer.TokenPair(first: "t", second: "t</w>"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "a"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "t"), StableDiffusion.BPETokenizer.TokenPair(first: "t", second: "t"), StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "a")]
+canMerge
+[StableDiffusion.BPETokenizer.TokenPair(first: "t", second: "t</w>"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "a"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "t"), StableDiffusion.BPETokenizer.TokenPair(first: "t", second: "t"), StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "a")]
+should
+TokenPair(first: "a", second: "t")
+pairs
+[StableDiffusion.BPETokenizer.TokenPair(first: "t", second: "t</w>"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "at"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "a"), StableDiffusion.BPETokenizer.TokenPair(first: "at", second: "t"), StableDiffusion.BPETokenizer.TokenPair(first: "t", second: "t"), StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "a")]
+canMerge
+[StableDiffusion.BPETokenizer.TokenPair(first: "t", second: "t</w>"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "at"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "a"), StableDiffusion.BPETokenizer.TokenPair(first: "at", second: "t"), StableDiffusion.BPETokenizer.TokenPair(first: "t", second: "t"), StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "a")]
+should
+TokenPair(first: "c", second: "a")
+pairs
+[StableDiffusion.BPETokenizer.TokenPair(first: "t", second: "t</w>"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "at"), StableDiffusion.BPETokenizer.TokenPair(first: "ca", second: "a"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "a"), StableDiffusion.BPETokenizer.TokenPair(first: "at", second: "t"), StableDiffusion.BPETokenizer.TokenPair(first: "t", second: "t")]
+canMerge
+[StableDiffusion.BPETokenizer.TokenPair(first: "t", second: "t"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "a"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "at"), StableDiffusion.BPETokenizer.TokenPair(first: "t", second: "t</w>"), StableDiffusion.BPETokenizer.TokenPair(first: "at", second: "t")]
+should
+TokenPair(first: "t", second: "t")
+pairs
+[StableDiffusion.BPETokenizer.TokenPair(first: "tt", second: "tt"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "a"), StableDiffusion.BPETokenizer.TokenPair(first: "ca", second: "a"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "at"), StableDiffusion.BPETokenizer.TokenPair(first: "at", second: "tt"), StableDiffusion.BPETokenizer.TokenPair(first: "tt", second: "t</w>")]
+canMerge
+[StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "a"), StableDiffusion.BPETokenizer.TokenPair(first: "tt", second: "t</w>"), StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "at")]
+should
+TokenPair(first: "a", second: "a")
+pairs
+[StableDiffusion.BPETokenizer.TokenPair(first: "tt", second: "tt"), StableDiffusion.BPETokenizer.TokenPair(first: "ca", second: "aa"), StableDiffusion.BPETokenizer.TokenPair(first: "aa", second: "at"), StableDiffusion.BPETokenizer.TokenPair(first: "at", second: "tt"), StableDiffusion.BPETokenizer.TokenPair(first: "tt", second: "t</w>")]
+canMerge
+[StableDiffusion.BPETokenizer.TokenPair(first: "tt", second: "t</w>")]
+should
+TokenPair(first: "tt", second: "t</w>")
+pairs
+[StableDiffusion.BPETokenizer.TokenPair(first: "ca", second: "aa"), StableDiffusion.BPETokenizer.TokenPair(first: "aa", second: "at"), StableDiffusion.BPETokenizer.TokenPair(first: "at", second: "tt"), StableDiffusion.BPETokenizer.TokenPair(first: "tt", second: "ttt</w>")]
+canMerge
+[]
+tokens
+["ca", "aa", "at", "tt", "ttt</w>"]
+```
+
+分割方法は変わるのか。。。
+
+```log
+tokens
+["c", "a", "t</w>"]
+tokens
+["c", "at</w>"]
+tokens
+["cat</w>"]
+```
+
+```log
+forEach
+TokenPair(first: "c", second: "a")
+TokenPair(first: "a", second: "t</w>")
+```
+
+```log
+TokenPair(first: "c", second: "a")
+261
+```
+
+## 実行調査メモ
+
+Package として取り込んだものを、`[Show in Finder]`
+
+Vim より、ゴリゴリと編集
+
+`:w!` で強制上書き
+
+もっと気軽な方法ないんかい。。。
+
 # 📝 2023/01/16
 
 ```log
