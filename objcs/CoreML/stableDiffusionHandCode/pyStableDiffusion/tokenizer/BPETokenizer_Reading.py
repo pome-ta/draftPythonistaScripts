@@ -27,7 +27,10 @@ class BPETokenizer(_BPETokenizer):
       if len(pair) != 2:
         raise
       #merges.append({TokenPair(pair[0], pair[1]): index})
-      #merges.setdefault()
-      merges.update({TokenPair(pair[0], pair[1]): index})
+      d = merges.setdefault(TokenPair(pair[0], pair[1]), index)
+      #merges.update({TokenPair(pair[0], pair[1]): index})
+      #print(d)
+      if d:
+        print(d)
     return merges
 

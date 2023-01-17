@@ -5,14 +5,14 @@ class TokenPair:
   def __init__(self, first: str, second: str):
     self.first: str = first
     self.second: str = second
-    
+
   def __eq__(self, other):
     if not isinstance(other, TokenPair):
       return False
-    return self.id == other.id
+    return self.first == other.first and self.second == other.second
 
-    def __hash__(self):
-        return hash(self.id)
+  def __hash__(self):
+    return hash((self.first, self.second))
 
 
 class _BPETokenizer:
@@ -58,11 +58,14 @@ class _BPETokenizer:
       tokens[-1] = tokens[-1] + '</w>'
     #print(tokens)
     pairs = self.pairs_for_(tokens)
-    #canMerge = list(filter(lambda p:self))
+    canMerge = list(filter(lambda p: self.merges[p], pairs))
     #print(self.merges)
+    print(canMerge)
+    '''
     for i in pairs:
       print(i)
     return tokens
+    '''
 
   def pairs_for_(self, tokens: str):
     if len(tokens) <= 1:
@@ -72,7 +75,7 @@ class _BPETokenizer:
     tokens.pop(0)
     for current in tokens[:]:
       pairs.add(TokenPair(prev, current))
-      print(prev, current)
+      #print(prev, current)
       tokens.pop(0)
       prev = current
     return pairs
