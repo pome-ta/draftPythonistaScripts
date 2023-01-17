@@ -3,15 +3,7 @@ from pathlib import Path
 from objc_util import ObjCClass
 
 from .StableDiffusionPipeline import _StableDiffusionPipeline
-'''
-try
-  from ..tokenizer.BPETokenizer_Reading import BPETokenizer
-except:
-  import sys
-  sys.path.append(str(Path.cwd() / '..'))
 
-  from tokenizer.BPETokenizer_Reading import BPETokenizer
-'''
 from ..tokenizer.BPETokenizer_Reading import BPETokenizer
 from .TextEncoder import TextEncoder
 from .Unet import Unet
@@ -19,11 +11,6 @@ from .Decoder import Decoder
 from .SafetyChecker import SafetyChecker
 
 MLModelConfiguration = ObjCClass('MLModelConfiguration')
-
-# class MLModelConfiguration:
-#   @classmethod
-#   def new(cls):
-#     return None
 
 
 class ResourceURLs:

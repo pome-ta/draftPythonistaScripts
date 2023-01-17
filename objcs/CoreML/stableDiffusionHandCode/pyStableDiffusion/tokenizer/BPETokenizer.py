@@ -1,6 +1,12 @@
 from pathlib import Path
 
 
+class TokenPair:
+  def __init__(self, first: str, second: str):
+    self.first: str = first
+    self.second: str = second
+
+
 class _BPETokenizer:
   def __init__(self):
     self.merges: list
@@ -28,24 +34,40 @@ class _BPETokenizer:
     tokens.append(self.startToken)
     tokens.append(input_str)
     tokens.append(self.endToken)
-    self.encode_input_(' cat dog ')
+    self.encode_input_(' cat dogs ')
 
   def encode_input_(self, input_str: str) -> list:
     normalized = input_str.strip().lower()
     words = normalized.split()
-    print(words)
+    #print(words)
     # xxx: `map` をやりたいだけ
     h = list(map(lambda w: self.encode_word_(w), words))
-    print(h)
+    #print(h)
 
   def encode_word_(self, word: str) -> list:
     tokens = [str(w) for w in word]
-    tokens[-1] = tokens[-1] + '</w>'
-    print(tokens)
+    if len(tokens):
+      tokens[-1] = tokens[-1] + '</w>'
+    #print(tokens)
+    pairs = self.pairs_for_(tokens)
+    #canMerge = list(filter(lambda p:self))
+    print(self.merges)
+    for i in pairs:
+      print(i)
     return tokens
 
-  def pairs(self):
-    pass
+  def pairs_for_(self, tokens: str):
+    if len(tokens) <= 1:
+      return set()
+    pairs = set()
+    prev = tokens[0]
+    tokens.pop(0)
+    for current in tokens[:]:
+      pairs.add(TokenPair(prev, current))
+      print(prev, current)
+      tokens.pop(0)
+      prev = current
+    return pairs
 
   @staticmethod
   def readVocabulary_url_(url: Path) -> dict:

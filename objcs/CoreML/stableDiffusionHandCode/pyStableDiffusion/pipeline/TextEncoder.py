@@ -2,14 +2,7 @@ from pathlib import Path
 
 import pdbg
 
-try:
-  from ..tokenizer.BPETokenizer_Reading import BPETokenizer
-except:
-  import sys
-  sys.path.append(str(Path.cwd() / '..'))
-
-  from tokenizer.BPETokenizer_Reading import BPETokenizer
-
+from ..tokenizer.BPETokenizer_Reading import BPETokenizer
 from .ManagedMLModel import ManagedMLModel
 
 
@@ -34,7 +27,7 @@ class TextEncoder:
     inputShape: list
     inputShape = self._inputShape()
     inputLength = inputShape[-1]
-    print(inputLength)
+    #print(inputLength)
     self.tokenizer.tokenize('cat dog', inputLength)
 
   def _inputDescription(self):
