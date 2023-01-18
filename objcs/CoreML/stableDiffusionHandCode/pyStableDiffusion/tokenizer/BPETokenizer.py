@@ -58,9 +58,10 @@ class _BPETokenizer:
       tokens[-1] = tokens[-1] + '</w>'
     #print(tokens)
     pairs = self.pairs_for_(tokens)
+    #print(pairs)
     canMerge = list(filter(lambda p: self.merges[p], pairs))
     #print(self.merges)
-    print(canMerge)
+    print(canMerge[0].first)
     '''
     for i in pairs:
       print(i)
