@@ -1,3 +1,132 @@
+# 📝 2023/01/18
+
+## `merges` 同士のなにを比較しているのか
+
+index の部分か？
+
+```log
+cat
+  ["cat"]
+pairs
+  [
+    StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "t</w>"),
+    StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "a")
+  ]
+canMerge
+  [
+    StableDiffusion.BPETokenizer.TokenPair(first: "a", second: "t</w>"),
+    StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "a")
+  ]
+min
+  $0
+    25
+  $1
+    261
+should
+  TokenPair(first: "a", second: "t</w>")
+update tokens
+  [
+    "c",
+    "at</w>"
+  ]
+--- --- ---
+pairs
+  [
+    StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "at</w>")
+  ]
+canMerge
+  [
+    StableDiffusion.BPETokenizer.TokenPair(first: "c", second: "at</w>")
+  ]
+should
+  TokenPair(first: "c", second: "at</w>")
+update tokens
+  ["cat</w>"]
+--- --- ---
+pairs
+  []
+canMerge
+  []
+tokens
+  ["cat</w>"]
+```
+
+```log
+dogs
+  ["dogs"]
+pairs
+  [StableDiffusion.BPETokenizer.TokenPair(first: "o", second: "g"),
+  StableDiffusion.BPETokenizer.TokenPair(first: "g", second: "s</w>"),
+  StableDiffusion.BPETokenizer.TokenPair(first: "d", second: "o")
+]
+canMerge
+  [
+    StableDiffusion.BPETokenizer.TokenPair(first: "o", second: "g"),
+    StableDiffusion.BPETokenizer.TokenPair(first: "g", second: "s</w>"),
+    StableDiffusion.BPETokenizer.TokenPair(first: "d", second: "o")
+  ]
+min
+  $0
+    11031
+  $1
+    834
+  $0
+    128
+  $1
+    834
+should
+  TokenPair(first: "d", second: "o")
+update tokens
+  [
+    "do",
+    "g",
+    "s</w>"
+  ]
+--- --- ---
+pairs
+  [
+    StableDiffusion.BPETokenizer.TokenPair(first: "do", second: "g"),
+    StableDiffusion.BPETokenizer.TokenPair(first: "g", second: "s</w>")
+  ]
+canMerge
+  [
+    StableDiffusion.BPETokenizer.TokenPair(first: "do", second: "g"),
+    StableDiffusion.BPETokenizer.TokenPair(first: "g", second: "s</w>")
+  ]
+min
+  $0
+    834
+  $1
+  3815
+should
+  TokenPair(first: "g", second: "s</w>")
+update tokens
+  [
+    "do",
+    "gs</w>"
+  ]
+--- --- ---
+pairs
+  [
+    StableDiffusion.BPETokenizer.TokenPair(first: "do", second: "gs</w>")
+  ]
+canMerge
+  [
+    StableDiffusion.BPETokenizer.TokenPair(first: "do", second: "gs</w>")
+  ]
+should
+  TokenPair(first: "do", second: "gs</w>")
+update tokens
+  ["dogs</w>"]
+--- --- ---
+pairs
+  []
+canMerge
+  []
+tokens
+  ["dogs</w>"]
+```
+
 # 📝 2023/01/17
 
 ## 実機実行調査
