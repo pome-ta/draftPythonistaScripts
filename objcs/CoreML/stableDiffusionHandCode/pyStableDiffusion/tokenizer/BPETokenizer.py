@@ -79,13 +79,22 @@ class _BPETokenizer:
   def update_tokens_merging_(self, tokens: str, bigram: TokenPair):
     if len(tokens) <= 1:
       return []
-    newTokens = []
+    newTokens: lis = []
     index = 0
     print(tokens)
     print(bigram)
     remainingTokens = tokens[0:]
-    print(remainingTokens.index(bigram.first))
-    
+    startMatchIndex = remainingTokens.index(
+      bigram.first) if bigram.first in remainingTokens else None
+
+    if startMatchIndex != None:
+      newTokens.append(tokens[index:startMatchIndex])
+
+      if (index < len(tokens) - 1) and (tokens[startMatchIndex +
+                                               1] == bigram.second):
+        pass
+
+    print(startMatchIndex)
     '''
     while index < len(tokens):
       remainingTokens = tokens[0:]
