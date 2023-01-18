@@ -56,17 +56,11 @@ class _BPETokenizer:
     tokens = [str(w) for w in word]
     if len(tokens):
       tokens[-1] = tokens[-1] + '</w>'
-    #print(tokens)
     pairs = self.pairs_for_(tokens)
-    #print(pairs)
+    print(pairs)
     canMerge = list(filter(lambda p: self.merges[p], pairs))
     #print(self.merges)
     print(canMerge[0].first)
-    '''
-    for i in pairs:
-      print(i)
-    return tokens
-    '''
 
   def pairs_for_(self, tokens: str):
     if len(tokens) <= 1:
@@ -76,10 +70,17 @@ class _BPETokenizer:
     tokens.pop(0)
     for current in tokens[:]:
       pairs.add(TokenPair(prev, current))
-      #print(prev, current)
       tokens.pop(0)
       prev = current
     return pairs
+
+  def update_tokens_merging_(self, tokens: str, bigram: TokenPair):
+    if len(tokens) <= 1:
+      return []
+    newTokens = []
+    index = 0
+    while index < len(tokens[:]):
+      pass
 
   @staticmethod
   def readVocabulary_url_(url: Path) -> dict:

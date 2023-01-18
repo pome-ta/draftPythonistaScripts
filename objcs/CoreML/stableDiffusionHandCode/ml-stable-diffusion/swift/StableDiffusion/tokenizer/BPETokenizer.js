@@ -151,6 +151,7 @@ public struct BPETokenizer {
             let remainingTokens = tokens[index...]
             if let startMatchIndex = remainingTokens.firstIndex(of: bigram.first) {
                 // Found a possible match, append everything before it
+                // 可能な一致が見つかりました。その前にすべてを追加します
                 newTokens.append(contentsOf: tokens[index..<startMatchIndex])
 
                 if index < tokens.count - 1 && tokens[startMatchIndex + 1] == bigram.second {
@@ -164,6 +165,7 @@ public struct BPETokenizer {
                 }
             } else {
                 // Didn't find any more matches, append the rest unmerged
+                // これ以上一致するものは見つかりませんでした。マージされていない残りを追加します
                 newTokens.append(contentsOf: remainingTokens)
                 break
             }
