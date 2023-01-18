@@ -1,4 +1,5 @@
 from pathlib import Path
+from itertools import combinations
 
 
 class TokenPair:
@@ -13,6 +14,9 @@ class TokenPair:
 
   def __hash__(self):
     return hash((self.first, self.second))
+
+  def __str__(self):
+    return f'{repr(self)}\n\t(first: "{self.first}", second: "{self.second}")'
 
 
 class _BPETokenizer:
@@ -42,12 +46,11 @@ class _BPETokenizer:
     tokens.append(self.startToken)
     tokens.append(input_str)
     tokens.append(self.endToken)
-    self.encode_input_(' cat dogs ')
+    self.encode_input_('cat')
 
   def encode_input_(self, input_str: str) -> list:
     normalized = input_str.strip().lower()
     words = normalized.split()
-    #print(words)
     # xxx: `map` をやりたいだけ
     h = list(map(lambda w: self.encode_word_(w), words))
     #print(h)
@@ -56,11 +59,10 @@ class _BPETokenizer:
     tokens = [str(w) for w in word]
     if len(tokens):
       tokens[-1] = tokens[-1] + '</w>'
-    pairs = self.pairs_for_(tokens)
-    print(pairs)
+    pairs = self.pairs_for_(tokens[:])
     canMerge = list(filter(lambda p: self.merges[p], pairs))
-    #print(self.merges)
-    print(canMerge[0].first)
+    shouldMerge = min(canMerge, key=lambda cm: self.merges[cm])
+    self.update_tokens_merging_(tokens[:], shouldMerge)
 
   def pairs_for_(self, tokens: str):
     if len(tokens) <= 1:
@@ -79,8 +81,15 @@ class _BPETokenizer:
       return []
     newTokens = []
     index = 0
-    while index < len(tokens[:]):
-      pass
+    print(tokens)
+    print(bigram)
+    remainingTokens = tokens[0:]
+    print(remainingTokens.index(bigram.first))
+    
+    '''
+    while index < len(tokens):
+      remainingTokens = tokens[0:]
+    '''
 
   @staticmethod
   def readVocabulary_url_(url: Path) -> dict:
