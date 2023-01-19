@@ -61,7 +61,6 @@ class _BPETokenizer:
       tokens[-1] = tokens[-1] + '</w>'
     while True:
       pairs = self.pairs_for_(tokens[:])
-      print(*pairs)
       canMerge = list(filter(lambda p: self.merges[p], pairs))
       if not (len(canMerge)):
         break
@@ -70,15 +69,17 @@ class _BPETokenizer:
     return tokens
 
   def pairs_for_(self, tokens: str):
+    print('pairs_for in --- tokens')
+    print(tokens)
     if len(tokens) <= 1:
       return set()
     pairs = set()
     prev = tokens[0]
     tokens.pop(0)
     
-    
     for current in tokens[:]:
-      #print(f'prev:{prev}, current:{current}')
+      print('for loop ----')
+      print(f'prev:{prev}, current:{current}')
       pairs.add(TokenPair(prev, current))
       tokens.pop(0)
       prev = current
@@ -92,12 +93,23 @@ class _BPETokenizer:
     while index < len(tokens):
       remainingTokens = tokens[0:]
       #print(remainingTokens)
+      
+      '''
       startMatchIndex = remainingTokens.index(
         bigram.first) if bigram.first in remainingTokens else None
 
-      if startMatchIndex != None:
+      if startMatchIndex != None or startMatchIndex:
+      '''
+      
+      
+      startMatchIndex = remainingTokens.index(
+        bigram.first)
+      if startMatchIndex:
         # xxx: あとで確認
-        newTokens.append(tokens[index:startMatchIndex])
+        print('startMatchIndex ---')
+        print(index, startMatchIndex)
+        print(*tokens[index:startMatchIndex])
+        newTokens.append(*tokens[index:startMatchIndex])
 
         if index < (len(tokens) - 1) and tokens[startMatchIndex +
                                                 1] == bigram.second:
@@ -109,10 +121,11 @@ class _BPETokenizer:
           newTokens.append(bigram.first)
           index = startMatchIndex + 1
       else:
-        #print('break')
-        #print(remainingTokens)
+        print('break')
+        print(remainingTokens)
         # xxx: あとで確認
-        newTokens.append(*remainingTokens)
+        
+        newTokens.extend(remainingTokens)
         break
     return newTokens
 
