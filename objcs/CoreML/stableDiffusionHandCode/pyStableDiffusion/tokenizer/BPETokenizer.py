@@ -47,8 +47,8 @@ class _BPETokenizer:
     tokens.append(input_str)
     tokens.append(self.endToken)
     #self.encode_input_('cat dogs')
-    #self.encode_input_('dogs')
-    self.encode_input_('cat')
+    self.encode_input_('dogs')
+    #self.encode_input_('cat')
 
   def encode_input_(self, input_str: str) -> list:
     normalized = input_str.strip().lower()
@@ -63,12 +63,26 @@ class _BPETokenizer:
       tokens[-1] = tokens[-1] + '</w>'
     while True:
       pairs = self.pairs_for_(tokens[:])
+      print('pairs')
+      print(*pairs)
+      print('---')
       canMerge = list(filter(lambda p: self.merges[p], pairs))
+      print('canMerge')
+      print(*canMerge)
+      print('---')
       if not (len(canMerge)):
         break
+      print('min')
+      for cm in canMerge:
+        print(cm)
+        print(f'\t{self.merges[cm]}')
       shouldMerge = min(canMerge, key=lambda cm: self.merges[cm])
+      print('shouldMerge')
+      print(shouldMerge)
+      print('----')
       tokens = self.update_tokens_merging_(tokens[:], shouldMerge)
-    #print(tokens)
+    print('update tokens')
+    print(tokens)
     return tokens
 
   def pairs_for_(self, tokens: str):
@@ -80,6 +94,9 @@ class _BPETokenizer:
     tokens.pop(0)
 
     for current in tokens[:]:
+      print('pairs_for_ for')
+      print(prev, current)
+      print('---')
       pairs.add(TokenPair(prev, current))
       tokens.pop(0)
       prev = current
