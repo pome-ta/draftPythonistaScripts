@@ -63,6 +63,7 @@ class _BPETokenizer:
       tokens[-1] = tokens[-1] + '</w>'
     while True:
       pairs = self.pairs_for_(tokens[:])
+      print('while --- ---')
       print('pairs')
       print(*pairs)
       print('---')
@@ -108,25 +109,44 @@ class _BPETokenizer:
 
     newTokens: list = []
     index = 0
+    print("update tokens merging")
     while index < len(tokens):
+      print("while loop")
       remainingTokens = tokens[0:]
+      print("--- remainingTokens")
+      print(*remainingTokens)
       startMatchIndex = remainingTokens.index(
         bigram.first) if bigram.first in remainingTokens else None
 
+      print("-- --startMatchIndex")
+      print(startMatchIndex)
+      print(f'index: {index}')
       if startMatchIndex != None:
-        if tokens[index:startMatchIndex]:
-          newTokens.append(*tokens[index:startMatchIndex])
+        if startMatchIndex != None:
+          if tokens[index:startMatchIndex]:
+            newTokens.append(*tokens[index:startMatchIndex])
+          print("-- --newTokens append 1")
+          print(*newTokens)
 
         if index < (len(tokens) - 1) and tokens[startMatchIndex +
                                                 1] == bigram.second:
           newTokens.append(bigram.first + bigram.second)
+          print("-- --newTokens append 2")
+          print(*newTokens)
           index = startMatchIndex + 2
         else:
           newTokens.append(bigram.first)
+          print("-- --newTokens append 3")
+          print(*newTokens)
           index = startMatchIndex + 1
       else:
         newTokens.extend(remainingTokens)
+
+        print("-- --newTokens append 4")
+        print(*newTokens)
         break
+    print("return newTokens ---")
+    print(*newTokens)
     return newTokens
 
   @staticmethod
