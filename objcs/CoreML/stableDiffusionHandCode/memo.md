@@ -3,7 +3,68 @@
 Pythonista3 でモジュールにブレイクポイントが貼れないので
 
 ```log
-
+cat
+["cat"]
+prev c :current a
+prev a :current t</w>
+while
+--- pairs
+▿ 2 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "c"
+    - second: "a"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "t</w>"
+--- canMerge
+▿ 2 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "c"
+    - second: "a"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "t</w>"
+$0
+▿ Optional(25)
+  - some: 25
+$1
+▿ Optional(261)
+  - some: 261
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "a"
+  - second: "t</w>"
+update tokens
+▿ 2 elements
+  - "c"
+  - "at</w>"
+prev c :current at</w>
+while
+--- pairs
+▿ 1 member
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "c"
+    - second: "at</w>"
+--- canMerge
+▿ 1 member
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "c"
+    - second: "at</w>"
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "c"
+  - second: "at</w>"
+update tokens
+▿ 1 element
+  - "cat</w>"
+while
+--- pairs
+- 0 members
+--- canMerge
+- 0 members
+tokens
+▿ 1 element
+  - "cat</w>"
 ```
 
 # 📝 2023/01/18
