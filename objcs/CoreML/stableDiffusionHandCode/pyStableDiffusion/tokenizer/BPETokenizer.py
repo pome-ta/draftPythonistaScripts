@@ -47,8 +47,8 @@ class _BPETokenizer:
     tokens.append(input_str)
     tokens.append(self.endToken)
     #self.encode_input_('cat dogs')
-    #self.encode_input_('dogs')
-    self.encode_input_('cat')
+    self.encode_input_('dogs')
+    #self.encode_input_('cat')
 
   def encode_input_(self, input_str: str) -> list:
     normalized = input_str.strip().lower()
