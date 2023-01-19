@@ -3,6 +3,1792 @@
 Pythonista3 でモジュールにブレイクポイントが貼れないので
 
 ```log
+dogs
+["dogs"]
+prev d :current o
+prev o :current g
+prev g :current s</w>
+while
+--- pairs
+▿ 3 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "d"
+    - second: "o"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "g"
+    - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "o"
+    - second: "g"
+--- canMerge
+▿ 3 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "d"
+    - second: "o"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "g"
+    - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "o"
+    - second: "g"
+$0
+▿ Optional(834)
+  - some: 834
+$1
+▿ Optional(128)
+  - some: 128
+$0
+▿ Optional(11031)
+  - some: 11031
+$1
+▿ Optional(128)
+  - some: 128
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "d"
+  - second: "o"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 4 elements
+  - "d"
+  - "o"
+  - "g"
+  - "s</w>"
+-- --startMatchIndex
+0
+-- --newTokens append 1
+- 0 elements
+-- --newTokens append 2
+▿ 1 element
+  - "do"
+while loop
+--- remainingTokens
+▿ 2 elements
+  - "g"
+  - "s</w>"
+-- --newTokens append 4
+▿ 3 elements
+  - "do"
+  - "g"
+  - "s</w>"
+return newTokens ---
+▿ 3 elements
+  - "do"
+  - "g"
+  - "s</w>"
+update tokens
+▿ 3 elements
+  - "do"
+  - "g"
+  - "s</w>"
+prev do :current g
+prev g :current s</w>
+while
+--- pairs
+▿ 2 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "do"
+    - second: "g"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "g"
+    - second: "s</w>"
+--- canMerge
+▿ 2 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "do"
+    - second: "g"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "g"
+    - second: "s</w>"
+$0
+▿ Optional(834)
+  - some: 834
+$1
+▿ Optional(3815)
+  - some: 3815
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "g"
+  - second: "s</w>"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 3 elements
+  - "do"
+  - "g"
+  - "s</w>"
+-- --startMatchIndex
+1
+-- --newTokens append 1
+▿ 1 element
+  - "do"
+-- --newTokens append 2
+▿ 2 elements
+  - "do"
+  - "gs</w>"
+return newTokens ---
+▿ 2 elements
+  - "do"
+  - "gs</w>"
+update tokens
+▿ 2 elements
+  - "do"
+  - "gs</w>"
+prev do :current gs</w>
+while
+--- pairs
+▿ 1 member
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "do"
+    - second: "gs</w>"
+--- canMerge
+▿ 1 member
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "do"
+    - second: "gs</w>"
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "do"
+  - second: "gs</w>"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 2 elements
+  - "do"
+  - "gs</w>"
+-- --startMatchIndex
+0
+-- --newTokens append 1
+- 0 elements
+-- --newTokens append 2
+▿ 1 element
+  - "dogs</w>"
+return newTokens ---
+▿ 1 element
+  - "dogs</w>"
+update tokens
+▿ 1 element
+  - "dogs</w>"
+while
+--- pairs
+- 0 members
+--- canMerge
+- 0 members
+return tokens
+▿ 1 element
+  - "dogs</w>"
+```
+
+```log
+dog
+["dog"]
+prev d :current o
+prev o :current g</w>
+while
+--- pairs
+▿ 2 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "o"
+    - second: "g</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "d"
+    - second: "o"
+--- canMerge
+▿ 2 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "o"
+    - second: "g</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "d"
+    - second: "o"
+$0
+▿ Optional(128)
+  - some: 128
+$1
+▿ Optional(8044)
+  - some: 8044
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "d"
+  - second: "o"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 3 elements
+  - "d"
+  - "o"
+  - "g</w>"
+-- --startMatchIndex
+0
+-- --newTokens append 1
+- 0 elements
+-- --newTokens append 2
+▿ 1 element
+  - "do"
+while loop
+--- remainingTokens
+▿ 1 element
+  - "g</w>"
+-- --newTokens append 4
+▿ 2 elements
+  - "do"
+  - "g</w>"
+return newTokens ---
+▿ 2 elements
+  - "do"
+  - "g</w>"
+update tokens
+▿ 2 elements
+  - "do"
+  - "g</w>"
+prev do :current g</w>
+while
+--- pairs
+▿ 1 member
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "do"
+    - second: "g</w>"
+--- canMerge
+▿ 1 member
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "do"
+    - second: "g</w>"
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "do"
+  - second: "g</w>"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 2 elements
+  - "do"
+  - "g</w>"
+-- --startMatchIndex
+0
+-- --newTokens append 1
+- 0 elements
+-- --newTokens append 2
+▿ 1 element
+  - "dog</w>"
+return newTokens ---
+▿ 1 element
+  - "dog</w>"
+update tokens
+▿ 1 element
+  - "dog</w>"
+while
+--- pairs
+- 0 members
+--- canMerge
+- 0 members
+return tokens
+▿ 1 element
+  - "dog</w>"
+```
+
+```log
+asparagus
+["asparagus"]
+prev a :current s
+prev s :current p
+prev p :current a
+prev a :current r
+prev r :current a
+prev a :current g
+prev g :current u
+prev u :current s</w>
+while
+--- pairs
+▿ 8 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "g"
+    - second: "u"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "a"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "s"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "r"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "r"
+    - second: "a"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "s"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "g"
+--- canMerge
+▿ 8 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "g"
+    - second: "u"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "a"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "s"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "r"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "r"
+    - second: "a"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "s"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "g"
+$0
+▿ Optional(189)
+  - some: 189
+$1
+▿ Optional(207)
+  - some: 207
+$0
+▿ Optional(254)
+  - some: 254
+$1
+▿ Optional(189)
+  - some: 189
+$0
+▿ Optional(76)
+  - some: 76
+$1
+▿ Optional(189)
+  - some: 189
+$0
+▿ Optional(5)
+  - some: 5
+$1
+▿ Optional(76)
+  - some: 76
+$0
+▿ Optional(48)
+  - some: 48
+$1
+▿ Optional(5)
+  - some: 5
+$0
+▿ Optional(77)
+  - some: 77
+$1
+▿ Optional(5)
+  - some: 5
+$0
+▿ Optional(91)
+  - some: 91
+$1
+▿ Optional(5)
+  - some: 5
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "a"
+  - second: "r"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+-- --startMatchIndex
+0
+-- --newTokens append 1
+- 0 elements
+-- --newTokens append 3
+▿ 1 element
+  - "a"
+while loop
+--- remainingTokens
+▿ 8 elements
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+-- --startMatchIndex
+3
+-- --newTokens append 1
+▿ 3 elements
+  - "a"
+  - "s"
+  - "p"
+-- --newTokens append 2
+▿ 4 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+while loop
+--- remainingTokens
+▿ 4 elements
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+-- --startMatchIndex
+5
+-- --newTokens append 1
+▿ 4 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+-- --newTokens append 3
+▿ 5 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+while loop
+--- remainingTokens
+▿ 3 elements
+  - "g"
+  - "u"
+  - "s</w>"
+-- --newTokens append 4
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+return newTokens ---
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+update tokens
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+prev a :current s
+prev s :current p
+prev p :current ar
+prev ar :current a
+prev a :current g
+prev g :current u
+prev u :current s</w>
+while
+--- pairs
+▿ 7 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "ar"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "g"
+    - second: "u"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "g"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "s"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ar"
+    - second: "a"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "s"
+    - second: "p"
+--- canMerge
+▿ 7 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "ar"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "g"
+    - second: "u"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "g"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "s"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ar"
+    - second: "a"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "s"
+    - second: "p"
+$0
+▿ Optional(189)
+  - some: 189
+$1
+▿ Optional(188)
+  - some: 188
+$0
+▿ Optional(91)
+  - some: 91
+$1
+▿ Optional(188)
+  - some: 188
+$0
+▿ Optional(207)
+  - some: 207
+$1
+▿ Optional(91)
+  - some: 91
+$0
+▿ Optional(76)
+  - some: 76
+$1
+▿ Optional(91)
+  - some: 91
+$0
+▿ Optional(23650)
+  - some: 23650
+$1
+▿ Optional(76)
+  - some: 76
+$0
+▿ Optional(77)
+  - some: 77
+$1
+▿ Optional(76)
+  - some: 76
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "a"
+  - second: "s"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+-- --startMatchIndex
+0
+-- --newTokens append 1
+- 0 elements
+-- --newTokens append 2
+▿ 1 element
+  - "as"
+while loop
+--- remainingTokens
+▿ 6 elements
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+-- --startMatchIndex
+4
+-- --newTokens append 1
+▿ 3 elements
+  - "as"
+  - "p"
+  - "ar"
+-- --newTokens append 3
+▿ 4 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "a"
+while loop
+--- remainingTokens
+▿ 3 elements
+  - "g"
+  - "u"
+  - "s</w>"
+-- --newTokens append 4
+▿ 7 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+return newTokens ---
+▿ 7 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+update tokens
+▿ 7 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+prev as :current p
+prev p :current ar
+prev ar :current a
+prev a :current g
+prev g :current u
+prev u :current s</w>
+while
+--- pairs
+▿ 6 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "ar"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ar"
+    - second: "a"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "g"
+    - second: "u"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "g"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "as"
+    - second: "p"
+--- canMerge
+▿ 6 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "ar"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ar"
+    - second: "a"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "g"
+    - second: "u"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "g"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "as"
+    - second: "p"
+$0
+▿ Optional(23650)
+  - some: 23650
+$1
+▿ Optional(188)
+  - some: 188
+$0
+▿ Optional(189)
+  - some: 189
+$1
+▿ Optional(188)
+  - some: 188
+$0
+▿ Optional(207)
+  - some: 207
+$1
+▿ Optional(188)
+  - some: 188
+$0
+▿ Optional(91)
+  - some: 91
+$1
+▿ Optional(188)
+  - some: 188
+$0
+▿ Optional(17303)
+  - some: 17303
+$1
+▿ Optional(91)
+  - some: 91
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "a"
+  - second: "g"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 7 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+-- --startMatchIndex
+3
+-- --newTokens append 1
+▿ 3 elements
+  - "as"
+  - "p"
+  - "ar"
+-- --newTokens append 2
+▿ 4 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "ag"
+while loop
+--- remainingTokens
+▿ 2 elements
+  - "u"
+  - "s</w>"
+-- --newTokens append 4
+▿ 6 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "ag"
+  - "u"
+  - "s</w>"
+return newTokens ---
+▿ 6 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "ag"
+  - "u"
+  - "s</w>"
+update tokens
+▿ 6 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "ag"
+  - "u"
+  - "s</w>"
+prev as :current p
+prev p :current ar
+prev ar :current ag
+prev ag :current u
+prev u :current s</w>
+while
+--- pairs
+▿ 5 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "ar"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ar"
+    - second: "ag"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ag"
+    - second: "u"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "as"
+    - second: "p"
+--- canMerge
+▿ 5 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "ar"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ar"
+    - second: "ag"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ag"
+    - second: "u"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "as"
+    - second: "p"
+$0
+▿ Optional(40991)
+  - some: 40991
+$1
+▿ Optional(188)
+  - some: 188
+$0
+▿ Optional(3411)
+  - some: 3411
+$1
+▿ Optional(188)
+  - some: 188
+$0
+▿ Optional(207)
+  - some: 207
+$1
+▿ Optional(188)
+  - some: 188
+$0
+▿ Optional(17303)
+  - some: 17303
+$1
+▿ Optional(188)
+  - some: 188
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "p"
+  - second: "ar"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 6 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "ag"
+  - "u"
+  - "s</w>"
+-- --startMatchIndex
+1
+-- --newTokens append 1
+▿ 1 element
+  - "as"
+-- --newTokens append 2
+▿ 2 elements
+  - "as"
+  - "par"
+while loop
+--- remainingTokens
+▿ 3 elements
+  - "ag"
+  - "u"
+  - "s</w>"
+-- --newTokens append 4
+▿ 5 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "u"
+  - "s</w>"
+return newTokens ---
+▿ 5 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "u"
+  - "s</w>"
+update tokens
+▿ 5 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "u"
+  - "s</w>"
+prev as :current par
+prev par :current ag
+prev ag :current u
+prev u :current s</w>
+while
+--- pairs
+▿ 4 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ag"
+    - second: "u"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "par"
+    - second: "ag"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "as"
+    - second: "par"
+--- canMerge
+▿ 3 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ag"
+    - second: "u"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "par"
+    - second: "ag"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
+$0
+▿ Optional(11355)
+  - some: 11355
+$1
+▿ Optional(3411)
+  - some: 3411
+$0
+▿ Optional(207)
+  - some: 207
+$1
+▿ Optional(3411)
+  - some: 3411
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "u"
+  - second: "s</w>"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 5 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "u"
+  - "s</w>"
+-- --startMatchIndex
+3
+-- --newTokens append 1
+▿ 3 elements
+  - "as"
+  - "par"
+  - "ag"
+-- --newTokens append 2
+▿ 4 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "us</w>"
+return newTokens ---
+▿ 4 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "us</w>"
+update tokens
+▿ 4 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "us</w>"
+prev as :current par
+prev par :current ag
+prev ag :current us</w>
+while
+--- pairs
+▿ 3 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ag"
+    - second: "us</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "as"
+    - second: "par"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "par"
+    - second: "ag"
+--- canMerge
+▿ 1 member
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "par"
+    - second: "ag"
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "par"
+  - second: "ag"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 4 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "us</w>"
+-- --startMatchIndex
+1
+-- --newTokens append 1
+▿ 1 element
+  - "as"
+-- --newTokens append 2
+▿ 2 elements
+  - "as"
+  - "parag"
+while loop
+--- remainingTokens
+▿ 1 element
+  - "us</w>"
+-- --newTokens append 4
+▿ 3 elements
+  - "as"
+  - "parag"
+  - "us</w>"
+return newTokens ---
+▿ 3 elements
+  - "as"
+  - "parag"
+  - "us</w>"
+update tokens
+▿ 3 elements
+  - "as"
+  - "parag"
+  - "us</w>"
+prev as :current parag
+prev parag :current us</w>
+while
+--- pairs
+▿ 2 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "parag"
+    - second: "us</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "as"
+    - second: "parag"
+--- canMerge
+▿ 1 member
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "as"
+    - second: "parag"
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "as"
+  - second: "parag"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 3 elements
+  - "as"
+  - "parag"
+  - "us</w>"
+-- --startMatchIndex
+0
+-- --newTokens append 1
+- 0 elements
+-- --newTokens append 2
+▿ 1 element
+  - "asparag"
+while loop
+--- remainingTokens
+▿ 1 element
+  - "us</w>"
+-- --newTokens append 4
+▿ 2 elements
+  - "asparag"
+  - "us</w>"
+return newTokens ---
+▿ 2 elements
+  - "asparag"
+  - "us</w>"
+update tokens
+▿ 2 elements
+  - "asparag"
+  - "us</w>"
+prev asparag :current us</w>
+while
+--- pairs
+▿ 1 member
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "asparag"
+    - second: "us</w>"
+--- canMerge
+▿ 1 member
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "asparag"
+    - second: "us</w>"
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "asparag"
+  - second: "us</w>"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 2 elements
+  - "asparag"
+  - "us</w>"
+-- --startMatchIndex
+0
+-- --newTokens append 1
+- 0 elements
+-- --newTokens append 2
+▿ 1 element
+  - "asparagus</w>"
+return newTokens ---
+▿ 1 element
+  - "asparagus</w>"
+update tokens
+▿ 1 element
+  - "asparagus</w>"
+while
+--- pairs
+- 0 members
+--- canMerge
+- 0 members
+return tokens
+▿ 1 element
+  - "asparagus</w>"
+```
+
+```log
+elephant
+["elephant"]
+prev e :current l
+prev l :current e
+prev e :current p
+prev p :current h
+prev h :current a
+prev a :current n
+prev n :current t</w>
+while
+--- pairs
+▿ 7 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "h"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "n"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "n"
+    - second: "t</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "l"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "h"
+    - second: "a"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "l"
+    - second: "e"
+--- canMerge
+▿ 7 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "h"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "n"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "n"
+    - second: "t</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "l"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "h"
+    - second: "a"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "l"
+    - second: "e"
+$0
+▿ Optional(3)
+  - some: 3
+$1
+▿ Optional(234)
+  - some: 234
+$0
+▿ Optional(667)
+  - some: 667
+$1
+▿ Optional(3)
+  - some: 3
+$0
+▿ Optional(2696)
+  - some: 2696
+$1
+▿ Optional(3)
+  - some: 3
+$0
+▿ Optional(33)
+  - some: 33
+$1
+▿ Optional(3)
+  - some: 3
+$0
+▿ Optional(49)
+  - some: 49
+$1
+▿ Optional(3)
+  - some: 3
+$0
+▿ Optional(23)
+  - some: 23
+$1
+▿ Optional(3)
+  - some: 3
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "a"
+  - second: "n"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 8 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "a"
+  - "n"
+  - "t</w>"
+-- --startMatchIndex
+5
+-- --newTokens append 1
+▿ 5 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+-- --newTokens append 2
+▿ 6 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "an"
+while loop
+--- remainingTokens
+▿ 1 element
+  - "t</w>"
+-- --newTokens append 4
+▿ 7 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+return newTokens ---
+▿ 7 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+update tokens
+▿ 7 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+prev e :current l
+prev l :current e
+prev e :current p
+prev p :current h
+prev h :current an
+prev an :current t</w>
+while
+--- pairs
+▿ 6 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "h"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "l"
+    - second: "e"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "l"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "an"
+    - second: "t</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "h"
+    - second: "an"
+--- canMerge
+▿ 6 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "h"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "l"
+    - second: "e"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "l"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "an"
+    - second: "t</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "h"
+    - second: "an"
+$0
+▿ Optional(667)
+  - some: 667
+$1
+▿ Optional(234)
+  - some: 234
+$0
+▿ Optional(23)
+  - some: 23
+$1
+▿ Optional(234)
+  - some: 234
+$0
+▿ Optional(33)
+  - some: 33
+$1
+▿ Optional(23)
+  - some: 23
+$0
+▿ Optional(262)
+  - some: 262
+$1
+▿ Optional(23)
+  - some: 23
+$0
+▿ Optional(1034)
+  - some: 1034
+$1
+▿ Optional(23)
+  - some: 23
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "l"
+  - second: "e"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 7 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+-- --startMatchIndex
+1
+-- --newTokens append 1
+▿ 1 element
+  - "e"
+-- --newTokens append 2
+▿ 2 elements
+  - "e"
+  - "le"
+while loop
+--- remainingTokens
+▿ 4 elements
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+-- --newTokens append 4
+▿ 6 elements
+  - "e"
+  - "le"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+return newTokens ---
+▿ 6 elements
+  - "e"
+  - "le"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+update tokens
+▿ 6 elements
+  - "e"
+  - "le"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+prev e :current le
+prev le :current p
+prev p :current h
+prev h :current an
+prev an :current t</w>
+while
+--- pairs
+▿ 5 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "le"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "h"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "an"
+    - second: "t</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "le"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "h"
+    - second: "an"
+--- canMerge
+▿ 5 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "le"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "h"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "an"
+    - second: "t</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "le"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "h"
+    - second: "an"
+$0
+▿ Optional(234)
+  - some: 234
+$1
+▿ Optional(48373)
+  - some: 48373
+$0
+▿ Optional(262)
+  - some: 262
+$1
+▿ Optional(234)
+  - some: 234
+$0
+▿ Optional(1573)
+  - some: 1573
+$1
+▿ Optional(234)
+  - some: 234
+$0
+▿ Optional(1034)
+  - some: 1034
+$1
+▿ Optional(234)
+  - some: 234
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "p"
+  - second: "h"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 6 elements
+  - "e"
+  - "le"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+-- --startMatchIndex
+2
+-- --newTokens append 1
+▿ 2 elements
+  - "e"
+  - "le"
+-- --newTokens append 2
+▿ 3 elements
+  - "e"
+  - "le"
+  - "ph"
+while loop
+--- remainingTokens
+▿ 2 elements
+  - "an"
+  - "t</w>"
+-- --newTokens append 4
+▿ 5 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "an"
+  - "t</w>"
+return newTokens ---
+▿ 5 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "an"
+  - "t</w>"
+update tokens
+▿ 5 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "an"
+  - "t</w>"
+prev e :current le
+prev le :current ph
+prev ph :current an
+prev an :current t</w>
+while
+--- pairs
+▿ 4 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ph"
+    - second: "an"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "an"
+    - second: "t</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "le"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "le"
+    - second: "ph"
+--- canMerge
+▿ 3 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "an"
+    - second: "t</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "le"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ph"
+    - second: "an"
+$0
+▿ Optional(1573)
+  - some: 1573
+$1
+▿ Optional(262)
+  - some: 262
+$0
+▿ Optional(8220)
+  - some: 8220
+$1
+▿ Optional(262)
+  - some: 262
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "an"
+  - second: "t</w>"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 5 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "an"
+  - "t</w>"
+-- --startMatchIndex
+3
+-- --newTokens append 1
+▿ 3 elements
+  - "e"
+  - "le"
+  - "ph"
+-- --newTokens append 2
+▿ 4 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "ant</w>"
+return newTokens ---
+▿ 4 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "ant</w>"
+update tokens
+▿ 4 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "ant</w>"
+prev e :current le
+prev le :current ph
+prev ph :current ant</w>
+while
+--- pairs
+▿ 3 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "le"
+    - second: "ph"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "le"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ph"
+    - second: "ant</w>"
+--- canMerge
+▿ 1 member
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "le"
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "e"
+  - second: "le"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 4 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "ant</w>"
+-- --startMatchIndex
+0
+-- --newTokens append 1
+- 0 elements
+-- --newTokens append 2
+▿ 1 element
+  - "ele"
+while loop
+--- remainingTokens
+▿ 2 elements
+  - "ph"
+  - "ant</w>"
+-- --newTokens append 4
+▿ 3 elements
+  - "ele"
+  - "ph"
+  - "ant</w>"
+return newTokens ---
+▿ 3 elements
+  - "ele"
+  - "ph"
+  - "ant</w>"
+update tokens
+▿ 3 elements
+  - "ele"
+  - "ph"
+  - "ant</w>"
+prev ele :current ph
+prev ph :current ant</w>
+while
+--- pairs
+▿ 2 members
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ele"
+    - second: "ph"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ph"
+    - second: "ant</w>"
+--- canMerge
+▿ 1 member
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ele"
+    - second: "ph"
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "ele"
+  - second: "ph"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 3 elements
+  - "ele"
+  - "ph"
+  - "ant</w>"
+-- --startMatchIndex
+0
+-- --newTokens append 1
+- 0 elements
+-- --newTokens append 2
+▿ 1 element
+  - "eleph"
+while loop
+--- remainingTokens
+▿ 1 element
+  - "ant</w>"
+-- --newTokens append 4
+▿ 2 elements
+  - "eleph"
+  - "ant</w>"
+return newTokens ---
+▿ 2 elements
+  - "eleph"
+  - "ant</w>"
+update tokens
+▿ 2 elements
+  - "eleph"
+  - "ant</w>"
+prev eleph :current ant</w>
+while
+--- pairs
+▿ 1 member
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "eleph"
+    - second: "ant</w>"
+--- canMerge
+▿ 1 member
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "eleph"
+    - second: "ant</w>"
+should
+▿ StableDiffusion.BPETokenizer.TokenPair
+  - first: "eleph"
+  - second: "ant</w>"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 2 elements
+  - "eleph"
+  - "ant</w>"
+-- --startMatchIndex
+0
+-- --newTokens append 1
+- 0 elements
+-- --newTokens append 2
+▿ 1 element
+  - "elephant</w>"
+return newTokens ---
+▿ 1 element
+  - "elephant</w>"
+update tokens
+▿ 1 element
+  - "elephant</w>"
+while
+--- pairs
+- 0 members
+--- canMerge
+- 0 members
+return tokens
+▿ 1 element
+  - "elephant</w>"
+```
+
+```log
 cat
 ["cat"]
 prev c :current a
@@ -11,29 +1797,49 @@ while
 --- pairs
 ▿ 2 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "c"
-    - second: "a"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "a"
     - second: "t</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "c"
+    - second: "a"
 --- canMerge
 ▿ 2 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "c"
-    - second: "a"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "a"
     - second: "t</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "c"
+    - second: "a"
 $0
-▿ Optional(25)
-  - some: 25
-$1
 ▿ Optional(261)
   - some: 261
+$1
+▿ Optional(25)
+  - some: 25
 should
 ▿ StableDiffusion.BPETokenizer.TokenPair
   - first: "a"
   - second: "t</w>"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 3 elements
+  - "c"
+  - "a"
+  - "t</w>"
+-- --startMatchIndex
+1
+-- --newTokens append 1
+▿ 1 element
+  - "c"
+-- --newTokens append 2
+▿ 2 elements
+  - "c"
+  - "at</w>"
+return newTokens ---
+▿ 2 elements
+  - "c"
+  - "at</w>"
 update tokens
 ▿ 2 elements
   - "c"
@@ -54,6 +1860,22 @@ should
 ▿ StableDiffusion.BPETokenizer.TokenPair
   - first: "c"
   - second: "at</w>"
+update tokens merging
+while loop
+--- remainingTokens
+▿ 2 elements
+  - "c"
+  - "at</w>"
+-- --startMatchIndex
+0
+-- --newTokens append 1
+- 0 elements
+-- --newTokens append 2
+▿ 1 element
+  - "cat</w>"
+return newTokens ---
+▿ 1 element
+  - "cat</w>"
 update tokens
 ▿ 1 element
   - "cat</w>"
@@ -62,7 +1884,7 @@ while
 - 0 members
 --- canMerge
 - 0 members
-tokens
+return tokens
 ▿ 1 element
   - "cat</w>"
 ```
