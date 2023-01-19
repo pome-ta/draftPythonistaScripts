@@ -46,7 +46,9 @@ class _BPETokenizer:
     tokens.append(self.startToken)
     tokens.append(input_str)
     tokens.append(self.endToken)
-    self.encode_input_('cat dogs')
+    #self.encode_input_('cat dogs')
+    #self.encode_input_('dogs')
+    self.encode_input_('cat')
 
   def encode_input_(self, input_str: str) -> list:
     normalized = input_str.strip().lower()
@@ -66,21 +68,18 @@ class _BPETokenizer:
         break
       shouldMerge = min(canMerge, key=lambda cm: self.merges[cm])
       tokens = self.update_tokens_merging_(tokens[:], shouldMerge)
-    print(tokens)
+    #print(tokens)
     return tokens
 
   def pairs_for_(self, tokens: str):
-    #print('pairs_for in --- tokens')
-    #print(tokens)
     if len(tokens) <= 1:
       return set()
+
     pairs = set()
     prev = tokens[0]
     tokens.pop(0)
 
     for current in tokens[:]:
-      #print('for loop ----')
-      #print(f'prev:{prev}, current:{current}')
       pairs.add(TokenPair(prev, current))
       tokens.pop(0)
       prev = current
@@ -89,36 +88,26 @@ class _BPETokenizer:
   def update_tokens_merging_(self, tokens: str, bigram: TokenPair):
     if len(tokens) <= 1:
       return []
+
     newTokens: list = []
     index = 0
     while index < len(tokens):
       remainingTokens = tokens[0:]
-      print(remainingTokens)
-
       startMatchIndex = remainingTokens.index(
         bigram.first) if bigram.first in remainingTokens else None
 
       if startMatchIndex != None:
-        # xxx: あとで確認
-        #print('startMatchIndex ---')
-        #print(index, startMatchIndex)
-        #print(*tokens[index:startMatchIndex])
         if tokens[index:startMatchIndex]:
           newTokens.append(*tokens[index:startMatchIndex])
 
         if index < (len(tokens) - 1) and tokens[startMatchIndex +
                                                 1] == bigram.second:
-          #print('hoge')
           newTokens.append(bigram.first + bigram.second)
           index = startMatchIndex + 2
         else:
-          #print('え')
           newTokens.append(bigram.first)
           index = startMatchIndex + 1
       else:
-        #print('break')
-        #print(remainingTokens)
-        # xxx: あとで確認
         newTokens.extend(remainingTokens)
         break
     return newTokens
