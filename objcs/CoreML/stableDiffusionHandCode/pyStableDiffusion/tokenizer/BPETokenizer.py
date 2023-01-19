@@ -76,7 +76,7 @@ class _BPETokenizer:
     pairs = set()
     prev = tokens[0]
     tokens.pop(0)
-    
+
     for current in tokens[:]:
       print('for loop ----')
       print(f'prev:{prev}, current:{current}')
@@ -93,18 +93,11 @@ class _BPETokenizer:
     while index < len(tokens):
       remainingTokens = tokens[0:]
       #print(remainingTokens)
-      
-      '''
+
       startMatchIndex = remainingTokens.index(
         bigram.first) if bigram.first in remainingTokens else None
 
-      if startMatchIndex != None or startMatchIndex:
-      '''
-      
-      
-      startMatchIndex = remainingTokens.index(
-        bigram.first)
-      if startMatchIndex:
+      if startMatchIndex != None:
         # xxx: あとで確認
         print('startMatchIndex ---')
         print(index, startMatchIndex)
@@ -124,7 +117,7 @@ class _BPETokenizer:
         print('break')
         print(remainingTokens)
         # xxx: あとで確認
-        
+
         newTokens.extend(remainingTokens)
         break
     return newTokens
