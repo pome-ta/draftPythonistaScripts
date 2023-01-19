@@ -1,6 +1,9 @@
 # 📝 2023/01/19
 
-Pythonista3 でモジュールにブレイクポイントが貼れないので
+Pythonista3 でモジュールにブレイクポイントが貼れないので、とりあえずプリントデバッグする
+
+<details>
+<summary>dogs</summary>
 
 ```log
 dogs
@@ -12,44 +15,60 @@ while
 --- pairs
 ▿ 3 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "d"
-    - second: "o"
+    - first: "o"
+    - second: "g"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "g"
     - second: "s</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "o"
-    - second: "g"
+    - first: "d"
+    - second: "o"
 --- canMerge
 ▿ 3 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "d"
-    - second: "o"
+    - first: "o"
+    - second: "g"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "g"
     - second: "s</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "o"
-    - second: "g"
+    - first: "d"
+    - second: "o"
 $0
 ▿ Optional(834)
   - some: 834
 $1
-▿ Optional(128)
-  - some: 128
-$0
 ▿ Optional(11031)
   - some: 11031
-$1
+$0
 ▿ Optional(128)
   - some: 128
+$1
+▿ Optional(834)
+  - some: 834
 should
 ▿ StableDiffusion.BPETokenizer.TokenPair
   - first: "d"
   - second: "o"
 update tokens merging
+▿ 4 elements
+  - "d"
+  - "o"
+  - "g"
+  - "s</w>"
 while loop
+▿ 4 elements
+  - "d"
+  - "o"
+  - "g"
+  - "s</w>"
+index:  0
 --- remainingTokens
+▿ 4 elements
+  - "d"
+  - "o"
+  - "g"
+  - "s</w>"
 ▿ 4 elements
   - "d"
   - "o"
@@ -57,13 +76,42 @@ while loop
   - "s</w>"
 -- --startMatchIndex
 0
+index:  0
+tokens slice
+- 0 elements
 -- --newTokens append 1
 - 0 elements
+▿ 4 elements
+  - "d"
+  - "o"
+  - "g"
+  - "s</w>"
 -- --newTokens append 2
 ▿ 1 element
   - "do"
+▿ 4 elements
+  - "d"
+  - "o"
+  - "g"
+  - "s</w>"
+index:  2
 while loop
+▿ 4 elements
+  - "d"
+  - "o"
+  - "g"
+  - "s</w>"
+index:  2
 --- remainingTokens
+▿ 2 elements
+  - "g"
+  - "s</w>"
+▿ 4 elements
+  - "d"
+  - "o"
+  - "g"
+  - "s</w>"
+break else
 ▿ 2 elements
   - "g"
   - "s</w>"
@@ -72,9 +120,20 @@ while loop
   - "do"
   - "g"
   - "s</w>"
+▿ 4 elements
+  - "d"
+  - "o"
+  - "g"
+  - "s</w>"
+index:  2
 return newTokens ---
 ▿ 3 elements
   - "do"
+  - "g"
+  - "s</w>"
+▿ 4 elements
+  - "d"
+  - "o"
   - "g"
   - "s</w>"
 update tokens
@@ -88,49 +147,79 @@ while
 --- pairs
 ▿ 2 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "do"
-    - second: "g"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "g"
     - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "do"
+    - second: "g"
 --- canMerge
 ▿ 2 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "do"
-    - second: "g"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "g"
     - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "do"
+    - second: "g"
 $0
-▿ Optional(834)
-  - some: 834
-$1
 ▿ Optional(3815)
   - some: 3815
+$1
+▿ Optional(834)
+  - some: 834
 should
 ▿ StableDiffusion.BPETokenizer.TokenPair
   - first: "g"
   - second: "s</w>"
 update tokens merging
+▿ 3 elements
+  - "do"
+  - "g"
+  - "s</w>"
 while loop
+▿ 3 elements
+  - "do"
+  - "g"
+  - "s</w>"
+index:  0
 --- remainingTokens
+▿ 3 elements
+  - "do"
+  - "g"
+  - "s</w>"
 ▿ 3 elements
   - "do"
   - "g"
   - "s</w>"
 -- --startMatchIndex
 1
+index:  0
+tokens slice
+▿ 1 element
+  - "do"
 -- --newTokens append 1
 ▿ 1 element
   - "do"
+▿ 3 elements
+  - "do"
+  - "g"
+  - "s</w>"
 -- --newTokens append 2
 ▿ 2 elements
   - "do"
   - "gs</w>"
+▿ 3 elements
+  - "do"
+  - "g"
+  - "s</w>"
+index:  3
 return newTokens ---
 ▿ 2 elements
   - "do"
   - "gs</w>"
+▿ 3 elements
+  - "do"
+  - "g"
+  - "s</w>"
 update tokens
 ▿ 2 elements
   - "do"
@@ -152,21 +241,44 @@ should
   - first: "do"
   - second: "gs</w>"
 update tokens merging
+▿ 2 elements
+  - "do"
+  - "gs</w>"
 while loop
+▿ 2 elements
+  - "do"
+  - "gs</w>"
+index:  0
 --- remainingTokens
+▿ 2 elements
+  - "do"
+  - "gs</w>"
 ▿ 2 elements
   - "do"
   - "gs</w>"
 -- --startMatchIndex
 0
+index:  0
+tokens slice
+- 0 elements
 -- --newTokens append 1
 - 0 elements
+▿ 2 elements
+  - "do"
+  - "gs</w>"
 -- --newTokens append 2
 ▿ 1 element
   - "dogs</w>"
+▿ 2 elements
+  - "do"
+  - "gs</w>"
+index:  2
 return newTokens ---
 ▿ 1 element
   - "dogs</w>"
+▿ 2 elements
+  - "do"
+  - "gs</w>"
 update tokens
 ▿ 1 element
   - "dogs</w>"
@@ -179,6 +291,11 @@ return tokens
 ▿ 1 element
   - "dogs</w>"
 ```
+
+</details>
+
+<details>
+<summary>dog</summary>
 
 ```log
 dog
@@ -213,30 +330,76 @@ should
   - first: "d"
   - second: "o"
 update tokens merging
+▿ 3 elements
+  - "d"
+  - "o"
+  - "g</w>"
 while loop
+▿ 3 elements
+  - "d"
+  - "o"
+  - "g</w>"
+index:  0
 --- remainingTokens
+▿ 3 elements
+  - "d"
+  - "o"
+  - "g</w>"
 ▿ 3 elements
   - "d"
   - "o"
   - "g</w>"
 -- --startMatchIndex
 0
+index:  0
+tokens slice
+- 0 elements
 -- --newTokens append 1
 - 0 elements
+▿ 3 elements
+  - "d"
+  - "o"
+  - "g</w>"
 -- --newTokens append 2
 ▿ 1 element
   - "do"
+▿ 3 elements
+  - "d"
+  - "o"
+  - "g</w>"
+index:  2
 while loop
+▿ 3 elements
+  - "d"
+  - "o"
+  - "g</w>"
+index:  2
 --- remainingTokens
+▿ 1 element
+  - "g</w>"
+▿ 3 elements
+  - "d"
+  - "o"
+  - "g</w>"
+break else
 ▿ 1 element
   - "g</w>"
 -- --newTokens append 4
 ▿ 2 elements
   - "do"
   - "g</w>"
+▿ 3 elements
+  - "d"
+  - "o"
+  - "g</w>"
+index:  2
 return newTokens ---
 ▿ 2 elements
   - "do"
+  - "g</w>"
+▿ 3 elements
+  - "d"
+  - "o"
   - "g</w>"
 update tokens
 ▿ 2 elements
@@ -259,21 +422,44 @@ should
   - first: "do"
   - second: "g</w>"
 update tokens merging
+▿ 2 elements
+  - "do"
+  - "g</w>"
 while loop
+▿ 2 elements
+  - "do"
+  - "g</w>"
+index:  0
 --- remainingTokens
+▿ 2 elements
+  - "do"
+  - "g</w>"
 ▿ 2 elements
   - "do"
   - "g</w>"
 -- --startMatchIndex
 0
+index:  0
+tokens slice
+- 0 elements
 -- --newTokens append 1
 - 0 elements
+▿ 2 elements
+  - "do"
+  - "g</w>"
 -- --newTokens append 2
 ▿ 1 element
   - "dog</w>"
+▿ 2 elements
+  - "do"
+  - "g</w>"
+index:  2
 return newTokens ---
 ▿ 1 element
   - "dog</w>"
+▿ 2 elements
+  - "do"
+  - "g</w>"
 update tokens
 ▿ 1 element
   - "dog</w>"
@@ -286,6 +472,11 @@ return tokens
 ▿ 1 element
   - "dog</w>"
 ```
+
+</details>
+
+<details>
+<summary>asparagus</summary>
 
 ```log
 asparagus
@@ -302,14 +493,17 @@ while
 --- pairs
 ▿ 8 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "u"
-    - second: "s</w>"
+    - first: "a"
+    - second: "g"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "a"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "g"
     - second: "u"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "a"
+    - first: "u"
+    - second: "s</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "a"
     - second: "s"
@@ -317,25 +511,25 @@ while
     - first: "a"
     - second: "r"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "r"
-    - second: "a"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "s"
     - second: "p"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "a"
-    - second: "g"
+    - first: "r"
+    - second: "a"
 --- canMerge
 ▿ 8 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "u"
-    - second: "s</w>"
+    - first: "a"
+    - second: "g"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "a"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "g"
     - second: "u"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "a"
+    - first: "u"
+    - second: "s</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "a"
     - second: "s"
@@ -343,44 +537,41 @@ while
     - first: "a"
     - second: "r"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "r"
-    - second: "a"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "s"
     - second: "p"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "a"
-    - second: "g"
-$0
-▿ Optional(189)
-  - some: 189
-$1
-▿ Optional(207)
-  - some: 207
+    - first: "r"
+    - second: "a"
 $0
 ▿ Optional(254)
   - some: 254
 $1
+▿ Optional(91)
+  - some: 91
+$0
 ▿ Optional(189)
   - some: 189
+$1
+▿ Optional(91)
+  - some: 91
+$0
+▿ Optional(207)
+  - some: 207
+$1
+▿ Optional(91)
+  - some: 91
 $0
 ▿ Optional(76)
   - some: 76
 $1
-▿ Optional(189)
-  - some: 189
+▿ Optional(91)
+  - some: 91
 $0
 ▿ Optional(5)
   - some: 5
 $1
 ▿ Optional(76)
   - some: 76
-$0
-▿ Optional(48)
-  - some: 48
-$1
-▿ Optional(5)
-  - some: 5
 $0
 ▿ Optional(77)
   - some: 77
@@ -388,8 +579,8 @@ $1
 ▿ Optional(5)
   - some: 5
 $0
-▿ Optional(91)
-  - some: 91
+▿ Optional(48)
+  - some: 48
 $1
 ▿ Optional(5)
   - some: 5
@@ -398,8 +589,39 @@ should
   - first: "a"
   - second: "r"
 update tokens merging
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
 while loop
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  0
 --- remainingTokens
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
 ▿ 9 elements
   - "a"
   - "s"
@@ -412,12 +634,47 @@ while loop
   - "s</w>"
 -- --startMatchIndex
 0
+index:  0
+tokens slice
+- 0 elements
 -- --newTokens append 1
 - 0 elements
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
 -- --newTokens append 3
 ▿ 1 element
   - "a"
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  1
 while loop
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  1
 --- remainingTokens
 ▿ 8 elements
   - "s"
@@ -428,34 +685,104 @@ while loop
   - "g"
   - "u"
   - "s</w>"
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
 -- --startMatchIndex
 3
+index:  1
+tokens slice
+▿ 2 elements
+  - "s"
+  - "p"
 -- --newTokens append 1
 ▿ 3 elements
   - "a"
   - "s"
   - "p"
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
 -- --newTokens append 2
 ▿ 4 elements
   - "a"
   - "s"
   - "p"
   - "ar"
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  5
 while loop
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  5
 --- remainingTokens
 ▿ 4 elements
   - "a"
   - "g"
   - "u"
   - "s</w>"
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
 -- --startMatchIndex
 5
+index:  5
+tokens slice
+- 0 elements
 -- --newTokens append 1
 ▿ 4 elements
   - "a"
   - "s"
   - "p"
   - "ar"
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
 -- --newTokens append 3
 ▿ 5 elements
   - "a"
@@ -463,8 +790,45 @@ while loop
   - "p"
   - "ar"
   - "a"
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  6
 while loop
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  6
 --- remainingTokens
+▿ 3 elements
+  - "g"
+  - "u"
+  - "s</w>"
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+break else
 ▿ 3 elements
   - "g"
   - "u"
@@ -479,12 +843,33 @@ while loop
   - "g"
   - "u"
   - "s</w>"
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  6
 return newTokens ---
 ▿ 8 elements
   - "a"
   - "s"
   - "p"
   - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+▿ 9 elements
+  - "a"
+  - "s"
+  - "p"
+  - "a"
+  - "r"
   - "a"
   - "g"
   - "u"
@@ -513,73 +898,55 @@ while
     - first: "p"
     - second: "ar"
   ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "s"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "g"
     - second: "u"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "a"
-    - second: "g"
+    - first: "s"
+    - second: "p"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "u"
     - second: "s</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "a"
-    - second: "s"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "ar"
     - second: "a"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "s"
-    - second: "p"
+    - first: "a"
+    - second: "g"
 --- canMerge
 ▿ 7 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "p"
     - second: "ar"
   ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "s"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "g"
     - second: "u"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "a"
-    - second: "g"
+    - first: "s"
+    - second: "p"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "u"
     - second: "s</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "a"
-    - second: "s"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "ar"
     - second: "a"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "s"
-    - second: "p"
-$0
-▿ Optional(189)
-  - some: 189
-$1
-▿ Optional(188)
-  - some: 188
-$0
-▿ Optional(91)
-  - some: 91
-$1
-▿ Optional(188)
-  - some: 188
-$0
-▿ Optional(207)
-  - some: 207
-$1
-▿ Optional(91)
-  - some: 91
+    - first: "a"
+    - second: "g"
 $0
 ▿ Optional(76)
   - some: 76
 $1
-▿ Optional(91)
-  - some: 91
+▿ Optional(188)
+  - some: 188
 $0
-▿ Optional(23650)
-  - some: 23650
+▿ Optional(189)
+  - some: 189
 $1
 ▿ Optional(76)
   - some: 76
@@ -589,13 +956,59 @@ $0
 $1
 ▿ Optional(76)
   - some: 76
+$0
+▿ Optional(207)
+  - some: 207
+$1
+▿ Optional(76)
+  - some: 76
+$0
+▿ Optional(23650)
+  - some: 23650
+$1
+▿ Optional(76)
+  - some: 76
+$0
+▿ Optional(91)
+  - some: 91
+$1
+▿ Optional(76)
+  - some: 76
 should
 ▿ StableDiffusion.BPETokenizer.TokenPair
   - first: "a"
   - second: "s"
 update tokens merging
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
 while loop
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  0
 --- remainingTokens
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
 ▿ 8 elements
   - "a"
   - "s"
@@ -607,12 +1020,44 @@ while loop
   - "s</w>"
 -- --startMatchIndex
 0
+index:  0
+tokens slice
+- 0 elements
 -- --newTokens append 1
 - 0 elements
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
 -- --newTokens append 2
 ▿ 1 element
   - "as"
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  2
 while loop
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  2
 --- remainingTokens
 ▿ 6 elements
   - "p"
@@ -621,21 +1066,78 @@ while loop
   - "g"
   - "u"
   - "s</w>"
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
 -- --startMatchIndex
 4
+index:  2
+tokens slice
+▿ 2 elements
+  - "p"
+  - "ar"
 -- --newTokens append 1
 ▿ 3 elements
   - "as"
   - "p"
   - "ar"
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
 -- --newTokens append 3
 ▿ 4 elements
   - "as"
   - "p"
   - "ar"
   - "a"
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  5
 while loop
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  5
 --- remainingTokens
+▿ 3 elements
+  - "g"
+  - "u"
+  - "s</w>"
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+break else
 ▿ 3 elements
   - "g"
   - "u"
@@ -649,9 +1151,28 @@ while loop
   - "g"
   - "u"
   - "s</w>"
+▿ 8 elements
+  - "a"
+  - "s"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  5
 return newTokens ---
 ▿ 7 elements
   - "as"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+▿ 8 elements
+  - "a"
+  - "s"
   - "p"
   - "ar"
   - "a"
@@ -677,17 +1198,17 @@ while
 --- pairs
 ▿ 6 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "ar"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "ar"
-    - second: "a"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "g"
     - second: "u"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "u"
     - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "ar"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ar"
+    - second: "a"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "a"
     - second: "g"
@@ -697,17 +1218,17 @@ while
 --- canMerge
 ▿ 6 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "ar"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "ar"
-    - second: "a"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "g"
     - second: "u"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "u"
     - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "ar"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ar"
+    - second: "a"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "a"
     - second: "g"
@@ -715,20 +1236,20 @@ while
     - first: "as"
     - second: "p"
 $0
-▿ Optional(23650)
-  - some: 23650
-$1
-▿ Optional(188)
-  - some: 188
-$0
-▿ Optional(189)
-  - some: 189
-$1
-▿ Optional(188)
-  - some: 188
-$0
 ▿ Optional(207)
   - some: 207
+$1
+▿ Optional(189)
+  - some: 189
+$0
+▿ Optional(188)
+  - some: 188
+$1
+▿ Optional(189)
+  - some: 189
+$0
+▿ Optional(23650)
+  - some: 23650
 $1
 ▿ Optional(188)
   - some: 188
@@ -749,8 +1270,33 @@ should
   - first: "a"
   - second: "g"
 update tokens merging
+▿ 7 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
 while loop
+▿ 7 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  0
 --- remainingTokens
+▿ 7 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
 ▿ 7 elements
   - "as"
   - "p"
@@ -761,19 +1307,63 @@ while loop
   - "s</w>"
 -- --startMatchIndex
 3
+index:  0
+tokens slice
+▿ 3 elements
+  - "as"
+  - "p"
+  - "ar"
 -- --newTokens append 1
 ▿ 3 elements
   - "as"
   - "p"
   - "ar"
+▿ 7 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
 -- --newTokens append 2
 ▿ 4 elements
   - "as"
   - "p"
   - "ar"
   - "ag"
+▿ 7 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  5
 while loop
+▿ 7 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  5
 --- remainingTokens
+▿ 2 elements
+  - "u"
+  - "s</w>"
+▿ 7 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+break else
 ▿ 2 elements
   - "u"
   - "s</w>"
@@ -785,12 +1375,29 @@ while loop
   - "ag"
   - "u"
   - "s</w>"
+▿ 7 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
+  - "u"
+  - "s</w>"
+index:  5
 return newTokens ---
 ▿ 6 elements
   - "as"
   - "p"
   - "ar"
   - "ag"
+  - "u"
+  - "s</w>"
+▿ 7 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "a"
+  - "g"
   - "u"
   - "s</w>"
 update tokens
@@ -810,11 +1417,11 @@ while
 --- pairs
 ▿ 5 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "ar"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "ar"
     - second: "ag"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "ar"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "ag"
     - second: "u"
@@ -827,11 +1434,11 @@ while
 --- canMerge
 ▿ 5 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "ar"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "ar"
     - second: "ag"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "ar"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "ag"
     - second: "u"
@@ -842,11 +1449,11 @@ while
     - first: "as"
     - second: "p"
 $0
-▿ Optional(40991)
-  - some: 40991
-$1
 ▿ Optional(188)
   - some: 188
+$1
+▿ Optional(40991)
+  - some: 40991
 $0
 ▿ Optional(3411)
   - some: 3411
@@ -870,8 +1477,30 @@ should
   - first: "p"
   - second: "ar"
 update tokens merging
+▿ 6 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "ag"
+  - "u"
+  - "s</w>"
 while loop
+▿ 6 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "ag"
+  - "u"
+  - "s</w>"
+index:  0
 --- remainingTokens
+▿ 6 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "ag"
+  - "u"
+  - "s</w>"
 ▿ 6 elements
   - "as"
   - "p"
@@ -881,15 +1510,54 @@ while loop
   - "s</w>"
 -- --startMatchIndex
 1
+index:  0
+tokens slice
+▿ 1 element
+  - "as"
 -- --newTokens append 1
 ▿ 1 element
   - "as"
+▿ 6 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "ag"
+  - "u"
+  - "s</w>"
 -- --newTokens append 2
 ▿ 2 elements
   - "as"
   - "par"
+▿ 6 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "ag"
+  - "u"
+  - "s</w>"
+index:  3
 while loop
+▿ 6 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "ag"
+  - "u"
+  - "s</w>"
+index:  3
 --- remainingTokens
+▿ 3 elements
+  - "ag"
+  - "u"
+  - "s</w>"
+▿ 6 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "ag"
+  - "u"
+  - "s</w>"
+break else
 ▿ 3 elements
   - "ag"
   - "u"
@@ -901,10 +1569,25 @@ while loop
   - "ag"
   - "u"
   - "s</w>"
+▿ 6 elements
+  - "as"
+  - "p"
+  - "ar"
+  - "ag"
+  - "u"
+  - "s</w>"
+index:  3
 return newTokens ---
 ▿ 5 elements
   - "as"
   - "par"
+  - "ag"
+  - "u"
+  - "s</w>"
+▿ 6 elements
+  - "as"
+  - "p"
+  - "ar"
   - "ag"
   - "u"
   - "s</w>"
@@ -923,17 +1606,17 @@ while
 --- pairs
 ▿ 4 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "ag"
-    - second: "u"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "par"
     - second: "ag"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "u"
-    - second: "s</w>"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "as"
     - second: "par"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ag"
+    - second: "u"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
 --- canMerge
 ▿ 3 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
@@ -962,8 +1645,27 @@ should
   - first: "u"
   - second: "s</w>"
 update tokens merging
+▿ 5 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "u"
+  - "s</w>"
 while loop
+▿ 5 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "u"
+  - "s</w>"
+index:  0
 --- remainingTokens
+▿ 5 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "u"
+  - "s</w>"
 ▿ 5 elements
   - "as"
   - "par"
@@ -972,23 +1674,48 @@ while loop
   - "s</w>"
 -- --startMatchIndex
 3
+index:  0
+tokens slice
+▿ 3 elements
+  - "as"
+  - "par"
+  - "ag"
 -- --newTokens append 1
 ▿ 3 elements
   - "as"
   - "par"
   - "ag"
+▿ 5 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "u"
+  - "s</w>"
 -- --newTokens append 2
 ▿ 4 elements
   - "as"
   - "par"
   - "ag"
   - "us</w>"
+▿ 5 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "u"
+  - "s</w>"
+index:  5
 return newTokens ---
 ▿ 4 elements
   - "as"
   - "par"
   - "ag"
   - "us</w>"
+▿ 5 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "u"
+  - "s</w>"
 update tokens
 ▿ 4 elements
   - "as"
@@ -1020,8 +1747,24 @@ should
   - first: "par"
   - second: "ag"
 update tokens merging
+▿ 4 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "us</w>"
 while loop
+▿ 4 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "us</w>"
+index:  0
 --- remainingTokens
+▿ 4 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "us</w>"
 ▿ 4 elements
   - "as"
   - "par"
@@ -1029,15 +1772,44 @@ while loop
   - "us</w>"
 -- --startMatchIndex
 1
+index:  0
+tokens slice
+▿ 1 element
+  - "as"
 -- --newTokens append 1
 ▿ 1 element
   - "as"
+▿ 4 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "us</w>"
 -- --newTokens append 2
 ▿ 2 elements
   - "as"
   - "parag"
+▿ 4 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "us</w>"
+index:  3
 while loop
+▿ 4 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "us</w>"
+index:  3
 --- remainingTokens
+▿ 1 element
+  - "us</w>"
+▿ 4 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "us</w>"
+break else
 ▿ 1 element
   - "us</w>"
 -- --newTokens append 4
@@ -1045,10 +1817,21 @@ while loop
   - "as"
   - "parag"
   - "us</w>"
+▿ 4 elements
+  - "as"
+  - "par"
+  - "ag"
+  - "us</w>"
+index:  3
 return newTokens ---
 ▿ 3 elements
   - "as"
   - "parag"
+  - "us</w>"
+▿ 4 elements
+  - "as"
+  - "par"
+  - "ag"
   - "us</w>"
 update tokens
 ▿ 3 elements
@@ -1061,11 +1844,11 @@ while
 --- pairs
 ▿ 2 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "parag"
-    - second: "us</w>"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "as"
     - second: "parag"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "parag"
+    - second: "us</w>"
 --- canMerge
 ▿ 1 member
   ▿ StableDiffusion.BPETokenizer.TokenPair
@@ -1076,30 +1859,76 @@ should
   - first: "as"
   - second: "parag"
 update tokens merging
+▿ 3 elements
+  - "as"
+  - "parag"
+  - "us</w>"
 while loop
+▿ 3 elements
+  - "as"
+  - "parag"
+  - "us</w>"
+index:  0
 --- remainingTokens
+▿ 3 elements
+  - "as"
+  - "parag"
+  - "us</w>"
 ▿ 3 elements
   - "as"
   - "parag"
   - "us</w>"
 -- --startMatchIndex
 0
+index:  0
+tokens slice
+- 0 elements
 -- --newTokens append 1
 - 0 elements
+▿ 3 elements
+  - "as"
+  - "parag"
+  - "us</w>"
 -- --newTokens append 2
 ▿ 1 element
   - "asparag"
+▿ 3 elements
+  - "as"
+  - "parag"
+  - "us</w>"
+index:  2
 while loop
+▿ 3 elements
+  - "as"
+  - "parag"
+  - "us</w>"
+index:  2
 --- remainingTokens
+▿ 1 element
+  - "us</w>"
+▿ 3 elements
+  - "as"
+  - "parag"
+  - "us</w>"
+break else
 ▿ 1 element
   - "us</w>"
 -- --newTokens append 4
 ▿ 2 elements
   - "asparag"
   - "us</w>"
+▿ 3 elements
+  - "as"
+  - "parag"
+  - "us</w>"
+index:  2
 return newTokens ---
 ▿ 2 elements
   - "asparag"
+  - "us</w>"
+▿ 3 elements
+  - "as"
+  - "parag"
   - "us</w>"
 update tokens
 ▿ 2 elements
@@ -1122,21 +1951,44 @@ should
   - first: "asparag"
   - second: "us</w>"
 update tokens merging
+▿ 2 elements
+  - "asparag"
+  - "us</w>"
 while loop
+▿ 2 elements
+  - "asparag"
+  - "us</w>"
+index:  0
 --- remainingTokens
+▿ 2 elements
+  - "asparag"
+  - "us</w>"
 ▿ 2 elements
   - "asparag"
   - "us</w>"
 -- --startMatchIndex
 0
+index:  0
+tokens slice
+- 0 elements
 -- --newTokens append 1
 - 0 elements
+▿ 2 elements
+  - "asparag"
+  - "us</w>"
 -- --newTokens append 2
 ▿ 1 element
   - "asparagus</w>"
+▿ 2 elements
+  - "asparag"
+  - "us</w>"
+index:  2
 return newTokens ---
 ▿ 1 element
   - "asparagus</w>"
+▿ 2 elements
+  - "asparag"
+  - "us</w>"
 update tokens
 ▿ 1 element
   - "asparagus</w>"
@@ -1149,6 +2001,11 @@ return tokens
 ▿ 1 element
   - "asparagus</w>"
 ```
+
+</details>
+
+<details>
+<summary>elephant</summary>
 
 ```log
 elephant
@@ -1164,76 +2021,70 @@ while
 --- pairs
 ▿ 7 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "h"
+    - first: "n"
+    - second: "t</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "h"
+    - second: "a"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "a"
     - second: "n"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "e"
-    - second: "p"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "n"
-    - second: "t</w>"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "e"
     - second: "l"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "h"
-    - second: "a"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "l"
     - second: "e"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "h"
 --- canMerge
 ▿ 7 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "h"
+    - first: "n"
+    - second: "t</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "e"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "h"
+    - second: "a"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "a"
     - second: "n"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "e"
-    - second: "p"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "n"
-    - second: "t</w>"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "e"
     - second: "l"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "h"
-    - second: "a"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "l"
     - second: "e"
-$0
-▿ Optional(3)
-  - some: 3
-$1
-▿ Optional(234)
-  - some: 234
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "h"
 $0
 ▿ Optional(667)
   - some: 667
 $1
-▿ Optional(3)
-  - some: 3
-$0
 ▿ Optional(2696)
   - some: 2696
-$1
-▿ Optional(3)
-  - some: 3
-$0
-▿ Optional(33)
-  - some: 33
-$1
-▿ Optional(3)
-  - some: 3
 $0
 ▿ Optional(49)
   - some: 49
+$1
+▿ Optional(667)
+  - some: 667
+$0
+▿ Optional(3)
+  - some: 3
+$1
+▿ Optional(49)
+  - some: 49
+$0
+▿ Optional(33)
+  - some: 33
 $1
 ▿ Optional(3)
   - some: 3
@@ -1243,13 +2094,47 @@ $0
 $1
 ▿ Optional(3)
   - some: 3
+$0
+▿ Optional(234)
+  - some: 234
+$1
+▿ Optional(3)
+  - some: 3
 should
 ▿ StableDiffusion.BPETokenizer.TokenPair
   - first: "a"
   - second: "n"
 update tokens merging
+▿ 8 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "a"
+  - "n"
+  - "t</w>"
 while loop
+▿ 8 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "a"
+  - "n"
+  - "t</w>"
+index:  0
 --- remainingTokens
+▿ 8 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "a"
+  - "n"
+  - "t</w>"
 ▿ 8 elements
   - "e"
   - "l"
@@ -1261,6 +2146,14 @@ while loop
   - "t</w>"
 -- --startMatchIndex
 5
+index:  0
+tokens slice
+▿ 5 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
 -- --newTokens append 1
 ▿ 5 elements
   - "e"
@@ -1268,6 +2161,15 @@ while loop
   - "e"
   - "p"
   - "h"
+▿ 8 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "a"
+  - "n"
+  - "t</w>"
 -- --newTokens append 2
 ▿ 6 elements
   - "e"
@@ -1276,8 +2178,40 @@ while loop
   - "p"
   - "h"
   - "an"
+▿ 8 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "a"
+  - "n"
+  - "t</w>"
+index:  7
 while loop
+▿ 8 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "a"
+  - "n"
+  - "t</w>"
+index:  7
 --- remainingTokens
+▿ 1 element
+  - "t</w>"
+▿ 8 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "a"
+  - "n"
+  - "t</w>"
+break else
 ▿ 1 element
   - "t</w>"
 -- --newTokens append 4
@@ -1289,6 +2223,16 @@ while loop
   - "h"
   - "an"
   - "t</w>"
+▿ 8 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "a"
+  - "n"
+  - "t</w>"
+index:  7
 return newTokens ---
 ▿ 7 elements
   - "e"
@@ -1297,6 +2241,15 @@ return newTokens ---
   - "p"
   - "h"
   - "an"
+  - "t</w>"
+▿ 8 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "a"
+  - "n"
   - "t</w>"
 update tokens
 ▿ 7 elements
@@ -1317,58 +2270,58 @@ while
 --- pairs
 ▿ 6 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "h"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "e"
-    - second: "p"
+    - second: "l"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "l"
     - second: "e"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "e"
-    - second: "l"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "h"
+    - second: "an"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "an"
     - second: "t</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "h"
-    - second: "an"
+    - first: "p"
+    - second: "h"
 --- canMerge
 ▿ 6 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "h"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "e"
-    - second: "p"
+    - second: "l"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "l"
     - second: "e"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "e"
-    - second: "l"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "h"
+    - second: "an"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "an"
     - second: "t</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "h"
-    - second: "an"
-$0
-▿ Optional(667)
-  - some: 667
-$1
-▿ Optional(234)
-  - some: 234
+    - first: "p"
+    - second: "h"
 $0
 ▿ Optional(23)
   - some: 23
 $1
-▿ Optional(234)
-  - some: 234
-$0
 ▿ Optional(33)
   - some: 33
+$0
+▿ Optional(667)
+  - some: 667
+$1
+▿ Optional(23)
+  - some: 23
+$0
+▿ Optional(1034)
+  - some: 1034
 $1
 ▿ Optional(23)
   - some: 23
@@ -1379,8 +2332,8 @@ $1
 ▿ Optional(23)
   - some: 23
 $0
-▿ Optional(1034)
-  - some: 1034
+▿ Optional(234)
+  - some: 234
 $1
 ▿ Optional(23)
   - some: 23
@@ -1389,8 +2342,33 @@ should
   - first: "l"
   - second: "e"
 update tokens merging
+▿ 7 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
 while loop
+▿ 7 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+index:  0
 --- remainingTokens
+▿ 7 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
 ▿ 7 elements
   - "e"
   - "l"
@@ -1401,15 +2379,59 @@ while loop
   - "t</w>"
 -- --startMatchIndex
 1
+index:  0
+tokens slice
+▿ 1 element
+  - "e"
 -- --newTokens append 1
 ▿ 1 element
   - "e"
+▿ 7 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
 -- --newTokens append 2
 ▿ 2 elements
   - "e"
   - "le"
+▿ 7 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+index:  3
 while loop
+▿ 7 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+index:  3
 --- remainingTokens
+▿ 4 elements
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+▿ 7 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+break else
 ▿ 4 elements
   - "p"
   - "h"
@@ -1423,10 +2445,27 @@ while loop
   - "h"
   - "an"
   - "t</w>"
+▿ 7 elements
+  - "e"
+  - "l"
+  - "e"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+index:  3
 return newTokens ---
 ▿ 6 elements
   - "e"
   - "le"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+▿ 7 elements
+  - "e"
+  - "l"
+  - "e"
   - "p"
   - "h"
   - "an"
@@ -1448,68 +2487,90 @@ while
 --- pairs
 ▿ 5 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "le"
-    - second: "p"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "h"
+    - first: "h"
+    - second: "an"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "an"
     - second: "t</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "le"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "e"
     - second: "le"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "h"
-    - second: "an"
+    - first: "p"
+    - second: "h"
 --- canMerge
 ▿ 5 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "le"
-    - second: "p"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "h"
+    - first: "h"
+    - second: "an"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "an"
     - second: "t</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "le"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "e"
     - second: "le"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "h"
-    - second: "an"
-$0
-▿ Optional(234)
-  - some: 234
-$1
-▿ Optional(48373)
-  - some: 48373
+    - first: "p"
+    - second: "h"
 $0
 ▿ Optional(262)
   - some: 262
 $1
-▿ Optional(234)
-  - some: 234
+▿ Optional(1034)
+  - some: 1034
+$0
+▿ Optional(48373)
+  - some: 48373
+$1
+▿ Optional(262)
+  - some: 262
 $0
 ▿ Optional(1573)
   - some: 1573
 $1
-▿ Optional(234)
-  - some: 234
+▿ Optional(262)
+  - some: 262
 $0
-▿ Optional(1034)
-  - some: 1034
-$1
 ▿ Optional(234)
   - some: 234
+$1
+▿ Optional(262)
+  - some: 262
 should
 ▿ StableDiffusion.BPETokenizer.TokenPair
   - first: "p"
   - second: "h"
 update tokens merging
+▿ 6 elements
+  - "e"
+  - "le"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
 while loop
+▿ 6 elements
+  - "e"
+  - "le"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+index:  0
 --- remainingTokens
+▿ 6 elements
+  - "e"
+  - "le"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
 ▿ 6 elements
   - "e"
   - "le"
@@ -1519,17 +2580,56 @@ while loop
   - "t</w>"
 -- --startMatchIndex
 2
+index:  0
+tokens slice
+▿ 2 elements
+  - "e"
+  - "le"
 -- --newTokens append 1
 ▿ 2 elements
   - "e"
   - "le"
+▿ 6 elements
+  - "e"
+  - "le"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
 -- --newTokens append 2
 ▿ 3 elements
   - "e"
   - "le"
   - "ph"
+▿ 6 elements
+  - "e"
+  - "le"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+index:  4
 while loop
+▿ 6 elements
+  - "e"
+  - "le"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+index:  4
 --- remainingTokens
+▿ 2 elements
+  - "an"
+  - "t</w>"
+▿ 6 elements
+  - "e"
+  - "le"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+break else
 ▿ 2 elements
   - "an"
   - "t</w>"
@@ -1540,11 +2640,26 @@ while loop
   - "ph"
   - "an"
   - "t</w>"
+▿ 6 elements
+  - "e"
+  - "le"
+  - "p"
+  - "h"
+  - "an"
+  - "t</w>"
+index:  4
 return newTokens ---
 ▿ 5 elements
   - "e"
   - "le"
   - "ph"
+  - "an"
+  - "t</w>"
+▿ 6 elements
+  - "e"
+  - "le"
+  - "p"
+  - "h"
   - "an"
   - "t</w>"
 update tokens
@@ -1565,44 +2680,63 @@ while
     - first: "ph"
     - second: "an"
   ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "le"
+    - second: "ph"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "an"
     - second: "t</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "e"
     - second: "le"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "le"
-    - second: "ph"
 --- canMerge
 ▿ 3 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "an"
-    - second: "t</w>"
+    - first: "ph"
+    - second: "an"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "e"
     - second: "le"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "ph"
-    - second: "an"
+    - first: "an"
+    - second: "t</w>"
 $0
 ▿ Optional(1573)
   - some: 1573
 $1
-▿ Optional(262)
-  - some: 262
-$0
 ▿ Optional(8220)
   - some: 8220
-$1
+$0
 ▿ Optional(262)
   - some: 262
+$1
+▿ Optional(1573)
+  - some: 1573
 should
 ▿ StableDiffusion.BPETokenizer.TokenPair
   - first: "an"
   - second: "t</w>"
 update tokens merging
+▿ 5 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "an"
+  - "t</w>"
 while loop
+▿ 5 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "an"
+  - "t</w>"
+index:  0
 --- remainingTokens
+▿ 5 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "an"
+  - "t</w>"
 ▿ 5 elements
   - "e"
   - "le"
@@ -1611,23 +2745,48 @@ while loop
   - "t</w>"
 -- --startMatchIndex
 3
+index:  0
+tokens slice
+▿ 3 elements
+  - "e"
+  - "le"
+  - "ph"
 -- --newTokens append 1
 ▿ 3 elements
   - "e"
   - "le"
   - "ph"
+▿ 5 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "an"
+  - "t</w>"
 -- --newTokens append 2
 ▿ 4 elements
   - "e"
   - "le"
   - "ph"
   - "ant</w>"
+▿ 5 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "an"
+  - "t</w>"
+index:  5
 return newTokens ---
 ▿ 4 elements
   - "e"
   - "le"
   - "ph"
   - "ant</w>"
+▿ 5 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "an"
+  - "t</w>"
 update tokens
 ▿ 4 elements
   - "e"
@@ -1659,8 +2818,24 @@ should
   - first: "e"
   - second: "le"
 update tokens merging
+▿ 4 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "ant</w>"
 while loop
+▿ 4 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "ant</w>"
+index:  0
 --- remainingTokens
+▿ 4 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "ant</w>"
 ▿ 4 elements
   - "e"
   - "le"
@@ -1668,13 +2843,42 @@ while loop
   - "ant</w>"
 -- --startMatchIndex
 0
+index:  0
+tokens slice
+- 0 elements
 -- --newTokens append 1
 - 0 elements
+▿ 4 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "ant</w>"
 -- --newTokens append 2
 ▿ 1 element
   - "ele"
+▿ 4 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "ant</w>"
+index:  2
 while loop
+▿ 4 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "ant</w>"
+index:  2
 --- remainingTokens
+▿ 2 elements
+  - "ph"
+  - "ant</w>"
+▿ 4 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "ant</w>"
+break else
 ▿ 2 elements
   - "ph"
   - "ant</w>"
@@ -1683,9 +2887,20 @@ while loop
   - "ele"
   - "ph"
   - "ant</w>"
+▿ 4 elements
+  - "e"
+  - "le"
+  - "ph"
+  - "ant</w>"
+index:  2
 return newTokens ---
 ▿ 3 elements
   - "ele"
+  - "ph"
+  - "ant</w>"
+▿ 4 elements
+  - "e"
+  - "le"
   - "ph"
   - "ant</w>"
 update tokens
@@ -1699,11 +2914,11 @@ while
 --- pairs
 ▿ 2 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "ele"
-    - second: "ph"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "ph"
     - second: "ant</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ele"
+    - second: "ph"
 --- canMerge
 ▿ 1 member
   ▿ StableDiffusion.BPETokenizer.TokenPair
@@ -1714,30 +2929,76 @@ should
   - first: "ele"
   - second: "ph"
 update tokens merging
+▿ 3 elements
+  - "ele"
+  - "ph"
+  - "ant</w>"
 while loop
+▿ 3 elements
+  - "ele"
+  - "ph"
+  - "ant</w>"
+index:  0
 --- remainingTokens
+▿ 3 elements
+  - "ele"
+  - "ph"
+  - "ant</w>"
 ▿ 3 elements
   - "ele"
   - "ph"
   - "ant</w>"
 -- --startMatchIndex
 0
+index:  0
+tokens slice
+- 0 elements
 -- --newTokens append 1
 - 0 elements
+▿ 3 elements
+  - "ele"
+  - "ph"
+  - "ant</w>"
 -- --newTokens append 2
 ▿ 1 element
   - "eleph"
+▿ 3 elements
+  - "ele"
+  - "ph"
+  - "ant</w>"
+index:  2
 while loop
+▿ 3 elements
+  - "ele"
+  - "ph"
+  - "ant</w>"
+index:  2
 --- remainingTokens
+▿ 1 element
+  - "ant</w>"
+▿ 3 elements
+  - "ele"
+  - "ph"
+  - "ant</w>"
+break else
 ▿ 1 element
   - "ant</w>"
 -- --newTokens append 4
 ▿ 2 elements
   - "eleph"
   - "ant</w>"
+▿ 3 elements
+  - "ele"
+  - "ph"
+  - "ant</w>"
+index:  2
 return newTokens ---
 ▿ 2 elements
   - "eleph"
+  - "ant</w>"
+▿ 3 elements
+  - "ele"
+  - "ph"
   - "ant</w>"
 update tokens
 ▿ 2 elements
@@ -1760,21 +3021,44 @@ should
   - first: "eleph"
   - second: "ant</w>"
 update tokens merging
+▿ 2 elements
+  - "eleph"
+  - "ant</w>"
 while loop
+▿ 2 elements
+  - "eleph"
+  - "ant</w>"
+index:  0
 --- remainingTokens
+▿ 2 elements
+  - "eleph"
+  - "ant</w>"
 ▿ 2 elements
   - "eleph"
   - "ant</w>"
 -- --startMatchIndex
 0
+index:  0
+tokens slice
+- 0 elements
 -- --newTokens append 1
 - 0 elements
+▿ 2 elements
+  - "eleph"
+  - "ant</w>"
 -- --newTokens append 2
 ▿ 1 element
   - "elephant</w>"
+▿ 2 elements
+  - "eleph"
+  - "ant</w>"
+index:  2
 return newTokens ---
 ▿ 1 element
   - "elephant</w>"
+▿ 2 elements
+  - "eleph"
+  - "ant</w>"
 update tokens
 ▿ 1 element
   - "elephant</w>"
@@ -1788,6 +3072,11 @@ return tokens
   - "elephant</w>"
 ```
 
+</details>
+
+<details>
+<summary>cat</summary>
+
 ```log
 cat
 ["cat"]
@@ -1797,49 +3086,79 @@ while
 --- pairs
 ▿ 2 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "a"
-    - second: "t</w>"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "c"
     - second: "a"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "t</w>"
 --- canMerge
 ▿ 2 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "a"
-    - second: "t</w>"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "c"
     - second: "a"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "t</w>"
 $0
-▿ Optional(261)
-  - some: 261
-$1
 ▿ Optional(25)
   - some: 25
+$1
+▿ Optional(261)
+  - some: 261
 should
 ▿ StableDiffusion.BPETokenizer.TokenPair
   - first: "a"
   - second: "t</w>"
 update tokens merging
+▿ 3 elements
+  - "c"
+  - "a"
+  - "t</w>"
 while loop
+▿ 3 elements
+  - "c"
+  - "a"
+  - "t</w>"
+index:  0
 --- remainingTokens
+▿ 3 elements
+  - "c"
+  - "a"
+  - "t</w>"
 ▿ 3 elements
   - "c"
   - "a"
   - "t</w>"
 -- --startMatchIndex
 1
+index:  0
+tokens slice
+▿ 1 element
+  - "c"
 -- --newTokens append 1
 ▿ 1 element
   - "c"
+▿ 3 elements
+  - "c"
+  - "a"
+  - "t</w>"
 -- --newTokens append 2
 ▿ 2 elements
   - "c"
   - "at</w>"
+▿ 3 elements
+  - "c"
+  - "a"
+  - "t</w>"
+index:  3
 return newTokens ---
 ▿ 2 elements
   - "c"
   - "at</w>"
+▿ 3 elements
+  - "c"
+  - "a"
+  - "t</w>"
 update tokens
 ▿ 2 elements
   - "c"
@@ -1861,21 +3180,44 @@ should
   - first: "c"
   - second: "at</w>"
 update tokens merging
+▿ 2 elements
+  - "c"
+  - "at</w>"
 while loop
+▿ 2 elements
+  - "c"
+  - "at</w>"
+index:  0
 --- remainingTokens
+▿ 2 elements
+  - "c"
+  - "at</w>"
 ▿ 2 elements
   - "c"
   - "at</w>"
 -- --startMatchIndex
 0
+index:  0
+tokens slice
+- 0 elements
 -- --newTokens append 1
 - 0 elements
+▿ 2 elements
+  - "c"
+  - "at</w>"
 -- --newTokens append 2
 ▿ 1 element
   - "cat</w>"
+▿ 2 elements
+  - "c"
+  - "at</w>"
+index:  2
 return newTokens ---
 ▿ 1 element
   - "cat</w>"
+▿ 2 elements
+  - "c"
+  - "at</w>"
 update tokens
 ▿ 1 element
   - "cat</w>"
@@ -1888,6 +3230,8 @@ return tokens
 ▿ 1 element
   - "cat</w>"
 ```
+
+</details>
 
 # 📝 2023/01/18
 

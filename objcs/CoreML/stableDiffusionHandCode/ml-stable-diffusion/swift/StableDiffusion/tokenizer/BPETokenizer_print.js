@@ -201,42 +201,59 @@ public struct BPETokenizer {
 
         var index = 0
         print("update tokens merging")
+        dump(tokens)
         while index < tokens.count {
             print("while loop")
+            dump(tokens)
+            print("index: ", index)
             let remainingTokens = tokens[index...]
             print("--- remainingTokens")
             dump(remainingTokens)
+            dump(tokens)
             if let startMatchIndex = remainingTokens.firstIndex(of: bigram.first) {
                 // Found a possible match, append everything before it
                 print("-- --startMatchIndex")
                 print(startMatchIndex)
+                print("index: ", index)
+                print("tokens slice")
+                dump(tokens[index..<startMatchIndex])
                 newTokens.append(contentsOf: tokens[index..<startMatchIndex])
                 print("-- --newTokens append 1")
                 dump(newTokens)
+                dump(tokens)
 
                 if index < tokens.count - 1 && tokens[startMatchIndex + 1] == bigram.second {
                     // Full match, merge
                     newTokens.append(bigram.first + bigram.second)
                     print("-- --newTokens append 2")
                     dump(newTokens)
+                    dump(tokens)
                     index = startMatchIndex + 2
+                    print("index: ", index)
                 } else {
                     // Only matched the first, no merge
                     newTokens.append(bigram.first)
                     print("-- --newTokens append 3")
                     dump(newTokens)
+                    dump(tokens)
                     index = startMatchIndex + 1
+                    print("index: ", index)
                 }
             } else {
                 // Didn't find any more matches, append the rest unmerged
+                print("break else")
+                dump(remainingTokens)
                 newTokens.append(contentsOf: remainingTokens)
                 print("-- --newTokens append 4")
                 dump(newTokens)
+                dump(tokens)
+                print("index: ", index)
                 break
             }
         }
         print("return newTokens ---")
         dump(newTokens)
+        dump(tokens)
         return newTokens
     }
 }
