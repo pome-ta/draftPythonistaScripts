@@ -59,12 +59,15 @@ class _BPETokenizer:
     tokens = [str(w) for w in word]
     if len(tokens):
       tokens[-1] = tokens[-1] + '</w>'
-    pairs = self.pairs_for_(tokens[:])
-    canMerge = list(filter(lambda p: self.merges[p], pairs))
-    shouldMerge = min(canMerge, key=lambda cm: self.merges[cm])
-    t = self.update_tokens_merging_(tokens[:], shouldMerge)
-    print('りー')
-    print(t)
+    while True:
+      pairs = self.pairs_for_(tokens[:])
+      print(*pairs)
+      canMerge = list(filter(lambda p: self.merges[p], pairs))
+      if not (len(canMerge)):
+        break
+      shouldMerge = min(canMerge, key=lambda cm: self.merges[cm])
+      tokens = self.update_tokens_merging_(tokens[:], shouldMerge)
+    return tokens
 
   def pairs_for_(self, tokens: str):
     if len(tokens) <= 1:
@@ -72,7 +75,10 @@ class _BPETokenizer:
     pairs = set()
     prev = tokens[0]
     tokens.pop(0)
+    
+    
     for current in tokens[:]:
+      #print(f'prev:{prev}, current:{current}')
       pairs.add(TokenPair(prev, current))
       tokens.pop(0)
       prev = current
@@ -85,13 +91,13 @@ class _BPETokenizer:
     index = 0
     while index < len(tokens):
       remainingTokens = tokens[0:]
-      print(remainingTokens)
+      #print(remainingTokens)
       startMatchIndex = remainingTokens.index(
         bigram.first) if bigram.first in remainingTokens else None
 
       if startMatchIndex != None:
         # xxx: あとで確認
-        newTokens.append(*tokens[index:startMatchIndex])
+        newTokens.append(tokens[index:startMatchIndex])
 
         if index < (len(tokens) - 1) and tokens[startMatchIndex +
                                                 1] == bigram.second:
