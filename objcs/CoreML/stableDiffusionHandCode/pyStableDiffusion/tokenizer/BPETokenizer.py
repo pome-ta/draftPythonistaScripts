@@ -62,7 +62,9 @@ class _BPETokenizer:
     pairs = self.pairs_for_(tokens[:])
     canMerge = list(filter(lambda p: self.merges[p], pairs))
     shouldMerge = min(canMerge, key=lambda cm: self.merges[cm])
-    self.update_tokens_merging_(tokens[:], shouldMerge)
+    t = self.update_tokens_merging_(tokens[:], shouldMerge)
+    print('りー')
+    print(t)
 
   def pairs_for_(self, tokens: str):
     if len(tokens) <= 1:
@@ -81,24 +83,32 @@ class _BPETokenizer:
       return []
     newTokens: lis = []
     index = 0
-    print(tokens)
-    print(bigram)
-    remainingTokens = tokens[0:]
-    startMatchIndex = remainingTokens.index(
-      bigram.first) if bigram.first in remainingTokens else None
-
-    if startMatchIndex != None:
-      newTokens.append(tokens[index:startMatchIndex])
-
-      if (index < len(tokens) - 1) and (tokens[startMatchIndex +
-                                               1] == bigram.second):
-        pass
-
-    print(startMatchIndex)
-    '''
     while index < len(tokens):
       remainingTokens = tokens[0:]
-    '''
+      print(remainingTokens)
+      startMatchIndex = remainingTokens.index(
+        bigram.first) if bigram.first in remainingTokens else None
+
+      if startMatchIndex != None:
+        # xxx: あとで確認
+        newTokens.append(*tokens[index:startMatchIndex])
+
+        if index < (len(tokens) - 1) and tokens[startMatchIndex +
+                                                1] == bigram.second:
+          #print('hoge')
+          newTokens.append(bigram.first + bigram.second)
+          index = startMatchIndex + 2
+        else:
+          #print('え')
+          newTokens.append(bigram.first)
+          index = startMatchIndex + 1
+      else:
+        #print('break')
+        #print(remainingTokens)
+        # xxx: あとで確認
+        newTokens.append(*remainingTokens)
+        break
+    return newTokens
 
   @staticmethod
   def readVocabulary_url_(url: Path) -> dict:
