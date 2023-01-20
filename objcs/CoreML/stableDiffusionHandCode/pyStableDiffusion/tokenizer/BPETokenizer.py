@@ -48,8 +48,8 @@ class _BPETokenizer:
     tokens.append(self.endToken)
     #self.encode_input_('cat dogs')
     #self.encode_input_('dogs')
-    #self.encode_input_('asparagus')
-    self.encode_input_('elephant')
+    self.encode_input_('asparagus')
+    #self.encode_input_('elephant')
     #self.encode_input_('dog')
     #self.encode_input_('cat')
 
@@ -133,6 +133,7 @@ class _BPETokenizer:
       print("--- remainingTokens")
       print(*remainingTokens)
       print(f'tokens: {tokens}')
+      print(f'---- ---- bigram.first: {bigram.first}')
       startMatchIndex = remainingTokens.index(
         bigram.first) if bigram.first in remainingTokens else None
 
