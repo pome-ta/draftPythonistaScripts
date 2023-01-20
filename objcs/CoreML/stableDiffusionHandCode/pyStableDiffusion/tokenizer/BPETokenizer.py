@@ -51,6 +51,7 @@ class _BPETokenizer:
     #self.encode_input_('asparagus')
     self.encode_input_('elephant')
     #self.encode_input_('dog')
+    #self.encode_input_('cat')
 
   def encode_input_(self, input_str: str) -> list:
     normalized = input_str.strip().lower()
@@ -69,7 +70,8 @@ class _BPETokenizer:
       print('pairs')
       print(*pairs)
       print('---')
-      canMerge = list(filter(lambda p: self.merges[p], pairs))
+      #canMerge = list(filter(lambda p: self.merges[p], pairs))
+      canMerge = list(filter(lambda p: self.__is_merge(p), pairs))
       print('canMerge')
       print(*canMerge)
       print('---')
@@ -89,6 +91,16 @@ class _BPETokenizer:
     print('return tokens')
     print(tokens)
     return tokens
+    
+  def __is_merge(self, pair:TokenPair)->TokenPair:
+    # xxx: `TokenPair` か `False` 投げ返すのはキモい
+    # xxx: dict の例外ハンドリングを調べる
+    try:
+      return self.merges[pair]
+    except KeyError as e:
+      pass
+    return False
+    
 
   def pairs_for_(self, tokens: str):
     if len(tokens) <= 1:
