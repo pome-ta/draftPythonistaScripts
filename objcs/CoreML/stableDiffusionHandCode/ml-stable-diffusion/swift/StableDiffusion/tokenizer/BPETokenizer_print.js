@@ -210,6 +210,7 @@ public struct BPETokenizer {
             print("--- remainingTokens")
             dump(remainingTokens)
             dump(tokens)
+            print("bigram", bigram.first)
             if let startMatchIndex = remainingTokens.firstIndex(of: bigram.first) {
                 // Found a possible match, append everything before it
                 print("-- --startMatchIndex")
