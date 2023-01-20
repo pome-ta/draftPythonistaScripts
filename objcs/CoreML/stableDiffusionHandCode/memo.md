@@ -493,17 +493,8 @@ while
 --- pairs
 ▿ 8 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "a"
-    - second: "g"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "a"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "g"
     - second: "u"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "u"
-    - second: "s</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "a"
     - second: "s"
@@ -515,21 +506,21 @@ while
     - second: "p"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "r"
+    - second: "a"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "g"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
     - second: "a"
 --- canMerge
 ▿ 8 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "a"
-    - second: "g"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "a"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "g"
     - second: "u"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "u"
-    - second: "s</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "a"
     - second: "s"
@@ -542,30 +533,21 @@ while
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "r"
     - second: "a"
-$0
-▿ Optional(254)
-  - some: 254
-$1
-▿ Optional(91)
-  - some: 91
-$0
-▿ Optional(189)
-  - some: 189
-$1
-▿ Optional(91)
-  - some: 91
-$0
-▿ Optional(207)
-  - some: 207
-$1
-▿ Optional(91)
-  - some: 91
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
+    - second: "g"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "a"
 $0
 ▿ Optional(76)
   - some: 76
 $1
-▿ Optional(91)
-  - some: 91
+▿ Optional(189)
+  - some: 189
 $0
 ▿ Optional(5)
   - some: 5
@@ -581,6 +563,24 @@ $1
 $0
 ▿ Optional(48)
   - some: 48
+$1
+▿ Optional(5)
+  - some: 5
+$0
+▿ Optional(91)
+  - some: 91
+$1
+▿ Optional(5)
+  - some: 5
+$0
+▿ Optional(207)
+  - some: 207
+$1
+▿ Optional(5)
+  - some: 5
+$0
+▿ Optional(254)
+  - some: 254
 $1
 ▿ Optional(5)
   - some: 5
@@ -632,6 +632,7 @@ index:  0
   - "g"
   - "u"
   - "s</w>"
+bigram a
 -- --startMatchIndex
 0
 index:  0
@@ -695,6 +696,7 @@ index:  1
   - "g"
   - "u"
   - "s</w>"
+bigram a
 -- --startMatchIndex
 3
 index:  1
@@ -762,6 +764,7 @@ index:  5
   - "g"
   - "u"
   - "s</w>"
+bigram a
 -- --startMatchIndex
 5
 index:  5
@@ -828,6 +831,7 @@ index:  6
   - "g"
   - "u"
   - "s</w>"
+bigram a
 break else
 ▿ 3 elements
   - "g"
@@ -899,22 +903,22 @@ while
     - second: "ar"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "a"
+    - second: "g"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
     - second: "s"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "g"
-    - second: "u"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "s"
-    - second: "p"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "u"
-    - second: "s</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "ar"
     - second: "a"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "a"
-    - second: "g"
+    - first: "s"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "g"
+    - second: "u"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
 --- canMerge
 ▿ 7 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
@@ -922,31 +926,37 @@ while
     - second: "ar"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "a"
+    - second: "g"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "a"
     - second: "s"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "g"
-    - second: "u"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "s"
-    - second: "p"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "u"
-    - second: "s</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "ar"
     - second: "a"
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "a"
-    - second: "g"
+    - first: "s"
+    - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "g"
+    - second: "u"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
 $0
-▿ Optional(76)
-  - some: 76
+▿ Optional(91)
+  - some: 91
 $1
 ▿ Optional(188)
   - some: 188
 $0
-▿ Optional(189)
-  - some: 189
+▿ Optional(76)
+  - some: 76
+$1
+▿ Optional(91)
+  - some: 91
+$0
+▿ Optional(23650)
+  - some: 23650
 $1
 ▿ Optional(76)
   - some: 76
@@ -957,20 +967,14 @@ $1
 ▿ Optional(76)
   - some: 76
 $0
+▿ Optional(189)
+  - some: 189
+$1
+▿ Optional(76)
+  - some: 76
+$0
 ▿ Optional(207)
   - some: 207
-$1
-▿ Optional(76)
-  - some: 76
-$0
-▿ Optional(23650)
-  - some: 23650
-$1
-▿ Optional(76)
-  - some: 76
-$0
-▿ Optional(91)
-  - some: 91
 $1
 ▿ Optional(76)
   - some: 76
@@ -1018,6 +1022,7 @@ index:  0
   - "g"
   - "u"
   - "s</w>"
+bigram a
 -- --startMatchIndex
 0
 index:  0
@@ -1075,6 +1080,7 @@ index:  2
   - "g"
   - "u"
   - "s</w>"
+bigram a
 -- --startMatchIndex
 4
 index:  2
@@ -1137,6 +1143,7 @@ index:  5
   - "g"
   - "u"
   - "s</w>"
+bigram a
 break else
 ▿ 3 elements
   - "g"
@@ -1198,12 +1205,6 @@ while
 --- pairs
 ▿ 6 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "g"
-    - second: "u"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "u"
-    - second: "s</w>"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "p"
     - second: "ar"
   ▿ StableDiffusion.BPETokenizer.TokenPair
@@ -1213,17 +1214,17 @@ while
     - first: "a"
     - second: "g"
   ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "g"
+    - second: "u"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "as"
     - second: "p"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
 --- canMerge
 ▿ 6 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "g"
-    - second: "u"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "u"
-    - second: "s</w>"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "p"
     - second: "ar"
   ▿ StableDiffusion.BPETokenizer.TokenPair
@@ -1233,20 +1234,14 @@ while
     - first: "a"
     - second: "g"
   ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "g"
+    - second: "u"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "as"
     - second: "p"
-$0
-▿ Optional(207)
-  - some: 207
-$1
-▿ Optional(189)
-  - some: 189
-$0
-▿ Optional(188)
-  - some: 188
-$1
-▿ Optional(189)
-  - some: 189
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
 $0
 ▿ Optional(23650)
   - some: 23650
@@ -1260,8 +1255,20 @@ $1
 ▿ Optional(188)
   - some: 188
 $0
+▿ Optional(189)
+  - some: 189
+$1
+▿ Optional(91)
+  - some: 91
+$0
 ▿ Optional(17303)
   - some: 17303
+$1
+▿ Optional(91)
+  - some: 91
+$0
+▿ Optional(207)
+  - some: 207
 $1
 ▿ Optional(91)
   - some: 91
@@ -1305,6 +1312,7 @@ index:  0
   - "g"
   - "u"
   - "s</w>"
+bigram a
 -- --startMatchIndex
 3
 index:  0
@@ -1363,6 +1371,7 @@ index:  5
   - "g"
   - "u"
   - "s</w>"
+bigram a
 break else
 ▿ 2 elements
   - "u"
@@ -1417,55 +1426,55 @@ while
 --- pairs
 ▿ 5 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "ar"
-    - second: "ag"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "ar"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "ag"
     - second: "u"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "u"
     - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ar"
+    - second: "ag"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "ar"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "as"
     - second: "p"
 --- canMerge
 ▿ 5 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "ar"
-    - second: "ag"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "p"
-    - second: "ar"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "ag"
     - second: "u"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "u"
     - second: "s</w>"
   ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ar"
+    - second: "ag"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "p"
+    - second: "ar"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "as"
     - second: "p"
-$0
-▿ Optional(188)
-  - some: 188
-$1
-▿ Optional(40991)
-  - some: 40991
-$0
-▿ Optional(3411)
-  - some: 3411
-$1
-▿ Optional(188)
-  - some: 188
 $0
 ▿ Optional(207)
   - some: 207
 $1
+▿ Optional(3411)
+  - some: 3411
+$0
+▿ Optional(40991)
+  - some: 40991
+$1
+▿ Optional(207)
+  - some: 207
+$0
 ▿ Optional(188)
   - some: 188
+$1
+▿ Optional(207)
+  - some: 207
 $0
 ▿ Optional(17303)
   - some: 17303
@@ -1508,6 +1517,7 @@ index:  0
   - "ag"
   - "u"
   - "s</w>"
+bigram p
 -- --startMatchIndex
 1
 index:  0
@@ -1557,6 +1567,7 @@ index:  3
   - "ag"
   - "u"
   - "s</w>"
+bigram p
 break else
 ▿ 3 elements
   - "ag"
@@ -1609,14 +1620,14 @@ while
     - first: "par"
     - second: "ag"
   ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "u"
+    - second: "s</w>"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "as"
     - second: "par"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "ag"
     - second: "u"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "u"
-    - second: "s</w>"
 --- canMerge
 ▿ 3 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
@@ -1672,6 +1683,7 @@ index:  0
   - "ag"
   - "u"
   - "s</w>"
+bigram u
 -- --startMatchIndex
 3
 index:  0
@@ -1729,14 +1741,14 @@ while
 --- pairs
 ▿ 3 members
   ▿ StableDiffusion.BPETokenizer.TokenPair
-    - first: "ag"
-    - second: "us</w>"
-  ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "as"
     - second: "par"
   ▿ StableDiffusion.BPETokenizer.TokenPair
     - first: "par"
     - second: "ag"
+  ▿ StableDiffusion.BPETokenizer.TokenPair
+    - first: "ag"
+    - second: "us</w>"
 --- canMerge
 ▿ 1 member
   ▿ StableDiffusion.BPETokenizer.TokenPair
@@ -1770,6 +1782,7 @@ index:  0
   - "par"
   - "ag"
   - "us</w>"
+bigram par
 -- --startMatchIndex
 1
 index:  0
@@ -1809,6 +1822,7 @@ index:  3
   - "par"
   - "ag"
   - "us</w>"
+bigram par
 break else
 ▿ 1 element
   - "us</w>"
@@ -1878,6 +1892,7 @@ index:  0
   - "as"
   - "parag"
   - "us</w>"
+bigram as
 -- --startMatchIndex
 0
 index:  0
@@ -1910,6 +1925,7 @@ index:  2
   - "as"
   - "parag"
   - "us</w>"
+bigram as
 break else
 ▿ 1 element
   - "us</w>"
@@ -1966,6 +1982,7 @@ index:  0
 ▿ 2 elements
   - "asparag"
   - "us</w>"
+bigram asparag
 -- --startMatchIndex
 0
 index:  0
@@ -2000,6 +2017,7 @@ while
 return tokens
 ▿ 1 element
   - "asparagus</w>"
+(lldb) 
 ```
 
 </details>
