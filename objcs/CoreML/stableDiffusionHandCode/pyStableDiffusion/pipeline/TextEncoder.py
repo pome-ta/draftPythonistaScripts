@@ -28,8 +28,15 @@ class TextEncoder:
     inputShape = self._inputShape()
     inputLength = inputShape[-1]
     #print(inputLength)
-    self.tokenizer.tokenize('cat', inputLength)
+    (tokens, ids) = self.tokenizer.tokenize('cat', inputLength)
+    
+    if len(ids) > inputLength:
+      # xxx: あとで書く
+      pass
 
+  def encode_ids_(self, ids: list):
+    pass
+  
   def _inputDescription(self):
     # xxx: getter/setter ?
     perform = self.model.perform()

@@ -1,5 +1,5 @@
 from pathlib import Path
-from itertools import combinations
+from pprint import pprint
 
 
 class TokenPair:
@@ -50,12 +50,28 @@ class _BPETokenizer:
     #self.encode_input_('elephant')
     #self.encode_input_('dog')
     #self.encode_input_('cat')
-    tokens += self.encode_input_('cat')
+    tokens += self.encode_input_(input_str)
     tokens.append(self.endToken)
-    
-    minlength_specified = None
-    
-    
+
+    minLen = [self.padToken for _ in range(minCount-len(tokens))] if minCount>len(tokens) else None
+    if minLen:
+      tokens += minLen
+
+    ids = [self.__is_key(tkn) for tkn in tokens]
+    #return (tokens: tokens, tokenIDs: ids)
+    return [tokens, ids]
+
+  def __is_key(self, token: str) -> dict:
+    # xxx: `TokenPair` か `False` 投げ返すのはキモい
+    # xxx: dict の例外ハンドリングを調べる
+    try:
+      return self.vocabulary[token]
+    except KeyError as e:
+      pass
+    return self.vocabulary[self.unknownTokenID]
+
+
+
 
   def encode_input_(self, input_str: str) -> list:
     normalized = input_str.strip().lower()
