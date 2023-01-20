@@ -91,8 +91,8 @@ class _BPETokenizer:
     print('return tokens')
     print(tokens)
     return tokens
-    
-  def __is_merge(self, pair:TokenPair)->TokenPair:
+
+  def __is_merge(self, pair: TokenPair) -> TokenPair:
     # xxx: `TokenPair` か `False` 投げ返すのはキモい
     # xxx: dict の例外ハンドリングを調べる
     try:
@@ -100,7 +100,6 @@ class _BPETokenizer:
     except KeyError as e:
       pass
     return False
-    
 
   def pairs_for_(self, tokens: str):
     if len(tokens) <= 1:
@@ -129,7 +128,9 @@ class _BPETokenizer:
       print("while loop")
       print(f'index: {index}')
       print(f'tokens: {tokens}')
-      remainingTokens = tokens[index:]
+      remainingTokens = [
+        token if n >= index else None for n, token in enumerate(tokens)
+      ]
       print("--- remainingTokens")
       print(*remainingTokens)
       print(f'tokens: {tokens}')
@@ -170,7 +171,7 @@ class _BPETokenizer:
       else:
         print("break else")
         print(*remainingTokens)
-        newTokens.extend(remainingTokens)
+        newTokens.extend(list(filter(lambda t: t, remainingTokens)))
 
         print("-- --newTokens append 4")
         print(*newTokens)
