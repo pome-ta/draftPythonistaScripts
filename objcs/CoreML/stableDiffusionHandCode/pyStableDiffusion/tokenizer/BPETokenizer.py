@@ -44,27 +44,28 @@ class _BPETokenizer:
     self.unknownTokenID = self.vocabulary[self.unknownToken]
     tokens: list = []
     tokens.append(self.startToken)
-    tokens.append(input_str)
-    tokens.append(self.endToken)
     #self.encode_input_('cat dogs')
     #self.encode_input_('dogs')
-    #h = self.encode_input_('asparagus')
-
+    #self.encode_input_('asparagus')
     #self.encode_input_('elephant')
     #self.encode_input_('dog')
     #self.encode_input_('cat')
-    h = self.encode_input_('cat dog')
-    print(h)
+    tokens += self.encode_input_('cat')
+    tokens.append(self.endToken)
+    
+    minlength_specified = None
+    
+    
 
   def encode_input_(self, input_str: str) -> list:
     normalized = input_str.strip().lower()
     words = normalized.split()
     # xxx: `map` をやりたいだけ
-    flat_map = list(map(lambda w: self.encode_word_(w), words))
+    _words = list(map(lambda w: self.encode_word_(w), words))
     # note: [Python 3 で flatten する方法いろいろ - Qiita](https://qiita.com/hoto17296/items/e1f80fef8536a0e5e7db)
     flatten = lambda x: [z for y in x for z in (flatten(y) if hasattr(y, '__iter__') and not isinstance(y, str) else (y,))]
 
-    return flatten(flat_map)
+    return flatten(_words)
 
   def encode_word_(self, word: str) -> list:
     tokens = [str(w) for w in word]
@@ -72,32 +73,14 @@ class _BPETokenizer:
       tokens[-1] = tokens[-1] + '</w>'
     while True:
       pairs = self.pairs_for_(tokens[:])
-      #print('while --- ---')
-      #print('pairs')
-      #print(*pairs)
-      #print('---')
-      #canMerge = list(filter(lambda p: self.merges[p], pairs))
       canMerge = list(filter(lambda p: self.__is_merge(p), pairs))
-      #print('canMerge')
-      #print(*canMerge)
-      #print('---')
+
       if not (len(canMerge)):
         break
-      #print('min')
-      '''
-      for cm in canMerge:
-        print(cm)
-        print(f'\t{self.merges[cm]}')
-      '''
+
       shouldMerge = min(canMerge, key=lambda cm: self.merges[cm])
-      #print('shouldMerge')
-      #print(shouldMerge)
-      #print('----')
       tokens = self.update_tokens_merging_(tokens[:], shouldMerge)
-      #print('update tokens')
-      #print(tokens)
-    #print('return tokens')
-    #print(tokens)
+
     return tokens
 
   def __is_merge(self, pair: TokenPair) -> TokenPair:
@@ -119,7 +102,6 @@ class _BPETokenizer:
 
     for current in tokens[:]:
       pairs.add(TokenPair(prev, current))
-      #print(f'prev {prev} :current {current}')
       tokens.pop(0)
       prev = current
     return pairs
@@ -130,63 +112,29 @@ class _BPETokenizer:
 
     newTokens: list = []
     index = 0
-    #print("update tokens merging")
-    #print(f'tokens: {tokens}')
+
     while index < len(tokens):
-      #print("while loop")
-      #print(f'index: {index}')
-      #print(f'tokens: {tokens}')
       remainingTokens = [
         token if n >= index else None for n, token in enumerate(tokens)
       ]
-      #print("--- remainingTokens")
-      #print(*remainingTokens)
-      #print(f'tokens: {tokens}')
-      #print(f'---- ---- bigram.first: {bigram.first}')
       startMatchIndex = remainingTokens.index(
         bigram.first) if bigram.first in remainingTokens else None
 
-      #print("-- --startMatchIndex")
-      #print(startMatchIndex)
-      #print(f'index: {index}')
       if startMatchIndex != None:
         if tokens[index:startMatchIndex]:
-            #print("tokens slice")
-            #print(tokens[index:startMatchIndex])
-            #newTokens.append(*tokens[index:startMatchIndex])
           newTokens += tokens[index:startMatchIndex]
-          #print("-- --newTokens append 1")
-          #print(*newTokens)
-          #print(f'tokens: {tokens}')
 
         if index < (len(tokens) - 1) and tokens[startMatchIndex +
                                                 1] == bigram.second:
           newTokens.append(bigram.first + bigram.second)
-          #print("-- --newTokens append 2")
-          #print(*newTokens)
-          #print(f'tokens: {tokens}')
           index = startMatchIndex + 2
-          #print(f'index: {index}')
         else:
           newTokens.append(bigram.first)
-          #print("-- --newTokens append 3")
-          #print(*newTokens)
-          #print(f'tokens: {tokens}')
           index = startMatchIndex + 1
-          #print(f'index: {index}')
       else:
-        #print("break else")
-        #print(*remainingTokens)
         newTokens.extend(list(filter(lambda t: t, remainingTokens)))
-
-        #print("-- --newTokens append 4")
-        #print(*newTokens)
-        #print(f'tokens: {tokens}')
-        #print(f'index: {index}')
         break
-    #print("return newTokens ---")
-    #print(*newTokens)
-    #print(f'tokens: {tokens}')
+
     return newTokens
 
   @staticmethod
