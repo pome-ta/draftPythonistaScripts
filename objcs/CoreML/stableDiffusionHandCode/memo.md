@@ -1,6 +1,2257 @@
+
+
+
 # 📝 2023/01/19
 
 Pythonista3 でモジュールにブレイクポイントが貼れないので、とりあえずプリントデバッグする
+
+<details>
+<summary>Pythonista3 asparagus</summary>
+
+```log
+prev a :current s
+prev s :current p
+prev p :current a
+prev a :current r
+prev r :current a
+prev a :current g
+prev g :current u
+prev u :current s</w>
+while --- ---
+pairs
+<pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64240>
+	(first: "g", second: "u") <pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64128>
+	(first: "s", second: "p") <pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64278>
+	(first: "u", second: "s</w>") <pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64198>
+	(first: "a", second: "r") <pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64160>
+	(first: "p", second: "a") <pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64080>
+	(first: "a", second: "s") <pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64208>
+	(first: "a", second: "g") <pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a641d0>
+	(first: "r", second: "a")
+---
+canMerge
+<pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64240>
+	(first: "g", second: "u") <pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64128>
+	(first: "s", second: "p") <pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64278>
+	(first: "u", second: "s</w>") <pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64198>
+	(first: "a", second: "r") <pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64160>
+	(first: "p", second: "a") <pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64080>
+	(first: "a", second: "s") <pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64208>
+	(first: "a", second: "g") <pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a641d0>
+	(first: "r", second: "a")
+---
+min
+<pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64240>
+	(first: "g", second: "u")
+	189
+<pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64128>
+	(first: "s", second: "p")
+	77
+<pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64278>
+	(first: "u", second: "s</w>")
+	207
+<pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64198>
+	(first: "a", second: "r")
+	5
+<pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64160>
+	(first: "p", second: "a")
+	254
+<pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64080>
+	(first: "a", second: "s")
+	76
+<pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64208>
+	(first: "a", second: "g")
+	91
+<pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a641d0>
+	(first: "r", second: "a")
+	48
+shouldMerge
+<pyStableDiffusion.tokenizer.BPETokenizer.TokenPair object at 0x122a64198>
+	(first: "a", second: "r")
+----
+update tokens merging
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+while loop
+index: 0
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 0
+-- --newTokens append 1
+
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 1
+while loop
+index: 1
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+s p a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+2
+index: 1
+tokens slice
+['s']
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+index: 3
+while loop
+index: 3
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+--- remainingTokens
+a r a g u s</w>
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+---- ---- bigram.first: a
+-- --startMatchIndex
+0
+index: 3
+-- --newTokens append 1
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+tokens: ['a', 's', 'p', 'a', 'r', 'a', 'g', 'u', 's</w>']
+-- --newTokens append 3
+a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a a s a
+
+```
+
+</details>
+
+
 
 <details>
 <summary>dogs</summary>
