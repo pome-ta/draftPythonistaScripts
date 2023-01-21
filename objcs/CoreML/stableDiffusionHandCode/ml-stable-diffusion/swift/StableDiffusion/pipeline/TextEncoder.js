@@ -54,6 +54,7 @@ public struct TextEncoder: ResourceManaging {
         var (tokens, ids) = tokenizer.tokenize(input: text, minCount: inputLength)
 
         // Truncate if necessary
+        // 必要に応じて切り捨てます
         if ids.count > inputLength {
             tokens = tokens.dropLast(tokens.count - inputLength)
             ids = ids.dropLast(ids.count - inputLength)

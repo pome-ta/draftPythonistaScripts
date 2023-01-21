@@ -1,16 +1,23 @@
 from pathlib import Path
+import ctypes
 
-import pdbg
+from objc_util import ObjCClass
+
 
 from ..tokenizer.BPETokenizer_Reading import BPETokenizer
 from .ManagedMLModel import ManagedMLModel
 
+import pdbg
+
+
+MLMultiArray = ObjCClass('MLMultiArray')
 
 class TextEncoder:
   def __init__(self, tokenizer: BPETokenizer, url: Path, configuration):
     self.tokenizer: BPETokenizer
     self.model = None
 
+    # xxx: getter/setter ?
     self.inputDescription: None
     self.inputShape: None
 
@@ -29,14 +36,20 @@ class TextEncoder:
     inputLength = inputShape[-1]
     #print(inputLength)
     (tokens, ids) = self.tokenizer.tokenize('cat', inputLength)
-    
+
     if len(ids) > inputLength:
       # xxx: あとで書く
       pass
+    self.encode_ids_(ids)
 
   def encode_ids_(self, ids: list):
-    pass
-  
+    _inputDescription= self._inputDescription()
+    inputName = _inputDescription.name()
+    inputShape = self._inputShape()
+    floatIds = [ctypes.c_float(id) for id in ids]
+
+
+
   def _inputDescription(self):
     # xxx: getter/setter ?
     perform = self.model.perform()
