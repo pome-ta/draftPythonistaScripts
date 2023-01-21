@@ -187,6 +187,81 @@ inputFeatures
 <MLDictionaryFeatureProvider: 0x600002ebf3e0>
 ```
 
+
+```
+# --- name______
+<b'MLMultiArray': Float32 1 × 77 matrix
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.09728e-07,7.417353e-41,1.107026e-43,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]>
+# --- vars( )______
+{'_as_parameter_': 10801762112,
+ '_cached_methods': {'initWithShape_dataType_error_': <objc_util.ObjCInstanceMethod object at 0x120417390>,
+                     'retain': <objc_util.ObjCInstanceMethodProxy object at 0x120417278>},
+ 'ptr': 10801762112,
+ 'weakrefs': <WeakValueDictionary at 0x120417320>}
+# --- dir( )______
+['bytes',
+ 'copy',
+ 'copyIntoMultiArray_error_',
+ 'count',
+ 'dataPointer',
+ 'dataType',
+ 'dealloc',
+ 'debugQuickLookObject',
+ 'description',
+ 'doublePointer',
+ 'encodeWithCoder_',
+ 'fillWithNumber_',
+ 'float32Pointer',
+ 'getBytesWithHandler_',
+ 'getContiguousFirstMajorFloat32BufferWithHandler_',
+ 'getMutableBytesWithHandler_',
+ 'init',
+ 'initWithArray_dataType_',
+ 'initWithBytesNoCopy_shape_dataType_strides_deallocator_mutableShapedBufferProvider_error_',
+ 'initWithBytesNoCopy_shape_dataType_strides_mutableShapedBufferProvider_',
+ 'initWithCoder_',
+ 'initWithDataPointer_shape_dataType_strides_deallocator_error_',
+ 'initWithMultiArrayBuffer_',
+ 'initWithPixelBuffer_shape_',
+ 'initWithScalars_shape_dataType_',
+ 'initWithShape_dataType_error_',
+ 'initWithShape_dataType_storageOrder_bufferAlignment_',
+ 'initWithShape_dataType_storageOrder_error_',
+ 'isContiguous',
+ 'isContiguousInOrder_',
+ 'isEqualToMultiArray_',
+ 'isEqual_',
+ 'multiArrayBuffer',
+ 'multiArrayViewExpandingDimensionsAtAxis_',
+ 'mutableBytes',
+ 'mutableCopy',
+ 'numberArray',
+ 'numberAtOffset_',
+ 'numberOfBytesPerElement',
+ 'objectAtIndexedSubscript_',
+ 'objectForKeyedSubscript_',
+ 'offsetForKeyedSubscript_',
+ 'performSelectorInBackground_withObject_',
+ 'performSelectorOnMainThread_withObject_waitUntilDone_',
+ 'performSelector_withObject_afterDelay_',
+ 'pixelBuffer',
+ 'renderTo32BGRAPixelBuffer_channelOrderIsBGR_error_',
+ 'renderToCVPixelBuffer_channelOrderIsBGR_error_',
+ 'renderToOneComponent16HalfPixelBuffer_error_',
+ 'renderToOneComponent8PixelBuffer_error_',
+ 'setNumber_atOffset_',
+ 'setObject_atIndexedSubscript_',
+ 'setObject_forKeyedSubscript_',
+ 'setRangeWithRawData_destIndex_error_',
+ 'shape',
+ 'sliceAtOrigin_shape_squeeze_error_',
+ 'squeeze',
+ 'squeezeDimensions_error_',
+ 'strides',
+ 'vectorizeIntoMultiArray_storageOrder_error_']
+
+```
+
 # 📝 2023/01/20
 
 log にプリントデバッグを移行
