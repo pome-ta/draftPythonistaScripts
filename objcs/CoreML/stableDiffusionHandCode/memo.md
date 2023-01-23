@@ -21,6 +21,13 @@
 
 
 
+[Metal Performance Shaders Graph | Apple Developer Documentation](https://developer.apple.com/documentation/metalperformanceshadersgraph?language=objc)
+
+
+> 線形代数、機械学習、コンピュータビジョン、その他類似のドメイン向けにカスタマイズされた多次元計算グラフを構築、コンパイル、実行する。
+
+
+
 # 📝 2023/01/21
 
 ## Pythonista3 実行するたびに、ストレージ増える問題
