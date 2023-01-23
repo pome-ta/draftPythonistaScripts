@@ -1,17 +1,16 @@
 from pathlib import Path
 import ctypes
 
-from objc_util import ObjCClass
-
+from objc_util import ObjCClass, ObjCInstance
 
 from ..tokenizer.BPETokenizer_Reading import BPETokenizer
 from .ManagedMLModel import ManagedMLModel
 
 import pdbg
 
-
 MLMultiArray = ObjCClass('MLMultiArray')
 MLDictionaryFeatureProvider = ObjCClass('MLDictionaryFeatureProvider')
+
 
 class TextEncoder:
   def __init__(self, tokenizer: BPETokenizer, url: Path, configuration):
@@ -35,7 +34,6 @@ class TextEncoder:
     inputShape: list
     inputShape = self._inputShape()
     inputLength = inputShape[-1]
-    #print(inputLength)
     (tokens, ids) = self.tokenizer.tokenize('cat', inputLength)
 
     if len(ids) > inputLength:
@@ -44,29 +42,31 @@ class TextEncoder:
     self.encode_ids_(ids)
 
   def encode_ids_(self, ids: list):
-    _inputDescription= self._inputDescription()
+    _inputDescription = self._inputDescription()
     inputName = _inputDescription.name()
     inputShape = self._inputShape()
     floatIds = [float(id) for id in ids]
 
-    inputArray = MLMultiArray.alloc().initWithShape_dataType_error_(inputShape, 16, None)
-    [inputArray.setObject_atIndexedSubscript_(obj, index) for index, obj in enumerate(floatIds)]
+    inputArray = MLMultiArray.alloc().initWithShape_dataType_error_(
+      inputShape, 16, None)
 
+    [
+      inputArray.setObject_atIndexedSubscript_(obj, index)
+      for index, obj in enumerate(floatIds)
+    ]
+    pdbg.state(ObjCInstance(inputArray.dataPointer().value))
 
-    inputFeatures = MLDictionaryFeatureProvider.new().initWithDictionary_error_(({inputName: inputArray}), None)
-    
+    #inputFeatures = MLDictionaryFeatureProvider.new().initWithDictionary_error_(({inputName: inputArray}), None)
+
+    #pdbg.state(inputFeatures.dictionary())
     #pdbg.state(self.model)
     #result = self.model.predictionFromFeatures_error_(inputFeatures, None)
     #print(self.model)
-    perform = self.model.perform()
-    result = perform.predictionFromFeatures_error_(inputFeatures, None)
-    
-
-
-
-
-
-
+    #pdbg.state(self.model.perform())
+    #result = self.model.perform().predictionFromFeatures_error_(inputFeatures, None)
+    #perform = self.model.perform()
+    #result = perform.predictionFromFeatures_error_(inputFeatures, None)
+    #predictionFromFeatures_error_
 
   def _inputDescription(self):
     # xxx: getter/setter ?
