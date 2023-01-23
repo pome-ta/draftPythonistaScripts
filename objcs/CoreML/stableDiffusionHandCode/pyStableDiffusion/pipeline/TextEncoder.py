@@ -47,20 +47,24 @@ class TextEncoder:
     _inputDescription= self._inputDescription()
     inputName = _inputDescription.name()
     inputShape = self._inputShape()
-    #floatIds = [ctypes.c_float(id) for id in ids]
     floatIds = [float(id) for id in ids]
-    #self.hoge = MLMultiArray.alloc().initWithScalars_shape_dataType_(floatIds,inputShape, 16, None)
-    #initWithScalars_shape_dataType_
-    #pdbg.state(self.hoge)
-    self.inputArray = MLMultiArray.alloc().initWithShape_dataType_error_(inputShape, 16, None)
-    [self.inputArray.setObject_atIndexedSubscript_(obj, index) for index, obj in enumerate(floatIds)]
 
-    #pdbg.state(self.inputArray)
-    self.inputFeatures = MLDictionaryFeatureProvider.new().initWithDictionary_error_(({inputName: self.inputArray}), None)
-    pdbg.state(self.inputFeatures.dictionary())
+    inputArray = MLMultiArray.alloc().initWithShape_dataType_error_(inputShape, 16, None)
+    [inputArray.setObject_atIndexedSubscript_(obj, index) for index, obj in enumerate(floatIds)]
+
+
+    inputFeatures = MLDictionaryFeatureProvider.new().initWithDictionary_error_(({inputName: inputArray}), None)
     
+    #pdbg.state(self.model)
+    #result = self.model.predictionFromFeatures_error_(inputFeatures, None)
+    #print(self.model)
+    perform = self.model.perform()
+    result = perform.predictionFromFeatures_error_(inputFeatures, None)
     
-    
+
+
+
+
 
 
 
