@@ -54,7 +54,8 @@ class TextEncoder:
       inputArray.setObject_atIndexedSubscript_(obj, index)
       for index, obj in enumerate(floatIds)
     ]
-    pdbg.state(ObjCInstance(inputArray.dataPointer().value))
+    #pdbg.state(ObjCInstance(inputArray.dataPointer().value))
+    pdbg.state(inputArray)
 
     #inputFeatures = MLDictionaryFeatureProvider.new().initWithDictionary_error_(({inputName: inputArray}), None)
 
