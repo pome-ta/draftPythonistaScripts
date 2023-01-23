@@ -3,6 +3,10 @@
 [Pythonでファイル・ディレクトリを削除するos.remove, shutil.rmtreeなど | note.nkmk.me](https://note.nkmk.me/python-os-remove-rmdir-removedirs-shutil-rmtree/)
 
 
+[MLMultiArrayとポインタ - Qiita](https://qiita.com/kurodae/items/26cd40e62830db4d99e9)
+
+
+
 
 # 📝 2023/01/22
 

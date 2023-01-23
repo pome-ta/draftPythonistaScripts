@@ -51,6 +51,10 @@ class TextEncoder:
     #self.hoge = MLMultiArray.alloc().initWithScalars_shape_dataType_(floatIds,inputShape, 16, None)
     #initWithScalars_shape_dataType_
     #pdbg.state(self.hoge)
+    self.inputArray = MLMultiArray.alloc().initWithShape_dataType_error_(inputShape, 16, None)
+    [self.inputArray.setObject_atIndexedSubscript_(obj, index) for index, obj in enumerate(floatIds)]
+    
+    pdbg.state(self.inputArray)
 
 
 
