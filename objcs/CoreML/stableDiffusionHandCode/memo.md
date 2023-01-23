@@ -1,3 +1,26 @@
+# 📝 2023/01/22
+
+## キャッシュ探し
+
+
+やはり、テスト実行でストレージ気にするのも精神衛生が悪いので探す
+
+
+- `Documents` 前後
+  - `/private/var/mobile/Containers/Shared/AppGroup/x-x/Pythonista3/Documents`
+  - なし
+- `Pythonista3.app` 内
+  - `/private/var/var`
+  - なし
+
+
+`/private/var/mobile/Containers/Data/Application/x-x/Library/Application Support/Themes`
+
+
+`/private/var/mobile/Containers/Data/Application/x- /tmp/com.apple.MetalPerformanceShadersGraph/mpsgraph-1023-131175174/MPSGraphWeightsOriginalModuleArchiveFile`
+
+
+
 # 📝 2023/01/21
 
 ## Pythonista3 実行するたびに、ストレージ増える問題
