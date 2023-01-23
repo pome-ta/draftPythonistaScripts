@@ -1,3 +1,9 @@
+# 📝 2023/01/23
+
+[Pythonでファイル・ディレクトリを削除するos.remove, shutil.rmtreeなど | note.nkmk.me](https://note.nkmk.me/python-os-remove-rmdir-removedirs-shutil-rmtree/)
+
+
+
 # 📝 2023/01/22
 
 ## キャッシュ探し

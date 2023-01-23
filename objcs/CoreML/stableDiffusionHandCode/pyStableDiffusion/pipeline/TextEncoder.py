@@ -48,9 +48,9 @@ class TextEncoder:
     inputShape = self._inputShape()
     #floatIds = [ctypes.c_float(id) for id in ids]
     floatIds = [float(id) for id in ids]
-    self.hoge = MLMultiArray.alloc().initWithScalars_shape_dataType_(floatIds,inputShape, 16, None)
+    #self.hoge = MLMultiArray.alloc().initWithScalars_shape_dataType_(floatIds,inputShape, 16, None)
     #initWithScalars_shape_dataType_
-    pdbg.state(self.hoge)
+    #pdbg.state(self.hoge)
 
 
 
