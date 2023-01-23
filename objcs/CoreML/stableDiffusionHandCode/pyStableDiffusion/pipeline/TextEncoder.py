@@ -55,12 +55,14 @@ class TextEncoder:
       for index, obj in enumerate(floatIds)
     ]
     #pdbg.state(ObjCInstance(inputArray.dataPointer().value))
-    pdbg.state(inputArray)
 
-    #inputFeatures = MLDictionaryFeatureProvider.new().initWithDictionary_error_(({inputName: inputArray}), None)
+    inputFeatures = MLDictionaryFeatureProvider.new().initWithDictionary_error_(
+      ({
+        inputName: inputArray
+      }), None)
 
     #pdbg.state(inputFeatures.dictionary())
-    #pdbg.state(self.model)
+    pdbg.state(self.model.perform())
     #result = self.model.predictionFromFeatures_error_(inputFeatures, None)
     #print(self.model)
     #pdbg.state(self.model.perform())
