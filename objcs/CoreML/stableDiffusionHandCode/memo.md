@@ -4,7 +4,99 @@
 
 解体をしてみる
 
-```
+```model.log
+# --- name______
+<pyStableDiffusion.pipeline.ManagedMLModel.ManagedMLModel object at 0x1229c0cc0>
+# --- vars( )______
+{'configuration': <b'MLModelConfiguration': 
+ computeUnits: All,             
+ useWatchSPIForScribble: NO,             
+ allowLowPrecisionAccumulationOnGPU: NO,             
+ allowBackgroundGPUComputeSetting: NO,             
+ preferredMetalDevice: (null),             
+ enableTestVectorMode: NO,             
+ parameters: (null),             
+ rootModelURL: (null),             
+ profilingOptions: 0,             
+ usePreloadedKey: NO,             
+ trainWithMLCompute: NO,             
+ parentModelName: ,             
+ modelName: (null),             >,
+ 'loadedModel': <b'MLMultiFunctionProgramEngine': 
+modelDescription: 
+inputs: (
+    "input_ids : MultiArray (Float32, 1 \U00d7 77)"
+)
+outputs: (
+    "pooled_outputs : MultiArray (Float32, )",
+    "last_hidden_state : MultiArray (Float32, )"
+)
+predictedFeatureName: (null)
+predictedProbabilitiesName: (null)
+updatable: NO
+trainingInputs: (
+)
+parameters: (
+)
+metadata: {
+    MLModelAuthorKey = "Please refer to the Model Card available at huggingface.co/CompVis/stable-diffusion-v1-4";
+    MLModelCreatorDefinedKey =     {
+        "com.github.apple.coremltools.source" = "torch==1.13.0";
+        "com.github.apple.coremltools.version" = "6.1";
+    };
+    MLModelDescriptionKey = "Stable Diffusion generates images conditioned on text and/or other images as input through the diffusion process. Please refer to https://arxiv.org/abs/2112.10752 for details.";
+    MLModelLicenseKey = "OpenRAIL (https://huggingface.co/spaces/CompVis/stable-diffusion-license)";
+    MLModelVersionStringKey = "CompVis/stable-diffusion-v1-4";
+}, 
+configuration: 
+ computeUnits: All,             
+ useWatchSPIForScribble: NO,             
+ allowLowPrecisionAccumulationOnGPU: NO,             
+ allowBackgroundGPUComputeSetting: NO,             
+ preferredMetalDevice: (null),             
+ enableTestVectorMode: NO,             
+ parameters: (null),             
+ rootModelURL: file:///private/var/mobile/Containers/Shared/AppGroup/CD0D241D-A767-4CE7-823D-680C601C49D6/File%20Provider%20Storage/Repositories/draftPythonistaScripts/objcs/CoreML/stableDiffusionHandCode/models/coreml-stable-diffusion-v1-4_original_compiled/TextEncoder.mlmodelc/,             
+ profilingOptions: 0,             
+ usePreloadedKey: NO,             
+ trainWithMLCompute: NO,             
+ parentModelName: ,             
+ modelName: TextEncoder,             >,
+ 'modelURL': <b'NSURL': file:///private/var/mobile/Containers/Shared/AppGroup/CD0D241D-A767-4CE7-823D-680C601C49D6/File%20Provider%20Storage/Repositories/draftPythonistaScripts/objcs/CoreML/stableDiffusionHandCode/models/coreml-stable-diffusion-v1-4_original_compiled/TextEncoder.mlmodelc/>}
+# --- dir( )______
+['__class__',
+ '__delattr__',
+ '__dict__',
+ '__dir__',
+ '__doc__',
+ '__eq__',
+ '__format__',
+ '__ge__',
+ '__getattribute__',
+ '__gt__',
+ '__hash__',
+ '__init__',
+ '__init_subclass__',
+ '__le__',
+ '__lt__',
+ '__module__',
+ '__ne__',
+ '__new__',
+ '__reduce__',
+ '__reduce_ex__',
+ '__repr__',
+ '__setattr__',
+ '__sizeof__',
+ '__str__',
+ '__subclasshook__',
+ '__weakref__',
+ '_loadModel',
+ 'configuration',
+ 'init_modelAt_configuration_',
+ 'loadedModel',
+ 'modelURL',
+ 'perform']
+
 ```
 
 ```model.log

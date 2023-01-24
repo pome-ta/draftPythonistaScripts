@@ -62,14 +62,15 @@ class TextEncoder:
         inputName: inputArray
       }), None)
 
+    pdbg.state(self.model)
     #pdbg.state(inputFeatures)
     #pdbg.state(self.model)
     #result = self.model.predictionFromFeatures_error_(inputFeatures, None)
     #print(self.model)
     #pdbg.state(self.model.perform())
-    model = self.model.perform()
+    #model = self.model.perform()
     #print(model)
-    pdbg.state(model)
+    #pdbg.state(model)
     #pdbg.state(self.perform)
     #result = model.predictionFromFeatures_error_(inputFeatures, None)
     #pdbg.state(result)
