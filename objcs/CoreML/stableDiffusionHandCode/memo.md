@@ -113,8 +113,6 @@ configuration:
 
 [MLMultiArrayとポインタ - Qiita](https://qiita.com/kurodae/items/26cd40e62830db4d99e9)
 
-
-
 ```self.model.perform.log
 # --- name______
 <b'MLMultiFunctionProgramEngine': 
