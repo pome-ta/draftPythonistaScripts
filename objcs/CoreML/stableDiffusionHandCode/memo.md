@@ -1,3 +1,112 @@
+# 📝 2023/01/24
+
+```model.log
+# --- name______
+<b'MLMultiFunctionProgramEngine': 
+modelDescription: 
+inputs: (
+    "input_ids : MultiArray (Float32, 1 \U00d7 77)"
+)
+outputs: (
+    "pooled_outputs : MultiArray (Float32, )",
+    "last_hidden_state : MultiArray (Float32, )"
+)
+predictedFeatureName: (null)
+predictedProbabilitiesName: (null)
+updatable: NO
+trainingInputs: (
+)
+parameters: (
+)
+metadata: {
+    MLModelAuthorKey = "Please refer to the Model Card available at huggingface.co/CompVis/stable-diffusion-v1-4";
+    MLModelCreatorDefinedKey =     {
+        "com.github.apple.coremltools.source" = "torch==1.13.0";
+        "com.github.apple.coremltools.version" = "6.1";
+    };
+    MLModelDescriptionKey = "Stable Diffusion generates images conditioned on text and/or other images as input through the diffusion process. Please refer to https://arxiv.org/abs/2112.10752 for details.";
+    MLModelLicenseKey = "OpenRAIL (https://huggingface.co/spaces/CompVis/stable-diffusion-license)";
+    MLModelVersionStringKey = "CompVis/stable-diffusion-v1-4";
+}, 
+configuration: 
+ computeUnits: All,             
+ useWatchSPIForScribble: NO,             
+ allowLowPrecisionAccumulationOnGPU: NO,             
+ allowBackgroundGPUComputeSetting: NO,             
+ preferredMetalDevice: (null),             
+ enableTestVectorMode: NO,             
+ parameters: (null),             
+ rootModelURL: file:///private/var/mobile/Containers/Shared/AppGroup/CD0D241D-A767-4CE7-823D-680C601C49D6/File%20Provider%20Storage/Repositories/draftPythonistaScripts/objcs/CoreML/stableDiffusionHandCode/models/coreml-stable-diffusion-v1-4_original_compiled/TextEncoder.mlmodelc/,             
+ profilingOptions: 0,             
+ usePreloadedKey: NO,             
+ trainWithMLCompute: NO,             
+ parentModelName: ,             
+ modelName: TextEncoder,             >
+# --- vars( )______
+{'_as_parameter_': 10738106368,
+ '_cached_methods': {'isKindOfClass_': <objc_util.ObjCInstanceMethod object at 0x1243440f0>,
+                     'modelDescription': <objc_util.ObjCInstanceMethodProxy object at 0x124344908>,
+                     'retain': <objc_util.ObjCInstanceMethodProxy object at 0x1243449b0>},
+ 'ptr': 10738106368,
+ 'weakrefs': <WeakValueDictionary at 0x124344978>}
+# --- dir( )______
+['classLabels',
+ 'classify_options_error_',
+ 'configuration',
+ 'container',
+ 'copy',
+ 'dealloc',
+ 'debugQuickLookObject',
+ 'decryptSession',
+ 'description',
+ 'enableInstrumentsTracing',
+ 'enableInstrumentsTracingIfNeeded',
+ 'evaluateFunction_arguments_error_',
+ 'evaluate_error_',
+ 'executionSchedule',
+ 'init',
+ 'initDescriptionOnlyWithSpecification_configuration_error_',
+ 'initInterfaceAndMetadataWithCompiledArchive_error_',
+ 'initWithConfiguration_',
+ 'initWithDescription_',
+ 'initWithDescription_configuration_',
+ 'initWithName_inputDescription_outputDescription_orderedInputFeatureNames_orderedOutputFeatureNames_configuration_',
+ 'initWithProgramContainer_configuration_error_',
+ 'metadata',
+ 'modelDescription',
+ 'modelFileBasePath',
+ 'modelPath',
+ 'mutableCopy',
+ 'newContextAndReturnError_',
+ 'objectBoundingBoxOutputDescription',
+ 'parameterValueForKey_error_',
+ 'performSelectorInBackground_withObject_',
+ 'performSelectorOnMainThread_withObject_waitUntilDone_',
+ 'performSelector_withObject_afterDelay_',
+ 'pipelineOfPostVisionFeaturePrintModelsFromPipeline_',
+ 'predictionEvent',
+ 'predictionFromFeatures_error_',
+ 'predictionFromFeatures_options_error_',
+ 'predictionsFromBatch_error_',
+ 'predictionsFromBatch_options_error_',
+ 'program',
+ 'programEngineForFunction_error_',
+ 'regress_options_error_',
+ 'removeEngineForFunctionName_',
+ 'setConfiguration_',
+ 'setDecryptSession_',
+ 'setModelDescription_',
+ 'setModelPath_modelName_',
+ 'setPredictionEvent_',
+ 'setSignpostID_',
+ 'signpostID',
+ 'updateModelFilePath_',
+ 'vectorizeInput_error_',
+ 'verifyArgumentNames_functionName_error_',
+ 'visionFeaturePrintInfo']
+
+```
+
 # 📝 2023/01/23
 
 [Pythonでファイル・ディレクトリを削除するos.remove, shutil.rmtreeなど | note.nkmk.me](https://note.nkmk.me/python-os-remove-rmdir-removedirs-shutil-rmtree/)
