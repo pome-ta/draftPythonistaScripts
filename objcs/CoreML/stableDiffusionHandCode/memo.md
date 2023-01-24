@@ -56,13 +56,13 @@ configuration:
  preferredMetalDevice: (null),             
  enableTestVectorMode: NO,             
  parameters: (null),             
- rootModelURL: file:///private/var/mobile/Containers/Shared/AppGroup/CD0D241D-A767-4CE7-823D-680C601C49D6/File%20Provider%20Storage/Repositories/draftPythonistaScripts/objcs/CoreML/stableDiffusionHandCode/models/coreml-stable-diffusion-v1-4_original_compiled/TextEncoder.mlmodelc/,             
+ rootModelURL: file:///private/var/mobile/Containers/Shared/AppGroup/xx..xx/File%20Provider%20Storage/Repositories/draftPythonistaScripts/objcs/CoreML/stableDiffusionHandCode/models/coreml-stable-diffusion-v1-4_original_compiled/TextEncoder.mlmodelc/,             
  profilingOptions: 0,             
  usePreloadedKey: NO,             
  trainWithMLCompute: NO,             
  parentModelName: ,             
  modelName: TextEncoder,             >,
- 'modelURL': <b'NSURL': file:///private/var/mobile/Containers/Shared/AppGroup/CD0D241D-A767-4CE7-823D-680C601C49D6/File%20Provider%20Storage/Repositories/draftPythonistaScripts/objcs/CoreML/stableDiffusionHandCode/models/coreml-stable-diffusion-v1-4_original_compiled/TextEncoder.mlmodelc/>}
+ 'modelURL': <b'NSURL': file:///private/var/mobile/Containers/Shared/AppGroup/xx..xx/File%20Provider%20Storage/Repositories/draftPythonistaScripts/objcs/CoreML/stableDiffusionHandCode/models/coreml-stable-diffusion-v1-4_original_compiled/TextEncoder.mlmodelc/>}
 # --- dir( )______
 ['__class__',
  '__delattr__',
