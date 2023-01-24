@@ -21,8 +21,10 @@ class ManagedMLModel:
     self.configuration = _configuration
     self.loadedModel = None
 
-  def perform(self):
-    self._loadModel()
+  def perform(self) -> MLModel:
+    if not (self.loadedModel):
+      print('perform: call')
+      self._loadModel()
     return self.loadedModel
 
   def _loadModel(self):

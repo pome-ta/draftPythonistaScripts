@@ -16,7 +16,7 @@ MLDictionaryFeatureProvider = ObjCClass('MLDictionaryFeatureProvider')
 class TextEncoder:
   def __init__(self, tokenizer: BPETokenizer, url: Path, configuration):
     self.tokenizer: BPETokenizer
-    self.model = None
+    self.model = ManagedMLModel
 
     # xxx: getter/setter ?
     self.inputDescription: None
@@ -62,25 +62,26 @@ class TextEncoder:
         inputName: inputArray
       }), None)
 
-    pdbg.state(inputFeatures)
+    #pdbg.state(inputFeatures)
     #pdbg.state(self.model)
     #result = self.model.predictionFromFeatures_error_(inputFeatures, None)
     #print(self.model)
     #pdbg.state(self.model.perform())
-    #model = self.model#.perform()
+    model = self.model.perform()
     #print(model)
+    pdbg.state(model)
     #pdbg.state(self.perform)
-    result = self.perform.predictionFromFeatures_error_(inputFeatures, None)
-    pdbg.state(result)
+    #result = model.predictionFromFeatures_error_(inputFeatures, None)
+    #pdbg.state(result)
     #perform = self.model.perform()
     #result = perform.predictionFromFeatures_error_(inputFeatures, None)
     #predictionFromFeatures_error_
 
   def _inputDescription(self):
     # xxx: getter/setter ?
-    self.perform = self.model.perform()
+    perform = self.model.perform()
     # todo: `model.modelDescription.inputDescriptionsByName.first!.value`
-    _inputDescription = self.perform.modelDescription().inputDescriptionsByName(
+    _inputDescription = perform.modelDescription().inputDescriptionsByName(
     ).allValues()[0]
     return _inputDescription
 
