@@ -10,6 +10,7 @@ import pdbg
 
 MLMultiArray = ObjCClass('MLMultiArray')
 MLDictionaryFeatureProvider = ObjCClass('MLDictionaryFeatureProvider')
+NSError = ObjCClass('NSError')
 
 
 class TextEncoder:
@@ -61,11 +62,13 @@ class TextEncoder:
         inputName: inputArray
       }), None)
 
-    #pdbg.state(inputFeatures.dictionary())
-    pdbg.state(self.model.perform())
+    #pdbg.state(inputFeatures.featureNames())
+    #pdbg.state(self.model)
     #result = self.model.predictionFromFeatures_error_(inputFeatures, None)
     #print(self.model)
     #pdbg.state(self.model.perform())
+    model = self.model.perform()
+    print(bool(model))
     #result = self.model.perform().predictionFromFeatures_error_(inputFeatures, None)
     #perform = self.model.perform()
     #result = perform.predictionFromFeatures_error_(inputFeatures, None)
