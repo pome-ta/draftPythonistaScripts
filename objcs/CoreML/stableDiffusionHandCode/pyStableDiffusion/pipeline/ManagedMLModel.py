@@ -16,8 +16,8 @@ class ManagedMLModel:
     self.init_modelAt_configuration_(url, configuration)
 
   def init_modelAt_configuration_(self, _url: Path, _configuration):
-    self.modelURL = _url
-    #self.modelURL = nsurl(str(_url.resolve()))
+    #self.modelURL = _url
+    self.modelURL = nsurl(str(_url.resolve()))
     self.configuration = _configuration
     self.loadedModel = None
 
@@ -26,8 +26,8 @@ class ManagedMLModel:
     return self.loadedModel
 
   def _loadModel(self):
-    modelURL = nsurl(str(self.modelURL.resolve()))
+    #modelURL = nsurl(str(self.modelURL.resolve()))
     #modelURL = self.modelURL
     self.loadedModel = MLModel.modelWithContentsOfURL_configuration_error_(
-      modelURL, self.configuration, None)
+      self.modelURL, self.configuration, None)
 
