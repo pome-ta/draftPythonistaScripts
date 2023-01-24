@@ -62,7 +62,7 @@ class TextEncoder:
         inputName: inputArray
       }), None)
 
-    pdbg.state(self.model)
+    #pdbg.state(self.model)
     #pdbg.state(inputFeatures)
     #pdbg.state(self.model)
     #result = self.model.predictionFromFeatures_error_(inputFeatures, None)
@@ -77,6 +77,10 @@ class TextEncoder:
     #perform = self.model.perform()
     #result = perform.predictionFromFeatures_error_(inputFeatures, None)
     #predictionFromFeatures_error_
+    for i in range(10):
+      print(self.model)
+    
+      
 
   def _inputDescription(self):
     # xxx: getter/setter ?

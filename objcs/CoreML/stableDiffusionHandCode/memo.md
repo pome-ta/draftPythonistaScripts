@@ -1,8 +1,50 @@
 # 📝 2023/01/24
 
+## Swift の文法を理解していく
+
+
+[Swift日本語チュートリアル ~ 前編（Apple公式ドキュメントSwift Tour±α） - こんにゃくマガジン](https://xavier.hateblo.jp/entry/2014/06/12/223346)
+
+
+### `dispatch_queue` は、なるべく避けたい
+
+### クロージャー？
+
+```ManagedMLModel.swift
+/// Perform an operation with the managed model via a supplied closure.
+// 提供されたクロージャーを介してマネージド モデルで操作を実行します。
+///  The model will be loaded and supplied to the closure and should only be
+///  used within the closure to ensure all resource management is synchronized
+
+// モデルはクロージャーにロードされて提供され、すべてのリソース管理が確実に同期されるようにクロージャー内でのみ使用する必要があります
+///
+/// - Parameters:
+///     - body: Closure which performs and action on a loaded model
+        // body: ロードされたモデルに対して実行およびアクションを実行するクロージャ
+/// - Returns: The result of the closure
+    // 戻り値: クロージャの結果
+/// - Throws: An error if the model cannot be loaded or if the closure throws
+    // スロー: モデルをロードできない場合、またはクロージャーがスローした場合はエラー
+public func perform<R>(_ body: (MLModel) throws -> R) throws -> R {
+    return try queue.sync {
+        try autoreleasepool {
+            try loadModel()
+            return try body(loadedModel!)
+        }
+    }
+}
+
+private func loadModel() throws {
+    if loadedModel == nil {
+        loadedModel = try MLModel(contentsOf: modelURL,
+                                  configuration: configuration)
+    }
+}
+```
+
 ## `dispatch_queue` で数回呼び出したりしているのか？
 
-解体をしてみる
+解体をしてみる？
 
 ```model.log
 # --- name______
