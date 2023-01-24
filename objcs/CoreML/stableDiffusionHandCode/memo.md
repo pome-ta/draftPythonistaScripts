@@ -1,5 +1,12 @@
 # 📝 2023/01/24
 
+## `dispatch_queue` で数回呼び出したりしているのか？
+
+解体をしてみる
+
+```
+```
+
 ```model.log
 # --- name______
 <b'MLMultiFunctionProgramEngine': 
