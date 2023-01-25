@@ -1,3 +1,69 @@
+# 📝 2023/01/25
+
+## 文法一からは長い
+
+コードから見ていく、、、
+
+
+```TextEncoder.swift
+let result = try model.perform { model in
+  try model.prediction(from: inputFeatures)
+}
+```
+
+メソッドを読んでいて
+
+[predictionFromFeatures:error: | Apple Developer Documentation](https://developer.apple.com/documentation/coreml/mlmodel/2880280-predictionfromfeatures?language=objc)
+
+引数は、`Protocol` 🤔
+
+[MLFeatureProvider | Apple Developer Documentation](https://developer.apple.com/documentation/coreml/mlfeatureprovider?language=objc)
+
+
+```
+inputFeatures ---
+# --- name______
+<b'MLDictionaryFeatureProvider': <MLDictionaryFeatureProvider: 0x280712f20>>
+# --- vars( )______
+{'_as_parameter_': 10744835872,
+ '_cached_methods': {'initWithDictionary_error_': <objc_util.ObjCInstanceMethod object at 0x12a357710>,
+                     'retain': <objc_util.ObjCInstanceMethodProxy object at 0x12a357940>},
+ 'ptr': 10744835872,
+ 'weakrefs': <WeakValueDictionary at 0x12a3576a0>}
+# --- dir( )______
+['copy',
+ 'countByEnumeratingWithState_objects_count_',
+ 'dealloc',
+ 'dictionary',
+ 'encodeWithCoder_',
+ 'featureNames',
+ 'featureValueForName_',
+ 'init',
+ 'initWithCoder_',
+ 'initWithDictionary_error_',
+ 'initWithFeatureProvider_',
+ 'initWithFeatureProvider_featureNames_',
+ 'initWithFeatureValueDictionary_',
+ 'mutableCopy',
+ 'objectForKeyedSubscript_',
+ 'performSelectorInBackground_withObject_',
+ 'performSelectorOnMainThread_withObject_waitUntilDone_',
+ 'performSelector_withObject_afterDelay_',
+ 'setDictionary_']
+
+```
+
+
+```
+--- --- ---
+👉 inputFeatures
+- <MLDictionaryFeatureProvider: 0x6000001e80a0> #0
+  - super: NSObject
+--- --- ---
+
+```
+
+
 # 📝 2023/01/24
 
 ## Swift の文法を理解していく

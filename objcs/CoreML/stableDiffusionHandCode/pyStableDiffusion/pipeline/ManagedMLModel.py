@@ -23,7 +23,7 @@ class ManagedMLModel:
 
   def perform(self) -> MLModel:
     if not (self.loadedModel):
-      print('perform: call')
+      #print('perform: call')
       self._loadModel()
     return self.loadedModel
 
