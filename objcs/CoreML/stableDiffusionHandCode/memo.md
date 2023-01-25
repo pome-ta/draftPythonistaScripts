@@ -70,6 +70,9 @@ inputFeatures ---
 [CoreMLでfloat配列から推論する : エイバースの中の人](http://blog.abars.biz/archives/52452782.html)
 
 
+[coremltools/coremlpython at main · apple/coremltools](https://github.com/apple/coremltools/tree/main/coremlpython)
+
+
 # 📝 2023/01/24
 
 ## Swift の文法を理解していく
