@@ -57,17 +57,23 @@ class TextEncoder:
     ]
     #pdbg.state(ObjCInstance(inputArray.dataPointer().value))
     
+    #inputDict = NSMutableDictionary.alloc().initWithObject_forKey_(inputArray, inputName)
     
     
     
-
+    
+    
+    
     inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(
       ({
         inputName: inputArray
       }), None)
+    
+    #inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(inputDict, None)
+    
 
     #print('inputFeatures ---')
-    #pdbg.state(inputFeatures)
+    pdbg.state(inputFeatures.dictionary())
     
     #pdbg.state(self.model)
     #pdbg.state(inputFeatures)
