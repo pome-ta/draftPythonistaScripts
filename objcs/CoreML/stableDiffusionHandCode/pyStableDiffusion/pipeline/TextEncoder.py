@@ -57,13 +57,13 @@ class TextEncoder:
     ]
     #pdbg.state(ObjCInstance(inputArray.dataPointer().value))
 
-    inputFeatures = MLDictionaryFeatureProvider.new().initWithDictionary_error_(
+    inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(
       ({
         inputName: inputArray
       }), None)
 
-    print('inputFeatures ---')
-    pdbg.state(inputFeatures)
+    #print('inputFeatures ---')
+    #pdbg.state(inputFeatures)
     
     #pdbg.state(self.model)
     #pdbg.state(inputFeatures)

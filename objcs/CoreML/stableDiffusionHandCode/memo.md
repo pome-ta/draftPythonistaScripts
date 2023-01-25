@@ -20,6 +20,9 @@ let result = try model.perform { model in
 [MLFeatureProvider | Apple Developer Documentation](https://developer.apple.com/documentation/coreml/mlfeatureprovider?language=objc)
 
 
+
+[MLDictionaryFeatureProvider | Apple Developer Documentation](https://developer.apple.com/documentation/coreml/mldictionaryfeatureprovider?language=objc)
+
 ```
 inputFeatures ---
 # --- name______
@@ -62,6 +65,9 @@ inputFeatures ---
 --- --- ---
 
 ```
+
+
+[CoreMLでfloat配列から推論する : エイバースの中の人](http://blog.abars.biz/archives/52452782.html)
 
 
 # 📝 2023/01/24
