@@ -1,33 +1,23 @@
-import os
 import webbrowser
-from pathlib import Path
+from objc_util import ObjCClass
+import pdbg
 
-from objc_util import ObjCInstance, ObjCClass
-
-
-def get_target_root():
-
-  PA2UITheme = ObjCClass('PA2UITheme')
-  theme_dict = PA2UITheme.sharedTheme().userThemesPath()
-  theme_path = Path(str(theme_dict))
-  abs_path = theme_path.resolve()
-  #root = os.path.expanduser(f'/{abs_path}/../../../tmp')
-  root = os.path.expanduser(f'/{abs_path}/../../../')
-  return root
+NSFileManager = ObjCClass('NSFileManager')
 
 
-def parent_level(level_int):
-  return '../' * level_int
+def get_temporaryDirectory_path() -> str:
+  nsFileManager = NSFileManager.new()
+  # todo: `file://` で取得してしまうため、`uri` 呼び出し
+  temp_dir = nsFileManager.temporaryDirectory().uri()
+  return str(temp_dir)  # todo: 文字列キャスト
 
 
-root = get_target_root()
-origin_path = './'
+def get_toplevel_path(up_level: int=9) -> str:
+  origin_path = './'
+  parent_level = lambda l: '../' * int(l)
+  return origin_path + parent_level(up_level)
 
-level = 9
-target_url = origin_path + parent_level(level)
 
-_root = str(Path(root).resolve())
-
-_url = str(target_url) + _root
-url = f'pythonista3://{_url}'
-webbrowser.open(url)
+if __name__ == '__main__':
+  path = get_toplevel_path() + get_temporaryDirectory_path()
+  webbrowser.open(f'pythonista3://{path}')
