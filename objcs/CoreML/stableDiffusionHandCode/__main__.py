@@ -32,14 +32,18 @@ txtEnc = Path(resourceURL, ml)
 rslv = txtEnc.resolve()
 rslv_str = str(rslv)
 
-from objc_util import nsurl
+from objc_util import nsurl, ObjCClass
+import pdbg
 
 _model_ns = nsurl(MODEL_PATH)
-_rslv_ns = nsurl(str(rslv))
+_rslv_ns = nsurl(rslv_str)
 _root = nsurl(root)
 
+#pdbg.state(_model_ns.description())
+#pdbg.state(_rslv_ns)
+MLModel = ObjCClass('MLModel')
 
-
+c_model_url = MLModel.compileModelAtURL_error_(_rslv_ns, None)
 
 '''
 pipeline = StableDiffusionPipeline.init_resourcesAt_configuration_(resourceURL)
