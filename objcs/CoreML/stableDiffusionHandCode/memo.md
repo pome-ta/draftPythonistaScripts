@@ -4,7 +4,6 @@
 
 コードから見ていく、、、
 
-
 ```TextEncoder.swift
 let result = try model.perform { model in
   try model.prediction(from: inputFeatures)
@@ -18,8 +17,6 @@ let result = try model.perform { model in
 引数は、`Protocol` 🤔
 
 [MLFeatureProvider | Apple Developer Documentation](https://developer.apple.com/documentation/coreml/mlfeatureprovider?language=objc)
-
-
 
 [MLDictionaryFeatureProvider | Apple Developer Documentation](https://developer.apple.com/documentation/coreml/mldictionaryfeatureprovider?language=objc)
 
@@ -56,7 +53,6 @@ inputFeatures ---
 
 ```
 
-
 ```
 --- --- ---
 👉 inputFeatures
@@ -66,12 +62,9 @@ inputFeatures ---
 
 ```
 
-
 [CoreMLでfloat配列から推論する : エイバースの中の人](http://blog.abars.biz/archives/52452782.html)
 
-
 [coremltools/coremlpython at main · apple/coremltools](https://github.com/apple/coremltools/tree/main/coremlpython)
-
 
 ```
 # --- name______
@@ -1878,18 +1871,11 @@ inputFeatures ---
 
 ```
 
-
-
-
-
-
 # 📝 2023/01/24
 
 ## Swift の文法を理解していく
 
-
 [Swift日本語チュートリアル ~ 前編（Apple公式ドキュメントSwift Tour±α） - こんにゃくマガジン](https://xavier.hateblo.jp/entry/2014/06/12/223346)
-
 
 ### `dispatch_queue` は、なるべく避けたい
 
