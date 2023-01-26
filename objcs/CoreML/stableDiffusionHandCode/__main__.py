@@ -32,8 +32,15 @@ txtEnc = Path(resourceURL, ml)
 rslv = txtEnc.resolve()
 rslv_str = str(rslv)
 
-from objc_util import nsurl, ObjCClass
+from objc_util import nsurl, ObjCClass, NSBundle
 import pdbg
+
+main=NSBundle.allBundles()
+#NSBundle.allBundles
+
+for i in main:
+  print(i)
+
 
 _model_ns = nsurl(MODEL_PATH)
 _rslv_ns = nsurl(rslv_str)
