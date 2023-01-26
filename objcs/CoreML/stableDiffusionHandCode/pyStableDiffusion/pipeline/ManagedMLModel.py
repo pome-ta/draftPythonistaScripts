@@ -4,7 +4,7 @@ from objc_util import ObjCClass, nsurl, autoreleasepool, load_framework
 
 import pdbg
 
-load_framework('CoreML')
+#load_framework('CoreML')
 MLModel = ObjCClass('MLModel')
 
 
@@ -17,8 +17,10 @@ class ManagedMLModel:
     self.init_modelAt_configuration_(url, configuration)
 
   def init_modelAt_configuration_(self, _url: Path, _configuration):
-    #self.modelURL = _url
-    self.modelURL = nsurl(str(_url.resolve()))
+    url = str(_url.resolve())
+    ns_url = nsurl(url)
+    print(ns_url)
+    self.modelURL = ns_url
     self.configuration = _configuration
     self.loadedModel = None
 

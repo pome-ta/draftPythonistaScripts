@@ -70,6 +70,7 @@ public struct TextEncoder: ResourceManaging {
     }
 
     /// Prediction queue
+    // 予測キュー
     let queue = DispatchQueue(label: "textencoder.predict")
 
     func encode(ids: [Int]) throws -> MLShapedArray<Float32> {

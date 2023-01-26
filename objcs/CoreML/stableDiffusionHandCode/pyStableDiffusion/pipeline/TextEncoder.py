@@ -8,7 +8,7 @@ from .ManagedMLModel import ManagedMLModel
 
 import pdbg
 
-load_framework('CoreML')
+#load_framework('CoreML')
 MLMultiArray = ObjCClass('MLMultiArray')
 MLDictionaryFeatureProvider = ObjCClass('MLDictionaryFeatureProvider')
 
@@ -69,8 +69,9 @@ class TextEncoder:
     ).initWithDictionary_error_(({
       inputName: inputArray
     }), None)
+    
 
-    #inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(inputDict, None)
+    #inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(ctypes.pointer(inputDict).contents, None)
 
     #print('inputFeatures ---')
     #pdbg.state(inputFeatures.dictionary())
@@ -86,7 +87,9 @@ class TextEncoder:
     #pdbg.state(model)
     #pdbg.state(self.perform)
     result = model.predictionFromFeatures_error_(inputFeatures, None)
-    pdbg.state(result)
+    #pdbg.state(model)
+    
+    #pdbg.state(result)
     #perform = self.model.perform()
     #result = perform.predictionFromFeatures_error_(inputFeatures, None)
     #predictionFromFeatures_error_

@@ -1,5 +1,6 @@
 from pathlib import Path
 
+
 from pyStableDiffusion.pipeline.StableDiffusionPipeline_Resources import StableDiffusionPipeline
 
 # if __name__ == '__main__':
@@ -10,9 +11,40 @@ resourceURL = Path(models_root_path)
 # resourceURL = Path('./objcs/CoreML/stableDiffusionHandCode', models_root_path)
 
 #pipeline = StableDiffusionPipeline(resourceURL)
+
+
+import os
+
+#root = os.path.join(os.path.expanduser('~/Documents'), MODEL_FILENAME)
+
+#root = os.path.expanduser(models_root_path)
+#root = os.path.expanduser('~/Documents')
+root = os.path.expanduser('~')
+
+MODEL_FILENAME = 'mobilenet.mlmodel'
+MODEL_PATH = os.path.join(os.path.expanduser('~/Documents'), MODEL_FILENAME)
+
+#'TextEncoder.mlmodelc'
+ml = 'TextEncoder.mlmodelc'
+
+txtEnc = Path(resourceURL, ml)
+
+rslv = txtEnc.resolve()
+rslv_str = str(rslv)
+
+from objc_util import nsurl
+
+_model_ns = nsurl(MODEL_PATH)
+_rslv_ns = nsurl(str(rslv))
+_root = nsurl(root)
+
+
+
+
+'''
 pipeline = StableDiffusionPipeline.init_resourcesAt_configuration_(resourceURL)
 
-prompt: str = "cat"
+prompt: str = 'cat'
 imageCount: int = 1
 stepCount: int = 2
 seed: int = 500
@@ -22,4 +54,4 @@ image = pipeline.generateImages(
   prompt=prompt, imageCount=imageCount, stepCount=stepCount, seed=seed)
 
 x = 1
-
+'''
