@@ -1,13 +1,14 @@
 from pathlib import Path
 import ctypes
 
-from objc_util import ObjCClass, NSMutableDictionary, ns
+from objc_util import ObjCClass, NSMutableDictionary, ns, load_framework
 
 from ..tokenizer.BPETokenizer_Reading import BPETokenizer
 from .ManagedMLModel import ManagedMLModel
 
 import pdbg
 
+load_framework('CoreML')
 MLMultiArray = ObjCClass('MLMultiArray')
 MLDictionaryFeatureProvider = ObjCClass('MLDictionaryFeatureProvider')
 
@@ -50,12 +51,11 @@ class TextEncoder:
     inputArray = MLMultiArray.alloc().initWithShape_dataType_error_(
       inputShape, 16, None)
 
-    
     [
       inputArray.setObject_atIndexedSubscript_(obj, index)
       for index, obj in enumerate(floatIds)
     ]
-    
+
     #pdbg.state(ObjCInstance(inputArray.dataPointer().value))
 
     #inputDict = NSMutableDictionary.alloc().initWithObject_forKey_(inputArray, inputName)
@@ -69,7 +69,6 @@ class TextEncoder:
     ).initWithDictionary_error_(({
       inputName: inputArray
     }), None)
-    
 
     #inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(inputDict, None)
 

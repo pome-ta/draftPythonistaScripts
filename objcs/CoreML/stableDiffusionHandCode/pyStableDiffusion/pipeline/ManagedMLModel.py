@@ -1,9 +1,10 @@
 from pathlib import Path
 
-from objc_util import ObjCClass, nsurl, autoreleasepool
+from objc_util import ObjCClass, nsurl, autoreleasepool, load_framework
 
 import pdbg
 
+load_framework('CoreML')
 MLModel = ObjCClass('MLModel')
 
 
@@ -20,7 +21,6 @@ class ManagedMLModel:
     self.modelURL = nsurl(str(_url.resolve()))
     self.configuration = _configuration
     self.loadedModel = None
-
 
   def perform(self) -> MLModel:
     self._loadModel()
