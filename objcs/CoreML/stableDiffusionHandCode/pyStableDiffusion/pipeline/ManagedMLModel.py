@@ -21,15 +21,13 @@ class ManagedMLModel:
     self.configuration = _configuration
     self.loadedModel = None
 
+
   def perform(self) -> MLModel:
-    if not (self.loadedModel):
-      #print('perform: call')
-      self._loadModel()
+    self._loadModel()
     return self.loadedModel
 
   def _loadModel(self):
-    #modelURL = nsurl(str(self.modelURL.resolve()))
-    #modelURL = self.modelURL
-    self.loadedModel = MLModel.modelWithContentsOfURL_configuration_error_(
-      self.modelURL, self.configuration, None)
+    if not (self.loadedModel):
+      self.loadedModel = MLModel.modelWithContentsOfURL_configuration_error_(
+        self.modelURL, self.configuration, None)
 
