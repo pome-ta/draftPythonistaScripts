@@ -1,7 +1,7 @@
 from pathlib import Path
 import ctypes
 
-from objc_util import ObjCClass, NSMutableDictionary
+from objc_util import ObjCClass, NSMutableDictionary, ns
 
 from ..tokenizer.BPETokenizer_Reading import BPETokenizer
 from .ManagedMLModel import ManagedMLModel
@@ -10,7 +10,6 @@ import pdbg
 
 MLMultiArray = ObjCClass('MLMultiArray')
 MLDictionaryFeatureProvider = ObjCClass('MLDictionaryFeatureProvider')
-
 
 
 class TextEncoder:
@@ -56,43 +55,40 @@ class TextEncoder:
       for index, obj in enumerate(floatIds)
     ]
     #pdbg.state(ObjCInstance(inputArray.dataPointer().value))
-    
+
     #inputDict = NSMutableDictionary.alloc().initWithObject_forKey_(inputArray, inputName)
-    
-    
-    
-    
-    
-    
-    inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(
-      ({
-        inputName: inputArray
-      }), None)
-    
+
+    inputFeatures = MLDictionaryFeatureProvider.alloc(
+    ).initWithDictionary_error_(ns({
+      inputName: inputArray
+    }), None)
+    '''
+    inputFeatures = MLDictionaryFeatureProvider.alloc(
+    ).initWithDictionary_error_(({
+      inputName: inputArray
+    }), None)
+    '''
+
     #inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(inputDict, None)
-    
 
     #print('inputFeatures ---')
-    pdbg.state(inputFeatures.dictionary())
-    
+    #pdbg.state(inputFeatures.dictionary())
+
     #pdbg.state(self.model)
     #pdbg.state(inputFeatures)
     #pdbg.state(self.model)
     #result = self.model.predictionFromFeatures_error_(inputFeatures, None)
     #print(self.model)
     #pdbg.state(self.model.perform())
-    #model = self.model.perform()
+    model = self.model.perform()
     #print(model)
     #pdbg.state(model)
     #pdbg.state(self.perform)
-    #result = model.predictionFromFeatures_error_(inputFeatures, None)
-    #pdbg.state(result)
+    result = model.predictionFromFeatures_error_(inputFeatures, None)
+    pdbg.state(result)
     #perform = self.model.perform()
     #result = perform.predictionFromFeatures_error_(inputFeatures, None)
     #predictionFromFeatures_error_
-    
-    
-      
 
   def _inputDescription(self):
     # xxx: getter/setter ?

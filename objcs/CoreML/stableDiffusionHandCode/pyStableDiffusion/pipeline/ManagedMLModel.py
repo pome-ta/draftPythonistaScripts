@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from objc_util import ObjCClass, nsurl
+from objc_util import ObjCClass, nsurl, autoreleasepool
 
 import pdbg
 
