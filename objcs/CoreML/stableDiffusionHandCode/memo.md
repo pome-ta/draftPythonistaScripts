@@ -2,8 +2,7 @@
 
 ## `nsurl` が読めてない？
 
-
-```
+```relative
 # --- name______
 <pyStableDiffusion.pipeline.ManagedMLModel.ManagedMLModel object at 0x123737128>
 # --- vars( )______
@@ -99,8 +98,7 @@ configuration:
 
 ```
 
-
-```
+```absolute
 # --- name______
 <pyStableDiffusion.pipeline.ManagedMLModel.ManagedMLModel object at 0x123f0f3c8>
 # --- vars( )______
@@ -196,17 +194,13 @@ configuration:
 
 ```
 
-
-
-
 # 📝 2023/01/26
-
 
 - `.mlpackage`
 - `.mlmodel`
 - `.mlmodelc`
 
-```
+```bundle
 NSBundle </System/Library/AccessibilityBundles/LinkPresentation.axbundle> (loaded)
 NSBundle </System/Library/AccessibilityBundles/VectorKit.axbundle> (loaded)
 NSBundle </System/Library/AccessibilityBundles/SearchFoundation.axbundle> (loaded)
@@ -273,8 +267,6 @@ NSBundle </System/Library/AccessibilityBundles/MediaPlayerFramework.axbundle> (l
 
 
 ```
-
-
 
 # 📝 2023/01/25
 
