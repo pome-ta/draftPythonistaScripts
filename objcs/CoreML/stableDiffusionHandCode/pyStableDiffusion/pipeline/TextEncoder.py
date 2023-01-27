@@ -74,11 +74,11 @@ class TextEncoder:
     #inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(ctypes.pointer(inputDict).contents, None)
 
     #print('inputFeatures ---')
-    #pdbg.state(inputFeatures.dictionary())
+    #pdbg.state(inputFeatures)
 
     #pdbg.state(self.model)
     #pdbg.state(inputFeatures)
-    #pdbg.state(self.model)
+    pdbg.state(self.model)
     #result = self.model.predictionFromFeatures_error_(inputFeatures, None)
     #print(self.model)
     #pdbg.state(self.model.perform())
@@ -87,7 +87,7 @@ class TextEncoder:
     #pdbg.state(model)
     #pdbg.state(self.perform)
     result = model.predictionFromFeatures_error_(inputFeatures, None)
-    #pdbg.state(model)
+    #pdbg.state(result)
     
     #pdbg.state(result)
     #perform = self.model.perform()

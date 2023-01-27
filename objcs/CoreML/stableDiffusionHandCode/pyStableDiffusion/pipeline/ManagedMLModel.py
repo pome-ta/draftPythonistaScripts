@@ -17,6 +17,7 @@ class ManagedMLModel:
     self.init_modelAt_configuration_(url, configuration)
 
   def init_modelAt_configuration_(self, _url: Path, _configuration):
+    '''
     #parent = _url.parent
     #file_name = _url.name
     #print(str(_url))
@@ -27,7 +28,9 @@ class ManagedMLModel:
     print(model_nsurl)
 
     #self.modelURL = ns_url
-    self.modelURL = url_path
+    '''
+    url_path = str(_url.resolve())
+    self.modelURL = nsurl(url_path)
     self.configuration = _configuration
     self.loadedModel = None
 
