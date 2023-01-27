@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from objc_util import ObjCClass, nsurl, autoreleasepool, load_framework
+from objc_util import ObjCClass, NSURL, nsurl
 
 import pdbg
 
@@ -17,10 +17,17 @@ class ManagedMLModel:
     self.init_modelAt_configuration_(url, configuration)
 
   def init_modelAt_configuration_(self, _url: Path, _configuration):
-    url = str(_url.resolve())
-    ns_url = nsurl(url)
-    print(ns_url)
-    self.modelURL = ns_url
+    #parent = _url.parent
+    #file_name = _url.name
+    #print(str(_url))
+    #url = str(_url.resolve())
+    #ns_url = nsurl(url)
+    url_path ='../../'+ str(_url)
+    model_nsurl = NSURL.fileURLWithPath_isDirectory_(url_path, 0)
+    print(model_nsurl)
+
+    #self.modelURL = ns_url
+    self.modelURL = url_path
     self.configuration = _configuration
     self.loadedModel = None
 
