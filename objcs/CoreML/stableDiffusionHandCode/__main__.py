@@ -8,20 +8,22 @@ models_root_path = './models/coreml-stable-diffusion-v1-4_original_compiled'
 
 resourceURL = Path(models_root_path)
 
-
-
-from objc_util import nsurl
+from objc_util import nsurl, NSURL
 import pdbg
-
 
 textEncoderURL = Path(resourceURL, 'TextEncoder.mlmodelc')
 
-text_enc_path = str(textEncoderURL.resolve())
-text_enc_nsurl = nsurl(text_enc_path)
+#text_enc_path = str(textEncoderURL.resolve())
+#text_enc_nsurl = nsurl(text_enc_path)
 
-print(text_enc_nsurl.isFileURL())
+resource_path = str(resourceURL.resolve())
+resource_nsurl = nsurl(resource_path)
+#pdbg.state(resource_nsurl)
 
+text_enc_nsurl = NSURL.alloc().initFileURLWithPath_isDirectory_(
+  str(textEncoderURL.resolve()), 0)
 
+#print(text_enc_nsurl.isFileURL())
 '''
 pipeline = StableDiffusionPipeline.init_resourcesAt_configuration_(resourceURL)
 
@@ -36,5 +38,4 @@ image = pipeline.generateImages(
 
 x = 1
 '''
-
 
