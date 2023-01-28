@@ -7,7 +7,7 @@ from pyStableDiffusion.pipeline.StableDiffusionPipeline_Resources import StableD
 models_root_path = './models/coreml-stable-diffusion-v1-4_original_compiled'
 
 resourceURL = Path(models_root_path)
-
+'''
 from objc_util import nsurl, NSURL
 import pdbg
 
@@ -37,5 +37,4 @@ image = pipeline.generateImages(
   prompt=prompt, imageCount=imageCount, stepCount=stepCount, seed=seed)
 
 x = 1
-'''
 
