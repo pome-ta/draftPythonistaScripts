@@ -1,3 +1,15 @@
+# 📝 2023/01/29
+
+
+## ファイルかディレクトリか？の問題ではないかもしれない
+
+これでも、`None` が返る
+
+```python
+url_path = str(_url.resolve())
+nsurl_path = NSURL.alloc().initFileURLWithPath_isDirectory_(url_path, 0)
+```
+
 # 📝 2023/01/27
 
 ## `nsurl` が読めてない？
