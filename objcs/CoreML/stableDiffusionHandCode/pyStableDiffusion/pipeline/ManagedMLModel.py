@@ -31,13 +31,12 @@ class ManagedMLModel:
     '''
     url_path = str(_url.resolve())
     nsurl_path = NSURL.alloc().initFileURLWithPath_isDirectory_(url_path, 0)
-    
+
     #nsurl_path = nsurl(url_path)
-    
+
     #print('----')
     #print(url_path)
     #print('/---')
-    
 
     self.modelURL = nsurl_path
     self.configuration = _configuration

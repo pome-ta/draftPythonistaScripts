@@ -59,7 +59,7 @@ class TextEncoder:
     #pdbg.state(ObjCInstance(inputArray.dataPointer().value))
 
     #inputDict = NSMutableDictionary.alloc().initWithObject_forKey_(inputArray, inputName)
-    
+
     inputFeatures = MLDictionaryFeatureProvider.alloc(
     ).initWithDictionary_error_(ns({
       inputName: inputArray
@@ -70,7 +70,6 @@ class TextEncoder:
       inputName: inputArray
     }), None)
     '''
-    
 
     #inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(ctypes.pointer(inputDict).contents, None)
 
@@ -85,15 +84,15 @@ class TextEncoder:
     #pdbg.state(self.model.perform())
     #model = self.model.perform()
     #print(model)
-    
+
     #pdbg.state(self.perform)
     #pdbg.state(self.model)
     #result = self.perform.predictionFromFeatures_error_(inputFeatures, None)
-    
+
     #result = self.model.predictionFromFeatures_error_(inputFeatures, None)
     #pdbg.state(model)
     pdbg.state(self.model)
-    
+
     #pdbg.state(result)
     #perform = self.model.perform()
     #result = perform.predictionFromFeatures_error_(inputFeatures, None)
@@ -103,8 +102,8 @@ class TextEncoder:
     # xxx: getter/setter ?
     self.perform = self.model.perform()
     # todo: `model.modelDescription.inputDescriptionsByName.first!.value`
-    _inputDescription = self.perform.modelDescription().inputDescriptionsByName(
-    ).allValues()[0]
+    _inputDescription = self.perform.modelDescription(
+    ).inputDescriptionsByName().allValues()[0]
     return _inputDescription
 
   def _inputShape(self):
