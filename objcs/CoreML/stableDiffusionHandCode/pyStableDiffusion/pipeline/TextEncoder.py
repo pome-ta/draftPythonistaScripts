@@ -92,7 +92,7 @@ class TextEncoder:
     
     #result = self.model.predictionFromFeatures_error_(inputFeatures, None)
     #pdbg.state(model)
-    pdbg.state(result)
+    pdbg.state(self.model)
     
     #pdbg.state(result)
     #perform = self.model.perform()
