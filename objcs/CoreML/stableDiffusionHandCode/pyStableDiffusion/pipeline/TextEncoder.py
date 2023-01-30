@@ -87,16 +87,20 @@ class TextEncoder:
 
     #pdbg.state(self.perform)
     #pdbg.state(self.model)
-    #result = self.perform.predictionFromFeatures_error_(inputFeatures, None)
+    result = self.perform.predictionFromFeatures_error_(inputFeatures, None)
 
     #result = self.model.predictionFromFeatures_error_(inputFeatures, None)
     #pdbg.state(model)
-    pdbg.state(self.model)
+    #pdbg.state(self.model)
 
     #pdbg.state(result)
     #perform = self.model.perform()
     #result = perform.predictionFromFeatures_error_(inputFeatures, None)
     #predictionFromFeatures_error_
+    
+    #pdbg.state(self.perform.predictionEvent())
+    #pdbg.state(self.perform)
+    pdbg.state(self.model)
 
   def _inputDescription(self):
     # xxx: getter/setter ?

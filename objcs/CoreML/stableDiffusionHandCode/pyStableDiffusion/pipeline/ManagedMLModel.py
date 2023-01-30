@@ -1,6 +1,7 @@
+
 from pathlib import Path
 
-from objc_util import ObjCClass, NSURL, nsurl
+from objc_util import ObjCClass, NSURL, nsurl, on_main_thread
 
 import pdbg
 
@@ -42,6 +43,7 @@ class ManagedMLModel:
     self.configuration = _configuration
     self.loadedModel = None
 
+  #@on_main_thread
   def perform(self) -> MLModel:
     self._loadModel()
     return self.loadedModel
@@ -50,4 +52,5 @@ class ManagedMLModel:
     if not (self.loadedModel):
       self.loadedModel = MLModel.modelWithContentsOfURL_configuration_error_(
         self.modelURL, self.configuration, None)
+      #pdbg.state(self.loadedModel)
 
