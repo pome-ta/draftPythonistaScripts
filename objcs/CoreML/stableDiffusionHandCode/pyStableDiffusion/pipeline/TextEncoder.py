@@ -57,9 +57,9 @@ class TextEncoder:
     ]
 
     inputFeatures = MLDictionaryFeatureProvider.alloc(
-    ).initWithDictionary_error_(ns({
-      inputName: inputArray
-    }), None)
+    ).initWithDictionary_error_(
+      [inputName,inputArray]
+    , None)
     '''
     
     inputFeatures = MLDictionaryFeatureProvider.alloc(
