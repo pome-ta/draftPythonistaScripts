@@ -81,11 +81,11 @@ class TextEncoder:
     
     
     #pdbg.state(inputFeatures.featureValueForName_(inputName))
-    pdbg.state(inputFeatures.initWithFeatureProvider_(sel(inputName)))
+    
 
     result = self.perform.predictionFromFeatures_error_(inputFeatures, None)
 
-    #pdbg.state(result)
+    pdbg.state(result)
 
   def _inputDescription(self):
     # xxx: getter/setter ?
