@@ -9,6 +9,16 @@ url_path = str(_url.resolve())
 nsurl_path = NSURL.alloc().initFileURLWithPath_isDirectory_(url_path, 0)
 ```
 
+
+## `pipeline.loadResources()`
+
+> On iOS, the `reduceMemory` option should be set to true when constructing StableDiffusionPipeline
+
+>> iOSでは、StableDiffusionPipelineを構築する際、reduceMemoryオプションをtrueに設定する必要があります。
+
+
+とあるので、やってみるか、、、
+
 # 📝 2023/01/27
 
 ## `nsurl` が読めてない？

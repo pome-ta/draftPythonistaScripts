@@ -50,20 +50,12 @@ class TextEncoder:
 
     inputArray = MLMultiArray.alloc().initWithShape_dataType_error_(
       inputShape, 16, None)
-    
-    
+
     [
       inputArray.setObject_atIndexedSubscript_(obj, index)
       for index, obj in enumerate(floatIds)
     ]
-    
-    
-    #inputDict = NSMutableDictionary.new()
-    #inputDict.setDictionary_(ns({inputName: inputArray}))
-    
-    
-    #inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(inputDict, None)
-    
+
     inputFeatures = MLDictionaryFeatureProvider.alloc(
     ).initWithDictionary_error_(ns({
       inputName: inputArray
@@ -75,14 +67,6 @@ class TextEncoder:
       inputName: inputArray
     }), None)
     '''
-
-    #inputFeatures = MLDictionaryFeatureProvider.new()
-    #inputFeatures.setDictionary_(inputDict)
-    
-    
-    #pdbg.state(inputFeatures.featureValueForName_(inputName))
-    
-
     result = self.perform.predictionFromFeatures_error_(inputFeatures, None)
 
     pdbg.state(result)
