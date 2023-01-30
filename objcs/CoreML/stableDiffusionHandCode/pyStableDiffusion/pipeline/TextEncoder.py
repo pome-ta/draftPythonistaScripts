@@ -1,7 +1,7 @@
 from pathlib import Path
 import ctypes
 
-from objc_util import ObjCClass, NSMutableDictionary, ns, load_framework, ObjCInstance, autoreleasepool, create_objc_class
+from objc_util import ObjCClass, NSMutableDictionary, ns, load_framework, ObjCInstance, autoreleasepool, create_objc_class, sel
 
 from ..tokenizer.BPETokenizer_Reading import BPETokenizer
 from .ManagedMLModel import ManagedMLModel
@@ -12,13 +12,6 @@ import pdbg
 MLMultiArray = ObjCClass('MLMultiArray')
 MLDictionaryFeatureProvider = ObjCClass('MLDictionaryFeatureProvider')
 
-
-def featureValueForName_(_self, _cmd, _featureName):
-  pass
-
-_methods = [featureValueForName_]
-_protocols = ['MLFeatureProvider']
-myMLDictionaryFeatureProvider = create_objc_class('myMLDictionaryFeatureProvider', None)
 
 class TextEncoder:
   def __init__(self, tokenizer: BPETokenizer, url: Path, configuration):
@@ -57,44 +50,40 @@ class TextEncoder:
 
     inputArray = MLMultiArray.alloc().initWithShape_dataType_error_(
       inputShape, 16, None)
-
-    #pdbg.state(inputArray)
+    
     
     [
       inputArray.setObject_atIndexedSubscript_(obj, index)
       for index, obj in enumerate(floatIds)
     ]
-    '''
-    #setObject_forKeyedSubscript_
-    [
-      inputArray.setObject_forKeyedSubscript_(obj, index)
-      for index, obj in enumerate(floatIds)
-    ]
-    '''
-
-    #inputArray.copyIntoMultiArray_error_(ns(floatIds), None)
-
-    #pdbg.state(ObjCInstance(inputArray.dataPointer().value))
-
-    #inputDict = NSMutableDictionary.alloc().initWithObject_forKey_(inputArray, inputName)
-    '''
+    
+    
+    #inputDict = NSMutableDictionary.new()
+    #inputDict.setDictionary_(ns({inputName: inputArray}))
+    
+    
+    #inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(inputDict, None)
+    
     inputFeatures = MLDictionaryFeatureProvider.alloc(
     ).initWithDictionary_error_(ns({
       inputName: inputArray
     }), None)
     '''
-
+    
     inputFeatures = MLDictionaryFeatureProvider.alloc(
     ).initWithDictionary_error_(({
       inputName: inputArray
     }), None)
-    
-    #fn = inputFeatures.featureValueForName_(inputName)
-    pdbg.state(self.model)
+    '''
 
+    #inputFeatures = MLDictionaryFeatureProvider.new()
+    #inputFeatures.setDictionary_(inputDict)
     
-    #pdbg.state(inputFeatures)
-    #result = self.perform.predictionFromFeatures_error_(inputFeatures, None)
+    
+    #pdbg.state(inputFeatures.featureValueForName_(inputName))
+    pdbg.state(inputFeatures.initWithFeatureProvider_(sel(inputName)))
+
+    result = self.perform.predictionFromFeatures_error_(inputFeatures, None)
 
     #pdbg.state(result)
 
