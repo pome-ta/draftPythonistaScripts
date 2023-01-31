@@ -56,20 +56,21 @@ class TextEncoder:
       for index, obj in enumerate(floatIds)
     ]
 
+    inpitDict = NSMutableDictionary.dictionaryWithObject_forKey_(
+      inputArray, inputName)
+    #pdbg.state(inpitDict)
+
     inputFeatures = MLDictionaryFeatureProvider.alloc(
-    ).initWithDictionary_error_(
-      [inputName,inputArray]
-    , None)
-    '''
-    
-    inputFeatures = MLDictionaryFeatureProvider.alloc(
-    ).initWithDictionary_error_(({
-      inputName: inputArray
-    }), None)
-    '''
+    ).initWithDictionary_error_(inpitDict, None)
+
+    #pdbg.state(inputFeatures.dictionary())
+    #pdbg.state(inputFeatures)
+    pdbg.state(self.perform.visionFeaturePrintInfo())
+    #pdbg.state(self.model)
+
     result = self.perform.predictionFromFeatures_error_(inputFeatures, None)
 
-    pdbg.state(result)
+    #pdbg.state(result)
 
   def _inputDescription(self):
     # xxx: getter/setter ?
