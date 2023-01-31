@@ -1,7 +1,6 @@
 from pathlib import Path
-import ctypes
 
-from objc_util import ObjCClass, NSMutableDictionary, ns, load_framework, ObjCInstance, autoreleasepool, create_objc_class, sel
+from objc_util import ObjCClass, NSMutableDictionary, ns, load_framework, ObjCInstance, autoreleasepool, create_objc_class, sel, NSDictionary
 
 from ..tokenizer.BPETokenizer_Reading import BPETokenizer
 from .ManagedMLModel import ManagedMLModel
@@ -11,6 +10,32 @@ import pdbg
 #load_framework('CoreML')
 MLMultiArray = ObjCClass('MLMultiArray')
 MLDictionaryFeatureProvider = ObjCClass('MLDictionaryFeatureProvider')
+MLFeatureValue = ObjCClass('MLFeatureValue')
+
+
+def featureValueForName_(_self, _cmd, featureName):
+  if featureName:
+    #pdbg.state(ObjCInstance(featureName))
+    #return ObjCInstance(featureName)
+    #return str(ObjCInstance(featureName))
+    pdbg.state(ObjCInstance(_self))
+    featureValue = MLFeatureValue.featureValueWithString_(
+      ObjCInstance(featureName))
+    #return sel(ObjCInstance(featureName))
+    #pdbg.state(featureValue)
+    #return featureValue
+  else:
+    raise
+
+
+_methods = [featureValueForName_]
+_protocols = ['MLFeatureProvider']
+
+myMLDictionaryFeatureProvider = create_objc_class(
+  name='myMLDictionaryFeatureProvider',
+  superclass=MLDictionaryFeatureProvider,
+  methods=_methods,
+  protocols=_protocols)
 
 
 class TextEncoder:
@@ -56,21 +81,29 @@ class TextEncoder:
       for index, obj in enumerate(floatIds)
     ]
 
+    #inpitDict = NSDictionary.alloc().initWithObjects_forKeys_([inputArray], [inputName])
+
+    #pdbg.state(inpitDict)
+
     inpitDict = NSMutableDictionary.dictionaryWithObject_forKey_(
       inputArray, inputName)
     #pdbg.state(inpitDict)
 
-    inputFeatures = MLDictionaryFeatureProvider.alloc(
+    #inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(inpitDict, None)
+    inputFeatures = myMLDictionaryFeatureProvider.alloc(
     ).initWithDictionary_error_(inpitDict, None)
+
+    #inputFeatures = MLDictionaryFeatureProvider.new()
+    #inputFeatures.setDictionary_(inpitDict)
 
     #pdbg.state(inputFeatures.dictionary())
     #pdbg.state(inputFeatures)
-    pdbg.state(self.perform.visionFeaturePrintInfo())
+    #pdbg.state(self.perform)
     #pdbg.state(self.model)
 
     result = self.perform.predictionFromFeatures_error_(inputFeatures, None)
 
-    #pdbg.state(result)
+    pdbg.state(result)
 
   def _inputDescription(self):
     # xxx: getter/setter ?
