@@ -111,7 +111,7 @@ class TextEncoder:
 
     #inputFeatures = MLDictionaryFeatureProvider.new()
     #inputFeatures.setDictionary_(inputDict)
-    pdbg.state(inputFeatures.featureValueForName_(inputName))
+    #pdbg.state(inputFeatures.featureValueForName_(inputName))
 
     #pdbg.state(inputFeatures.dictionary())
     #pdbg.state(inputFeatures)

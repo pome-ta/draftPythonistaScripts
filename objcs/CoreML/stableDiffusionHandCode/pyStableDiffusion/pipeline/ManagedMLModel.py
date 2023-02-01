@@ -1,11 +1,16 @@
 from pathlib import Path
 
-from objc_util import ObjCClass, NSURL, nsurl, on_main_thread
+from objc_util import ObjCClass, NSURL, nsurl, on_main_thread, ns
 
 import pdbg
 
 #load_framework('CoreML')
 MLModel = ObjCClass('MLModel')
+
+NSFileManager = ObjCClass('NSFileManager')
+
+NSApplicationSupportDirectory = 14
+NSUserDomainMask = 1
 
 
 class ManagedMLModel:
@@ -18,10 +23,31 @@ class ManagedMLModel:
 
   def init_modelAt_configuration_(self, _url: Path, _configuration):
     url_path = str(_url.resolve())
-    nsurl_path = NSURL.alloc().initFileURLWithPath_isDirectory_(url_path, 0)
+    compiledModelURL = NSURL.alloc().initFileURLWithPath_isDirectory_(
+      url_path, 0)
     #nsurl_path = nsurl(url_path)
 
-    self.modelURL = nsurl_path
+    fileManager = NSFileManager.defaultManager()
+    appSupportURL = fileManager.URLsForDirectory_inDomains_(
+      NSApplicationSupportDirectory, NSUserDomainMask).firstObject()
+
+    compiledModelName = compiledModelURL.lastPathComponent()
+    #pdbg.state(compiledModelURL)
+    #print(compiledModelName)
+
+    permanentURL = appSupportURL.URLByAppendingPathComponent_(
+      compiledModelName)
+      
+    print(permanentURL)
+    return 
+
+    _ = fileManager.replaceItemAtURL_withItemAtURL_backupItemName_options_resultingItemURL_error_(
+      permanentURL, compiledModelURL, None, ns([]), None, None)
+
+    print(_)
+    print(permanentURL)
+
+    self.modelURL = permanentURL
     self.configuration = _configuration
     self.loadedModel = None
 

@@ -1,3 +1,21 @@
+# 📝 2023/02/01
+
+
+[Downloading and Compiling a Model on the User’s Device | Apple Developer Documentation](https://developer.apple.com/documentation/coreml/downloading_and_compiling_a_model_on_the_user_s_device?language=objc)
+
+
+```swift
+let compiledModelName = compiledModelURL.lastPathComponentlet
+permanentURL = appSupportURL.appendingPathComponent(compiledModelName)
+```
+
+```swift
+let compiledModelName = compiledModelURL.lastPathComponent
+let permanentURL = appSupportURL.appendingPathComponent(compiledModelName)
+```
+
+
+
 # 📝 2023/01/29
 
 ## ファイルかディレクトリか？の問題ではないかもしれない
