@@ -12,7 +12,7 @@ MLMultiArray = ObjCClass('MLMultiArray')
 MLDictionaryFeatureProvider = ObjCClass('MLDictionaryFeatureProvider')
 MLFeatureValue = ObjCClass('MLFeatureValue')
 
-
+# xxx: 不要？
 def featureValueForName_(_self, _cmd, featureName):
   if featureName:
     #pdbg.state(ObjCInstance(featureName))
@@ -31,11 +31,10 @@ def featureValueForName_(_self, _cmd, featureName):
     #pdbg.state(featureValue)
     #return featureValue
     #return ns(value)
-    value = MLFeatureValue.featureValueWithMultiArray_(_value)
-    ##pdbg.state(value)
-    pdbg.state(value)
+    #value = MLFeatureValue.featureValueWithMultiArray_(_value)
+    pdbg.state(_value)
     
-    return value
+    #return value
   else:
     print('kita---------?')
     raise
@@ -100,25 +99,26 @@ class TextEncoder:
 
     #pdbg.state(inpitDict)
 
-    inpitDict = NSMutableDictionary.dictionaryWithObject_forKey_(inputArray, inputName)
+    inputDict = NSMutableDictionary.dictionaryWithObject_forKey_(inputArray, inputName)
     #pdbg.state(inpitDict)
 
-    #inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(inpitDict, None)
+    inputFeatures = MLDictionaryFeatureProvider.new().initWithDictionary_error_(inputDict, None)
     
-    inputFeatures = myMLDictionaryFeatureProvider.alloc().initWithDictionary_error_(inpitDict, None)
+    #inputFeatures = myMLDictionaryFeatureProvider.new().initWithDictionary_error_(inputDict, None)
 
     #inputFeatures
-    #pdbg.state(inputFeatures)
+    
 
     #inputFeatures = MLDictionaryFeatureProvider.new()
-    #inputFeatures.setDictionary_(inpitDict)
+    #inputFeatures.setDictionary_(inputDict)
+    pdbg.state(inputFeatures.featureValueForName_(inputName))
 
     #pdbg.state(inputFeatures.dictionary())
     #pdbg.state(inputFeatures)
     #pdbg.state(self.perform)
     #pdbg.state(self.model)
 
-    result = self.perform.predictionFromFeatures_error_(inputFeatures, None)
+    #result = self.perform.predictionFromFeatures_error_(inputFeatures, None)
 
     #pdbg.state(result)
 
