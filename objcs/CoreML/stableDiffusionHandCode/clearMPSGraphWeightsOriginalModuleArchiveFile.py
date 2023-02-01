@@ -10,12 +10,11 @@ theme_path = Path(str(theme_dict))
 abs_path = theme_path.resolve()
 
 # xxx: ハードコードすぎるからなんとかしたい
-'''
-root = os.path.expanduser(
-  f'/{abs_path}/../../../tmp/com.apple.MetalPerformanceShadersGraph')
-'''
 
 root = os.path.expanduser(
-  f'/{abs_path}/../../../tmp/')
+  f'/{abs_path}/../../../tmp/com.apple.MetalPerformanceShadersGraph')
+
+
+#root = os.path.expanduser(f'/{abs_path}/../../../tmp/')
 rmtree(root)
 
