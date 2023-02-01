@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # 📝 2023/02/01
 
 
@@ -15,6 +16,18 @@ let permanentURL = appSupportURL.appendingPathComponent(compiledModelName)
 ```
 
 
+=======
+
+# 📝 2023/01/30
+
+もしかして、`NSMutableDictionary` は、Swift の`Dictionary` と違う？
+
+[Objective-cのNSMutableArrayとNSMutableDictionaryをSwiftで使う際にはまったこと - Qiita](https://qiita.com/townsoft/items/8bed05ab894af9198e39)
+
+[Swiftの辞書型とNSMutableDictionaryを相互変換する方法 | MaryCore](https://marycore.jp/prog/swift/cast-convert-nsmutabledictionary-and-swift-dictionary/)
+
+[二つの NSDictionary を Swift でマージする - Qiita](https://qiita.com/codelynx/items/95844310d171703bc194)
+>>>>>>> Stashed changes
 
 # 📝 2023/01/29
 
@@ -27,13 +40,11 @@ url_path = str(_url.resolve())
 nsurl_path = NSURL.alloc().initFileURLWithPath_isDirectory_(url_path, 0)
 ```
 
-
 ## `pipeline.loadResources()`
 
 > On iOS, the `reduceMemory` option should be set to true when constructing StableDiffusionPipeline
 
 >> iOSでは、StableDiffusionPipelineを構築する際、reduceMemoryオプションをtrueに設定する必要があります。
-
 
 とあるので、やってみるか、、、
 
