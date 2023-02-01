@@ -22,10 +22,10 @@ def featureValueForName_(_self, _cmd, featureName):
     dictionary = this.dictionary()
     #pdbg.state(ObjCInstance(_self))
     #pdbg.state(dictionary)
-    
+
     _value = dictionary.objectForKey_(ObjCInstance(featureName))
     pdbg.state(_value)
-    
+
     #featureValue = MLFeatureValue.featureValueWithString_(ObjCInstance(featureName))
     #return sel(ObjCInstance(featureName))
     #pdbg.state(featureValue)
@@ -91,7 +91,7 @@ class TextEncoder:
       inputArray.setObject_atIndexedSubscript_(obj, index)
       for index, obj in enumerate(floatIds)
     ]
-    
+
     #pdbg.state(inputArray)
 
     #inpitDict = NSDictionary.alloc().initWithObjects_forKeys_([inputArray], [inputName])
@@ -103,13 +103,12 @@ class TextEncoder:
     #pdbg.state(inpitDict)
 
     #inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(inpitDict, None)
-    inputFeatures = myMLDictionaryFeatureProvider.alloc().initWithDictionary_error_(inpitDict, None)
     
+    inputFeatures = myMLDictionaryFeatureProvider.alloc().initWithDictionary_error_(inpitDict, None)
+
     #inputFeatures
     #pdbg.state(inputFeatures)
-    
-    
-    
+
     #inputFeatures = MLDictionaryFeatureProvider.new()
     #inputFeatures.setDictionary_(inpitDict)
 
