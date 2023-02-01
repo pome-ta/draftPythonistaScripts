@@ -1,9 +1,6 @@
-<<<<<<< Updated upstream
 # 📝 2023/02/01
 
-
 [Downloading and Compiling a Model on the User’s Device | Apple Developer Documentation](https://developer.apple.com/documentation/coreml/downloading_and_compiling_a_model_on_the_user_s_device?language=objc)
-
 
 ```swift
 let compiledModelName = compiledModelURL.lastPathComponentlet
@@ -15,9 +12,6 @@ let compiledModelName = compiledModelURL.lastPathComponent
 let permanentURL = appSupportURL.appendingPathComponent(compiledModelName)
 ```
 
-
-=======
-
 # 📝 2023/01/30
 
 もしかして、`NSMutableDictionary` は、Swift の`Dictionary` と違う？
@@ -27,7 +21,6 @@ let permanentURL = appSupportURL.appendingPathComponent(compiledModelName)
 [Swiftの辞書型とNSMutableDictionaryを相互変換する方法 | MaryCore](https://marycore.jp/prog/swift/cast-convert-nsmutabledictionary-and-swift-dictionary/)
 
 [二つの NSDictionary を Swift でマージする - Qiita](https://qiita.com/codelynx/items/95844310d171703bc194)
->>>>>>> Stashed changes
 
 # 📝 2023/01/29
 
