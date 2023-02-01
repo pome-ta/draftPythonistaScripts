@@ -24,7 +24,7 @@ def featureValueForName_(_self, _cmd, featureName):
     #pdbg.state(dictionary)
 
     _value = dictionary.objectForKey_(ObjCInstance(featureName))
-    pdbg.state(_value)
+    #pdbg.state(_value)
 
     #featureValue = MLFeatureValue.featureValueWithString_(ObjCInstance(featureName))
     #return sel(ObjCInstance(featureName))
@@ -32,8 +32,10 @@ def featureValueForName_(_self, _cmd, featureName):
     #return featureValue
     #return ns(value)
     value = MLFeatureValue.featureValueWithMultiArray_(_value)
-    #pdbg.state(value)
-    #return value
+    ##pdbg.state(value)
+    pdbg.state(value)
+    
+    return value
   else:
     print('kita---------?')
     raise
@@ -98,8 +100,7 @@ class TextEncoder:
 
     #pdbg.state(inpitDict)
 
-    inpitDict = NSMutableDictionary.dictionaryWithObject_forKey_(
-      inputArray, inputName)
+    inpitDict = NSMutableDictionary.dictionaryWithObject_forKey_(inputArray, inputName)
     #pdbg.state(inpitDict)
 
     #inputFeatures = MLDictionaryFeatureProvider.alloc().initWithDictionary_error_(inpitDict, None)
