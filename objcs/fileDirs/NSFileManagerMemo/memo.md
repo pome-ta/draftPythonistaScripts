@@ -1,5 +1,21 @@
 # 📝 2023/02/03
 
+
+## `feedbackLoggerDirectoryURL`
+
+```
+file:///var/mobile/Containers/Data/Application/xx..xx/Library/Caches/com.apple.feedbacklogger/
+```
+
+## `temporaryDirectory`
+
+```
+file:///private/var/mobile/Containers/Data/Application/xx..xx/tmp/
+```
+
+
+## NSFileManager
+
 [NSFileManager | Apple Developer Documentation](https://developer.apple.com/documentation/foundation/nsfilemanager)
 
 
@@ -265,12 +281,6 @@ fileManager = NSFileManager.defaultManager()
  'uniqueFilename_atPath_ofType_',
  'urlForStoreWithId_']
 
-```
-
-## `feedbackLoggerDirectoryURL`
-
-```
-file:///var/mobile/Containers/Data/Application/xx..xx/Library/Caches/com.apple.feedbacklogger/
 ```
 
 
