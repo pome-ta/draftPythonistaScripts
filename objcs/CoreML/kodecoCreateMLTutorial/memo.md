@@ -11,3 +11,4 @@
 いや、Swift のStructure だからダメでは？
 
 
+load してもStructure を呼べるわけではなかった
