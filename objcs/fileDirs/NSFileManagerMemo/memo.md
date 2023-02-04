@@ -1,6 +1,5 @@
 # 📝 2023/02/03
 
-
 ## `feedbackLoggerDirectoryURL`
 
 ```
@@ -13,11 +12,9 @@ file:///var/mobile/Containers/Data/Application/xx..xx/Library/Caches/com.apple.f
 file:///private/var/mobile/Containers/Data/Application/xx..xx/tmp/
 ```
 
-
 ## NSFileManager
 
 [NSFileManager | Apple Developer Documentation](https://developer.apple.com/documentation/foundation/nsfilemanager)
-
 
 ```python
 from objc_util import ObjCClass
@@ -26,7 +23,6 @@ NSFileManager = ObjCClass('NSFileManager')
 fileManager = NSFileManager.defaultManager()
 
 ```
-
 
 ```
 # --- name______
@@ -282,5 +278,3 @@ fileManager = NSFileManager.defaultManager()
  'urlForStoreWithId_']
 
 ```
-
-
