@@ -18,11 +18,28 @@ class View(ui.View):
     self.add_subview(self.wv)
 
     self.wv.load_url(str(index_html))
+    self.wv.clear_cache()
+
+  def will_close(self):
+    self.wv.reload()
+
+  def set_shader_code(self):
+    pass
+
+
+def get_shader_name_code() -> list:
+  # todo: `editor.get_path()` するところ
+  _uri = str(Path('./testFragmentCode.js').resolve())
+  _path = Path(_uri)
+  _name = _path.name
+  _code = _path.read_text(encoding='utf-8')
+  return [_name, _code]
 
 
 if __name__ == '__main__':
   index_path = Path('./src/index.html')
+  shader_name, shader_code = get_shader_name_code()
 
-  view = View(index_path)
+  view = View(index_path, name=shader_name)
   view.present(style='fullscreen', orientations=['portrait'])
 

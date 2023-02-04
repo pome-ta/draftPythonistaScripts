@@ -77,8 +77,8 @@ function setupGL(vertexSource, fragmentSource) {
   let _r;
   _r = (3 * cnvsWidth) / 4;
   // 16:9
-  _r = (9 * cnvsWidth) / 16;
-  _r = (10 * cnvsWidth) / 16;
+  //_r = (9 * cnvsWidth) / 16;
+  //_r = (10 * cnvsWidth) / 16;
   // _r = cnvsWidth;
   // _r = (16 * cnvsWidth) / 9;
 
