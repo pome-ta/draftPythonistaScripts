@@ -14,6 +14,7 @@ const uniLocation = new Array();
 let cnvs, cnvsWidth, cnvsHeight;
 let mouseX = 0.5;
 let mouseY = 0.5;
+let canvasRatio = 0.64;
 
 /**
  * render loop initialize
@@ -40,13 +41,13 @@ precision highp float;
 
 out vec4 fragColor;
 
-uniform float time;
-uniform vec2 mouse;
-uniform vec2 resolution;
+uniform float u_time;
+uniform vec2 u_mouse;
+uniform vec2 u_resolution;
 
 void main() {
-  vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
-  vec3 outColor = vec3(p, abs(tan(time)));
+  vec2 p = (gl_FragCoord.xy * 2.0 - u_resolution) / min(u_resolution.x, u_resolution.y);
+  vec3 outColor = vec3(p, abs(tan(u_time)));
 
   fragColor = vec4(outColor, 1.0);
 }
@@ -63,12 +64,27 @@ const setupDOM = () => {
 
 setupDOM();
 window.addEventListener('load', setupGL(vertexPrimitive, fragmentPrimitive));
+// window.addEventListener('resize', glRender);
 
 function setupGL(vertexSource, fragmentSource) {
   // todo: js で生成しているのであれば、編集より取得でもいいかも
   // 画面サイズよりcanvas サイズを設定
   cnvsWidth = document.querySelector('#wrap').clientWidth;
-  cnvsHeight = cnvsWidth * 0.64; // いい感じのサイズ調整
+  // 4:3 = w:h
+  // 4 * 2 = 3 * h
+  // 2704 = 3 * h
+  // 4:3
+  let _r;
+  _r = (3 * cnvsWidth) / 4;
+  // 16:9
+  _r = (9 * cnvsWidth) / 16;
+  _r = (10 * cnvsWidth) / 16;
+  // _r = cnvsWidth;
+  // _r = (16 * cnvsWidth) / 9;
+
+  // console.log({ cnvsWidth });
+  // cnvsHeight = cnvsWidth * canvasRatio;
+  cnvsHeight = _r;
   // canvas エレメントを取得
   cnvs = document.querySelector('#myCanvas');
   cnvs.width = cnvsWidth;
@@ -85,9 +101,9 @@ function setupGL(vertexSource, fragmentSource) {
     create_shader('vs', vertexSource),
     create_shader('fs', fragmentSource)
   );
-  uniLocation[0] = gl.getUniformLocation(prg, 'time');
-  uniLocation[1] = gl.getUniformLocation(prg, 'mouse');
-  uniLocation[2] = gl.getUniformLocation(prg, 'resolution');
+  uniLocation[0] = gl.getUniformLocation(prg, 'u_time');
+  uniLocation[1] = gl.getUniformLocation(prg, 'u_mouse');
+  uniLocation[2] = gl.getUniformLocation(prg, 'u_resolution');
 
   // 頂点データ回りの初期化
   const position = [
