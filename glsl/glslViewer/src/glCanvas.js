@@ -36,8 +36,8 @@ void main(){
 }
 `;
 
-//const fragmentPrimitive = document.querySelector('#shaderCode').textContent
-/*
+
+
 const fragmentPrimitive = `#version 300 es
 precision highp float;
 
@@ -54,9 +54,7 @@ void main() {
   fragColor = vec4(outColor, 1.0);
 }
 `;
-*/
 
-const fragmentPrimitive = window.getShaderCode()
 
 const setupDOM = () => {
   const wrapDiv = document.createElement('div');
@@ -70,20 +68,13 @@ const setupDOM = () => {
   document.body.appendChild(codeDiv);
   
 };
-//document.querySelector('#shaderCode').textContent
+
 setupDOM();
 window.addEventListener('load', setupGL(vertexPrimitive, fragmentPrimitive));
-//window.addEventListener('load', setupGL(vertexPrimitive, document.querySelector('#shaderCode').innerText));
-//window.addEventListener('load', setupGL(vertexPrimitive, getShaderCode()));
-// window.addEventListener('resize', glRender);
 
 function setupGL(vertexSource, fragmentSource) {
   // todo: js で生成しているのであれば、編集より取得でもいいかも
   // 画面サイズよりcanvas サイズを設定
-  //let content = document.querySelector('#shaderCode');
-  //console.log(content.textContent)
-  //console.log('hoge')
-  console.log(fragmentSource)
   
   cnvsWidth = document.querySelector('#wrap').clientWidth;
   // 4:3 = w:h

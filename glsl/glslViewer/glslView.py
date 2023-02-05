@@ -7,22 +7,6 @@ import editor
 sys.path.append(str(Path.cwd()) + '/pythonista-webview')
 from wkwebview import WKWebView
 
-# toto: title も持ってくる
-
-#document.querySelector(selectors)
-'''
-def set_shader_code(code_source: str) -> str:
-  _code = f'const fragmentPrimitive = `{code_source}`;'
-  return _code
-'''
-def console_test():
-  return 'console.log(1)'
-
-def set_shader_code(code_source: str) -> str:
-  #_code = f'document.querySelector(`#shaderCode`).innerText = `{code_source}`;'
-  #_code = f'document.querySelector(`#shaderCode`).textContent = `{code_source}`;'
-  _code = 'function getShaderCode() { return `' + code_source + '`;};'
-  return _code
 
 class View(ui.View):
   def __init__(self, index_url: str, shader_str: str, *args, **kwargs):
@@ -32,8 +16,6 @@ class View(ui.View):
     self.add_subview(self.wv)
 
     self.wv.load_url(str(index_url))
-    self.wv.add_script(set_shader_code(shader_str))
-    #self.wv.add_script(console_test())
     self.wv.clear_cache()
 
   def will_close(self):
