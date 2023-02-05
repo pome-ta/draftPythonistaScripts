@@ -20,7 +20,8 @@ def console_test():
 
 def set_shader_code(code_source: str) -> str:
   #_code = f'document.querySelector(`#shaderCode`).innerText = `{code_source}`;'
-  _code = f'document.querySelector(`#shaderCode`).textContent = `{code_source}`;'
+  #_code = f'document.querySelector(`#shaderCode`).textContent = `{code_source}`;'
+  _code = 'function getShaderCode() { return `' + code_source + '`;};'
   return _code
 
 class View(ui.View):

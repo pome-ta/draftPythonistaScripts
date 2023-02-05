@@ -56,6 +56,8 @@ void main() {
 `;
 */
 
+const fragmentPrimitive = window.getShaderCode()
+
 const setupDOM = () => {
   const wrapDiv = document.createElement('div');
   wrapDiv.id = 'wrap';
@@ -70,8 +72,9 @@ const setupDOM = () => {
 };
 //document.querySelector('#shaderCode').textContent
 setupDOM();
-//window.addEventListener('load', setupGL(vertexPrimitive, fragmentPrimitive));
-window.addEventListener('load', setupGL(vertexPrimitive, document.querySelector('#shaderCode').innerText));
+window.addEventListener('load', setupGL(vertexPrimitive, fragmentPrimitive));
+//window.addEventListener('load', setupGL(vertexPrimitive, document.querySelector('#shaderCode').innerText));
+//window.addEventListener('load', setupGL(vertexPrimitive, getShaderCode()));
 // window.addEventListener('resize', glRender);
 
 function setupGL(vertexSource, fragmentSource) {
@@ -80,6 +83,8 @@ function setupGL(vertexSource, fragmentSource) {
   //let content = document.querySelector('#shaderCode');
   //console.log(content.textContent)
   //console.log('hoge')
+  console.log(fragmentSource)
+  
   cnvsWidth = document.querySelector('#wrap').clientWidth;
   // 4:3 = w:h
   // 4 * 2 = 3 * h
