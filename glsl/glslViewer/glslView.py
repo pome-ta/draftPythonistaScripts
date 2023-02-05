@@ -1,3 +1,4 @@
+from wkwebview import WKWebView
 import sys
 from pathlib import Path
 
@@ -5,7 +6,6 @@ import ui
 import editor
 
 sys.path.append(str(Path.cwd()) + '/pythonista-webview')
-from wkwebview import WKWebView
 
 
 def set_shader_code(source_code: str) -> str:
@@ -30,7 +30,7 @@ class View(ui.View):
 
     self.wv.load_url(str(index_url))
     self.wv.clear_cache()
-    #self.wv.add_script(set_shader_code(shader_str))
+    # self.wv.add_script(set_shader_code(shader_str))
 
   def will_close(self):
     self.wv.reload()
@@ -42,17 +42,17 @@ class MyWebViewDelegate:
     See nav_type options at
     https://developer.apple.com/documentation/webkit/wknavigationtype?language=objc
     """
-    #print('Will start loading', url)
+    # print('Will start loading', url)
     return True
 
   def webview_did_start_load(self, webview):
-    #print('Started loading')
+    # print('Started loading')
     pass
 
   @ui.in_background
   def webview_did_finish_load(self, webview):
     print('Finished loading ' + str(webview.eval_js('document.title')))
-    #self.wv.eval_js_async
+    # self.wv.eval_js_async
 
 
 def get_shader_name_code() -> list:
@@ -70,4 +70,3 @@ if __name__ == '__main__':
 
   view = View(index_url=index_path, shader_str=shader_code, name=shader_name)
   view.present(style='fullscreen', orientations=['portrait'])
-

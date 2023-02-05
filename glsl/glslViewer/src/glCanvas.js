@@ -37,9 +37,8 @@ void main(){
 `;
 
 function wktest() {
-  console.log('wktest')
+  console.log('wktest');
 }
-
 
 const fragmentPrimitive = `#version 300 es
 precision highp float;
@@ -58,7 +57,6 @@ void main() {
 }
 `;
 
-
 const setupDOM = () => {
   const wrapDiv = document.createElement('div');
   wrapDiv.id = 'wrap';
@@ -69,19 +67,15 @@ const setupDOM = () => {
   const codeDiv = document.createElement('div');
   codeDiv.id = 'shaderCode';
   document.body.appendChild(codeDiv);
-  
 };
-
-
 
 setupDOM();
 window.addEventListener('load', setupGL(vertexPrimitive, fragmentPrimitive));
 
 function setupGL(vertexSource, fragmentSource) {
-  
   // todo: js で生成しているのであれば、編集より取得でもいいかも
   // 画面サイズよりcanvas サイズを設定
-  
+
   cnvsWidth = document.querySelector('#wrap').clientWidth;
   // 4:3 = w:h
   // 4 * 2 = 3 * h
