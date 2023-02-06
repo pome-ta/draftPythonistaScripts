@@ -55,7 +55,7 @@ void main() {
 `;
 */
 
-const fragmentPrimitive = `${document.querySelector('#shaderCode').value}`
+const fragmentPrimitive = `${document.querySelector('#shaderCode').value}`;
 
 const setupDOM = () => {
   const wrapDiv = document.createElement('div');
@@ -66,12 +66,8 @@ const setupDOM = () => {
   wrapDiv.appendChild(canvas);
 };
 
-
-
 setupDOM();
 window.addEventListener('load', setupGL(vertexPrimitive, fragmentPrimitive));
-
-
 
 function setupGL(vertexSource, fragmentSource) {
   // todo: js で生成しているのであれば、編集より取得でもいいかも
