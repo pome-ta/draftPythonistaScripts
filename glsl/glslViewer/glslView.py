@@ -14,26 +14,25 @@ def set_shader_code(source_code: str) -> str:
 
 
 class View(ui.View):
-  def __init__(self, index_url: str, shader_str: str, *args, **kwargs):
+  def __init__(self, index_url: str, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.wv = WKWebView()
 
     self.wv.load_url(str(index_url))
-    
+
     #self.wv.shader_source_code = shader_str
     #self.wv.delegate = MyWebViewDelegate()
 
     self.wv.flex = 'WH'
     self.add_subview(self.wv)
     self.wv.clear_cache()
-    
+
     #self.wv.add_script('console.log(`add`)')
     #self.wv.add_script(set_shader_code(shader_str))
     #self.wv.eval_js(set_shader_code(shader_str))
 
   def will_close(self):
-    #self.wv.reload()
-    pass
+    self.wv.reload()
 
 
 class MyWebViewDelegate:
@@ -57,7 +56,6 @@ class MyWebViewDelegate:
     #pass
     #webview.add_script('console.log(`did`)')
     webview.eval_js('console.log(`finish`)')
-    
 
 
 def get_shader_name_code() -> list:
@@ -69,10 +67,26 @@ def get_shader_name_code() -> list:
   return [_name, _code]
 
 
+def rewrite_index(index_uri: Path, shader_source_code: str) -> Path:
+  _base_text = index_uri.read_text()
+  _top, _end = _base_text.split('<body></body>')
+  _insertion_text = f'''
+  <body>
+    <textarea id="shaderCode" style="display: none;">{shader_source_code}</textarea>
+  </body>'''
+
+  _build_text = _top + _insertion_text + _end
+  build_file = Path(index_uri.parent, '_build.html')
+  build_file.write_text(_build_text, encoding='utf-8')
+  return build_file
+
+
 if __name__ == '__main__':
   index_path = Path('./src/index.html')
-  shader_name, shader_code = get_shader_name_code()
 
-  #view = View(index_url=index_path, shader_str=shader_code, name=shader_name)
-  #view.present(style='fullscreen', orientations=['portrait'])
+  shader_name, shader_code = get_shader_name_code()
+  build_path = rewrite_index(index_path, shader_code)
+
+  view = View(index_url=build_path, name=shader_name)
+  view.present(style='fullscreen', orientations=['portrait'])
 

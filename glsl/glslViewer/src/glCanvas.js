@@ -36,7 +36,7 @@ void main(){
 }
 `;
 
-
+/*
 const fragmentPrimitive = `#version 300 es
 precision highp float;
 
@@ -53,6 +53,9 @@ void main() {
   fragColor = vec4(outColor, 1.0);
 }
 `;
+*/
+
+const fragmentPrimitive = `${document.querySelector('#shaderCode').value}`
 
 const setupDOM = () => {
   const wrapDiv = document.createElement('div');
@@ -66,7 +69,7 @@ const setupDOM = () => {
   //document.body.appendChild(codeDiv);
 };
 
-
+//console.log(document.querySelector('#shaderCode').value)
 
 setupDOM();
 window.addEventListener('load', setupGL(vertexPrimitive, fragmentPrimitive));
