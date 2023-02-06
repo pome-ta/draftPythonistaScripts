@@ -36,13 +36,6 @@ void main(){
 }
 `;
 
-function wktest() {
-  console.log('wktest');
-}
-
-function add(a, b) {
-    return a + b;
-}
 
 const fragmentPrimitive = `#version 300 es
 precision highp float;
@@ -68,10 +61,19 @@ const setupDOM = () => {
   canvas.id = 'myCanvas';
   document.body.appendChild(wrapDiv);
   wrapDiv.appendChild(canvas);
-  const codeDiv = document.createElement('div');
+  const codeDiv = document.createElement('textarea');
   codeDiv.id = 'shaderCode';
   document.body.appendChild(codeDiv);
 };
+
+
+//DOMContentLoaded
+/*
+window.addEventListener('DOMContentLoaded', ()=>{
+let codeNode = document.querySelector('#shaderCode')
+  console.log(codeNode.value)
+});
+*/
 
 setupDOM();
 window.addEventListener('load', setupGL(vertexPrimitive, fragmentPrimitive));
@@ -79,12 +81,11 @@ window.addEventListener('load', setupGL(vertexPrimitive, fragmentPrimitive));
 
 
 function setupGL(vertexSource, fragmentSource) {
+  let codeNode = document.querySelector('#shaderCode')
+  console.log(codeNode.value)
+  
   // todo: js で生成しているのであれば、編集より取得でもいいかも
   // 画面サイズよりcanvas サイズを設定
-  
-  
-  
-
   cnvsWidth = document.querySelector('#wrap').clientWidth;
   // 4:3 = w:h
   // 4 * 2 = 3 * h
