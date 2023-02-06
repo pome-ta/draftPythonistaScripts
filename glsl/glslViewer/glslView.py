@@ -1,4 +1,3 @@
-from wkwebview import WKWebView
 import sys
 from pathlib import Path
 
@@ -6,6 +5,7 @@ import ui
 import editor
 
 sys.path.append(str(Path.cwd()) + '/pythonista-webview')
+from wkwebview import WKWebView
 
 
 def set_shader_code(source_code: str) -> str:
@@ -23,14 +23,17 @@ class View(ui.View):
   def __init__(self, index_url: str, shader_str: str, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.wv = WKWebView()
+    self.wv.load_url(str(index_url))
+    self.wv.shader_source_code = shader_str
     self.wv.delegate = MyWebViewDelegate()
 
     self.wv.flex = 'WH'
     self.add_subview(self.wv)
 
-    self.wv.load_url(str(index_url))
+    
     self.wv.clear_cache()
     # self.wv.add_script(set_shader_code(shader_str))
+    #self.wv.eval_js('wktest()')
 
   def will_close(self):
     self.wv.reload()
@@ -51,8 +54,17 @@ class MyWebViewDelegate:
 
   @ui.in_background
   def webview_did_finish_load(self, webview):
-    print('Finished loading ' + str(webview.eval_js('document.title')))
+    js_code = f'let hoge = `{webview.shader_source_code}`'
+    #print('Finished loading ' + str(webview.eval_js('document.title')))
     # self.wv.eval_js_async
+    #pdbg.state(webview)
+    #webview.eval_js(js_code)
+    #webview.eval_js_async(js_code)
+    #print(dir(webview))
+    #webview.add_script(js_code)
+    print(webview.eval_js('add(1,2)'))
+    #webview.eval_js_async('wktest()')
+    
 
 
 def get_shader_name_code() -> list:
@@ -70,3 +82,4 @@ if __name__ == '__main__':
 
   view = View(index_url=index_path, shader_str=shader_code, name=shader_name)
   view.present(style='fullscreen', orientations=['portrait'])
+

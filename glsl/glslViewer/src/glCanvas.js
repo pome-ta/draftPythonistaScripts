@@ -40,6 +40,10 @@ function wktest() {
   console.log('wktest');
 }
 
+function add(a, b) {
+    return a + b;
+}
+
 const fragmentPrimitive = `#version 300 es
 precision highp float;
 
@@ -72,9 +76,14 @@ const setupDOM = () => {
 setupDOM();
 window.addEventListener('load', setupGL(vertexPrimitive, fragmentPrimitive));
 
+
+
 function setupGL(vertexSource, fragmentSource) {
   // todo: js で生成しているのであれば、編集より取得でもいいかも
   // 画面サイズよりcanvas サイズを設定
+  
+  
+  
 
   cnvsWidth = document.querySelector('#wrap').clientWidth;
   // 4:3 = w:h
