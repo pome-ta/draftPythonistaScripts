@@ -7,31 +7,33 @@ import editor
 sys.path.append(str(Path.cwd()) + '/pythonista-webview')
 from wkwebview import WKWebView
 
-def set_shader_code(source_code:str)->str:
+
+def set_shader_code(source_code: str) -> str:
   _code = f'document.querySelector(`#shaderCode`).value= `{source_code}`;'
   return _code
+
 
 class View(ui.View):
   def __init__(self, index_url: str, shader_str: str, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.wv = WKWebView()
-    
-    
-    
+
     self.wv.load_url(str(index_url))
-    self.wv.add_script(set_shader_code(shader_str))
+    
     self.wv.shader_source_code = shader_str
     self.wv.delegate = MyWebViewDelegate()
 
     self.wv.flex = 'WH'
     self.add_subview(self.wv)
-
+    #self.wv.clear_cache()
     
-    self.wv.clear_cache()
-    
+    self.wv.add_script('console.log(`add`)')
+    self.wv.add_script(set_shader_code(shader_str))
+    #self.wv.eval_js(set_shader_code(shader_str))
 
   def will_close(self):
-    self.wv.reload()
+    #self.wv.reload()
+    pass
 
 
 class MyWebViewDelegate:
@@ -46,13 +48,15 @@ class MyWebViewDelegate:
   def webview_did_start_load(self, webview):
     # print('Started loading')
     #webview.add_script(set_shader_code(webview.shader_source_code))
-    pass
-    
+    #pass
+    webview.add_script('console.log(`start`)')
 
   @ui.in_background
   def webview_did_finish_load(self, webview):
     #webview.add_script(set_shader_code(webview.shader_source_code))
-    pass
+    #pass
+    #webview.add_script('console.log(`did`)')
+    webview.eval_js('console.log(`finish`)')
     
 
 
