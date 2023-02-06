@@ -61,19 +61,12 @@ const setupDOM = () => {
   canvas.id = 'myCanvas';
   document.body.appendChild(wrapDiv);
   wrapDiv.appendChild(canvas);
-  const codeDiv = document.createElement('textarea');
-  codeDiv.id = 'shaderCode';
-  document.body.appendChild(codeDiv);
+  //const codeDiv = document.createElement('textarea');
+  //codeDiv.id = 'shaderCode';
+  //document.body.appendChild(codeDiv);
 };
 
 
-//DOMContentLoaded
-/*
-window.addEventListener('DOMContentLoaded', ()=>{
-let codeNode = document.querySelector('#shaderCode')
-  console.log(codeNode.value)
-});
-*/
 
 setupDOM();
 window.addEventListener('load', setupGL(vertexPrimitive, fragmentPrimitive));
@@ -81,8 +74,6 @@ window.addEventListener('load', setupGL(vertexPrimitive, fragmentPrimitive));
 
 
 function setupGL(vertexSource, fragmentSource) {
-  let codeNode = document.querySelector('#shaderCode')
-  console.log(codeNode.value)
   
   // todo: js で生成しているのであれば、編集より取得でもいいかも
   // 画面サイズよりcanvas サイズを設定

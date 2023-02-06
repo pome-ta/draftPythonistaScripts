@@ -20,15 +20,15 @@ class View(ui.View):
 
     self.wv.load_url(str(index_url))
     
-    self.wv.shader_source_code = shader_str
-    self.wv.delegate = MyWebViewDelegate()
+    #self.wv.shader_source_code = shader_str
+    #self.wv.delegate = MyWebViewDelegate()
 
     self.wv.flex = 'WH'
     self.add_subview(self.wv)
-    #self.wv.clear_cache()
+    self.wv.clear_cache()
     
-    self.wv.add_script('console.log(`add`)')
-    self.wv.add_script(set_shader_code(shader_str))
+    #self.wv.add_script('console.log(`add`)')
+    #self.wv.add_script(set_shader_code(shader_str))
     #self.wv.eval_js(set_shader_code(shader_str))
 
   def will_close(self):
@@ -73,6 +73,6 @@ if __name__ == '__main__':
   index_path = Path('./src/index.html')
   shader_name, shader_code = get_shader_name_code()
 
-  view = View(index_url=index_path, shader_str=shader_code, name=shader_name)
-  view.present(style='fullscreen', orientations=['portrait'])
+  #view = View(index_url=index_path, shader_str=shader_code, name=shader_name)
+  #view.present(style='fullscreen', orientations=['portrait'])
 
