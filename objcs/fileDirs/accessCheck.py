@@ -12,6 +12,7 @@ def is_access(index):
 
 
 cwd_path = Path().cwd()
+print(cwd_path)
 
 directly_list = str(cwd_path).split('/')
 deep = len(directly_list)

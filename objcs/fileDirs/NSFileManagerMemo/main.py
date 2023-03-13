@@ -7,4 +7,4 @@ NSFileManager = ObjCClass('NSFileManager')
 
 fileManager = NSFileManager.defaultManager()
 
-pdbg.state(fileManager.temporaryDirectory())
+pdbg.state(fileManager)
