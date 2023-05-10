@@ -1,16 +1,15 @@
 from ctypes import cdll, c_char_p, c_void_p
 import sys
 
-
 PY3 = sys.version_info[0] >= 3
 
 _cached_classes = {}
 c = cdll.LoadLibrary(None)
 
-
 # objc_getClass: cdll = c.objc_getClass
 # objc_getClass.argtypes = [c_char_p]
 # objc_getClass.restype = c_void_p
+
 
 def objc_getClass(objc_className: str) -> c_void_p:
   _func = c.objc_getClass
@@ -20,6 +19,7 @@ def objc_getClass(objc_className: str) -> c_void_p:
 
 
 class ObjCClass:
+
   def __new__(cls, name):
     if PY3 and isinstance(name, str):
       name = name.encode('ascii')
@@ -66,3 +66,4 @@ if __name__ == '__main__':
   UIImage = ObjCClass('UIImage')
   UIBezierPath = ObjCClass('UIBezierPath')
   UIApplication = ObjCClass('UIApplication')
+
