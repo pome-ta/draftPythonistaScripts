@@ -27,6 +27,7 @@ dispatch_get_current_queue.restype = ctypes.c_void_p
 
 
 class CameraView(ui.View):
+
   def __init__(self, frame=CGRect((0, 0), (100, 100)), *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.flex = 'WH'
@@ -73,6 +74,7 @@ class CameraView(ui.View):
 
 
 class CameraViewController:
+
   def __init__(self):
     self._cameraView = CameraView()
     self._videoDataOutputQueue = ObjCInstance(dispatch_get_current_queue())
@@ -171,13 +173,15 @@ class CameraViewController:
     _methods = [captureOutput_didOutputSampleBuffer_fromConnection_]
     _protocols = ['AVCaptureVideoDataOutputSampleBufferDelegate']
 
-    sampleBufferDelegate = create_objc_class(
-      'sampleBufferDelegate', methods=_methods, protocols=_protocols)
+    sampleBufferDelegate = create_objc_class('sampleBufferDelegate',
+                                             methods=_methods,
+                                             protocols=_protocols)
 
     return sampleBufferDelegate.new()
 
 
 class View(ui.View):
+
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.bg_color = 'maroon'
