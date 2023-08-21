@@ -1,6 +1,10 @@
 from pathlib import Path
 import plistlib
 
+#from objc_util import ObjCClass, uiimage_to_png
+
+#UIImage = ObjCClass('UIImage')
+
 CoreGlyphs_path = '/System/Library/CoreServices/CoreGlyphs.bundle/'
 
 symbol_order_path = 'symbol_order.plist'
