@@ -1,0 +1,1 @@
+[pome-ta/pysta-icons](https://github.com/pome-ta/pysta-icons)
