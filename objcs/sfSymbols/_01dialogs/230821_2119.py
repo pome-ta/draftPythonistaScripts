@@ -9,15 +9,14 @@ import ui
 UIImage = ObjCClass('UIImage')
 
 
-#@ui.in_background
 def get_symbo_icon(symbol_name: str) -> ui.Image:
   ui_image = UIImage.systemImageNamed_(symbol_name)
   png_bytes = uiimage_to_png(ui_image)
   png_img = ui.Image.from_data(png_bytes, 2)
+  #png_img = ui.Image.from_data(png_bytes)
   return png_img
 
 
-#@ui.in_background
 def name2symbol(symbol_name: str) -> dict[str, ui.Image]:
   _icon = get_symbo_icon(symbol_name)
   out_dict = {'title': symbol_name, 'image': _icon}
