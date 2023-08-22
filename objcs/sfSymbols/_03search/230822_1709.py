@@ -6,7 +6,7 @@ import pdbg
 #text_field = ui.TextField()
 
 UISearchBar = ObjCClass('UISearchBar')
-#pdbg.state(UISearchBar)
+#pdbg.state(UISearchBar.new())
 
 
 def searchBar_textDidChange_(_self, _cmd, _searchBar, _searchText):
@@ -55,8 +55,14 @@ class MainView(ui.View):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
+    self.update()
+
+  @ui.in_background
+  def update(self):
     _frame = ((0.0, 0.0), (320.0, 128.0))
-    self.sb = UISearchBar.alloc().initWithFrame_(_frame).autorelease()
+    #self.sb = UISearchBar.alloc().initWithFrame_(_frame).autorelease()
+    self.sb = UISearchBar.new().autorelease()
+    #self.sb.setFrame_(_frame)#.autorelease()
 
     self.sb.setDelegate_(delegate)
     #pdbg.state(self.sb)
