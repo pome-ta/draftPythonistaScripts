@@ -1,4 +1,4 @@
-from objc_util import ObjCClass
+from objc_util import ObjCClass, create_objc_class
 import ui
 
 import pdbg
@@ -9,12 +9,57 @@ UISearchBar = ObjCClass('UISearchBar')
 #pdbg.state(UISearchBar)
 
 
+def searchBar_textDidChange_(_self, _cmd, _searchBar, _searchText):
+  pass
+
+
+def searchBar_shouldChangeTextInRange_replacementText_(_self, _cmd, _searchBar,
+                                                       _range, _text):
+  return 1
+
+
+def searchBarShouldBeginEditing_(_self, _cmd, _searchBar):
+  return 1
+
+
+def searchBarTextDidBeginEditing_(_self, _cmd, _searchBar):
+  pass
+
+
+def searchBarShouldEndEditing_(_self, _cmd, _searchBar):
+  return 1
+
+
+def searchBarTextDidEndEditing_(_self, _cmd, _searchBar):
+  pass
+
+
+_methods = [
+  searchBar_textDidChange_,
+  searchBar_shouldChangeTextInRange_replacementText_,
+  searchBarShouldBeginEditing_,
+  searchBarTextDidBeginEditing_,
+  searchBarShouldEndEditing_,
+  searchBarTextDidEndEditing_,
+]
+_protocols = ['UISearchBarDelegate']
+search_bar_delegate = create_objc_class(name='search_bar_delegate',
+                                        methods=_methods,
+                                        protocols=_protocols)
+
+delegate = search_bar_delegate.alloc().init()
+
+
+#pdbg.state(delegate)
 class MainView(ui.View):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
-    _frame = ((0.0, 0.0), (320.0, 64.0))
+    _frame = ((0.0, 0.0), (320.0, 128.0))
     self.sb = UISearchBar.alloc().initWithFrame_(_frame).autorelease()
+
+    self.sb.setDelegate_(delegate)
+    #pdbg.state(self.sb)
     #self.sb.initWithFrame_(_frame).autorelease()
     #pdbg.state(self.sb)
 
