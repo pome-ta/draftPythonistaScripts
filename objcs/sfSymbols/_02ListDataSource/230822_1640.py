@@ -20,7 +20,8 @@ class SearchTextFieldDelegate(object):
 
   def textfield_should_change(self, textfield, range, replacement):
     print(
-      f'5.should_change:{textfield}, range:{range}, replacement:{replacement}\n')
+      f'5.should_change:{textfield}, range:{range}, replacement:{replacement}\n'
+    )
     return True
 
   def textfield_did_change(self, textfield):
