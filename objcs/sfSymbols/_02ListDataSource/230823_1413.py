@@ -50,6 +50,14 @@ class SearchField(ui.View):
     self.bar.center = self.center
 
 
+class MyTableViewDelegate(object):
+
+  def tableview_did_select(self, tableview: ui.TableView, section: int,
+                           row: int):
+    print(dir(tableview))
+    print(f'tableview:{tableview}\nsection:{section}\nrow:{row}')
+
+
 class MainView(ui.View):
 
   def __init__(self, *args, **kwargs):
@@ -65,6 +73,7 @@ class MainView(ui.View):
     #self.source_items = [name2symbol(name) for name in self.order_list[:64]]
 
     self.table_view = ui.TableView()
+    self.table_view.delegate = MyTableViewDelegate()
     self.table_view.data_source = ui.ListDataSource(self.source_items)
     self.table_view.flex = 'W'
 
