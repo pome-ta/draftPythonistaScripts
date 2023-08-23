@@ -55,9 +55,10 @@ class MyTableViewDelegate(object):
   def tableview_did_select(self, tableview: ui.TableView, section: int,
                            row: int):
     #print(dir(tableview))
-    print(f'tableview:{tableview}\nsection:{section}\nrow:{row}')
+    #print(f'tableview:{tableview}\nsection:{section}\nrow:{row}')
     source = tableview.data_source.items[row]
-    print(source)
+    title = source['title']
+    print(title)
 
 
 class MainView(ui.View):
