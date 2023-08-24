@@ -52,20 +52,19 @@ class SearchField(ui.View):
 
 class MyTableViewDelegate(object):
 
-  def tableview_did_select(self, tableview: ui.TableView, section: int,
-                           row: int):
+  def tableview_did_select(self, tv: ui.TableView, section: int, row: int):
     #print(dir(tableview))
     #print(f'tableview:{tableview}\nsection:{section}\nrow:{row}')
-    source = tableview.data_source.items[row]
+    source = tv.data_source.items[row]
     title = source['title']
     print(title)
 
 
-class IconListDataSourceList(list):
+class SymbolListDataSourceList(list):
 
   def __init__(self, seq, datasource):
     list.__init__(self, seq)
-    self.datasource = datasource
+    self.datasource: SymbolListDataSource = datasource
 
   def append(self, item):
     list.append(self, item)
@@ -88,10 +87,10 @@ class IconListDataSourceList(list):
     self.datasource.reload()
 
 
-class IconListDataSource(object):
+class SymbolListDataSource(object):
 
   def __init__(self, items=None):
-    self.tableview = None
+    self.tableview: ui.TableView = None
     self.reload_disabled = False
     self.delete_enabled = True
     self.move_enabled = False
@@ -106,7 +105,7 @@ class IconListDataSource(object):
     if items is not None:
       self.items = items
     else:
-      self.items = IconListDataSourceList([])
+      self.items = SymbolListDataSourceList([])
     self.text_color = None
     self.highlight_color = None
     self.font = None
@@ -122,7 +121,7 @@ class IconListDataSource(object):
 
   @items.setter
   def items(self, value):
-    self._items = IconListDataSourceList(value, self)
+    self._items = SymbolListDataSourceList(value, self)
     self.reload()
 
   def tableview_number_of_sections(self, tv):
@@ -186,7 +185,7 @@ class IconListDataSource(object):
     if self.text_color:
       cell.text_label.text_color = self.text_color
     if self.highlight_color:
-      bg_view = View(background_color=self.highlight_color)
+      bg_view = ui.View(background_color=self.highlight_color)
       cell.selected_background_view = bg_view
     if self.font:
       cell.text_label.font = self.font
@@ -212,7 +211,7 @@ class MainView(ui.View):
     self.table_view.delegate = MyTableViewDelegate()
     #self.table_view.data_source = ui.ListDataSource(self.source_items)
     #self.data_source = MyTableViewDataSource()
-    self.data_source = IconListDataSource(self.source_items)
+    self.data_source = SymbolListDataSource(self.source_items)
     self.table_view.data_source = self.data_source
     self.table_view.flex = 'W'
 
