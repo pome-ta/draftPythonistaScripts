@@ -61,14 +61,46 @@ class MyTableViewDelegate(object):
     print(title)
 
 
-class DataSource(object):
+class MyTableViewDataSource(object):
 
-  def __init__(self):
-    self.all_icons = create_icons()
-    self.select_icons = []
+  def tableview_number_of_sections(self, tableview: ui.TableView) -> int:
+    # Return the number of sections (defaults to 1)
+    return 1
 
-  def tableview_number_of_rows(self, tableview: ui.TableView, section: int):
-    return len(self.all_icons)
+  def tableview_number_of_rows(self, tableview: ui.TableView,
+                               section: int) -> int:
+    # Return the number of rows in the section
+    return 0
+
+  def tableview_cell_for_row(self, tableview: ui.TableView, section: int,
+                             row: int) -> ui.TableViewCell:
+    # Create and return a cell for the given section/row
+    cell = ui.TableViewCell()
+    cell.text_label.text = 'Foo Bar'
+    return cell
+
+  def tableview_title_for_header(self, tableview: ui.TableView,
+                                 section: int) -> str:
+    # Return a title for the given section.
+    # If this is not implemented, no section headers will be shown.
+    return 'Some Section'
+
+  def tableview_can_delete(self, tableview, section, row):
+    # Return True if the user should be able to delete the given row.
+    return True
+
+  def tableview_can_move(self, tableview, section, row):
+    # Return True if a reordering control should be shown for the given row (in editing mode).
+    return True
+
+  def tableview_delete(self, tableview, section, row):
+    # Called when the user confirms deletion of the given row.
+    pass
+
+  def tableview_move_row(self, tableview, from_section, from_row, to_section,
+                         to_row):
+    # Called when the user moves a row with the reordering control (in editing mode).
+    pass
 
 
 class MainView(ui.View):
