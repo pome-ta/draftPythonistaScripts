@@ -65,16 +65,17 @@ class MyTableViewDataSource(object):
 
   def tableview_number_of_sections(self, tableview: ui.TableView) -> int:
     # Return the number of sections (defaults to 1)
-    return 1
+    return 2
 
   def tableview_number_of_rows(self, tableview: ui.TableView,
                                section: int) -> int:
     # Return the number of rows in the section
-    return 0
+    return 2
 
   def tableview_cell_for_row(self, tableview: ui.TableView, section: int,
                              row: int) -> ui.TableViewCell:
     # Create and return a cell for the given section/row
+    print('hoge')
     cell = ui.TableViewCell()
     cell.text_label.text = 'Foo Bar'
     return cell
@@ -83,6 +84,7 @@ class MyTableViewDataSource(object):
                                  section: int) -> str:
     # Return a title for the given section.
     # If this is not implemented, no section headers will be shown.
+    print('fuga')
     return 'Some Section'
 
   def tableview_can_delete(self, tableview, section, row):
@@ -120,7 +122,9 @@ class MainView(ui.View):
 
     self.table_view = ui.TableView()
     self.table_view.delegate = MyTableViewDelegate()
-    self.table_view.data_source = ui.ListDataSource(self.source_items)
+    #self.table_view.data_source = ui.ListDataSource(self.source_items)
+    self.data_source = MyTableViewDataSource()
+    self.table_view.data_source = self.data_source
     self.table_view.flex = 'W'
 
     self.add_subview(self.table_view)
