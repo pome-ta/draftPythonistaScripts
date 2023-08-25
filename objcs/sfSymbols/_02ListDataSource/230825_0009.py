@@ -170,6 +170,20 @@ class SymbolListDataSource(object):
     item = self.items[row]
     cell = ui.TableViewCell()
     cell.text_label.number_of_lines = self.number_of_lines
+
+    title = item.get('title', '')
+    icon = item.get('image', None)
+
+    img_view = ui.ImageView(frame=(24, 6.4, 32, 32))
+    img_view.image = icon
+    img_view.content_mode = 1
+    cell.content_view.add_subview(img_view)
+    '''
+    label = ui.Label(frame=(80, 0, cell.content_view.bounds.w, 32))
+    label.text = title
+    cell.content_view.add_subview(label)
+    '''
+    '''
     if isinstance(item, dict):
       cell.text_label.text = item.get('title', '')
       img = item.get('image', None)
@@ -189,6 +203,7 @@ class SymbolListDataSource(object):
       cell.selected_background_view = bg_view
     if self.font:
       cell.text_label.font = self.font
+    '''
     return cell
 
 
@@ -211,8 +226,8 @@ class MainView(ui.View):
     self.table_view.delegate = MyTableViewDelegate()
     #self.table_view.data_source = ui.ListDataSource(self.source_items)
     #self.data_source = MyTableViewDataSource()
-    self.data_source = SymbolListDataSource(self.source_items)
-    self.table_view.data_source = self.data_source
+    self.symbol_data_source = SymbolListDataSource(self.source_items)
+    self.table_view.data_source = self.symbol_data_source
     self.table_view.flex = 'W'
 
     self.add_subview(self.table_view)
