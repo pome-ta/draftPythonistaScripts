@@ -163,9 +163,11 @@ class SymbolListDataSource(object):
 
     label = ui.Label(frame=label_frame)
     label.text = item.get('title', '')
+    #label.font = self.font
     label.number_of_lines = self.number_of_lines
 
     cell.content_view.add_subview(image_view)
+    #cell.text_label.text = item.get('title', '')
     cell.content_view.add_subview(label)
     #print(cell.content_view.frame)
     '''
