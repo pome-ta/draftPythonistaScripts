@@ -10,8 +10,8 @@ UIImage = ObjCClass('UIImage')
 def get_symbo_icon(symbol_name: str) -> ui.Image:
   ui_image = UIImage.systemImageNamed_(symbol_name)
   png_bytes = uiimage_to_png(ui_image)
-  #png_img = ui.Image.from_data(png_bytes, 2)
-  png_img = ui.Image.from_data(png_bytes)
+  png_img = ui.Image.from_data(png_bytes, 2)
+  #png_img = ui.Image.from_data(png_bytes)
   return png_img
 
 
@@ -131,12 +131,6 @@ class SymbolListDataSource(object):
   def tableview_number_of_rows(self, tv, section):
     return len(self.items)
 
-  def tableview_can_delete(self, tv, section, row):
-    return self.delete_enabled
-
-  def tableview_can_move(self, tv, section, row):
-    return self.move_enabled
-
   def tableview_accessory_button_tapped(self, tv, section, row):
     self.tapped_accessory_row = row
     if self.accessory_action:
@@ -147,29 +141,29 @@ class SymbolListDataSource(object):
     if self.action:
       self.action(self)
 
-  def tableview_move_row(self, tv, from_section, from_row, to_section, to_row):
-    if from_row == to_row:
-      return
-    moved_item = self.items[from_row]
-    self.reload_disabled = True
-    del self.items[from_row]
-    self.items[to_row:to_row] = [moved_item]
-    self.reload_disabled = False
-    if self.edit_action:
-      self.edit_action(self)
-
-  def tableview_delete(self, tv, section, row):
-    self.reload_disabled = True
-    del self.items[row]
-    self.reload_disabled = False
-    tv.delete_rows([row])
-    if self.edit_action:
-      self.edit_action(self)
-
   def tableview_cell_for_row(self, tv, section, row):
     item = self.items[row]
+    # xxx: `dict` type で決め打ち
+    #title = item.get('title', '')
+    #image = item.get('image', None)
+    
+    label = ui.Label()
+    label.text = item.get('title', '')
+    label.number_of_lines = self.number_of_lines
+    
+    
+    image_view = ui.ImageView()
+    image_view.image = item.get('image', None)
+    image_view.width = 32
+    image_view.height = 32
+    image_view.content_mode = 1
+    
     cell = ui.TableViewCell()
-    # xxx: ``
+    cell.content_view.add_subview(label)
+    cell.content_view.add_subview(image_view)
+    
+    
+    '''
     self.tc = ui.TableViewCell()
     cell.text_label.number_of_lines = self.number_of_lines
 
@@ -180,17 +174,7 @@ class SymbolListDataSource(object):
         if isinstance(img, str):
           cell.image_view.image = ui.Image.named(img)
         elif isinstance(img, ui.Image):
-          '''
-          img_v = ui.ImageView()
-          img_v.image = img
-          img_v.width = 32
-          img_v.height = 32
-          img_v.content_mode = 1
-          cell.image_view = img_v
-          #print(cell.image_view.frame)
-          #cell.image_view.image = ui.Image.named(img)
-          '''
-
+          
           cell.image_view.image = img
 
       accessory = item.get('accessory_type', 'none')
@@ -215,6 +199,7 @@ class SymbolListDataSource(object):
     #print(cell.image_view.width)
 
     self.cell = cell
+    '''
     return cell
 
 
