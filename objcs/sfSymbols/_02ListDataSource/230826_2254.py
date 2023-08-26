@@ -144,69 +144,30 @@ class SymbolListDataSource(object):
   def tableview_cell_for_row(self, tv, section, row):
     item = self.items[row]
     # xxx: `dict` type で決め打ち
-    #title = item.get('title', '')
-    #image = item.get('image', None)
 
     cell = ui.TableViewCell()
     x, y, w, h = cell.content_view.frame
     center_x, center_y = cell.content_view.center
-    margin = h * 0.4
+    x_margin = h * 0.5
+    y_margin = x_margin / 2
 
-    img_frame = (margin, margin / 2, h - margin, h - margin)
+    icon_size = h - x_margin
+
+    img_frame = (x_margin, y_margin, icon_size, icon_size)
     image_view = ui.ImageView(frame=img_frame)
     image_view.image = item.get('image', None)
-    #image_view.width = 32
-    #image_view.height = 32
     image_view.content_mode = 1
+    #image_view.bg_color ='maroon'
 
-    label_frame = (margin + h, margin / 2, w - h - margin, h - margin)
+    label_frame = (x_margin + h, y_margin, w, icon_size)
 
     label = ui.Label(frame=label_frame)
     label.text = item.get('title', '')
-    #label.font = self.font
+    #label.bg_color = 'cyan'
     label.number_of_lines = self.number_of_lines
 
     cell.content_view.add_subview(image_view)
-    #cell.text_label.text = item.get('title', '')
     cell.content_view.add_subview(label)
-    #print(cell.content_view.frame)
-    '''
-    self.tc = ui.TableViewCell()
-    cell.text_label.number_of_lines = self.number_of_lines
-
-    if isinstance(item, dict):
-      cell.text_label.text = item.get('title', '')
-      img = item.get('image', None)
-      if img:
-        if isinstance(img, str):
-          cell.image_view.image = ui.Image.named(img)
-        elif isinstance(img, ui.Image):
-          
-          cell.image_view.image = img
-
-      accessory = item.get('accessory_type', 'none')
-      cell.accessory_type = accessory
-    else:
-      cell.text_label.text = str(item)
-    if self.text_color:
-      cell.text_label.text_color = self.text_color
-    if self.highlight_color:
-      bg_view = ui.View(background_color=self.highlight_color)
-      cell.selected_background_view = bg_view
-    if self.font:
-      cell.text_label.font = self.font
-
-    #cell.content_view.width = 32
-    cell.content_view.height = 32
-    #cell.image_view.height = 13
-    #cell.image_view.content_mode = 1
-    cell.image_view.content_mode = 1
-    cell.image_view.bg_color = 'cyan'
-    print()
-    #print(cell.image_view.width)
-    '''
-
-    self.cell = cell
 
     return cell
 
