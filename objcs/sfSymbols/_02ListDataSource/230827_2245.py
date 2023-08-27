@@ -157,27 +157,19 @@ class SymbolListDataSource(object):
     image_view = ui.ImageView(frame=img_frame)
     image_view.image = item.get('image', None)
     image_view.content_mode = 1
-    #image_view.bg_color ='maroon'
+    image_view.bg_color = 'maroon'
 
     label_frame = (x_margin + h, y_margin, w, icon_size)
 
     label = ui.Label(frame=label_frame)
     label.text = item.get('title', '')
     #label.font = ('.SFUI-Regular', 14.0)  #xxx: from `ui.ListDataSource`
-
     label.bg_color = 'cyan'
     label.number_of_lines = self.number_of_lines
 
-    cell.text_label.text = item.get('title', '')
-    #cell.text_label.flex=''
-    #cell.text_label.x = x_margin + h
-    #print(cell.text_label.x)
-
     cell.content_view.add_subview(image_view)
     cell.content_view.add_subview(label)
-
-    self.cell = cell
-
+    #self.cell = cell
     return cell
 
 
@@ -198,8 +190,7 @@ class MainView(ui.View):
 
     self.table_view = ui.TableView()
     self.table_view.delegate = MyTableViewDelegate()
-    #self.table_view.data_source = ui.ListDataSource(self.source_items)
-    #self.data_source = MyTableViewDataSource()
+
     self.symbol_data_source = SymbolListDataSource(self.source_items)
     self.table_view.data_source = self.symbol_data_source
     self.table_view.flex = 'W'
