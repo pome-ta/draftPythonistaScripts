@@ -10,8 +10,8 @@ UIImage = ObjCClass('UIImage')
 def get_symbo_icon(symbol_name: str) -> ui.Image:
   ui_image = UIImage.systemImageNamed_(symbol_name)
   png_bytes = uiimage_to_png(ui_image)
-  #png_img = ui.Image.from_data(png_bytes, 2)
-  png_img = ui.Image.from_data(png_bytes)
+  png_img = ui.Image.from_data(png_bytes, 2)
+  #png_img = ui.Image.from_data(png_bytes)
   return png_img
 
 
@@ -131,12 +131,6 @@ class SymbolListDataSource(object):
   def tableview_number_of_rows(self, tv, section):
     return len(self.items)
 
-  def tableview_can_delete(self, tv, section, row):
-    return self.delete_enabled
-
-  def tableview_can_move(self, tv, section, row):
-    return self.move_enabled
-
   def tableview_accessory_button_tapped(self, tv, section, row):
     self.tapped_accessory_row = row
     if self.accessory_action:
@@ -147,73 +141,48 @@ class SymbolListDataSource(object):
     if self.action:
       self.action(self)
 
-  def tableview_move_row(self, tv, from_section, from_row, to_section, to_row):
-    if from_row == to_row:
-      return
-    moved_item = self.items[from_row]
-    self.reload_disabled = True
-    del self.items[from_row]
-    self.items[to_row:to_row] = [moved_item]
-    self.reload_disabled = False
-    if self.edit_action:
-      self.edit_action(self)
-
-  def tableview_delete(self, tv, section, row):
-    self.reload_disabled = True
-    del self.items[row]
-    self.reload_disabled = False
-    tv.delete_rows([row])
-    if self.edit_action:
-      self.edit_action(self)
-
   def tableview_cell_for_row(self, tv, section, row):
     item = self.items[row]
+    # xxx: `dict` type で決め打ち
+
     cell = ui.TableViewCell()
-    self.tc = ui.TableViewCell()
-    cell.text_label.number_of_lines = self.number_of_lines
+    x, y, w, h = cell.content_view.frame
+    center_x, center_y = cell.content_view.center
+    x_margin = h * 0.5
+    y_margin = x_margin / 2
 
-    if isinstance(item, dict):
-      cell.text_label.text = item.get('title', '')
-      img = item.get('image', None)
-      if img:
-        if isinstance(img, str):
-          cell.image_view.image = ui.Image.named(img)
-        elif isinstance(img, ui.Image):
-          '''
-          img_v = ui.ImageView()
-          img_v.image = img
-          img_v.width = 32
-          img_v.height = 32
-          img_v.content_mode = 1
-          cell.image_view = img_v
-          #print(cell.image_view.frame)
-          #cell.image_view.image = ui.Image.named(img)
-          '''
+    icon_size = h - x_margin
+    '''
+    img_frame = (x_margin, y_margin, icon_size, icon_size)
+    image_view = ui.ImageView(frame=img_frame)
+    '''
+    image_view = ui.ImageView()
+    image_view.image = item.get('image', None)
+    image_view.content_mode = 1
+    #image_view.bg_color ='maroon'
 
-          cell.image_view.image = img
+    label_frame = (x_margin + h, y_margin, w, icon_size)
 
-      accessory = item.get('accessory_type', 'none')
-      cell.accessory_type = accessory
-    else:
-      cell.text_label.text = str(item)
-    if self.text_color:
-      cell.text_label.text_color = self.text_color
-    if self.highlight_color:
-      bg_view = ui.View(background_color=self.highlight_color)
-      cell.selected_background_view = bg_view
-    if self.font:
-      cell.text_label.font = self.font
+    label = ui.Label(frame=label_frame)
+    label.text = item.get('title', '')
+    #label.font = ('.SFUI-Regular', 14.0)  #xxx: from `ui.ListDataSource`
 
-    #cell.content_view.width = 32
-    cell.content_view.height = 32
-    #cell.image_view.height = 13
-    #cell.image_view.content_mode = 1
-    cell.image_view.content_mode = 1
-    cell.image_view.bg_color = 'cyan'
-    print(cell.text_label.font)
-    #print(cell.image_view.width)
+    label.bg_color = 'cyan'
+    label.number_of_lines = self.number_of_lines
+
+    cell.text_label.text = item.get('title', '')
+    #cell.text_label.flex=''
+    #cell.text_label.x = x_margin + h
+    #print(cell.text_label.x)
+
+    #cell.content_view.add_subview(image_view)
+    cell.content_view.add_subview(label)
+    
+    #cell.image_view.add_subview(image_view)
+    cell.image_view.image = image_view.image
 
     self.cell = cell
+
     return cell
 
 
