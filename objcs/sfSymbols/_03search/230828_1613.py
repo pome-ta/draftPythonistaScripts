@@ -31,6 +31,8 @@ select_items = []
 
 
 class SearchTextFieldDelegate(object):
+  def __init__(self):
+    pass
 
   def textfield_should_begin_editing(self, textfield):
     print(f'1.should_begin:{textfield}\n')
@@ -71,6 +73,7 @@ class SearchField(ui.View):
 
   def layout(self):
     _, _, w, h = self.frame
+    # xxx: サイズ調整は仮
     self.bar.width = w * 0.88
     self.bar.height = h * 0.64
     self.bar.center = self.center
@@ -80,13 +83,8 @@ class IconTableView(ui.View):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
-
-
-class MainView(ui.View):
-
-  def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    self.bg_color = 'maroon'
+    self.bg_color = 'cyan'
+    # xxx: 違う、ここでdelegate でリストかtable を食わせないと
     self.search_field = SearchField()
     self.add_subview(self.search_field)
 
@@ -94,6 +92,22 @@ class MainView(ui.View):
     _, _, w, h = self.frame
     self.search_field.width = w
     self.search_field.height = 48
+
+
+class MainView(ui.View):
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.bg_color = 'maroon'
+
+    self.icon_table = IconTableView()
+    self.icon_table.flex = 'W'
+    self.add_subview(self.icon_table)
+
+  def layout(self):
+    _, _, w, h = self.frame
+
+    self.icon_table.height = h - 48  # `TabView` margin
 
 
 if __name__ == '__main__':
