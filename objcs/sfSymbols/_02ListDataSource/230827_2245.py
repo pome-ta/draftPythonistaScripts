@@ -163,7 +163,7 @@ class SymbolListDataSource(object):
 
     label = ui.Label(frame=label_frame)
     label.text = item.get('title', '')
-    #label.font = ('.SFUI-Regular', 14.0)  #xxx: from `ui.ListDataSource`
+    #label.font = ('.SFUI-Regular', 14.0)  #xxx: from `ui.ListDataSource` font
     label.bg_color = 'cyan'
     label.number_of_lines = self.number_of_lines
 
