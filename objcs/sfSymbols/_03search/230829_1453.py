@@ -198,6 +198,7 @@ class SymbolListDataSource(object):
     cell = ui.TableViewCell()
     x, y, w, h = cell.content_view.frame
     center_x, center_y = cell.content_view.center
+    # xxx: あとでサイズとかやる
     x_margin = h * 0.5
     y_margin = x_margin / 2
 
@@ -227,8 +228,9 @@ class IconTableView(ui.View):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
-    self.search_field: ui.TextField()
-    self.symbol_table: ui.TableView()
+    self.search_field: ui.TextField
+    self.search_wrap: ui.View
+    self.symbol_table: ui.TableView
     self.set_up()
 
   def set_up(self):
@@ -241,8 +243,8 @@ class IconTableView(ui.View):
 
   def init_search_field(self):
     self.search_field = ui.TextField()
-    self.search_field.flex = 'W'
-    self.search_field.height = 48  # xxx: 仮決め打ち
+    #self.search_field.flex = 'W'
+    self.search_field.height = 32  # xxx: 仮決め打ち
 
     self.search_field.clear_button_mode = 'always'
     self.search_field.placeholder = 'search symbol name'
@@ -263,6 +265,10 @@ class IconTableView(ui.View):
 
   def layout(self):
     _, _, w, h = self.frame
+    # xxx: あとでサイズとかやる
+    self.search_field.width = w * 0.92
+    self.search_field.x = (w - self.search_field.width) / 2
+
     margin = h * 0.01
 
     table_margin = self.search_field.height + margin
@@ -290,5 +296,6 @@ class MainView(ui.View):
 
 if __name__ == '__main__':
   view = MainView()
-  view.present(style='fullscreen', orientations=['portrait'])
+  #view.present(style='fullscreen', orientations=['portrait'])
+  view.present(style='fullscreen')
 
