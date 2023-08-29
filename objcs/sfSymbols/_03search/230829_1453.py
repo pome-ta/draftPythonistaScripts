@@ -110,21 +110,134 @@ class SearchField(ui.View):
     self.bar.center = self.center
 
 
+class SymbolListDataSourceList(list):
+
+  def __init__(self, seq, datasource):
+    list.__init__(self, seq)
+    self.datasource: SymbolListDataSource = datasource
+
+  def append(self, item):
+    list.append(self, item)
+    self.datasource.reload()
+
+  def __setitem__(self, key, value):
+    list.__setitem__(self, key, value)
+    self.datasource.reload()
+
+  def __delitem__(self, key):
+    list.__delitem__(self, key)
+    self.datasource.reload()
+
+  def __setslice__(self, i, j, seq):
+    list.__setslice__(self, i, j, seq)
+    self.datasource.reload()
+
+  def __delslice__(self, i, j):
+    list.__delslice__(self, i, j)
+    self.datasource.reload()
+
+
+class SymbolListDataSource(object):
+
+  def __init__(self, items=None):
+    self.tableview: ui.TableView = None
+    self.reload_disabled = False
+    self.delete_enabled = True
+    self.move_enabled = False
+
+    self.action = None
+    self.edit_action = None
+    self.accessory_action = None
+
+    self.tapped_accessory_row = -1
+    self.selected_row = -1
+
+    if items is not None:
+      self.items = items
+    else:
+      self.items = SymbolListDataSourceList([])
+    self.text_color = None
+    self.highlight_color = None
+    self.font = None
+    self.number_of_lines = 1
+
+  def reload(self):
+    if self.tableview and not self.reload_disabled:
+      self.tableview.reload()
+
+  @property
+  def items(self):
+    return self._items
+
+  @items.setter
+  def items(self, value):
+    self._items = SymbolListDataSourceList(value, self)
+    self.reload()
+
+  def tableview_number_of_sections(self, tv):
+    self.tableview = tv
+    return 1
+
+  def tableview_number_of_rows(self, tv, section):
+    return len(self.items)
+
+  def tableview_accessory_button_tapped(self, tv, section, row):
+    self.tapped_accessory_row = row
+    if self.accessory_action:
+      self.accessory_action(self)
+
+  def tableview_did_select(self, tv, section, row):
+    self.selected_row = row
+    if self.action:
+      self.action(self)
+
+  def tableview_cell_for_row(self, tv, section, row):
+    item = self.items[row]
+    # xxx: `dict` type で決め打ち
+
+    cell = ui.TableViewCell()
+    x, y, w, h = cell.content_view.frame
+    center_x, center_y = cell.content_view.center
+    x_margin = h * 0.5
+    y_margin = x_margin / 2
+
+    icon_size = h - x_margin
+
+    img_frame = (x_margin, y_margin, icon_size, icon_size)
+    image_view = ui.ImageView(frame=img_frame)
+    image_view.image = item.get('image', None)
+    image_view.content_mode = 1
+    image_view.bg_color = 'maroon'
+
+    label_frame = (x_margin + h, y_margin, w, icon_size)
+
+    label = ui.Label(frame=label_frame)
+    label.text = item.get('title', '')
+    #label.font = ('.SFUI-Regular', 14.0)  #xxx: from `ui.ListDataSource` font
+    label.bg_color = 'cyan'
+    label.number_of_lines = self.number_of_lines
+
+    cell.content_view.add_subview(image_view)
+    cell.content_view.add_subview(label)
+    #self.cell = cell
+    return cell
+
+
 class IconTableView(ui.View):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
-
     self.search_field: ui.TextField()
     self.symbol_table: ui.TableView()
-
     self.set_up()
 
   def set_up(self):
     self.bg_color = 'cyan'
 
     self.init_search_field()
+    self.init_symbol_table()
     self.add_subview(self.search_field)
+    self.add_subview(self.symbol_table)
 
   def init_search_field(self):
     self.search_field = ui.TextField()
@@ -135,12 +248,28 @@ class IconTableView(ui.View):
     self.search_field.placeholder = 'search symbol name'
 
   def init_symbol_table(self):
-    pass
+    self.order_list = get_order_list()
+    self.order_list.sort()
+    self.icons = self.order_list[:len(all_items)]
+    self.source_items = [{
+      'title': _name,
+      'image': get_symbo_icon(_icon)
+    } for _name, _icon in zip(all_items, self.icons)]
+
+    self.symbol_data_source = SymbolListDataSource(self.source_items)
+    self.symbol_table = ui.TableView()
+    self.symbol_table.flex = 'W'
+    self.symbol_table.data_source = self.symbol_data_source
 
   def layout(self):
     _, _, w, h = self.frame
     margin = h * 0.01
-    self.search_field.y = margin
+
+    table_margin = self.search_field.height + margin
+    self.symbol_table.y = table_margin
+    self.symbol_table.height = h - table_margin
+
+    #self.search_field.y = margin
 
 
 class MainView(ui.View):
