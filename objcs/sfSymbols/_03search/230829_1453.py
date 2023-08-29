@@ -87,6 +87,7 @@ class SearchTextFieldDelegate(object):
     return True
 
   def textfield_did_change(self, textfield):
+    # xxx: ここ使う
     print(f'6.did_change:{textfield}')
     print(f'text:{textfield.text}\n')
 
@@ -194,7 +195,6 @@ class SymbolListDataSource(object):
   def tableview_cell_for_row(self, tv, section, row):
     item = self.items[row]
     # xxx: `dict` type で決め打ち
-
     cell = ui.TableViewCell()
     x, y, w, h = cell.content_view.frame
     center_x, center_y = cell.content_view.center
