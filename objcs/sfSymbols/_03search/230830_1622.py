@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 import plistlib
 
@@ -178,6 +179,7 @@ class SearchTextFieldDelegate(object):
   def __init__(self, data_source: SymbolListDataSource):
     self.data_source = data_source
     self.all_items = self.data_source.items[:]
+    self.select_items: list[dict[str, ui.Image] | None]
 
   def textfield_should_begin_editing(self, textfield):
     #print(f'1.should_begin:{textfield}\n')
@@ -206,6 +208,12 @@ class SearchTextFieldDelegate(object):
 
   def textfield_did_change(self, textfield):
     # xxx: ここ使う
+    _text = textfield.text
+    prog = re.compile(_text, flags=re.IGNORECASE)
+    self.select_items = [
+      item for item in self.all_items if prog.search(item['title'])
+    ]
+    self.data_source.items = self.select_items
     print(f'6.did_change:{textfield}')
     print(f'text:{textfield.text}\n')
 

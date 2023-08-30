@@ -29,9 +29,9 @@ all_items = [
   'P',
 ]
 
-
-repatter = re.compile('pl',flags=re.IGNORECASE)
+repatter = re.compile('pl', flags=re.IGNORECASE)
 
 for n in all_items:
   result = repatter.search(n)
   print(f'{n}:{result}')
+
