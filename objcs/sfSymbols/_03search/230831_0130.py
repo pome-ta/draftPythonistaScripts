@@ -153,40 +153,28 @@ class SearchTextFieldDelegate(object):
     self.select_items: list[dict[str, ui.Image] | None]
 
   def textfield_should_begin_editing(self, textfield):
-    #print(f'1.should_begin:{textfield}\n')
     return True
 
   def textfield_did_begin_editing(self, textfield):
-    #print(f'2.did_begin:{textfield}\n')
     pass
 
   def textfield_did_end_editing(self, textfield):
-    #print(f'3.did_end:{textfield}\n')
     pass
 
   def textfield_should_return(self, textfield):
     textfield.end_editing()
-    #print(f'4.should_return:{textfield}\n')
     return True
 
   def textfield_should_change(self, textfield, range, replacement):
-    '''
-    print(
-      f'5.should_change:{textfield}, range:{range}, replacement:{replacement}')
-    print(f'text:{textfield.text}\n')
-    '''
     return True
 
   def textfield_did_change(self, textfield):
-    # xxx: ここ使う
     _text = textfield.text
     prog = re.compile(_text, flags=re.IGNORECASE)
     self.select_items = [
       item for item in self.all_items if prog.search(item['title'])
     ]
     self.data_source.items = self.select_items
-    #print(f'6.did_change:{textfield}')
-    #print(f'text:{textfield.text}\n')
 
 
 class IconTableView(ui.View):
@@ -204,18 +192,12 @@ class IconTableView(ui.View):
     self.search_field = self.create_search_field()
     self.symbol_table = self.create_symbol_table()
 
-    self.order_list = get_order_list()
-    self.order_list.sort()
-    '''
-    self.icons = self.order_list[:len(all_items)]
-    self.source_items = [{
-      'title': _name,
-      'image': get_symbo_icon(_icon)
-    } for _name, _icon in zip(all_items, self.icons)]
-    '''
+    order_list = get_order_list()
+    order_list.sort()
 
-    self.source_items = [name2symbol(name) for name in self.order_list]
-    #self.source_items = [name2symbol(name) for name in self.order_list[:52]]
+    self.source_items = [name2symbol(name) for name in order_list]
+
+    #self.source_items = [name2symbol(name) for name in order_list[:52]]
 
     self.symbol_data_source = SymbolListDataSource(self.source_items)
 
@@ -245,16 +227,15 @@ class IconTableView(ui.View):
   def layout(self):
     _, _, w, h = self.frame
     # xxx: あとでサイズとかやる
-    self.search_field.width = w * 0.92
-    self.search_field.x = (w - self.search_field.width) / 2
-
     margin = h * 0.01
 
-    table_margin = self.search_field.height + margin
+    self.search_field.width = w * 0.92
+    self.search_field.x = (w - self.search_field.width) / 2
+    self.search_field.y = margin
+
+    table_margin = self.search_field.height + margin * 2
     self.symbol_table.y = table_margin
     self.symbol_table.height = h - table_margin
-
-    #self.search_field.y = margin
 
 
 class MainView(ui.View):
@@ -270,12 +251,11 @@ class MainView(ui.View):
 
   def layout(self):
     _, _, w, h = self.frame
-
-    self.icon_table.height = h - 48  # `TabView` margin
+    self.icon_table.height = h - 64  # `TabView` margin
 
 
 if __name__ == '__main__':
   view = MainView()
-  #view.present(style='fullscreen', orientations=['portrait'])
-  view.present(style='fullscreen')
+  view.present(style='fullscreen', orientations=['portrait'])
+  #view.present(style='fullscreen')
 
