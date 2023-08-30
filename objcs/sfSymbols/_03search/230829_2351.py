@@ -60,7 +60,6 @@ def get_order_list():
   return order_list
 
 
-
 class SymbolListDataSourceList(list):
 
   def __init__(self, seq, datasource):
@@ -174,15 +173,11 @@ class SymbolListDataSource(object):
     return cell
 
 
-
-
-
 class SearchTextFieldDelegate(object):
 
-  def __init__(self, data_source:SymbolListDataSource):
+  def __init__(self, data_source: SymbolListDataSource):
     self.data_source = data_source
     self.all_items = self.data_source.items[:]
-    
 
   def textfield_should_begin_editing(self, textfield):
     #print(f'1.should_begin:{textfield}\n')
@@ -215,26 +210,6 @@ class SearchTextFieldDelegate(object):
     print(f'text:{textfield.text}\n')
 
 
-class SearchField(ui.View):
-
-  def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    self.bg_color = 1
-    self.bar = ui.TextField()
-    self.bar.delegate = SearchTextFieldDelegate()
-    self.bar.clear_button_mode = 'always'
-    self.bar.placeholder = 'search symbol name'
-    self.add_subview(self.bar)
-
-  def layout(self):
-    _, _, w, h = self.frame
-    # xxx: サイズ調整は仮
-    self.bar.width = w * 0.88
-    self.bar.height = h * 0.64
-    self.bar.center = self.center
-
-
-
 class IconTableView(ui.View):
 
   def __init__(self, *args, **kwargs):
@@ -259,12 +234,11 @@ class IconTableView(ui.View):
     } for _name, _icon in zip(all_items, self.icons)]
 
     self.symbol_data_source = SymbolListDataSource(self.source_items)
-    
-    
-    self.search_field.delegate = SearchTextFieldDelegate(self.symbol_data_source)
-    
+
+    self.search_field.delegate = SearchTextFieldDelegate(
+      self.symbol_data_source)
+
     self.symbol_table.data_source = self.symbol_data_source
-    
 
     self.add_subview(self.search_field)
     self.add_subview(self.symbol_table)
