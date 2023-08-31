@@ -6,8 +6,8 @@ import pdbg
 UIView = ObjCClass('UIView')
 UIViewController = ObjCClass('UIViewController')
 
-
-uiview = UIView.new().initWithFrame_(((0.0, 0.0), (200.0, 120.0))).autorelease()
+uiview = UIView.new().initWithFrame_(
+  ((0.0, 0.0), (200.0, 120.0))).autorelease()
 uiview.setAutoresizingMask_((1 << 1) | (1 << 4))
 #pdbg.state(uiview)
 
