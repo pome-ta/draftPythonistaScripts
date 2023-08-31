@@ -129,7 +129,7 @@ class SymbolListDataSource(object):
     image_view = ui.ImageView(frame=img_frame)
     image_view.image = item.get('image', None)
     image_view.content_mode = 1
-    #image_view.bg_color = 'maroon'
+    image_view.bg_color = 'maroon'
 
     label_frame = (x_margin + h, y_margin, w, icon_size)
 
@@ -176,19 +176,6 @@ class SearchTextFieldDelegate(object):
     ]
     self.data_source.items = self.select_items
 
-class IconTableViewDelegate(object):
-
-  def tableview_did_select(self, tv: ui.TableView, section: int, row: int):
-    #print(dir(tableview))
-    #print(f'tableview:{tableview}\nsection:{section}\nrow:{row}')
-    source = tv.data_source.items[row]
-    title = source['title']
-    print(title)
-
-
-
-
-
 
 class IconTableView(ui.View):
 
@@ -208,9 +195,9 @@ class IconTableView(ui.View):
     order_list = get_order_list()
     order_list.sort()
 
-    #self.source_items = [name2symbol(name) for name in order_list]
+    self.source_items = [name2symbol(name) for name in order_list]
 
-    self.source_items = [name2symbol(name) for name in order_list[:52]]
+    #self.source_items = [name2symbol(name) for name in order_list[:52]]
 
     self.symbol_data_source = SymbolListDataSource(self.source_items)
 
