@@ -8,6 +8,11 @@ UIView = ObjCClass('UIView')
 UIViewController = ObjCClass('UIViewController')
 
 
+class ObjcView (object):
+  def __init__(self):
+    pass
+
+'''
 class ObjcView(ui.View):
 
   def __init__(self, parent_frame: tuple[float, float, float, float], *args,
@@ -27,7 +32,7 @@ class ObjcView(ui.View):
     #pdbg.state(self.ground_view)
 
     self.objc_instance.addSubview_(self.ground_view)
-
+'''
 
 class PyView(ui.View):
 
