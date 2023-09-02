@@ -7,6 +7,9 @@ UIColor = ObjCClass('UIColor')
 UIView = ObjCClass('UIView')
 
 
+pdbg.state(UIView.new())
+
+
 class PyView(ui.View):
 
   def __init__(self, *args, **kwargs):
@@ -22,6 +25,6 @@ class PyView(ui.View):
 
 if __name__ == '__main__':
   view = PyView()
-  view.present(style='fullscreen', orientations=['portrait'])
+  #view.present(style='fullscreen', orientations=['portrait'])
   #view.present()
 
