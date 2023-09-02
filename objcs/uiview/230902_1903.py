@@ -1,4 +1,4 @@
-from objc_util import ObjCClass,ObjCInstance
+from objc_util import ObjCClass, ObjCInstance
 import ui
 
 import pdbg
@@ -6,7 +6,6 @@ import pdbg
 UIColor = ObjCClass('UIColor')
 UIView = ObjCClass('UIView')
 UIViewController = ObjCClass('UIViewController')
-
 
 #pdbg.state(UIViewController.new())
 view = ui.View()
