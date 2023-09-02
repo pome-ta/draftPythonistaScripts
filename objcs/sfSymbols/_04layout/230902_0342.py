@@ -8,9 +8,20 @@ UIView = ObjCClass('UIView')
 UIViewController = ObjCClass('UIViewController')
 
 
-class ObjcView (object):
-  def __init__(self):
-    pass
+class ObjcView(object):
+
+  def __init__(self, parent_frame: tuple[float, float, float, float]):
+    _, _, w, h = parent_frame
+    _frame = ((0.0, 0.0), (w, h))
+
+    self.view = UIView.new()
+    self.view.initWithFrame_(_frame)
+    self.view.backgroundColor = UIColor.redColor()
+    #self.view.setAutoresizingMask_((1 << 1) | (1 << 4))
+    self.view.autorelease()
+    
+    
+
 
 '''
 class ObjcView(ui.View):
@@ -34,20 +45,19 @@ class ObjcView(ui.View):
     self.objc_instance.addSubview_(self.ground_view)
 '''
 
+
 class PyView(ui.View):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
+    self.bg_color = 'cyan'
     #self.present(style='fullscreen', orientations=['portrait'])
 
-    self.objc_view: ui.View = ObjcView(self.frame)
-    #self.objc_view.flex = 'WH'
+    self.objc_view = ObjcView(self.frame)
+    self.objc_instance.addSubview_(self.objc_view.view)
 
-    self.add_subview(self.objc_view)
-    #self.present()
-
+    
   def layout(self):
-    #pdbg.state(self.objc_view.ground_view)
     _, _, w, h = self.frame
 
     #self.objc_view.width = w
