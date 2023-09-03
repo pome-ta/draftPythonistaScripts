@@ -9,6 +9,6 @@ UIViewController = ObjCClass('UIViewController')
 
 #pdbg.state(UIViewController.new())
 view = ui.View()
-#pdbg.state(ObjCInstance(view))
-pdbg.state(UIView.new())
+pdbg.state(ObjCInstance(view))
+#pdbg.state(UIView.new())
 
