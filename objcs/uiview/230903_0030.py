@@ -1,4 +1,4 @@
-from objc_util import ObjCClass, ObjCInstance
+from objc_util import ObjCClass, ObjCInstance,on_main_thread
 import ui
 
 import pdbg
@@ -6,9 +6,7 @@ import pdbg
 UIColor = ObjCClass('UIColor')
 UIView = ObjCClass('UIView')
 
-#pdbg.state(UIView.new())
-
-
+#@on_main_thread
 class ObjcUI(object):
 
   def __init__(self):
@@ -23,7 +21,10 @@ class ObjcUI(object):
     self.layout()
 
   def layout(self):
-    self.view.setAutoresizingMask_((1 << 1) | (1 << 4))
+    #self.view.setAutoresizingMask_((1 << 1) | (1 << 4))
+    self.view.setAutoresizingMask_(18)
+
+
 
 
 class PyView(ui.View):
@@ -43,10 +44,11 @@ class PyView(ui.View):
     self.objc_view = ObjcUI()
     #pdbg.state(ObjCInstance(self.objc_view))
     self.objc_instance.addSubview_(self.objc_view.view)
+    pdbg.state(self.objc_view.view)
 
   def layout(self):
     self.objc_view.layout()
-    pdbg.state(self.objc_view.view)
+    #pdbg.state(self.objc_view.view)
 
 
 if __name__ == '__main__':
