@@ -13,9 +13,17 @@ class ObjcUI(object):
 
   def __init__(self):
     self.view = UIView.new()
+    self.viewDidLoad()
 
   def viewDidLoad(self):
-    pass
+    frame = ((0.0, 0.0), (256.0, 256.0))
+    self.view.initWithFrame_(frame)
+    self.view.backgroundColor = UIColor.redColor()
+    self.view.autorelease()
+    self.layout()
+
+  def layout(self):
+    self.view.setAutoresizingMask_((1 << 1) | (1 << 4))
 
 
 class PyView(ui.View):
@@ -29,11 +37,16 @@ class PyView(ui.View):
     #self.add_subview(self.ground)
     #pdbg.state(self.ground.objc_instance)
 
-    print(self.ground.objc_instance.autoresizingMask())
-    print(self.ground.objc_instance.autoresizesSubviews())
-    self.objc_instance.addSubview_(self.ground.objc_instance)
+    #print(self.ground.objc_instance.autoresizingMask())
+    #print(self.ground.objc_instance.autoresizesSubviews())
+    #self.objc_instance.addSubview_(self.ground.objc_instance)
     self.objc_view = ObjcUI()
     #pdbg.state(ObjCInstance(self.objc_view))
+    self.objc_instance.addSubview_(self.objc_view.view)
+
+  def layout(self):
+    self.objc_view.layout()
+    pdbg.state(self.objc_view.view)
 
 
 if __name__ == '__main__':

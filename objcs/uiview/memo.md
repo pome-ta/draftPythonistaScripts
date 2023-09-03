@@ -16,6 +16,10 @@
 - `stringRepresentation`
 - `willDismiss`
 
+## `setAutoresizingMask_`
+
+`frame = (0 0; 314 704); autoresize = W+H;`
+
 # 📝 2023/09/02
 
 `UIView` やら、`UIViewController` の調査
