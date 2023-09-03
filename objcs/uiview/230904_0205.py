@@ -3,8 +3,9 @@ import ui
 
 import pdbg
 
-UIColor = ObjCClass('UIColor')
 UIView = ObjCClass('UIView')
+UISearchBar = ObjCClass('UISearchBar')
+UIColor = ObjCClass('UIColor')
 
 
 class ObjcUI(object):
