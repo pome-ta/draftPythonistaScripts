@@ -22,26 +22,31 @@ class ObjcUI(object):
     self.view.backgroundColor = UIColor.redColor()
     self.view.autorelease()
 
-    
     self.sb = UISearchBar.new()
     self.sb.setFrame_(frame)
-    self.sb.searchBarStyle = 4
+    # [UISearchBarStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uisearchbarstyle?language=objc)
+    '''
+    0 : UISearchBarStyleDefault
+    1 : UISearchBarStyleProminent
+    2 : UISearchBarStyleMinimal
+    '''
+    # xxx: `UISearchBarStyleMinimal` 以外落ちる
+    self.sb.searchBarStyle = 2
     self.sb.placeholder = 'ほげ☺️'
     self.sb.setAutoresizingMask_(1 << 1)
     self.sb.autorelease()
-    
+
     #pdbg.state(self.sb)
 
     self.view_w = UIView.new()
     self.view_w.setFrame_(frame)
 
     self.view_w.setAutoresizingMask_(1 << 1)
-    self.view_w.backgroundColor = UIColor.blueColor()
+    self.view_w.backgroundColor = UIColor.cyanColor()
     self.view_w.autorelease()
 
     self.view.addSubview_(self.view_w)
     self.view.addSubview_(self.sb)
-    
 
 
 class PyView(ui.View):
