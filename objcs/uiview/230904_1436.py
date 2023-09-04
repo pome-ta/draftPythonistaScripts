@@ -1,4 +1,4 @@
-from objc_util import ObjCClass, ObjCInstance, on_main_thread
+from objc_util import ObjCClass
 import ui
 
 import pdbg
@@ -13,17 +13,19 @@ class ObjcUI(object):
   def __init__(self):
     self.view = UIView.new()
     self.viewDidLoad()
+    #self.view.addSubview_(self.view_w)
+    self.view.addSubview_(self.sb)
 
   def viewDidLoad(self):
     frame = ((0.0, 0.0), (100.0, 100.0))
     self.view.setFrame_(frame)
     self.view.setAutoresizingMask_((1 << 1) | (1 << 4))
-    #self.view.setAutoresizingMask_(1 << 1)
     self.view.backgroundColor = UIColor.redColor()
     self.view.autorelease()
 
     self.sb = UISearchBar.new()
     self.sb.setFrame_(frame)
+    self.sb.backgroundColor = UIColor.cyanColor()
     # [UISearchBarStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uisearchbarstyle?language=objc)
     '''
     0 : UISearchBarStyleDefault
@@ -33,22 +35,19 @@ class ObjcUI(object):
     # xxx: `UISearchBarStyleMinimal` 以外落ちる
     self.sb.searchBarStyle = 2
     self.sb.placeholder = 'ほげ☺️'
-    self.sb.size = (100.0, 48.0)
-    self.sb.backgroundColor = UIColor.cyanColor()
+    self.sb.size = (100.0, 56.0)
+
     self.sb.setAutoresizingMask_(1 << 1)
     self.sb.autorelease()
 
-    pdbg.state(self.sb)
-
     self.view_w = UIView.new()
     self.view_w.setFrame_(frame)
-
     self.view_w.setAutoresizingMask_(1 << 1)
     self.view_w.backgroundColor = UIColor.cyanColor()
     self.view_w.autorelease()
 
-    #self.view.addSubview_(self.view_w)
-    self.view.addSubview_(self.sb)
+  def layout(self):
+    pass
 
 
 class PyView(ui.View):
@@ -71,6 +70,7 @@ class PyView(ui.View):
 
 if __name__ == '__main__':
   view = PyView()
-  view.present(style='fullscreen', orientations=['portrait'])
+  #view.present(style='fullscreen', orientations=['portrait'])
+  view.present(style='fullscreen')
   #view.present()
 
