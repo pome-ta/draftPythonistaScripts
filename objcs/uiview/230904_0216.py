@@ -7,8 +7,6 @@ UIView = ObjCClass('UIView')
 UISearchBar = ObjCClass('UISearchBar')
 UIColor = ObjCClass('UIColor')
 
-sb = UISearchBar.new()
-
 
 class ObjcUI(object):
 
@@ -20,8 +18,25 @@ class ObjcUI(object):
     frame = ((0.0, 0.0), (100.0, 100.0))
     self.view.setFrame_(frame)
     self.view.setAutoresizingMask_((1 << 1) | (1 << 4))
+    #self.view.setAutoresizingMask_(1 << 1)
     self.view.backgroundColor = UIColor.redColor()
     self.view.autorelease()
+
+    self.sb = UISearchBar.new()
+    self.sb.setFrame_(frame)
+    self.sb.setAutoresizingMask_(1 << 1)
+    self.sb.autorelease()
+    #pdbg.state(self.sb)
+
+    self.view_w = UIView.new()
+    self.view_w.setFrame_(frame)
+
+    self.view_w.setAutoresizingMask_(1 << 1)
+    self.view_w.backgroundColor = UIColor.blueColor()
+    self.view_w.autorelease()
+
+    #self.view.addSubview_(self.sb)
+    self.view.addSubview_(self.view_w)
 
 
 class PyView(ui.View):
@@ -39,7 +54,7 @@ class PyView(ui.View):
     width = size.width
     height = size.height
     #pdbg.state(size)
-    print(width, height)
+    #print(width, height)
 
 
 if __name__ == '__main__':
