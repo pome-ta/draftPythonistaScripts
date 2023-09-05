@@ -10,23 +10,28 @@ UISearchBar = ObjCClass('UISearchBar')
 
 
 def searchBar_textDidChange_(_self, _cmd, _searchBar, _searchText):
+  print('h')
   pass
 
 
 def searchBar_shouldChangeTextInRange_replacementText_(_self, _cmd, _searchBar,
                                                        _range, _text):
+  print('h')
   return 1
 
 
 def searchBarShouldBeginEditing_(_self, _cmd, _searchBar):
+  print('h')
   return 1
 
 
 def searchBarTextDidBeginEditing_(_self, _cmd, _searchBar):
+  print('h')
   pass
 
 
 def searchBarShouldEndEditing_(_self, _cmd, _searchBar):
+  print('h')
   return 1
 
 
@@ -57,11 +62,18 @@ class MainView(ui.View):
     super().__init__(*args, **kwargs)
     self.update()
 
-  @ui.in_background
+  #@ui.in_background
   def update(self):
     _frame = ((0.0, 0.0), (320.0, 128.0))
     #self.sb = UISearchBar.alloc().initWithFrame_(_frame).autorelease()
-    self.sb = UISearchBar.new().autorelease()
+    self.sb = UISearchBar.new()  #.autorelease()
+    frame = ((0.0, 0.0), (100.0, 100.0))
+    self.sb.setFrame_(frame)
+    self.sb.searchBarStyle = 2
+    self.sb.placeholder = 'ほげ☺️'
+    self.sb.size = (100.0, 56.0)
+
+    self.sb.setAutoresizingMask_(1 << 1)
     #self.sb.setFrame_(_frame)#.autorelease()
 
     self.sb.setDelegate_(delegate)

@@ -23,6 +23,7 @@ class SearchTableViewController(object):
 
   def searchBar(self):
     # --- `UISearchBarDelegate` Methods
+    '''
     def searchBar_textDidChange_(_self, _cmd, _searchBar, _searchText) -> None:
       print(f'01 : searchBar_textDidChange_')
       pass
@@ -47,21 +48,51 @@ class SearchTableViewController(object):
     def searchBarTextDidEndEditing_(_self, _cmd, _searchBar) -> None:
       print(f'06 : searchBarTextDidEndEditing_')
       pass
+    '''
 
+    def searchBar_textDidChange_(_self, _cmd, _searchBar, _searchText):
+      print('h')
+      pass
+    
+    
+    def searchBar_shouldChangeTextInRange_replacementText_(_self, _cmd, _searchBar,
+                                                           _range, _text):
+      print('h')
+      return 1
+    
+    
+    def searchBarShouldBeginEditing_(_self, _cmd, _searchBar):
+      print('h')
+      return 1
+    
+    
+    def searchBarTextDidBeginEditing_(_self, _cmd, _searchBar):
+      print('h')
+      pass
+    
+    
+    def searchBarShouldEndEditing_(_self, _cmd, _searchBar):
+      print('h')
+      return 1
+    
+    
+    def searchBarTextDidEndEditing_(_self, _cmd, _searchBar):
+      pass
+    
+    
     _methods = [
       searchBar_textDidChange_,
-      #searchBar_shouldChangeTextInRange_replacementText_,
-      #searchBarShouldBeginEditing_,
-      #searchBarTextDidBeginEditing_,
-      #searchBarShouldEndEditing_,
-      #searchBarTextDidEndEditing_,
+      searchBar_shouldChangeTextInRange_replacementText_,
+      searchBarShouldBeginEditing_,
+      searchBarTextDidBeginEditing_,
+      searchBarShouldEndEditing_,
+      searchBarTextDidEndEditing_,
     ]
+    _protocols = ['UISearchBarDelegate']
 
     SearchBarDelegate = create_objc_class(name='SearchBarDelegate',
                                           methods=_methods,
-                                          protocols=[
-                                            'UISearchBarDelegate',
-                                          ])
+                                          protocols=_protocols)
     self._searchBar_delegate = SearchBarDelegate.new()
 
 
