@@ -74,14 +74,43 @@ class SearchTableViewController(object):
     self._searchBar_delegate = searchBar_delegate.new()
 
 
-class ObjcUI(object):
+class ObjcControlView(object):
 
   def __init__(self):
     self.view = UIView.new()
+
+    self.search_bar: 'UISearchBar'
+    self.table_view: 'UITableView'
+
     self.controllers = SearchTableViewController()
     self.viewDidLoad()
-    #self.view.addSubview_(self.view_w)
-    self.view.addSubview_(self.sb)
+
+    self.view.addSubview_(self.search_bar)
+
+  def init_UISearchBar(self):
+    frame = ((0.0, 0.0), (100.0, 100.0))
+    self.search_bar = UISearchBar.new()
+    self.search_bar.setFrame_(frame)
+    self.search_bar.backgroundColor = UIColor.cyanColor()
+    # [UISearchBarStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uisearchbarstyle?language=objc)
+    '''
+    0 : UISearchBarStyleDefault
+    1 : UISearchBarStyleProminent
+    2 : UISearchBarStyleMinimal
+    '''
+    # xxx: `UISearchBarStyleMinimal=2` 以外落ちる
+    self.search_bar.searchBarStyle = 2
+    self.search_bar.placeholder = 'ほげ☺️'
+    self.search_bar.size = (100.0, 56.0)
+
+    self.search_bar.setAutoresizingMask_(1 << 1)
+    self.search_bar.delegate = self.controllers.searchBar_delegate
+    self.search_bar.autorelease()
+
+  def init_UITableView(self):
+    frame = ((0.0, 0.0), (100.0, 100.0))
+    self.table_view = UITableView.new()
+    pdbg.state(self.table_view)
 
   def viewDidLoad(self):
     frame = ((0.0, 0.0), (100.0, 100.0))
@@ -90,29 +119,8 @@ class ObjcUI(object):
     self.view.backgroundColor = UIColor.redColor()
     self.view.autorelease()
 
-    self.sb = UISearchBar.new()
-    self.sb.setFrame_(frame)
-    self.sb.backgroundColor = UIColor.cyanColor()
-    # [UISearchBarStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uisearchbarstyle?language=objc)
-    '''
-    0 : UISearchBarStyleDefault
-    1 : UISearchBarStyleProminent
-    2 : UISearchBarStyleMinimal
-    '''
-    # xxx: `UISearchBarStyleMinimal` 以外落ちる
-    self.sb.searchBarStyle = 2
-    self.sb.placeholder = 'ほげ☺️'
-    self.sb.size = (100.0, 56.0)
-
-    self.sb.setAutoresizingMask_(1 << 1)
-    self.sb.delegate = self.controllers.searchBar_delegate
-    self.sb.autorelease()
-
-    self.view_w = UIView.new()
-    self.view_w.setFrame_(frame)
-    self.view_w.setAutoresizingMask_(1 << 1)
-    self.view_w.backgroundColor = UIColor.cyanColor()
-    self.view_w.autorelease()
+    self.init_UISearchBar()
+    self.init_UITableView()
 
   def layout(self):
     pass
@@ -124,7 +132,7 @@ class PyView(ui.View):
     super().__init__(*args, **kwargs)
     self.bg_color = 'maroon'
 
-    self.objc_view = ObjcUI()
+    self.objc_view = ObjcControlView()
     self.objc_instance.addSubview_(self.objc_view.view)
 
   def layout(self):
