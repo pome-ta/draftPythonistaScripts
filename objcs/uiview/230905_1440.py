@@ -1,4 +1,4 @@
-from objc_util import ObjCClass, create_objc_class
+from objc_util import ObjCClass, ObjCInstance, create_objc_class
 import ui
 
 import pdbg
@@ -46,7 +46,17 @@ class SearchTableViewController(object):
 
     def searchBarTextDidEndEditing_(_self, _cmd, _searchBar):
       print(f'06 : searchBarTextDidEndEditing_')
-      pass
+      #searchBar = ObjCInstance(_searchBar)
+      #searchBar.endEditing_(True)
+      #pdbg.state(searchBar)
+      #searchBar.resignFirstResponder()
+
+    def searchBarSearchButtonClicked_(_self, _cmd, _searchBar):
+      print(f'07 : searchBarSearchButtonClicked_')
+      searchBar = ObjCInstance(_searchBar)
+      #searchBar.endEditing_(True)
+      #pdbg.state(searchBar)
+      searchBar.resignFirstResponder()
 
     _methods = [
       searchBar_textDidChange_,
@@ -55,6 +65,7 @@ class SearchTableViewController(object):
       searchBarTextDidBeginEditing_,
       searchBarShouldEndEditing_,
       searchBarTextDidEndEditing_,
+      searchBarSearchButtonClicked_,
     ]
     _protocols = ['UISearchBarDelegate']
 
@@ -97,7 +108,6 @@ class ObjcUI(object):
     self.sb.setAutoresizingMask_(1 << 1)
     self.sb.delegate = self.controllers.searchBar_delegate
     self.sb.autorelease()
-    pdbg.state(self.sb)
 
     self.view_w = UIView.new()
     self.view_w.setFrame_(frame)
