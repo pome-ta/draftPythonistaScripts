@@ -1,4 +1,4 @@
-from objc_util import ObjCClass, ObjCInstance, create_objc_class
+from objc_util import ObjCClass, ObjCInstance, create_objc_class,on_main_thread
 import ui
 
 import pdbg
@@ -41,30 +41,52 @@ class TableViewController(object):
   def __init__(self, items: list = []):
     self.items = items
     self._tableData_source: 'UITableViewDataSource'
+    self.i = 0
     self.init_tableData_source()
 
   @property
   def tableData_source(self):
     return self._tableData_source
 
+  @on_main_thread
   def init_tableData_source(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
       #raise Exception
       #return len(self.items)
       #print('h')
+      tableView = ObjCInstance(_tableView)
+
+      cell = None
+      try:
+        cell = tableView.dequeueReusableCell_withIdentifier_for_('cell', 0)
+      except:
+        _cell = UITableViewCell.new()
+        cell = _cell.initWithStyle_reuseIdentifier_(0, 'cell')
+
+      if self.i:
+        #pdbg.state(tableView)
+        pdbg.state(cell.textLabel().text)
+        
+      self.i += 1
+
       return 1
 
+    #@on_main_thread
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
-      #tableView = ObjCInstance(tableView)
-      #cell: 'UITableViewCell'
-      #print('h')
-      #cell = tableView.dequeueReusableCell_withIdentifier_for_('cell', _indexPath) if
+      tableView = ObjCInstance(tableView)
+      indexPath = ObjCInstance(_indexPath)
+      cell: 'UITableViewCell'
+      try:
+        cell = tableView.dequeueReusableCell_withIdentifier_for_(
+          'cell', indexPath)
+      except:
+        _cell = UITableViewCell.new()
+        cell = _cell.initWithStyle_reuseIdentifier_(0, 'cell')
+        
+      #cell.textLabel().text = self.items[indexPath.row()]
 
-      #cell = tableView.dequeueReusableCell_withIdentifier_for_()
-      #dequeueReusableCellWithIdentifier_forIndexPath_
-      #return UITableViewCell.new().initWithStyle_reuseIdentifier_(0, 'cell')
-      return
+      return cell
 
     # --- `UITableViewDataSource` set up
     _methods = [
