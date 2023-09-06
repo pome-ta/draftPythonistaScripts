@@ -1,7 +1,12 @@
-from objc_util import ObjCInstance
+from objc_util import ObjCClass,ObjCInstance
 import ui
 
 import pdbg
+
+NSIndexPath = ObjCClass('NSIndexPath')
+idx = NSIndexPath.indexPathForRow_inSection_(0,0)
+
+#pdbg.state(idx)
 
 all_items = [
   'Swift',
@@ -45,7 +50,13 @@ class MainView(ui.View):
 
   def layout(self):
     _, _, w, h = self.frame
-    print(self.count)
+    if self.count:
+      tbl = self.table.objc_instance
+      cell = tbl.tableView_cellForRowAtIndexPath_(tbl,idx)
+      #tableView_cellForRowAtIndexPath_
+      #pdbg.state(self.table.objc_instance)
+      #pass
+      pdbg.all(cell)
     self.count += 1
 
 
