@@ -8,6 +8,13 @@ UITableView = ObjCClass('UITableView')
 UIColor = ObjCClass('UIColor')
 
 
+
+class TableViewController(object):
+
+  def __init__(self):
+    self._data_source: 'UITableViewDataSource'
+    
+
 class ObjcControlView(object):
 
   def __init__(self):
