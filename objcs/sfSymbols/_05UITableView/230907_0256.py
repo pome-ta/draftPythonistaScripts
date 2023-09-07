@@ -56,7 +56,7 @@ class MainView(ui.View):
       #tableView_cellForRowAtIndexPath_
       #pdbg.state(self.table.objc_instance)
       #pdbg.all(cell)
-      pdbg.state(cell.reuseIdentifier())
+      pdbg.state(cell)
     self.count += 1
 
 

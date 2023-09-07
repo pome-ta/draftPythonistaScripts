@@ -48,7 +48,7 @@ class TableViewController(object):
   def tableData_source(self):
     return self._tableData_source
 
-  @on_main_thread
+  #@on_main_thread
   def init_tableData_source(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
@@ -59,8 +59,8 @@ class TableViewController(object):
 
       #cell = None
       try:
-        #cell = tableView.dequeueReusableCell_withIdentifier_for_('cell', 0)
-        cell = tableView.dequeueReusableCell_withIdentifier_for_(None, 0)
+        cell = tableView.dequeueReusableCell_withIdentifier_for_('cell', 0)
+        #cell = tableView.dequeueReusableCell_withIdentifier_for_(None, 0)
         print('h')
       except:
         _cell = UITableViewCell.new()
@@ -90,7 +90,8 @@ class TableViewController(object):
         _cell = UITableViewCell.new()
         cell = _cell.initWithStyle_reuseIdentifier_(0, 'cell')
       '''
-      cell = tableView.dequeueReusableCell_withIdentifier_for_(None, indexPath)
+      cell = tableView.dequeueReusableCell_withIdentifier_for_(
+        'cell', indexPath)
 
       cell.textLabel().text = self.items[indexPath.row()]
 
@@ -135,7 +136,7 @@ class ObjcControlView(object):
     # xxx: 2度`frame` 指定している。`init` からは`frame` が反映されないため
     self.table_view.setFrame_(frame)
     #self.table_view.dataSource = self.controllers.tableData_source
-    pdbg.state(self.table_view)
+    #pdbg.state(self.table_view)
     self.table_view.registerClass_forCellReuseIdentifier_(
       UITableViewCell, 'cell')
     self.table_view.setDataSource_(self.controllers.tableData_source)
