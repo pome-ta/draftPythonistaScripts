@@ -1,10 +1,10 @@
-from objc_util import ObjCClass,ObjCInstance
+from objc_util import ObjCClass, ObjCInstance
 import ui
 
 import pdbg
 
 NSIndexPath = ObjCClass('NSIndexPath')
-idx = NSIndexPath.indexPathForRow_inSection_(0,0)
+idx = NSIndexPath.indexPathForRow_inSection_(0, 0)
 
 #pdbg.state(idx)
 
@@ -52,11 +52,11 @@ class MainView(ui.View):
     _, _, w, h = self.frame
     if self.count:
       tbl = self.table.objc_instance
-      cell = tbl.tableView_cellForRowAtIndexPath_(tbl,idx)
+      cell = tbl.tableView_cellForRowAtIndexPath_(tbl, idx)
       #tableView_cellForRowAtIndexPath_
       #pdbg.state(self.table.objc_instance)
-      #pass
-      pdbg.all(cell)
+      #pdbg.all(cell)
+      pdbg.state(cell.reuseIdentifier())
     self.count += 1
 
 
