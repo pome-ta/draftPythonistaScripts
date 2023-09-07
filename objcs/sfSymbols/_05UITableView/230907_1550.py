@@ -35,6 +35,8 @@ all_items = [
   'IronPython',
 ]
 
+#pdbg.state(UITableViewCell)
+
 
 class TableViewController(object):
 
@@ -52,49 +54,20 @@ class TableViewController(object):
   def init_tableData_source(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
-      #raise Exception
-      #return len(self.items)
-      #print('h')
-      tableView = ObjCInstance(_tableView)
-
-      #cell = None
-      try:
-        cell = tableView.dequeueReusableCell_withIdentifier_for_('cell', 0)
-        #cell = tableView.dequeueReusableCell_withIdentifier_for_(None, 0)
-        print('h')
-      except:
-        _cell = UITableViewCell.new()
-        cell = _cell.initWithStyle_reuseIdentifier_(0, 'cell')
-        #cell = _cell.initWithStyle_reuseIdentifier_(0, None)
-
-      if self.i:
-        #pdbg.state(tableView)
-        #pdbg.state(cell)
-        #print('_')
-        pass
-
-      self.i += 1
-
-      return 0
+      print('h')
+      return 1
 
     #@on_main_thread
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(tableView)
       indexPath = ObjCInstance(_indexPath)
-      '''
-      cell: 'UITableViewCell'
-      try:
-        cell = tableView.dequeueReusableCell_withIdentifier_for_(
+      cell = tableView.dequeueReusableCell_withIdentifier_for_(
           'cell', indexPath)
-      except:
+      if not cell:
         _cell = UITableViewCell.new()
         cell = _cell.initWithStyle_reuseIdentifier_(0, 'cell')
-      '''
-      cell = tableView.dequeueReusableCell_withIdentifier_for_(
-        'cell', indexPath)
-
-      cell.textLabel().text = self.items[indexPath.row()]
-
+      #cell.textLabel().text = 'hoge'
+      
       return cell
 
     # --- `UITableViewDataSource` set up
