@@ -1,4 +1,4 @@
-from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
+from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread,sel
 import ui
 
 import pdbg
@@ -55,7 +55,7 @@ class TableViewController(object):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
       print('h')
-      return 1
+      return 0
 
     #@on_main_thread
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
@@ -63,10 +63,12 @@ class TableViewController(object):
       indexPath = ObjCInstance(_indexPath)
       cell = tableView.dequeueReusableCell_withIdentifier_for_(
           'cell', indexPath)
+      '''
       if not cell:
         _cell = UITableViewCell.new()
         cell = _cell.initWithStyle_reuseIdentifier_(0, 'cell')
-      #cell.textLabel().text = 'hoge'
+      '''
+      cell.textLabel().text = 'hoge'
       
       return cell
 
@@ -94,9 +96,11 @@ class ObjcControlView(object):
     self.viewDidLoad()
     self.view.addSubview_(self.table_view)
 
+  #@on_main_thread
   def init_UITableView(self):
     frame = ((0.0, 0.0), (100.0, 100.0))
     self.table_view = UITableView.new()
+    pdbg.state(self.table_view)
 
     # [UITableViewStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uitableviewstyle?language=objc)
     '''
