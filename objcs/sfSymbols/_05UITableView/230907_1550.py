@@ -100,7 +100,7 @@ class ObjcControlView(object):
   def init_UITableView(self):
     frame = ((0.0, 0.0), (100.0, 100.0))
     self.table_view = UITableView.new()
-    pdbg.state(self.table_view)
+    
 
     # [UITableViewStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uitableviewstyle?language=objc)
     '''
@@ -120,7 +120,7 @@ class ObjcControlView(object):
 
     self.table_view.setAutoresizingMask_((1 << 1) | (1 << 4))
     self.table_view.autorelease()
-    #pdbg.state(self.table_view)
+    pdbg.state(self.table_view)
     #pdbg.state(self.controllers.tableData_source)
 
   def viewDidLoad(self):
