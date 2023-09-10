@@ -60,30 +60,36 @@ class TableViewController(object):
   def init_table_dataSource(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
-      print('h')
+      #tableView = ObjCInstance(_tableView)
       return 1
 
     #@on_main_thread
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
-      tableView = ObjCInstance(tableView)
+      tableView = ObjCInstance(_tableView)
       indexPath = ObjCInstance(_indexPath)
+      
       cell = tableView.dequeueReusableCell_withIdentifier_for_(
         'cell', indexPath)
+      
       '''
       if not cell:
         _cell = UITableViewCell.new()
         cell = _cell.initWithStyle_reuseIdentifier_(0, 'cell')
       '''
+      
       cell.textLabel().text = 'hoge'
 
       return cell
+
+    def numberOfSectionsInTableView_(_self, _cmd, _tableView):
+      pass
 
     # --- `UITableViewDataSource` set up
     _methods = [
       tableView_numberOfRowsInSection_,
       tableView_cellForRowAtIndexPath_,
     ]
-    _protocols = ['UITableViewDataSource']
+    _protocols = ['UITableViewDataSource', 'UITableViewController']
 
     table_dataSource = create_objc_class(name='table_dataSource',
                                          methods=_methods,
