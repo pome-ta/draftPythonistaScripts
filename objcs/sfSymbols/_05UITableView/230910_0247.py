@@ -1,4 +1,4 @@
-from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread,sel
+from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread, sel
 import ui
 
 import pdbg
@@ -42,34 +42,34 @@ class TableViewController(object):
 
   def __init__(self, items: list = []):
     self.items = items
-    self._tableData_source: 'UITableViewDataSource'
+    self._table_dataSource: 'UITableViewDataSource'
     self.i = 0
-    self.init_tableData_source()
+    self.init_table_dataSource()
 
   @property
-  def tableData_source(self):
-    return self._tableData_source
+  def table_dataSource(self):
+    return self._table_dataSource
 
   #@on_main_thread
-  def init_tableData_source(self):
+  def init_table_dataSource(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
       print('h')
-      return 1
+      return 0
 
     #@on_main_thread
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(tableView)
       indexPath = ObjCInstance(_indexPath)
       cell = tableView.dequeueReusableCell_withIdentifier_for_(
-          'cell', indexPath)
+        'cell', indexPath)
       '''
       if not cell:
         _cell = UITableViewCell.new()
         cell = _cell.initWithStyle_reuseIdentifier_(0, 'cell')
       '''
       cell.textLabel().text = 'hoge'
-      
+
       return cell
 
     # --- `UITableViewDataSource` set up
@@ -82,7 +82,7 @@ class TableViewController(object):
     tableData_source = create_objc_class(name='tableData_source',
                                          methods=_methods,
                                          protocols=_protocols)
-    self._tableData_source = tableData_source.new()
+    self._table_dataSource = tableData_source.new()
 
 
 class ObjcControlView(object):
@@ -100,7 +100,6 @@ class ObjcControlView(object):
   def init_UITableView(self):
     frame = ((0.0, 0.0), (100.0, 100.0))
     self.table_view = UITableView.new()
-    
 
     # [UITableViewStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uitableviewstyle?language=objc)
     '''
@@ -115,9 +114,10 @@ class ObjcControlView(object):
     #self.table_view.dataSource = self.controllers.tableData_source
     #pdbg.state(self.table_view)
     #self.table_view.registerClass_forCellReuseIdentifier_(UITableViewCell, 'cell')
-    
-    on_main_thread(self.table_view.registerClass_forCellReuseIdentifier_)(UITableViewCell, 'cell')
-    self.table_view.setDataSource_(self.controllers.tableData_source)
+
+    on_main_thread(self.table_view.registerClass_forCellReuseIdentifier_)(
+      UITableViewCell, 'cell')
+    self.table_view.setDataSource_(self.controllers.table_dataSource)
 
     self.table_view.setAutoresizingMask_((1 << 1) | (1 << 4))
     self.table_view.autorelease()
