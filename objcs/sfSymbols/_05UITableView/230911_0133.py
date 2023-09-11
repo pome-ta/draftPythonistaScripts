@@ -1,4 +1,4 @@
-from objc_util import ObjCClass, ObjCInstance, create_objc_class
+from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
 import ui
 
 import pdbg
@@ -58,7 +58,7 @@ class TableViewController(object):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
       #tableView = ObjCInstance(_tableView)
-      return 1
+      return 0
 
     #
 
@@ -142,12 +142,9 @@ class ObjcControlView(object):
 
     # xxx: 2度`frame` 指定している。`init` からは`frame` が反映されないため
     self.table_view.setFrame_(frame)
-    #self.table_view.dataSource = self.controllers.tableData_source
-    #pdbg.state(self.table_view)
-    self.table_view.registerClass_forCellReuseIdentifier_(
-      UITableViewCell, 'cell')
+    #self.table_view.registerClass_forCellReuseIdentifier_(UITableViewCell, 'cell')
 
-    #on_main_thread(self.table_view.registerClass_forCellReuseIdentifier_)(UITableViewCell, 'cell')
+    on_main_thread(self.table_view.registerClass_forCellReuseIdentifier_)(UITableViewCell, 'cell')
     self.table_view.setDataSource_(self.controllers.table_dataSource)
     self.table_view.setDelegate_(self.controllers.table_delegate)
 
