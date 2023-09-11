@@ -63,11 +63,15 @@ class TableViewController(object):
   def init_table_dataSource(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
-      #tableView = ObjCInstance(_tableView)
+      #
+      tableView = ObjCInstance(_tableView)
       #return 1
-      return ns(1).integerValue()
+      #return ns(1).integerValue()
+      #print(dir(tableView))
+      #print(tableView.ptr)
+      return 1
 
-    #
+    
 
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
@@ -84,7 +88,7 @@ class TableViewController(object):
           0, cellIdentifier)
       
 
-      return cell
+      return cell.ptr
 
     def numberOfSectionsInTableView_(_self, _cmd, _tableView):
       pass
