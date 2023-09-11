@@ -1,6 +1,6 @@
 import ctypes
 
-from objc_util import c, ObjCClass, ObjCInstance, create_objc_class
+from objc_util import ObjCClass, ObjCInstance, create_objc_class
 import ui
 
 import pdbg
@@ -10,13 +10,10 @@ UITableView = ObjCClass('UITableView')
 UITableViewCell = ObjCClass('UITableViewCell')
 UIColor = ObjCClass('UIColor')
 
-NSStringFromClass = c.NSStringFromClass
-NSStringFromClass.argtypes = [ctypes.c_void_p]
-NSStringFromClass.restype = ctypes.c_void_p
-
 all_items = [
   'Swift',
   'Java',
+  'Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,',
   'Ruby',
   'C++',
   'C',
@@ -44,8 +41,9 @@ all_items = [
 
 class TableViewController(object):
 
-  def __init__(self, items: list = []):
+  def __init__(self, items: list = [], cell_identifier: str = 'cell'):
     self.items = items
+    self.cell_identifier = cell_identifier
     self._table_dataSource: 'UITableViewDataSource'
 
     self.init_table_dataSource()
@@ -57,47 +55,34 @@ class TableViewController(object):
   def init_table_dataSource(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
-      #
-      tableView = ObjCInstance(_tableView)
-      #return 1
-      #return ns(1).integerValue()
-      #print(dir(tableView))
-      #print(tableView.ptr)
-      return 1
+      return len(self.items)
 
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
       indexPath = ObjCInstance(_indexPath)
-      cellIdentifier = 'cell'  #ObjCInstance(NSStringFromClass(UITableViewCell))
+      # xxx: `dequeueReusableCellWithIdentifier_forIndexPath_` は、落ちる？
+      cell = tableView.dequeueReusableCellWithIdentifier_(self.cell_identifier)
 
-      cell = tableView.dequeueReusableCellWithIdentifier_(cellIdentifier)
-
-      #cell = tableView.dequeueReusableCell_withIdentifier_for_(cellIdentifier, _indexPath)
-      if not cell:
-        cell = cell = UITableViewCell.alloc().initWithStyle_reuseIdentifier_(
-          0, cellIdentifier)
-
-      #pdbg.state()
-      #print('h')
-      cell.textLabel().setText_('hoge')
+      cell_text = self.items[indexPath.row()]
+      cell.textLabel().setText_(cell_text)
       return cell.ptr
-
-    def numberOfSectionsInTableView_(_self, _cmd, _tableView):
-      pass
 
     # --- `UITableViewDataSource` set up
     _methods = [
       tableView_numberOfRowsInSection_,
       tableView_cellForRowAtIndexPath_,
     ]
-    #_protocols = ['UITableViewDataSource', 'UITableViewController',]
     _protocols = [
       'UITableViewDataSource',
     ]
 
-    table_dataSource = create_objc_class(name='table_dataSource',
-                                         methods=_methods,
-                                         protocols=_protocols)
+    create_kwargs = {
+      'name': 'table_dataSource',
+      'methods': _methods,
+      'protocols': _protocols,
+    }
+
+    table_dataSource = create_objc_class(**create_kwargs)
     self._table_dataSource = table_dataSource.new()
 
 
@@ -108,8 +93,9 @@ class ObjcControlView(object):
     self.table_view = UITableView.new()
 
     self.tmp_frame = ((0.0, 0.0), (100.0, 100.0))
+    self.cell_identifier = 'cell'
 
-    self.controllers = TableViewController(all_items)
+    self.controllers = TableViewController(all_items, self.cell_identifier)
 
     self.viewDidLoad()
     self.view.addSubview_(self.table_view)
@@ -125,9 +111,8 @@ class ObjcControlView(object):
 
     # xxx: 2度`frame` 指定している。`init` からは`frame` が反映されないため
     self.table_view.setFrame_(self.tmp_frame)
-    #self.table_view.registerClass_forCellReuseIdentifier_(UITableViewCell, ObjCInstance(NSStringFromClass(UITableViewCell)))
     self.table_view.registerClass_forCellReuseIdentifier_(
-      UITableViewCell, 'cell')
+      UITableViewCell, self.cell_identifier)
 
     self.table_view.setDataSource_(self.controllers.table_dataSource)
 
