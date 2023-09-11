@@ -13,7 +13,7 @@ UIColor = ObjCClass('UIColor')
 all_items = [
   'Swift',
   'Java',
-  'Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,',
+  'Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,',
   'Ruby',
   'C++',
   'C',
