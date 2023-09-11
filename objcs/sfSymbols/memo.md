@@ -1,3 +1,12 @@
+# 📝 2023/09/12
+
+
+[Pythonista-scripts/Gists/UITableViewController user swipe.py at master · cvpe/Pythonista-scripts](https://github.com/cvpe/Pythonista-scripts/blob/master/Gists/UITableViewController%20user%20swipe.py)
+
+
+
+
+
 
 # 📝 2023/09/09
 
