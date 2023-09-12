@@ -1,5 +1,3 @@
-import ctypes
-
 from objc_util import ObjCClass, ObjCInstance, create_objc_class
 import ui
 
@@ -9,6 +7,11 @@ UIView = ObjCClass('UIView')
 UITableView = ObjCClass('UITableView')
 UITableViewCell = ObjCClass('UITableViewCell')
 UIColor = ObjCClass('UIColor')
+
+
+#UIImage.systemImageNamed_('cable.connector.horizontal')
+#UIImage.systemImageNamed_('apple.logo')
+
 
 all_items = [
   'Swift',
@@ -61,7 +64,8 @@ class TableViewController(object):
   def init_table_dataSource(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
-      return len(self.items)
+      #return len(self.items)
+      return 1
 
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
@@ -72,9 +76,14 @@ class TableViewController(object):
       cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
         self.cell_identifier, indexPath)
 
+      content = cell.defaultContentConfiguration()
+      
+      #pdbg.state(content)
       cell_text = self.items[indexPath.row()]
-      cell.textLabel().setText_(cell_text)
+      #cell.textLabel().setText_(cell_text)
+      content.setText_(cell_text)
 
+      cell.setContentConfiguration_(content)
       return cell.ptr
 
     def numberOfSectionsInTableView_(_self, _cmd, _tableView):
