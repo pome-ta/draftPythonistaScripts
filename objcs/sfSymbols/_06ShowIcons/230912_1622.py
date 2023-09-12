@@ -66,7 +66,7 @@ class TableViewController(object):
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
       indexPath = ObjCInstance(_indexPath)
-      # xxx: `dequeueReusableCellWithIdentifier_forIndexPath_` は、落ちる?
+      # xxx: `dequeueReusableCellWithIdentifier_forIndexPath_` は、落ちる? -> `numberOfSectionsInTableView_` 定義しないと落ちる
       #cell = tableView.dequeueReusableCellWithIdentifier_(self.cell_identifier)
 
       cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
@@ -74,10 +74,11 @@ class TableViewController(object):
 
       cell_text = self.items[indexPath.row()]
       cell.textLabel().setText_(cell_text)
-      #pdbg.state(cell)
+
       return cell.ptr
 
     def numberOfSectionsInTableView_(_self, _cmd, _tableView):
+      # xxx: とりあえずの`1`
       return 1
 
     # --- `UITableViewDataSource` set up
@@ -149,7 +150,7 @@ class ObjcControlView(object):
     '''
     self.table_view.initWithFrame_style_(self.tmp_frame, 0)
 
-    # xxx: 2度`frame` 指定している。`init` からは`frame` が反映されないため
+    # xxx: 2度`frame` 指定している。`init` からは`frame` が反映されないため -> `setAutoresizingMask_` がいい感じにならない
     self.table_view.setFrame_(self.tmp_frame)
     self.table_view.registerClass_forCellReuseIdentifier_(
       UITableViewCell, self.cell_identifier)
@@ -196,5 +197,4 @@ if __name__ == '__main__':
   #view.present(style='fullscreen', orientations=['portrait'])
   view.present(style='fullscreen')
   #view.present()
-
 
