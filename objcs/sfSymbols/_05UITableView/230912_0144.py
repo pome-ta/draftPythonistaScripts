@@ -45,12 +45,18 @@ class TableViewController(object):
     self.items = items
     self.cell_identifier = cell_identifier
     self._table_dataSource: 'UITableViewDataSource'
+    self._table_delegate: 'UITableViewDelegate'
 
     self.init_table_dataSource()
+    self.init_table_delegate()
 
   @property
   def table_dataSource(self):
     return self._table_dataSource
+
+  @property
+  def table_delegate(self):
+    return self._table_delegate
 
   def init_table_dataSource(self):
     # --- `UITableViewDataSource` Methods
@@ -93,6 +99,32 @@ class TableViewController(object):
     table_dataSource = create_objc_class(**create_kwargs)
     self._table_dataSource = table_dataSource.new()
 
+  def init_table_delegate(self):
+    # --- `UITableViewDelegate` Methods
+    def tableView_didSelectRowAtIndexPath_(_self, _cmd, _tableView,
+                                           _indexPath):
+      indexPath = ObjCInstance(_indexPath)
+      print(indexPath)
+      item = self.items[indexPath.row()]
+      print(item)
+
+    # --- `UITableViewDelegate` set uo
+    _methods = [
+      tableView_didSelectRowAtIndexPath_,
+    ]
+    _protocols = [
+      'UITableViewDelegate',
+    ]
+
+    create_kwargs = {
+      'name': 'table_delegate',
+      'methods': _methods,
+      'protocols': _protocols,
+    }
+
+    table_delegate = create_objc_class(**create_kwargs)
+    self._table_delegate = table_delegate.new()
+
 
 class ObjcControlView(object):
 
@@ -123,6 +155,7 @@ class ObjcControlView(object):
       UITableViewCell, self.cell_identifier)
 
     self.table_view.setDataSource_(self.controllers.table_dataSource)
+    self.table_view.setDelegate_(self.controllers.table_delegate)
 
     self.table_view.setAutoresizingMask_((1 << 1) | (1 << 4))
     self.table_view.autorelease()
