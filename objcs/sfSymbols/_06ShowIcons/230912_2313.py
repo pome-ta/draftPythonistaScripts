@@ -6,37 +6,16 @@ import pdbg
 UIView = ObjCClass('UIView')
 UITableView = ObjCClass('UITableView')
 UITableViewCell = ObjCClass('UITableViewCell')
+UIImage = ObjCClass('UIImage')
 UIColor = ObjCClass('UIColor')
 
 #UIImage.systemImageNamed_('cable.connector.horizontal')
 #UIImage.systemImageNamed_('apple.logo')
 
 all_items = [
-  'Swift',
-  'Java',
-  'Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,',
-  'Ruby',
-  'C++',
-  'C',
-  'C#',
-  'Python',
-  'Perl',
-  'JavaScript',
-  'PHP',
-  'Scratch',
-  'Scala',
-  'COBOL',
-  'Curl',
-  'Dart',
-  'HTML',
-  'CSS',
-  'Ruby on Rails',
-  'TypeScript',
-  'ECMAScript',
-  'Jython',
-  'CPython',
-  'PyPy',
-  'IronPython',
+  'apple.logo',
+  'cable.connector.horizontal',
+  'cable.connector',
 ]
 
 
@@ -62,26 +41,25 @@ class TableViewController(object):
   def init_table_dataSource(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
-      #return len(self.items)
-      return 1
+      return len(self.items)
+      #return 1
 
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
       indexPath = ObjCInstance(_indexPath)
-      # xxx: `dequeueReusableCellWithIdentifier_forIndexPath_` は、落ちる? -> `numberOfSectionsInTableView_` 定義しないと落ちる
-      #cell = tableView.dequeueReusableCellWithIdentifier_(self.cell_identifier)
-
       cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
         self.cell_identifier, indexPath)
 
-      content = cell.defaultContentConfiguration()
-
-      #pdbg.state(content)
       cell_text = self.items[indexPath.row()]
-      #cell.textLabel().setText_(cell_text)
+      cell_image = UIImage.systemImageNamed_(cell_text)
+
+      content = cell.defaultContentConfiguration()
+      #pdbg.state(content)
       content.setText_(cell_text)
+      content.setImage_(cell_image)
 
       cell.setContentConfiguration_(content)
+
       return cell.ptr
 
     def numberOfSectionsInTableView_(_self, _cmd, _tableView):
