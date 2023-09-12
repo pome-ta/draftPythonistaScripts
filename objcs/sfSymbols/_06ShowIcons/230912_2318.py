@@ -24,7 +24,7 @@ def get_order_list():
 
 
 all_items = get_order_list()
-all_items.sort()
+#all_items.sort()
 
 
 class TableViewController(object):
