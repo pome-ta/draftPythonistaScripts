@@ -61,17 +61,24 @@ class TableViewController(object):
       tableView = ObjCInstance(_tableView)
       indexPath = ObjCInstance(_indexPath)
       # xxx: `dequeueReusableCellWithIdentifier_forIndexPath_` は、落ちる？
-      cell = tableView.dequeueReusableCellWithIdentifier_(self.cell_identifier)
+      #cell = tableView.dequeueReusableCellWithIdentifier_(self.cell_identifier)
+
+      cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
+        self.cell_identifier, indexPath)
 
       cell_text = self.items[indexPath.row()]
       cell.textLabel().setText_(cell_text)
       #pdbg.state(cell)
       return cell.ptr
 
+    def numberOfSectionsInTableView_(_self, _cmd, _tableView):
+      return 1
+
     # --- `UITableViewDataSource` set up
     _methods = [
       tableView_numberOfRowsInSection_,
       tableView_cellForRowAtIndexPath_,
+      numberOfSectionsInTableView_,
     ]
     _protocols = [
       'UITableViewDataSource',
