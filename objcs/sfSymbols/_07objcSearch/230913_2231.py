@@ -208,7 +208,10 @@ class ObjcControlView(object):
   def _init_UISearchBar(self):
     height = 56.0
     self.search_bar.setFrame_(self.tmp_frame)
-    self.search_bar.backgroundColor = UIColor.cyanColor()
+
+    #self.search_bar.backgroundColor = UIColor.cyanColor()
+    self.search_bar.backgroundColor = UIColor.whiteColor()
+
     # [UISearchBarStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uisearchbarstyle?language=objc)
     '''
     0 : UISearchBarStyleDefault
@@ -285,8 +288,9 @@ class PyView(ui.View):
     #print(width, height)
     '''
     _, _, w, h = self.frame
+    buffer = 64
     s_height = self.objc_view.search.height
-    t_height = h - s_height
+    t_height = h - s_height - buffer
 
     self.objc_view.table.height = t_height
     self.objc_view.table.y = s_height
