@@ -49,7 +49,7 @@ class TableViewController(object):
   def init_table_dataSource(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
-      return 1  #len(self.items)
+      return len(self.items)
 
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
@@ -57,21 +57,13 @@ class TableViewController(object):
       cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
         self.cell_identifier, indexPath)
 
-      #cell_text = self.items[indexPath.row()]
-      cell_text = self.items[4]
+      cell_text = self.items[indexPath.row()]
       cell_image = UIImage.systemImageNamed_(cell_text)
 
       content = cell.defaultContentConfiguration()
-
+      content.textProperties().setNumberOfLines_(1)
       content.setText_(cell_text)
-      #
-      content.textProperties().setLineBreakMode_(4)
-      #content.textProperties().setNumberOfLines_(0)
-      content.textProperties().setShowsExpansionTextWhenTruncated_(False)
-      content.textProperties().setAdjustsFontSizeToFitWidth_(False)
-      content.textProperties().setAdjustsFontForContentSizeCategory_(False)
       content.setImage_(cell_image)
-      #pdbg.state(content.textProperties())
 
       cell.setContentConfiguration_(content)
 
@@ -183,14 +175,7 @@ class PyView(ui.View):
     self.objc_instance.addSubview_(self.objc_view.view)
 
   def layout(self):
-    #size = self.objc_view.view.frame().size
-    size = self.objc_view.table_view.frame().size
-
-    width = size.width
-    height = size.height
-    #pdbg.state(size)
-    #print(width, height)
-
+    pass
 
 if __name__ == '__main__':
   view = PyView()

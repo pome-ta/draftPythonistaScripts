@@ -64,14 +64,14 @@ class TableViewController(object):
       content = cell.defaultContentConfiguration()
 
       content.setText_(cell_text)
-      #
-      content.textProperties().setLineBreakMode_(4)
-      #content.textProperties().setNumberOfLines_(0)
-      content.textProperties().setShowsExpansionTextWhenTruncated_(False)
-      content.textProperties().setAdjustsFontSizeToFitWidth_(False)
-      content.textProperties().setAdjustsFontForContentSizeCategory_(False)
+      #content.textProperties().setLineBreakMode_(3)
+      content.textProperties().setNumberOfLines_(1)
+      #content.textProperties().setShowsExpansionTextWhenTruncated_(False)
+      #content.textProperties().setAdjustsFontSizeToFitWidth_(False)
+      #content.textProperties().setAdjustsFontForContentSizeCategory_(False)
       content.setImage_(cell_image)
       #pdbg.state(content.textProperties())
+      #updatedConfigurationForState_
 
       cell.setContentConfiguration_(content)
 
