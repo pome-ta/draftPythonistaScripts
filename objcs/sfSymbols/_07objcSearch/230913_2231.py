@@ -33,7 +33,8 @@ all_items = get_order_list()
 class ObjcControllers(object):
 
   def __init__(self, items: list = [], cell_identifier: str = 'cell'):
-    self.items = items
+    self.all_items = items
+    self.grep_items=[]
     self.cell_identifier = cell_identifier
 
     self._table_dataSource: 'UITableViewDataSource'
@@ -59,7 +60,8 @@ class ObjcControllers(object):
   def _init_table_dataSource(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
-      return len(self.items)
+      
+      return len(self.all_items)
 
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
@@ -67,7 +69,7 @@ class ObjcControllers(object):
       cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
         self.cell_identifier, indexPath)
 
-      cell_text = self.items[indexPath.row()]
+      cell_text = self.all_items[indexPath.row()]
       cell_image = UIImage.systemImageNamed_(cell_text)
 
       content = cell.defaultContentConfiguration()
@@ -210,7 +212,9 @@ class ObjcControlView(object):
     self.search_bar.setFrame_(self.tmp_frame)
 
     #self.search_bar.backgroundColor = UIColor.cyanColor()
-    self.search_bar.backgroundColor = UIColor.whiteColor()
+
+    self.search_bar.backgroundColor = UIColor.systemWhiteColor()
+    #self.search_bar.backgroundColor = UIColor.systemDarkLightGrayColor()
 
     # [UISearchBarStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uisearchbarstyle?language=objc)
     '''
