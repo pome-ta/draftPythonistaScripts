@@ -47,6 +47,21 @@ class ObjcControllers(object):
     self._init_table_delegate()
     self._init_searchBar()
 
+  def reload_items(self, target_text):
+    text = target_text if isinstance(target_text, str) else str(target_text)
+
+    try:
+      prog = re.compile(text, flags=re.IGNORECASE)
+      self.grep_items = [item for item in self.all_items if prog.search(item)]
+    except:
+      pass
+    self.tableView.reloadData()
+
+  def searchBar_reload_action(self, _searchBar):
+    searchBar = ObjCInstance(_searchBar)
+    text = searchBar.text()
+    self.reload_items(text)
+
   @property
   def table_dataSource(self):
     return self._table_dataSource
@@ -58,13 +73,6 @@ class ObjcControllers(object):
   @property
   def searchBar_delegate(self):
     return self._searchBar_delegate
-
-  def reload_items(self, target_text):
-    text = target_text if isinstance(target_text, str) else rf'{target_text}'
-
-    prog = re.compile(text, flags=re.IGNORECASE)
-    self.grep_items = [item for item in self.all_items if prog.search(item)]
-    self.tableView.reloadData()
 
   def _init_table_dataSource(self):
     # --- `UITableViewDataSource` Methods
@@ -90,7 +98,6 @@ class ObjcControllers(object):
       content.setImage_(cell_image)
 
       cell.setContentConfiguration_(content)
-
       self.tableView = tableView
 
       return cell.ptr
@@ -149,18 +156,24 @@ class ObjcControllers(object):
     def searchBar_textDidChange_(_self, _cmd, _searchBar, _searchText):
       #print(f'01 : searchBar_textDidChange_')
       # xxx: 変更通知は`1` か`2` といったところか？
+      '''
       searchBar = ObjCInstance(_searchBar)
       text = searchBar.text()
       self.reload_items(text)
+      '''
+      self.searchBar_reload_action(_searchBar)
       pass
 
     def searchBar_shouldChangeTextInRange_replacementText_(
         _self, _cmd, _searchBar, _range, _text):
       #print(f'02 : searchBar_shouldChangeTextInRange_replacementText_')
+      '''
       searchBar = ObjCInstance(_searchBar)
       text = searchBar.text()
       self.reload_items(text)
       #print(self.grep_items)
+      '''
+      self.searchBar_reload_action(_searchBar)
       return True
 
     def searchBarShouldBeginEditing_(_self, _cmd, _searchBar):
@@ -181,12 +194,16 @@ class ObjcControllers(object):
 
     def searchBarSearchButtonClicked_(_self, _cmd, _searchBar):
       #print(f'07 : searchBarSearchButtonClicked_')
+      '''
       searchBar = ObjCInstance(_searchBar)
       text = searchBar.text()
       #print(f'07: {text}')
       #pdbg.state(self.table_dataSource)
       #pdbg.state(self.tableView)
       self.reload_items(text)
+      '''
+
+      self.searchBar_reload_action(_searchBar)
       ObjCInstance(_searchBar).resignFirstResponder()
 
     # --- `UISearchBarDelegate` set up
