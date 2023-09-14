@@ -231,37 +231,16 @@ class ObjcControlView(object):
     self.view.setAutoresizingMask_((1 << 1) | (1 << 4))
     self.view.backgroundColor = UIColor.redColor()
     self.view.autorelease()
+
+    self.table_view.setTableHeaderView_(self.search_bar)
     self.view.addSubview_(self.table_view)
     #self.view.addSubview_(self.search_bar)
-
-  def _init_UITableView(self):
-    # [UITableViewStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uitableviewstyle?language=objc)
-    '''
-    0 : UITableViewStylePlain
-    1 : UITableViewStyleGrouped
-    2 : UITableViewStyleInsetGrouped
-    '''
-    self.table_view.initWithFrame_style_(self.tmp_frame, 0)
-
-    # xxx: 2度`frame` 指定している。`init` からは`frame` が反映されないため -> `setAutoresizingMask_` がいい感じにならない
-    self.table_view.setFrame_(self.tmp_frame)
-    self.table_view.registerClass_forCellReuseIdentifier_(
-      UITableViewCell, self.cell_identifier)
-    self.table_view.setDataSource_(self.controllers.table_dataSource)
-    self.table_view.setDelegate_(self.controllers.table_delegate)
-
-    self.table_view.setAutoresizingMask_((1 << 1) | (1 << 4))
-    #setTableHeaderView_
-    #tableHeaderView
-    
-    pdbg.state(self.table_view.tableHeaderView())
-    self.table_view.autorelease()
 
   def _init_UISearchBar(self):
     height = 56.0
     self.search_bar.setFrame_(self.tmp_frame)
 
-    self.search_bar.backgroundColor = UIColor.cyanColor()
+    #self.search_bar.backgroundColor = UIColor.cyanColor()
 
     #self.search_bar.backgroundColor = UIColor.systemWhiteColor()
     #self.search_bar.backgroundColor = UIColor.systemDarkLightGrayColor()
@@ -280,6 +259,25 @@ class ObjcControlView(object):
     self.search_bar.setAutoresizingMask_(1 << 1)
     self.search_bar.setDelegate_(self.controllers.searchBar_delegate)
     self.search_bar.autorelease()
+
+  def _init_UITableView(self):
+    # [UITableViewStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uitableviewstyle?language=objc)
+    '''
+    0 : UITableViewStylePlain
+    1 : UITableViewStyleGrouped
+    2 : UITableViewStyleInsetGrouped
+    '''
+    self.table_view.initWithFrame_style_(self.tmp_frame, 0)
+
+    # xxx: 2度`frame` 指定している。`init` からは`frame` が反映されないため -> `setAutoresizingMask_` がいい感じにならない
+    self.table_view.setFrame_(self.tmp_frame)
+    self.table_view.registerClass_forCellReuseIdentifier_(
+      UITableViewCell, self.cell_identifier)
+    self.table_view.setDataSource_(self.controllers.table_dataSource)
+    self.table_view.setDelegate_(self.controllers.table_delegate)
+
+    self.table_view.setAutoresizingMask_((1 << 1) | (1 << 4))
+    self.table_view.autorelease()
 
 
 class PyView(ui.View):
