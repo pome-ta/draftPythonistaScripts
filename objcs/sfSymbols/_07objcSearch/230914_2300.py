@@ -251,6 +251,10 @@ class ObjcControlView(object):
     self.table_view.setDelegate_(self.controllers.table_delegate)
 
     self.table_view.setAutoresizingMask_((1 << 1) | (1 << 4))
+    #setTableHeaderView_
+    #tableHeaderView
+    
+    pdbg.state(self.table_view.tableHeaderView())
     self.table_view.autorelease()
 
   def _init_UISearchBar(self):
