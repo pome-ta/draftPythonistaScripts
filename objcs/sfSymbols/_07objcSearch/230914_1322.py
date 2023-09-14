@@ -60,8 +60,8 @@ class ObjcControllers(object):
   def _init_table_dataSource(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
-
-      return len(self.all_items)
+      items = self.grep_items if self.grep_items else self.all_items
+      return len(items)
 
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
@@ -69,7 +69,9 @@ class ObjcControllers(object):
       cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
         self.cell_identifier, indexPath)
 
-      cell_text = self.all_items[indexPath.row()]
+      items = self.grep_items if self.grep_items else self.all_items
+      
+      cell_text = items[indexPath.row()]
       cell_image = UIImage.systemImageNamed_(cell_text)
 
       content = cell.defaultContentConfiguration()
