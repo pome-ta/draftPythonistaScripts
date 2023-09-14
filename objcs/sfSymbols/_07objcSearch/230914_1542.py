@@ -1,5 +1,5 @@
 # xxx: 望ましくないlayout でやる
-
+import re
 from pathlib import Path
 import plistlib
 
@@ -58,6 +58,18 @@ class ObjcControllers(object):
   @property
   def searchBar_delegate(self):
     return self._searchBar_delegate
+
+  def reload_items(self, target_text):
+    text = target_text if isinstance(target_text, str) else str(target_text)
+    '''
+    if not text:
+      return 
+    '''
+    prog = re.compile(text, flags=re.IGNORECASE)
+    self.grep_items = [item for item in self.all_items if prog.search(item)]
+    #pdbg.state(self.tableView)
+    #self.tableView.setBackgroundColor_(UIColor.cyanColor())
+    self.tableView.reloadData()
 
   def _init_table_dataSource(self):
     # --- `UITableViewDataSource` Methods
@@ -149,7 +161,8 @@ class ObjcControllers(object):
       #print(f'02 : searchBar_shouldChangeTextInRange_replacementText_')
       searchBar = ObjCInstance(_searchBar)
       text = searchBar.text()
-      print(f'02: {text}')
+      self.reload_items(text)
+      #print(self.grep_items)
       return True
 
     def searchBarShouldBeginEditing_(_self, _cmd, _searchBar):
@@ -172,9 +185,10 @@ class ObjcControllers(object):
       #print(f'07 : searchBarSearchButtonClicked_')
       searchBar = ObjCInstance(_searchBar)
       text = searchBar.text()
-      print(f'07: {text}')
+      #print(f'07: {text}')
       #pdbg.state(self.table_dataSource)
-      pdbg.state(self.tableView)
+      #pdbg.state(self.tableView)
+      self.reload_items(text)
       ObjCInstance(_searchBar).resignFirstResponder()
 
     # --- `UISearchBarDelegate` set up
