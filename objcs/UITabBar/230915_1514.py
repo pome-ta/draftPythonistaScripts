@@ -16,6 +16,8 @@ class ObjcController(object):
     self.view = UIView.new().autorelease()
     self.tab_bar = UITabBar.new().autorelease()
     
+    self._init_UITabBar()
+    
     self.viewDidLoad()
 
   def viewDidLoad(self):
@@ -27,7 +29,8 @@ class ObjcController(object):
     
 
   def _init_UITabBar(self):
-    pass
+    self.tab_bar.setFrame_(self.tmp_frame)
+    self.tab_bar.setAutoresizingMask_(1 << 1)
 
 
 class PyView(ui.View):
