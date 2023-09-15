@@ -3,6 +3,15 @@ import ui
 
 import pdbg
 
+UITabBar = ObjCClass('UITabBar')
+
+
+class ObjcControl(object):
+
+  def __init__(self):
+    self.tmp_frame = ((0.0, 0.0), (100.0, 100.0))
+    self.view = UIView.new()
+
 
 class PyView(ui.View):
 
