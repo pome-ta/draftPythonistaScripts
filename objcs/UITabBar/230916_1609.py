@@ -26,9 +26,10 @@ class ObjcController(object):
     self.view.backgroundColor = UIColor.redColor()
 
     self.view.addSubview_(self.tab_bar)
+    #pdbg.state(self.view.window())
 
   def _init_UITabBar(self):
-    pdbg.state(self.tab_bar.standardAppearance())
+    #pdbg.state(self.tab_bar.standardAppearance())
     #pdbg.state(self.tab_bar)
     appearance = self.tab_bar.standardAppearance()
     #self.tab_bar.setFrame_(self.tmp_frame)
@@ -49,6 +50,7 @@ class PyView(ui.View):
 
     self.objc_controller = ObjcController()
     self.objc_instance.addSubview_(self.objc_controller.view)
+    pdbg.state(self.objc_instance.window())
 
   def layout(self):
     pass
