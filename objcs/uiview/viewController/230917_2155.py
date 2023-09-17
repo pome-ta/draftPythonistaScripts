@@ -14,6 +14,7 @@ SFSafariViewController = ObjCClass('SFSafariViewController')
 @on_main_thread
 def open_in_safari_vc(url):
   sfSafariViewController = SFSafariViewController.alloc()
+  #sfSafariViewController = SFSafariViewController.new()
   '''
   vc = SFSafariViewController.alloc().initWithURL_entersReaderIfAvailable_(
     nsurl(url), True)
@@ -33,7 +34,7 @@ def open_in_safari_vc(url):
   while root_vc.presentedViewController():
     root_vc = root_vc.presentedViewController()
   root_vc.presentViewController_animated_completion_(vc, True, None)
-  #vc.release()
+  vc.release()
 
 
 def main():
