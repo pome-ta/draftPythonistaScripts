@@ -13,6 +13,7 @@ SFSafariViewController = ObjCClass('SFSafariViewController')
 @on_main_thread
 def open_in_safari_vc(url):
   sfSafariViewController = SFSafariViewController.alloc()
+  # xxx: `new` だと取れない
   #sfSafariViewController = SFSafariViewController.new()
   '''
   vc = SFSafariViewController.alloc().initWithURL_entersReaderIfAvailable_(
