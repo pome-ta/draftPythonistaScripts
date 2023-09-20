@@ -1,3 +1,7 @@
+from objc_util import ObjCClass
+
+import pdbg
+
 import ui
 
 
@@ -16,7 +20,15 @@ class View(ui.View):
 
 if __name__ == '__main__':
   view = View()
-  #view.present()
+  view.present()
   #view.present(hide_title_bar=True)
   #view.present(style='fullscreen', orientations=['portrait'])
+
+  UIApplication = ObjCClass('UIApplication')
+  app = UIApplication.sharedApplication()
+
+  windows = app.windows()
+
+  #pdbg.state(windows)
+  print(windows)
 

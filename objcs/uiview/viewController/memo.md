@@ -4,6 +4,8 @@
 
 挙動とか、色々と便利そうだから、マルっと真似したいところではある
 
+[SFSafariViewController | Apple Developer Documentation](https://developer.apple.com/documentation/safariservices/sfsafariviewcontroller?language=objc)
+
 
 ## 親の`ViewController`
 
