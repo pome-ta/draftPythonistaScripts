@@ -17,30 +17,10 @@ class MyUIViewController(object):
     pass
 
 
-[pythonistaでUITabBarController](https://gist.github.com/shntn/dc9e1b1086bcda88c49ff72c1fcd546f)
-
-
-Skip to content
+# [pythonistaでUITabBarController](https://gist.github.com/shntn/dc9e1b1086bcda88c49ff72c1fcd546f)
 
 
 
-Sign in
-Sign up
-
-
-Instantly share code, notes, and snippets.
-shntn/uitabbarcontroller.py
-Last active September 19, 2017 15:02
-
-
-Code
-
-Revisions
-4
-pythonistaでUITabBarController
-
-
-uitabbarcontroller.py
 # coding: utf-8
 from objc_util import *
 import ui
