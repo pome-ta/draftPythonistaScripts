@@ -1,47 +1,7 @@
-from objc_util import ObjCClass
-
-import pdbg
-'''
-UIApplication = ObjCClass('UIApplication')
-app = UIApplication.sharedApplication()
-keyWindow = app.keyWindow()
-#windows = app.windows()
-rootViewController = keyWindow.rootViewController()
-pdbg.state(rootViewController)
-'''
-
-
-class MyUIViewController(object):
-
-  def __init__(self):
-    pass
-
-
-[pythonistaでUITabBarController](https://gist.github.com/shntn/dc9e1b1086bcda88c49ff72c1fcd546f)
-
-
-Skip to content
-
-
-
-Sign in
-Sign up
-
-
-Instantly share code, notes, and snippets.
-shntn/uitabbarcontroller.py
-Last active September 19, 2017 15:02
-
-
-Code
-
-Revisions
-4
-pythonistaでUITabBarController
-
-
-uitabbarcontroller.py
 # coding: utf-8
+
+# [pythonistaでUITabBarController](https://gist.github.com/shntn/dc9e1b1086bcda88c49ff72c1fcd546f)
+
 from objc_util import *
 import ui
 
@@ -94,4 +54,3 @@ def main():
 
 if __name__ == '__main__':
   main()
-
