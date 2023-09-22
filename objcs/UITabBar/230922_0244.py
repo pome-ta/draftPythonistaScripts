@@ -23,6 +23,7 @@ class RootView:
 
   def __init__(self):
     rootVC = UIApplication.sharedApplication().keyWindow().rootViewController()
+    #pdbg.state(rootVC)
     self.tabviewcontroller = rootVC.detailViewController()
 
   def add(self, viewcontroller):

@@ -27,7 +27,7 @@ class_names = [class_getName(b).decode('ascii') for b in buffer]
 class_names.sort()
 
 
-target = 'OM'
+target = 'PAS'
 
 #prog = re.compile(target, flags=re.IGNORECASE)
 prog = re.compile(target)
