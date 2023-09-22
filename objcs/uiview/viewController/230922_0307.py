@@ -20,8 +20,10 @@ class View(ui.View):
 
 if __name__ == '__main__':
   view = View()
-  #view.present()
+  view.present()
   #view.present(hide_title_bar=True)
   #view.present(style='fullscreen', orientations=['portrait'])
-  pdbg.state(view.objc_instance)
+  #addChildViewController_
+  nextResponder = view.objc_instance.nextResponder()
+  pdbg.state(nextResponder)
 

@@ -1,3 +1,11 @@
+# 📝 2023/09/22
+
+
+## `next` の
+
+- `nextFirstResponder`
+- `nextResponder`
+
 # 📝 2023/09/21
 
 [Presenting ViewController | omz:forum](https://forum.omz-software.com/topic/2060/presenting-viewcontroller/3?_=1695303071397&lang=ja)
