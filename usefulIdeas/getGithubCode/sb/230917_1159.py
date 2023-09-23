@@ -4,9 +4,7 @@ import clipboard
 
 url = 'https://raw.githubusercontent.com/tdamdouni/Pythonista/master/objc/ObjCUtil.py'
 
-
-_ = 'https://github.com/tdamdouni/Pythonista/blob/master/objc/ObjCUtil.py'#?rawLines'
-
+_ = 'https://github.com/tdamdouni/Pythonista/blob/master/objc/ObjCUtil.py'  #?rawLines'
 
 url = 'https://github.com/tdamdouni/Pythonista/blob/master/objc/ObjCUtil.py?raw=true'
 

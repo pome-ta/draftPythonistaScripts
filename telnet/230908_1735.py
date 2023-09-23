@@ -11,4 +11,3 @@ with Telnet(h, 23, 1) as tn:
   while True:
     print(tn.read_some().decode('shift_jis'), end='')
 
-
