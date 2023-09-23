@@ -13,17 +13,26 @@ class ObjcUIViewController(object):
   def __init__(self):
     # xxx: 名前酷いけど取り急ぎ
     self._this: ObjCInstance
+    self.tmp_frame = ((0.0, 0.0), (100.0, 100.0))
     self._override()
 
   def _override(self):
     # --- `UIViewController` Methods
     def viewDidLoad(_self, _cmd):
+      print('--- viewDidLoad')
       this = ObjCInstance(_self)
       view = this.view()
       #view.setBackgroundColor_
-      #view.backgroundColor = UIColor.redColor()
+      view.backgroundColor = UIColor.redColor()
+      sub_view = UIView.new()
+      sub_view.setFrame_(self.tmp_frame)
+      sub_view.setAutoresizingMask_((1 << 1) | (1 << 4))
+      sub_view.backgroundColor = UIColor.cyanColor()
+      
+      view.addSubview_(sub_view)
+      
       #pdbg.state(view)
-      print('--- viewDidLoad')
+      
 
     # --- `UIViewController` set up
     _methods = [
