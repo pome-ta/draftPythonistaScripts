@@ -5,6 +5,8 @@ import pdbg
 UIApplication = ObjCClass('UIApplication')
 UIViewController = ObjCClass('UIViewController')
 
+UIView = ObjCClass('UIView')
+UIColor = ObjCClass('UIColor')
 
 class ObjcUIViewController(object):
 
@@ -17,7 +19,11 @@ class ObjcUIViewController(object):
     # --- `UIViewController` Methods
     def viewDidLoad(_self, _cmd):
       this = ObjCInstance(_self)
-      pdbg.state(this)
+      view = this.view()
+      #view.setBackgroundColor_
+      #view.backgroundColor = UIColor.redColor()
+      #pdbg.state(view)
+      print('--- viewDidLoad')
 
     # --- `UIViewController` set up
     _methods = [
@@ -51,6 +57,23 @@ def present_objc(vc):
   while root_vc.presentedViewController():
     print('w')
     root_vc = root_vc.presentedViewController()
+  #pdbg.state(root_vc.modalPresentationStyle())
+  # [UIModalPresentationStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uimodalpresentationstyle)
+  '''
+  case -2 : automatic
+  case -1 : none
+  case  0 : fullScreen
+  case  1 : pageSheet <- default ?
+  case  2 : formSheet
+  case  3 : currentContext
+  case  4 : custom
+  case  5 : overFullScreen
+  case  6 : overCurrentContext
+  case  7 : popover
+  case  8 : blurOverFullScreen
+  '''
+  
+  vc.setModalPresentationStyle_(8)
   root_vc.presentViewController_animated_completion_(vc, True, None)
 
 
