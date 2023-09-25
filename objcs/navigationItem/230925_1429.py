@@ -5,6 +5,7 @@ import pdbg
 UIApplication = ObjCClass('UIApplication')
 UIViewController = ObjCClass('UIViewController')
 UINavigationController = ObjCClass('UINavigationController')
+UIBarButtonItem = ObjCClass('UIBarButtonItem')
 
 UIView = ObjCClass('UIView')
 UIColor = ObjCClass('UIColor')
@@ -22,10 +23,11 @@ class ObjcUIViewController(object):
 
   def _override(self):
     # --- `UIViewController` Methods
-    
+
     # --- `UIViewController` Methods
     def viewDidLoad(_self, _cmd):
       this = ObjCInstance(_self)
+      #this.viewDidLoad()
       #this.navigationController = UINavigationController.new()
       view = this.view()
       #view.setBackgroundColor_
@@ -33,7 +35,18 @@ class ObjcUIViewController(object):
       #pdbg.state(view)
       #print('--- viewDidLoad')
       #pdbg.state(this.navigationController())
+      #this.navigationItem().setRightBarButtonItem_
+
+      #pdbg.state(this)
+      _close_btn = UIBarButtonItem.new()
+      close_btn = _close_btn.initWithBarButtonSystemItem_target_action_(
+        0, this, None)
+      this.navigationItem().setRightBarButtonItem_(close_btn)
+      #pdbg.state(close_btn)
+      #this.setTitle_('ほげぇ〜☺️')
+      this.navigationItem().setTitle_('ほげぇ〜☺️')
       pdbg.state(this)
+      #print(this)
 
     # --- `UIViewController` set up
     _methods = [
@@ -49,7 +62,6 @@ class ObjcUIViewController(object):
     _vc = create_objc_class(**create_kwargs)
     #pdbg.state(_vc.new())
     self._this = _vc.new()
-    
 
   @classmethod
   def new(cls):
@@ -90,7 +102,7 @@ def present_objc(vc):
   '''
 
   #vc.setModalPresentationStyle_(8)
-  vc.setModalPresentationStyle_(0)
+  #vc.setModalPresentationStyle_(0)
   root_vc.presentViewController_animated_completion_(vc, True, None)
 
 
@@ -100,5 +112,4 @@ if __name__ == '__main__':
   #present_objc(_vc)
   ovc = ObjcUIViewController.new()
   present_objc(ovc)
-
 
