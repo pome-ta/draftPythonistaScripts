@@ -30,6 +30,7 @@ def open_in_safari_vc(vc):
   print('\n'*4)
   '''
   root_vc = window.rootViewController()
+  pdbg.state(root_vc.navigationController())
 
   while root_vc.presentedViewController():
     print('w')
@@ -81,7 +82,7 @@ def omt(vc):
     #print('# --- autolayoutTrace')
     #pprint(vc.view()._autolayoutTrace())
     #pdbg.state(vc.tabBarItem())
-    pdbg.state(vc)
+    
     
     #pdbg.state(vc.navigationItem().navigationBar())
     
@@ -91,6 +92,9 @@ def omt(vc):
     
     
     #pdbg.state(vc.childViewControllersCount())
+    #pdbg.state(vc.presentedViewController())
+    #pdbg.state(vc.delegate())
+    pass
     
     
 
