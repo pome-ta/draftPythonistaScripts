@@ -42,7 +42,7 @@ class ObjcUIViewController(object):
 
     create_kwargs = {
       'name': '_vc',
-      'superclass': UIViewController,
+      'superclass': UINavigationController,
       'methods': _methods,
       #'protocols': _protocols,
     }
@@ -90,6 +90,7 @@ def present_objc(vc):
   '''
 
   #vc.setModalPresentationStyle_(8)
+  vc.setModalPresentationStyle_(0)
   root_vc.presentViewController_animated_completion_(vc, True, None)
 
 
@@ -99,4 +100,5 @@ if __name__ == '__main__':
   #present_objc(_vc)
   ovc = ObjcUIViewController.new()
   present_objc(ovc)
+
 
