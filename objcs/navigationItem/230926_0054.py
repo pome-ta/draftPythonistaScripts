@@ -14,10 +14,10 @@ class ObjcUIViewController:
   def _override(self):
     # --- `UIViewController` Methods
     def viewDidLoad(_self, _cmd):
-      print('viewDidLoad')
+      #print('viewDidLoad')
       this = ObjCInstance(_self)
       view = this.view()
-      pdbg.state(this)
+      #pdbg.state(view.window())
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
@@ -25,7 +25,13 @@ class ObjcUIViewController:
 
     def viewDidAppear_(_self, _cmd, _animated):
       #print('viewDidAppear')
-      pass
+      this = ObjCInstance(_self)
+      view = this.view()
+      window = view.window()
+
+      #pdbg.state(window.rootViewController())
+      print('--- viewDidAppear')
+      print(window.rootViewController())
 
     def viewWillDisappear_(_self, _cmd, _animated):
       #print('viewWillDisappear')
@@ -70,10 +76,11 @@ class ObjcUIViewController:
 
 @on_main_thread
 def present_objc(vc):
-
   app = ObjCClass('UIApplication').sharedApplication()
   window = app.keyWindow()
   root_vc = window.rootViewController()
+  print('--- present')
+  print(root_vc)
 
   #pdbg.state(root_vc)
   root_vc.presentViewController_animated_completion_(vc, True, None)
