@@ -59,6 +59,7 @@ class ObjcUIViewController:
 
     create_kwargs = {
       'name': '_vc',
+      #'superclass': UIViewController,
       'superclass': UIViewController,
       'methods': _methods,
     }
