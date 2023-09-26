@@ -76,7 +76,7 @@ class CustomSFSafariViewController:
       #pdbg.state(view.subviews())
       #pdbg.state(this.childViewControllers())
       #pdbg.state(this.childViewControllerForUserInterfaceStyle())
-      pdbg.state(this)
+      pdbg.all(this)
 
     # --- `SFSafariViewController` set up
     _methods = [
