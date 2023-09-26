@@ -9,6 +9,8 @@ from objc_util import on_main_thread, nsurl
 
 import pdbg
 
+UIView = ObjCClass('UIView')
+UIColor = ObjCClass('UIColor')
 SFSafariViewController = ObjCClass('SFSafariViewController')
 
 
@@ -24,19 +26,34 @@ class CustomSFSafariViewController:
     def viewDidLoad(_self, _cmd):
       #print('viewDidLoad')
       this = ObjCInstance(_self)
-      view = this.view()
+      #view = this.view()
+      uiview = UIView.new()
+      frame = ((0.0, 0.0), (100.0, 100.0))
+      uiview.setFrame_(frame)
+      uiview.setAutoresizingMask_(1 << 1)
+      uiview.backgroundColor = UIColor.cyanColor()
+      #this.view = uiview
+
       #pdbg.state(view.window())
-      print('--- viewDidLoad')
+      #print('--- viewDidLoad')
+      #pdbg.state(view)
 
     def viewDidAppear_(_self, _cmd, _animated):
       #print('viewDidAppear')
       this = ObjCInstance(_self)
-      view = this.view()
-      window = view.window()
+      uiview = UIView.new()
+      frame = ((0.0, 0.0), (100.0, 100.0))
+      uiview.setFrame_(frame)
+      uiview.setAutoresizingMask_(1 << 1)
+      uiview.backgroundColor = UIColor.cyanColor()
+      this.view = uiview
+      #view = this.view()
+      #window = view.window()
       #pdbg.state(this.navigationController())
       #pdbg.state(this.navigationItem())
       #pdbg.state(this.navigationItem().leftBarButtonItems())
       #pdbg.state(window)
+      #pdbg.state(view)
 
     # --- `SFSafariViewController` set up
     _methods = [
@@ -65,7 +82,7 @@ def open_in_safari_vc(url):
   sf_vc = _sf.initWithURL_(ns_url).autorelease()
 
   app = ObjCClass('UIApplication').sharedApplication()
-  
+
   window = app.keyWindow() if app.keyWindow() else app.windows().firstObject()
 
   root_vc = window.rootViewController()
