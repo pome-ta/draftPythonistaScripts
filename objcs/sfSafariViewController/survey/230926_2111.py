@@ -4,6 +4,8 @@
 
 # https://forum.omz-software.com/topic/2271/beta-suggestion-safariviewcontroller/9
 
+from pprint import pprint
+
 from objc_util import ObjCClass, ObjCInstance, create_objc_class
 from objc_util import on_main_thread, nsurl
 
@@ -12,6 +14,14 @@ import pdbg
 UIView = ObjCClass('UIView')
 UIColor = ObjCClass('UIColor')
 SFSafariViewController = ObjCClass('SFSafariViewController')
+
+
+def autolayoutTrace(obj):
+  print('# --- autolayoutTrace')
+  try:
+    pprint(obj._autolayoutTrace())
+  except:
+    pass
 
 
 class CustomSFSafariViewController:
@@ -27,11 +37,13 @@ class CustomSFSafariViewController:
       #print('viewDidLoad')
       this = ObjCInstance(_self)
       #view = this.view()
+      '''
       uiview = UIView.new()
       frame = ((0.0, 0.0), (100.0, 100.0))
       uiview.setFrame_(frame)
       uiview.setAutoresizingMask_(1 << 1)
       uiview.backgroundColor = UIColor.cyanColor()
+      '''
       #this.view = uiview
 
       #pdbg.state(view.window())
@@ -41,11 +53,14 @@ class CustomSFSafariViewController:
     def viewDidAppear_(_self, _cmd, _animated):
       #print('viewDidAppear')
       this = ObjCInstance(_self)
+      '''
       uiview = UIView.new()
       frame = ((0.0, 0.0), (100.0, 100.0))
       uiview.setFrame_(frame)
       uiview.setAutoresizingMask_(1 << 1)
       uiview.backgroundColor = UIColor.cyanColor()
+      '''
+      
       #this.view = uiview
       #view = this.view()
       #window = view.window()
@@ -54,6 +69,14 @@ class CustomSFSafariViewController:
       #pdbg.state(this.navigationItem().leftBarButtonItems())
       #pdbg.state(window)
       #pdbg.state(view)
+      view = this.view()
+      window = view.window()
+      #autolayoutTrace(window)
+      #pdbg.state(window.subviews())
+      #pdbg.state(view.subviews())
+      #pdbg.state(this.childViewControllers())
+      #pdbg.state(this.childViewControllerForUserInterfaceStyle())
+      pdbg.state(this)
 
     # --- `SFSafariViewController` set up
     _methods = [
