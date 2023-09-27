@@ -31,7 +31,7 @@ class View(ui.View):
     pass
 
 
-@on_main_thread
+#@on_main_thread
 def present_objc(sender):
   #print(dir(sender))
   #pdbg.state(ObjCInstance(sender))
