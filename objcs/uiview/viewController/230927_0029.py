@@ -11,7 +11,7 @@ class View(ui.View):
     #self.bg_color = 'maroon'
     #0.141176 0.2 0.243137
     self.bg_color = 'red'
-    self.bg_color = (0.141176, 0.2, 0.243137,1)
+    #self.bg_color = (0.141176, 0.2, 0.243137,1)
     btn_item_kwargs = {
       'image': ui.Image.named('iob:arrow_down_a_24'),
       'action': present_objc,
@@ -24,7 +24,8 @@ class View(ui.View):
     self.add_subview(self.label)
 
   def will_close(self):
-    print('close')
+    #print('close')
+    pass
 
   def layout(self):
     pass
@@ -36,7 +37,7 @@ def present_objc(sender):
   #pdbg.state(ObjCInstance(sender))
   # xxx: 全体的に改善
   app = ObjCClass('UIApplication').sharedApplication()
-  #pdbg.state(app)
+  pdbg.all(app)
   if app.keyWindow():
     #print('t')
     window = app.keyWindow()
@@ -48,7 +49,7 @@ def present_objc(sender):
   #pdbg.state(root_vc.view())
   #pdbg.state(root_vc.detailViewController())
   #pdbg.state(root_vc.detailViewController().view())
-  pdbg.all(root_vc.detailViewController().view())
+  #pdbg.all(root_vc.detailViewController().view())
 
 
 
