@@ -19,15 +19,7 @@ class ObjcUIViewController:
       #print('viewDidLoad')
       this = ObjCInstance(_self)
       view = this.view()
-      #navigationItem = this.navigationItem()
-      #navigationBar = navigationItem.navigationBar()
-      #navigationItem.setTitle_('ほげ')
       view.backgroundColor = UIColor.cyanColor()
-      #pdbg.state(view.window())
-      #pdbg.state(view)
-      #pdbg.state(navigationItem)
-      #pdbg.state(navigationBar)
-      #pdbg.state(this.navigationController())
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
@@ -38,15 +30,7 @@ class ObjcUIViewController:
       this = ObjCInstance(_self)
       view = this.view()
       window = view.window()
-      presentedViewController = window.rootViewController().presentedViewController()
-      #pdbg.state(window)
-      #pdbg.state(this.navigationController())
-      #navigationItem = this.navigationItem()
-      #navigationBar = navigationItem.navigationBar()
-      #navigationItem.setTitle_('ほげ')
-      #pdbg.all(view)
-      #pdbg.all(window)
-      pdbg.all(presentedViewController.view())
+      #pdbg.state(this)
 
     def viewWillDisappear_(_self, _cmd, _animated):
       #print('viewWillDisappear')
@@ -62,7 +46,12 @@ class ObjcUIViewController:
 
     def viewDidLayoutSubviews(_self, _cmd):
       #print('viewDidLayoutSubviews')
-      pass
+      this = ObjCInstance(_self)
+      view = this.view()
+      window = view.window()
+      #pdbg.all(window)
+      #this.dismissViewControllerAnimated_completion_(True, None)
+      #pass
 
     # --- `UIViewController` set up
     _methods = [
@@ -77,8 +66,8 @@ class ObjcUIViewController:
 
     create_kwargs = {
       'name': '_vc',
-      #'superclass': UIViewController,
-      'superclass': UINavigationController,
+      'superclass': UIViewController,
+      #'superclass': UINavigationController,
       'methods': _methods,
     }
     _vc = create_objc_class(**create_kwargs)
@@ -99,6 +88,22 @@ def present_objc(vc):
   while root_vc.presentedViewController():
     root_vc = root_vc.presentedViewController()
 
+  #pdbg.state(vc)
+  # [UIModalPresentationStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uimodalpresentationstyle)
+  '''
+  case -2 : automatic
+  case -1 : none
+  case  0 : fullScreen
+  case  1 : pageSheet <- default ?
+  case  2 : formSheet
+  case  3 : currentContext
+  case  4 : custom
+  case  5 : overFullScreen
+  case  6 : overCurrentContext
+  case  7 : popover
+  case  8 : blurOverFullScreen
+  '''
+  vc.setModalPresentationStyle_(0)
   root_vc.presentViewController_animated_completion_(vc, True, None)
 
 
