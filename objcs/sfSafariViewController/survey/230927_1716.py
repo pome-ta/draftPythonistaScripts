@@ -34,7 +34,8 @@ class CustomSFSafariViewController:
 
       view = this.view()
       #window = view.window()
-      pdbg.state(view._internalConstraints())
+      #pdbg.state(view._internalConstraints())
+      pdbg.state(view._constraintsExceptingSubviewAutoresizingConstraints())
 
     def remoteViewControllerDidLoadWebView_(_self, _cmd, _webview):
       this = ObjCInstance(_webview)
