@@ -42,7 +42,7 @@ def present_objc(sender):
   
   root_vc = window.rootViewController()
   presented_vc = root_vc.presentedViewController()
-  pdbg.all(presented_vc)
+  pdbg.all(presented_vc.view())
   
   #pdbg.all(root_vc)
   #view = root_vc.view()
