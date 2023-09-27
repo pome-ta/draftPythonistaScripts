@@ -41,7 +41,9 @@ def present_objc(sender):
   window = app.keyWindow()
   
   root_vc = window.rootViewController()
-  pdbg.all(root_vc)
+  #pdbg.all(root_vc)
+  view = root_vc.view()
+  pdbg.all(view)
   #pdbg.state(root_vc.view())
   #pdbg.state(root_vc.detailViewController())
   #pdbg.state(root_vc.detailViewController().view())
