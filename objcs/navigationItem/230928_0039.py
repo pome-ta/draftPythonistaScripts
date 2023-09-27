@@ -30,7 +30,7 @@ class ObjcUIViewController:
       this = ObjCInstance(_self)
       view = this.view()
       window = view.window()
-      #pdbg.state(this)
+      pdbg.state(this)
 
     def viewWillDisappear_(_self, _cmd, _animated):
       #print('viewWillDisappear')
@@ -103,7 +103,7 @@ def present_objc(vc):
   case  7 : popover
   case  8 : blurOverFullScreen
   '''
-  vc.setModalPresentationStyle_(0)
+  #vc.setModalPresentationStyle_(0)
   root_vc.presentViewController_animated_completion_(vc, True, None)
 
 
