@@ -31,7 +31,7 @@ class View(ui.View):
     pass
 
 
-#@on_main_thread
+@on_main_thread
 def present_objc(sender):
   #print(dir(sender))
   #pdbg.state(ObjCInstance(sender))
@@ -41,9 +41,12 @@ def present_objc(sender):
   window = app.keyWindow()
   
   root_vc = window.rootViewController()
+  presented_vc = root_vc.presentedViewController()
+  pdbg.all(presented_vc)
+  
   #pdbg.all(root_vc)
-  view = root_vc.view()
-  pdbg.all(view)
+  #view = root_vc.view()
+  #pdbg.all(view)
   #pdbg.state(root_vc.view())
   #pdbg.state(root_vc.detailViewController())
   #pdbg.state(root_vc.detailViewController().view())
