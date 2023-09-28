@@ -6,8 +6,10 @@ UIViewController = ObjCClass('UIViewController')
 UINavigationController = ObjCClass('UINavigationController')
 UIColor = ObjCClass('UIColor')
 
+UILabel = ObjCClass('UILabel')
 
-pdbg.state(UINavigationController.alloc())
+#pdbg.state(UINavigationController.alloc())
+
 
 class ObjcUIViewController:
 
@@ -22,6 +24,17 @@ class ObjcUIViewController:
       this = ObjCInstance(_self)
       view = this.view()
       #view.backgroundColor = UIColor.cyanColor()
+      view.backgroundColor = UIColor.redColor()
+      
+      _frame = ((0.0, 0.0), (100.0, 100.0))
+      label1 = UILabel.alloc().initWithFrame_(_frame)
+      label1.text = 'ほげ'
+      label2 = UILabel.alloc().initWithFrame_(_frame)
+      label2.text = 'ほげ'
+      view.addSubview_(label1)
+      view.addSubview_(label2)
+      #pdbg.mthd(win)
+
       #this.navigationItem().setTitle_('ほげ')
       #this.navigationItem().title = 'h'
       #pdbg.state(this.navigationItem())
@@ -39,6 +52,7 @@ class ObjcUIViewController:
       window = view.window()
       #pdbg.state(this)
       #pdbg.state(this.navigationItem().title())
+      pdbg.mthd(window)
 
     def viewWillDisappear_(_self, _cmd, _animated):
       #print('viewWillDisappear')
@@ -93,10 +107,12 @@ def present_objc(vc):
   window = app.keyWindow() if app.keyWindow() else app.windows().firstObject()
 
   root_vc = window.rootViewController()
+
   while root_vc.presentedViewController():
     root_vc = root_vc.presentedViewController()
 
-  #pdbg.state(vc)
+  #pdbg.state(root_vc)
+  #pdbg.mthd(root_vc.view())
   # [UIModalPresentationStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uimodalpresentationstyle)
   '''
   case -2 : automatic
@@ -111,9 +127,21 @@ def present_objc(vc):
   case  7 : popover
   case  8 : blurOverFullScreen
   '''
+
+  #nvc = UINavigationController.alloc().initWithRootViewController_(root_vc)
   #vc.setModalPresentationStyle_(0)
-  root_vc.presentViewController_animated_completion_(vc, True, None)
   #pdbg.state(root_vc)
+  #nvc = UINavigationController.alloc().initWithRootViewController_(vc)
+  #pdbg.state(nvc)
+  #pdbg.state(vc)
+
+  #root_vc.presentViewController_animated_completion_(nvc, True, None)
+
+  #root_vc.didMoveToParentViewController_(vc)
+
+  #nvc.presentViewController_animated_completion_(vc, True, None)
+  #pdbg.state(root_vc)
+  root_vc.presentViewController_animated_completion_(vc, True, None)
 
 
 if __name__ == '__main__':

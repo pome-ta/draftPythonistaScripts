@@ -7,7 +7,7 @@ UINavigationController = ObjCClass('UINavigationController')
 UIColor = ObjCClass('UIColor')
 
 
-pdbg.state(UINavigationController.alloc())
+#pdbg.state(UINavigationController.alloc())
 
 class ObjcUIViewController:
 
@@ -93,6 +93,7 @@ def present_objc(vc):
   window = app.keyWindow() if app.keyWindow() else app.windows().firstObject()
 
   root_vc = window.rootViewController()
+  pdbg.state(root_vc)
   while root_vc.presentedViewController():
     root_vc = root_vc.presentedViewController()
 
@@ -111,8 +112,23 @@ def present_objc(vc):
   case  7 : popover
   case  8 : blurOverFullScreen
   '''
+  
+  #nvc = UINavigationController.alloc().initWithRootViewController_(root_vc)
   #vc.setModalPresentationStyle_(0)
-  root_vc.presentViewController_animated_completion_(vc, True, None)
+  #pdbg.state(root_vc)
+  #nvc = UINavigationController.alloc().initWithRootViewController_(vc)
+  #pdbg.state(nvc)
+  #pdbg.state(vc)
+  
+  #root_vc.presentViewController_animated_completion_(vc, True, None)
+  
+  #root_vc.presentViewController_animated_completion_(nvc, True, None)
+  
+  #root_vc.didMoveToParentViewController_(vc)
+
+  
+  
+  #nvc.presentViewController_animated_completion_(vc, True, None)
   #pdbg.state(root_vc)
 
 
