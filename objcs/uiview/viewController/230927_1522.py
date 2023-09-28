@@ -25,6 +25,8 @@ class View(ui.View):
 
   def will_close(self):
     #print('close')
+    present_objc(None)
+    
     pass
 
   def layout(self):
@@ -42,7 +44,13 @@ def present_objc(sender):
   
   root_vc = window.rootViewController()
   presented_vc = root_vc.presentedViewController()
-  pdbg.all(presented_vc.view())
+  view = presented_vc.view()
+  #pdbg.all(presented_vc.view())
+  #pdbg.mthd(presented_vc.window())
+  #pdbg.state(presented_vc)
+  #pdbg.mthd(view.window())
+  pdbg.mthd(window)
+  
   
   #pdbg.all(root_vc)
   #view = root_vc.view()

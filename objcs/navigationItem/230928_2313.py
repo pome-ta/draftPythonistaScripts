@@ -52,7 +52,7 @@ class ObjcUIViewController:
       window = view.window()
       #pdbg.state(this)
       #pdbg.state(this.navigationItem().title())
-      pdbg.mthd(window)
+      #pdbg.mthd(window)
 
     def viewWillDisappear_(_self, _cmd, _animated):
       #print('viewWillDisappear')
@@ -72,7 +72,8 @@ class ObjcUIViewController:
       view = this.view()
       window = view.window()
       #pdbg.all(window)
-      #this.dismissViewControllerAnimated_completion_(True, None)
+      pdbg.mthd(window)
+      this.dismissViewControllerAnimated_completion_(True, None)
       #pass
 
     # --- `UIViewController` set up
@@ -141,6 +142,7 @@ def present_objc(vc):
 
   #nvc.presentViewController_animated_completion_(vc, True, None)
   #pdbg.state(root_vc)
+  vc.setModalPresentationStyle(0)
   root_vc.presentViewController_animated_completion_(vc, True, None)
 
 
