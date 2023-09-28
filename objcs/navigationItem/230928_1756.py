@@ -7,7 +7,7 @@ UINavigationController = ObjCClass('UINavigationController')
 UIColor = ObjCClass('UIColor')
 
 
-pdbg.state(UINavigationController.new())
+#pdbg.state(UINavigationController.new())
 
 class ObjcUIViewController:
 
@@ -21,7 +21,12 @@ class ObjcUIViewController:
       #print('viewDidLoad')
       this = ObjCInstance(_self)
       view = this.view()
-      view.backgroundColor = UIColor.cyanColor()
+      #view.backgroundColor = UIColor.cyanColor()
+      #this.navigationItem().setTitle_('ほげ')
+      #this.navigationItem().title = 'h'
+      #pdbg.state(this.navigationItem())
+      this.title = 'ほげ'
+      #pdbg.state(this)
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
@@ -33,6 +38,7 @@ class ObjcUIViewController:
       view = this.view()
       window = view.window()
       #pdbg.state(this)
+      pdbg.state(this.navigationItem().title())
 
     def viewWillDisappear_(_self, _cmd, _animated):
       #print('viewWillDisappear')
@@ -68,8 +74,8 @@ class ObjcUIViewController:
 
     create_kwargs = {
       'name': '_vc',
-      'superclass': UIViewController,
-      #'superclass': UINavigationController,
+      #'superclass': UIViewController,
+      'superclass': UINavigationController,
       'methods': _methods,
     }
     _vc = create_objc_class(**create_kwargs)
