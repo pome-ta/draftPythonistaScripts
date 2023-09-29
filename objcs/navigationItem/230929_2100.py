@@ -7,7 +7,7 @@ UIViewController = ObjCClass('UIViewController')
 UINavigationController = ObjCClass('UINavigationController')
 
 UIColor = ObjCClass('UIColor')
-UILabel = ObjCClass('UILabel')
+
 
 
 class ObjcUIViewController:
