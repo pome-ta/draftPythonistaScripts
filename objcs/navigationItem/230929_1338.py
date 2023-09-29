@@ -25,21 +25,25 @@ class ObjcUIViewController:
       view = this.view()
       #view.backgroundColor = UIColor.cyanColor()
       view.backgroundColor = UIColor.redColor()
-      
+
       _frame = ((0.0, 0.0), (100.0, 100.0))
       label1 = UILabel.alloc().initWithFrame_(_frame)
       label1.text = 'ほげ'
       label2 = UILabel.alloc().initWithFrame_(_frame)
-      label2.text = 'ほげ'
+      label2.text = 'ふが゙'
+      label2.backgroundColor = UIColor.blueColor()
       view.addSubview_(label1)
       view.addSubview_(label2)
       #pdbg.mthd(win)
 
-      #this.navigationItem().setTitle_('ほげ')
+      this.navigationItem().setTitle_('ほげ')
       #this.navigationItem().title = 'h'
       #pdbg.state(this.navigationItem())
       #this.title = 'ほげ'
+      
       #pdbg.state(this)
+      #navigationController = this.navigationController()
+      #pdbg.state(navigationController)
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
@@ -53,6 +57,17 @@ class ObjcUIViewController:
       #pdbg.state(this)
       #pdbg.state(this.navigationItem().title())
       #pdbg.mthd(window)
+      #pdbg.state(this.navigationItem())
+      
+      navigationController = this.navigationController()
+      #pdbg.state(navigationController.edgesForExtendedLayout())
+      
+      #pdbg.state(this.edgesForExtendedLayout())
+      
+      #pdbg.state(this.extendedLayoutIncludesOpaqueBars())
+      #extendedLayoutIncludesOpaqueBars
+      # (1 << 0)|(1 << 1)|(1 << 2)|(1 << 3)
+      pdbg.state(this)
 
     def viewWillDisappear_(_self, _cmd, _animated):
       #print('viewWillDisappear')
@@ -89,8 +104,8 @@ class ObjcUIViewController:
 
     create_kwargs = {
       'name': '_vc',
-      #'superclass': UIViewController,
-      'superclass': UINavigationController,
+      'superclass': UIViewController,
+      #'superclass': UINavigationController,
       'methods': _methods,
     }
     _vc = create_objc_class(**create_kwargs)
@@ -116,7 +131,7 @@ def present_objc(vc):
   #pdbg.state(root_vc)
   #pdbg.mthd(root_vc.view())
   # [UIModalPresentationStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uimodalpresentationstyle)
-  pdbg.state(vc)
+  #pdbg.state(vc)
   '''
   case -2 : automatic
   case -1 : none
@@ -131,7 +146,7 @@ def present_objc(vc):
   case  8 : blurOverFullScreen
   '''
 
-  #nvc = UINavigationController.alloc().initWithRootViewController_(root_vc)
+  nvc = UINavigationController.alloc().initWithRootViewController_(vc)
   #vc.setModalPresentationStyle_(0)
   #pdbg.state(root_vc)
   #nvc = UINavigationController.alloc().initWithRootViewController_(vc)
@@ -148,6 +163,7 @@ def present_objc(vc):
   #pdbg.state(root_vc)
   #root_vc.presentViewController_animated_completion_(vc, True, None)
   #root_vc.pushViewController_animated_(vc, True)
+  root_vc.presentViewController_animated_completion_(nvc, True, None)
 
 
 if __name__ == '__main__':
