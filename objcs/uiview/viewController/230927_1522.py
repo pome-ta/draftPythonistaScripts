@@ -30,7 +30,9 @@ class View(ui.View):
     pass
 
   def layout(self):
-    pass
+    present_objc(None)
+    self.close()
+    
 
 
 @on_main_thread
