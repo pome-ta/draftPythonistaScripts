@@ -37,8 +37,8 @@ class ObjcUIViewController:
       #pdbg.mthd(win)
 
       this.navigationItem().setTitle_('ほげ')
-      navigationController = this.navigationController()
-      navigationController.setEdgesForExtendedLayout_(0)
+      #navigationController = this.navigationController()
+      #navigationController.setEdgesForExtendedLayout_(0)
       #this.navigationItem().title = 'h'
       #pdbg.state(this.navigationItem())
       #this.title = 'ほげ'
@@ -61,8 +61,8 @@ class ObjcUIViewController:
       #pdbg.mthd(window)
       #pdbg.state(this.navigationItem())
       
-      #navigationController = this.navigationController()
-      #navigationController.setEdgesForExtendedLayout_(0)
+      navigationController = this.navigationController()
+      navigationController.setEdgesForExtendedLayout_(0)
       #pdbg.state(navigationController.edgesForExtendedLayout())
       
       #pdbg.state(this.edgesForExtendedLayout())
@@ -107,8 +107,8 @@ class ObjcUIViewController:
 
     create_kwargs = {
       'name': '_vc',
-      'superclass': UIViewController,
-      #'superclass': UINavigationController,
+      #'superclass': UIViewController,
+      'superclass': UINavigationController,
       'methods': _methods,
     }
     _vc = create_objc_class(**create_kwargs)
@@ -149,7 +149,7 @@ def present_objc(vc):
   case  8 : blurOverFullScreen
   '''
 
-  nvc = UINavigationController.alloc().initWithRootViewController_(vc)
+  #nvc = UINavigationController.alloc().initWithRootViewController_(vc)
   #vc.setModalPresentationStyle_(0)
   #pdbg.state(root_vc)
   #nvc = UINavigationController.alloc().initWithRootViewController_(vc)
@@ -164,9 +164,9 @@ def present_objc(vc):
   #pdbg.state(root_vc)
   #vc.setModalPresentationStyle(0)
   #pdbg.state(root_vc)
-  #root_vc.presentViewController_animated_completion_(vc, True, None)
+  root_vc.presentViewController_animated_completion_(vc, True, None)
   #root_vc.pushViewController_animated_(vc, True)
-  root_vc.presentViewController_animated_completion_(nvc, True, None)
+  #root_vc.presentViewController_animated_completion_(nvc, True, None)
 
 
 if __name__ == '__main__':
