@@ -26,9 +26,20 @@ class ObjcUIViewController:
     vc = self._viewController.new()
     nv = UINavigationController.alloc()
     nv.initWithRootViewController_(vc)
+    
+    
+    
+    
+    '''
 
     _nva = UINavigationBarAppearance.new()
     navigationBarAppearance = _nva.configureWithDefaultBackground()
+    '''
+    navigationBarAppearance = UINavigationBarAppearance.new()
+    navigationBar = nv.navigationBar()
+    navigationBar.standardAppearance = navigationBarAppearance
+    #pdbg.state(navigationBar)
+    
 
     #pdbg.state(navigationBarAppearance)
 
