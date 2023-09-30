@@ -16,9 +16,15 @@ class ObjcUIViewController:
     self._viewController: UIViewController
     self._navigationController: UINavigationController
 
+  @on_main_thread
   def init(self):
-    self._override_navigationController()
-    self._this = self._navigationController.new()
+    #self._override_navigationController()
+    #self._this = self._navigationController.new()
+    self._override_viewController()
+    vc = self._viewController.new()
+    nv = UINavigationController.alloc()
+    nv.initWithRootViewController_(vc)
+    self._this = nv
 
   def _override_viewController(self):
     # --- `UIViewController` Methods
@@ -26,6 +32,8 @@ class ObjcUIViewController:
       #print('viewDidLoad')
       this = ObjCInstance(_self)
       view = this.view()
+      view.backgroundColor = UIColor.redColor()
+      this.navigationItem().setTitle_('ほげ')
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
