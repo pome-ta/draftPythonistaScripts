@@ -26,20 +26,22 @@ class ObjcUIViewController:
     vc = self._viewController.new()
     nv = UINavigationController.alloc()
     nv.initWithRootViewController_(vc)
-    
-    
-    
-    
     '''
-
     _nva = UINavigationBarAppearance.new()
     navigationBarAppearance = _nva.configureWithDefaultBackground()
     '''
-    navigationBarAppearance = UINavigationBarAppearance.new()
-    navigationBar = nv.navigationBar()
-    navigationBar.standardAppearance = navigationBarAppearance
+    #navigationBarAppearance = UINavigationBarAppearance.new()
+    #navigationBar = nv.navigationBar()
+    #navigationBar.standardAppearance = navigationBarAppearance
     #pdbg.state(navigationBar)
-    
+
+    #pdbg.state(nv)
+    # todo: bar に直接
+    #navigationBar = nv.navigationBar()
+    #navigationBar.isTranslucent = False
+
+    #pdbg.state(navigationBar.isTranslucent())
+    #navigationItem = nv.navigationItem()
 
     #pdbg.state(navigationBarAppearance)
 
@@ -53,6 +55,19 @@ class ObjcUIViewController:
       view = this.view()
       view.backgroundColor = UIColor.redColor()
       this.navigationItem().setTitle_('ほげ')
+
+      navigationController = this.navigationController()
+      # todo: bar に直接
+      navigationBar = navigationController.navigationBar()
+
+      navigationBar.setBarStyle_(UIColor.blueColor())
+      navigationBar.setTranslucent_(False)
+      
+      #pdbg.state(navigationBar)
+
+      #pdbg.state(navigationBar)
+      #navigationBar = nv.navigationBar()
+      #navigationBar.isTranslucent = False
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')

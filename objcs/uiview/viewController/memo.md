@@ -1,3 +1,11 @@
+# 📝 2023/09/30
+
+navigation と分けちゃってるけど、こちらに
+
+[Customizing Your App’s Navigation Bar | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uinavigationcontroller/customizing_your_app_s_navigation_bar?ref=blog.personal-factory.com&language=objc)
+
+
+
 # 📝 2023/09/22
 
 
