@@ -1,7 +1,11 @@
+from pathlib import Path
+
 from objc_util import ObjCClass, ObjCInstance, create_objc_class
 from objc_util import on_main_thread
 
 import pdbg
+
+file_name = Path(__file__).name
 
 UIViewController = ObjCClass('UIViewController')
 UINavigationController = ObjCClass('UINavigationController')
@@ -13,6 +17,7 @@ UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
 UIColor = ObjCClass('UIColor')
 
 #pdbg.state(UINavigationBarAppearance.new())
+#print(Path(__file__).name)
 
 
 class ObjcUIViewController:
@@ -40,7 +45,7 @@ class ObjcUIViewController:
       view.backgroundColor = UIColor.redColor()
 
       navigationItem = this.navigationItem()
-      navigationItem.setTitle_('ほげ')
+      navigationItem.setTitle_(str(file_name))
       # xxx: bg の色変える？
 
       navigationController = this.navigationController()
@@ -48,7 +53,7 @@ class ObjcUIViewController:
       navigationBar = navigationController.navigationBar()
 
       navigationBar.setBarStyle_(1)
-      #navigationBar.setTranslucent_(False)
+      navigationBar.setTranslucent_(False)
       #navigationBar.setBarTintColor_(UIColor.blueColor())
       #navigationBar.setTintColor_(UIColor.blueColor())
       #navigationBar.barTintColor = UIColor.blueColor()
@@ -58,8 +63,8 @@ class ObjcUIViewController:
       done_btn = UIBarButtonItem.alloc(
       ).initWithBarButtonSystemItem_target_action_(0, this, None)
       #pdbg.state(UIBarButtonItem.alloc())
-      pdbg.state(navigationItem)
-      navigationItem.rightBarButtonItem = done_btn
+      #pdbg.state(navigationItem)
+      navigationItem.leftBarButtonItem = done_btn
 
       #pdbg.state(navigationBar)
       #navigationBar = nv.navigationBar()
