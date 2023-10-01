@@ -6,8 +6,7 @@ from objc_util import on_main_thread, sel
 import pdbg
 
 #file_name = Path(__file__).name
-file_name = 'objc_util のみでUI'
-
+file_name = 'ViewController から作る😤'
 
 UIViewController = ObjCClass('UIViewController')
 UINavigationController = ObjCClass('UINavigationController')
@@ -46,7 +45,8 @@ class ObjcUIViewController:
       #print('viewDidLoad')
       this = ObjCInstance(_self)
       view = this.view()
-      view.backgroundColor = UIColor.redColor()
+      #view.backgroundColor = UIColor.redColor()
+      view.backgroundColor = UIColor.blueColor()
 
       navigationItem = this.navigationItem()
       navigationItem.setTitle_(str(file_name))
@@ -58,28 +58,11 @@ class ObjcUIViewController:
 
       navigationBar.setBarStyle_(1)
       #navigationBar.setTranslucent_(False)
-      #navigationBar.setBarTintColor_(UIColor.blueColor())
-      #navigationBar.setTintColor_(UIColor.blueColor())
-      #navigationBar.barTintColor = UIColor.blueColor()
-      #pdbg.state(navigationBar.barStyle())
-
-      #pdbg.state(navigationBar.barTintColor())
       _ubbi = UIBarButtonItem.alloc()
       done_btn = _ubbi.initWithBarButtonSystemItem_target_action_(
         0, this, sel('doneButtonTapped:'))
-      '''
-      done_btn = UIBarButtonItem.alloc(
-      ).initWithBarButtonSystemItem_target_action_(0, this,
-                                                   sel('doneButtonTapped:'))
-      '''
-      #pdbg.state(UIBarButtonItem.alloc())
-      #pdbg.state(navigationItem)
-      navigationItem.leftBarButtonItem = done_btn
 
-      #pdbg.state(navigationBar)
-      #navigationBar = nv.navigationBar()
-      #navigationBar.isTranslucent = False
-      #pdbg.state(this)
+      navigationItem.leftBarButtonItem = done_btn
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
