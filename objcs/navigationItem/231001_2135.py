@@ -33,11 +33,13 @@ class ObjcUIViewController:
 
     self._this = nv
 
-  def doneButtonTapped_(self, _sender):
-    print('押された')
-
   def _override_viewController(self):
     # --- `UIViewController` Methods
+
+    def doneButtonTapped_(_self, _cmd, _sender):
+      this = ObjCInstance(_self)
+      this.dismissViewControllerAnimated_completion_(True, None)
+      #print('押された')
 
     def viewDidLoad(_self, _cmd):
       #print('viewDidLoad')
@@ -54,16 +56,21 @@ class ObjcUIViewController:
       navigationBar = navigationController.navigationBar()
 
       navigationBar.setBarStyle_(1)
-      navigationBar.setTranslucent_(False)
+      #navigationBar.setTranslucent_(False)
       #navigationBar.setBarTintColor_(UIColor.blueColor())
       #navigationBar.setTintColor_(UIColor.blueColor())
       #navigationBar.barTintColor = UIColor.blueColor()
       #pdbg.state(navigationBar.barStyle())
 
       #pdbg.state(navigationBar.barTintColor())
+      _ubbi = UIBarButtonItem.alloc()
+      done_btn = _ubbi.initWithBarButtonSystemItem_target_action_(
+        0, this, sel('doneButtonTapped:'))
+      '''
       done_btn = UIBarButtonItem.alloc(
       ).initWithBarButtonSystemItem_target_action_(0, this,
-                                                   ns(self.doneButtonTapped_))
+                                                   sel('doneButtonTapped:'))
+      '''
       #pdbg.state(UIBarButtonItem.alloc())
       #pdbg.state(navigationItem)
       navigationItem.leftBarButtonItem = done_btn
@@ -71,6 +78,7 @@ class ObjcUIViewController:
       #pdbg.state(navigationBar)
       #navigationBar = nv.navigationBar()
       #navigationBar.isTranslucent = False
+      #pdbg.state(this)
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
@@ -103,6 +111,7 @@ class ObjcUIViewController:
 
     # --- `UIViewController` set up
     _methods = [
+      doneButtonTapped_,
       viewDidLoad,
       viewWillAppear_,
       viewDidAppear_,
@@ -149,7 +158,7 @@ def present_objc(vc):
   case  7 : popover
   case  8 : blurOverFullScreen
   '''
-  #vc.setModalPresentationStyle(0)
+  vc.setModalPresentationStyle(0)
   root_vc.presentViewController_animated_completion_(vc, True, None)
 
 
