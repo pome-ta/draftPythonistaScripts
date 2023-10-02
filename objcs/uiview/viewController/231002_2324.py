@@ -31,17 +31,12 @@ class ObjcUIViewController:
   def _init(self):
     self._override_viewController()
     self._override_navigationController()
+    self._nvDelegate = self.create_navigationControllerDelegate()
 
     vc = self._viewController.new().autorelease()
     nv = self._navigationController.alloc()
     nv.initWithRootViewController_(vc).autorelease()
-    self._nvDelegate = self.create_navigationControllerDelegate()
     nv.setDelegate_(self._nvDelegate)
-
-    #pdbg.state(nv)
-    #pdbg.state(nv.navigationItem())
-    #pdbg.state(nv.viewControllers())
-    #pdbg.state(nv.topViewController())
     self._this = nv
 
   def create_navigationControllerDelegate(self):
@@ -70,11 +65,27 @@ class ObjcUIViewController:
       #pdbg.state(navigationController)
 
       #pdbg.state(navigationController.navigationItem())
+      
+      _done_btn = UIBarButtonItem.alloc()
+      #done_btn = _done_btn.initWithBarButtonSystemItem_target_action_(0, this, sel('doneButtonTapped:'))
+      
+      done_btn = _done_btn.initWithBarButtonSystemItem_target_action_(0, this, None)
+
+      
       topViewController = navigationController.topViewController()
+      
+      
       # --- navigationItem
       navigationItem = topViewController.navigationItem()
       navigationItem.setTitle_(str(file_name))
       #pdbg.state(navigationBar)
+      pdbg.state(navigationController)
+      
+
+      #navigationItem = this.navigationItem()
+      #navigationItem.setTitle_(str(file_name))
+
+      navigationItem.leftBarButtonItem = done_btn
 
     def navigationController_didShowViewController_animated_(
         _self, _cmd, _navigationController, _viewController, _animated):
@@ -245,7 +256,7 @@ def present_objc(vc):
   case  7 : popover
   case  8 : blurOverFullScreen
   '''
-  vc.setModalPresentationStyle(0)
+  #vc.setModalPresentationStyle(0)
   root_vc.presentViewController_animated_completion_(vc, True, None)
 
 

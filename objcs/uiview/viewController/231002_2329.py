@@ -31,28 +31,20 @@ class ObjcUIViewController:
   def _init(self):
     self._override_viewController()
     self._override_navigationController()
+    self._nvDelegate = self.create_navigationControllerDelegate()
 
     vc = self._viewController.new().autorelease()
     nv = self._navigationController.alloc()
     nv.initWithRootViewController_(vc).autorelease()
-    self._nvDelegate = self.create_navigationControllerDelegate()
     nv.setDelegate_(self._nvDelegate)
-
-    #pdbg.state(nv)
-    #pdbg.state(nv.navigationItem())
-    #pdbg.state(nv.viewControllers())
-    #pdbg.state(nv.topViewController())
     self._this = nv
 
   def create_navigationControllerDelegate(self):
     # --- `UINavigationControllerDelegate` Methods
     def navigationController_willShowViewController_animated_(
         _self, _cmd, _navigationController, _viewController, _animated):
-      #print('will')
-      this = ObjCInstance(_self)
       navigationController = ObjCInstance(_navigationController)
       viewController = ObjCInstance(_viewController)
-      #pdbg.state(viewController)
 
       # --- appearance
       appearance = UINavigationBarAppearance.alloc()
@@ -67,14 +59,16 @@ class ObjcUIViewController:
       navigationBar.compactAppearance = appearance
       navigationBar.compactScrollEdgeAppearance = appearance
 
-      #pdbg.state(navigationController)
+      _done_btn = UIBarButtonItem.alloc()
+      done_btn = _done_btn.initWithBarButtonSystemItem_target_action_(
+        0, navigationController, sel('doneButtonTapped:'))
 
-      #pdbg.state(navigationController.navigationItem())
       topViewController = navigationController.topViewController()
+
       # --- navigationItem
       navigationItem = topViewController.navigationItem()
       navigationItem.setTitle_(str(file_name))
-      #pdbg.state(navigationBar)
+      navigationItem.rightBarButtonItem = done_btn
 
     def navigationController_didShowViewController_animated_(
         _self, _cmd, _navigationController, _viewController, _animated):
@@ -100,52 +94,11 @@ class ObjcUIViewController:
 
   def _override_viewController(self):
     # --- `UIViewController` Methods
-    def doneButtonTapped_(_self, _cmd, _sender):
-      sender = ObjCInstance(_sender)
-      #pdbg.state(sender)
-      ObjCInstance(_self).dismissViewControllerAnimated_completion_(True, None)
-
     def viewDidLoad(_self, _cmd):
       #print('viewDidLoad')
       this = ObjCInstance(_self)
       view = this.view()
       view.backgroundColor = Red
-
-      navigationController = this.navigationController()
-      '''
-
-      # --- appearance
-      appearance = UINavigationBarAppearance.alloc()
-      appearance.configureWithOpaqueBackground()
-      appearance.backgroundColor = BLUE
-
-      # --- navigationBar
-      navigationBar = navigationController.navigationBar()
-
-      navigationBar.standardAppearance = appearance
-      navigationBar.scrollEdgeAppearance = appearance
-      navigationBar.compactAppearance = appearance
-      navigationBar.compactScrollEdgeAppearance = appearance
-      '''
-
-      # [UIBarStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uibarstyle?language=objc)
-      '''
-      0 : UIBarStyleDefault
-      1 : UIBarStyleBlack
-      '''
-      #navigationBar.setBarStyle_(1)
-      #navigationBar.setTranslucent_(False)
-
-      _done_btn = UIBarButtonItem.alloc()
-      done_btn = _done_btn.initWithBarButtonSystemItem_target_action_(
-        0, this, sel('doneButtonTapped:'))
-
-      # --- navigationItem
-      navigationItem = this.navigationItem()
-      #navigationItem.setTitle_(str(file_name))
-
-      navigationItem.leftBarButtonItem = done_btn
-      #pdbg.state(navigationItem)
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
@@ -178,7 +131,6 @@ class ObjcUIViewController:
 
     # --- `UIViewController` set up
     _methods = [
-      doneButtonTapped_,
       viewDidLoad,
       viewWillAppear_,
       viewDidAppear_,

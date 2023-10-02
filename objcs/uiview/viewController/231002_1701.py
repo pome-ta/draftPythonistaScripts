@@ -95,46 +95,43 @@ class ObjcUIViewController:
   def _override_navigationController(self):
     # --- `UINavigationController` Methods
     def doneButtonTapped_(_self, _cmd, _sender):
-      ObjCInstance(_self).dismissViewControllerAnimated_completion_(True, None)
+      this = ObjCInstance(_self)
+      topViewController = this.topViewController()
+      topViewController.dismissViewControllerAnimated_completion_(True, None)
+      
+      
 
     def viewDidLoad(_self, _cmd):
       #print('viewDidLoad')
       this = ObjCInstance(_self)
-      view = this.view()
-      window = view.window()
-      #pdbg.state(this.presentingViewController())
-
+      
+      
+      
+      
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
       this = ObjCInstance(_self)
       view = this.view()
       window = view.window()
-      '''
-      presentedViewController
-      presentingViewController  -> PASlidingContainerViewController
-      parentModalViewController
-      parentViewController
-      childModalViewController
-      '''
-      #pdbg.state(this.presentingViewController())
+      
+
+      
 
     def viewDidAppear_(_self, _cmd, _animated):
       #print('viewDidAppear')
       this = ObjCInstance(_self)
       view = this.view()
       window = view.window()
-      #pdbg.state(this.childModalViewController())
+      topViewController = this.topViewController()
+      #pdbg.state(topViewController)
       
-      
-      '''
-
       # --- appearance
       appearance = UINavigationBarAppearance.alloc()
       appearance.configureWithOpaqueBackground()
       appearance.backgroundColor = BLUE
 
       # --- navigationBar
-      navigationBar = this.navigationBar()
+      navigationBar = topViewController.navigationBar()
 
       navigationBar.standardAppearance = appearance
       navigationBar.scrollEdgeAppearance = appearance
@@ -147,11 +144,10 @@ class ObjcUIViewController:
         0, this, sel('doneButtonTapped:'))
 
       # --- navigationItem
-      navigationItem = this.navigationItem()
+      navigationItem = topViewController.navigationItem()
       navigationItem.setTitle_(str(file_name))
 
       navigationItem.leftBarButtonItem = done_btn
-      '''
 
     def viewWillDisappear_(_self, _cmd, _animated):
       #print('viewWillDisappear')
