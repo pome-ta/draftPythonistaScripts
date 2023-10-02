@@ -48,6 +48,16 @@ class ObjcUIViewController:
     def viewDidLoad(_self, _cmd):
       #print('viewDidLoad')
       this = ObjCInstance(_self)
+      #this.setExtendedLayoutIncludesOpaqueBars_(0)
+      #setEdgesForExtendedLayout
+      print(this.edgesForExtendedLayout())
+      print(this.extendedLayoutIncludesOpaqueBars())
+      
+      
+      
+      
+      
+      
       view = this.view()
       view.backgroundColor = Red
       
@@ -66,6 +76,8 @@ class ObjcUIViewController:
       label2.text = 'ほげ'
       view.addSubview_(label1)
       view.addSubview_(label2)
+      #pdbg.state(this)
+      #pdbg.state(this.edgesForExtendedLayout())
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
@@ -145,7 +157,7 @@ class ObjcUIViewController:
       # --- appearance
       appearance = UINavigationBarAppearance.alloc()
       appearance.configureWithOpaqueBackground()
-      appearance.backgroundColor = BLUE
+      #appearance.backgroundColor = BLUE
 
       # --- navigationBar
       navigationBar = navigationController.navigationBar()
