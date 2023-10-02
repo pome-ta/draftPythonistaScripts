@@ -39,6 +39,80 @@ class ObjcUIViewController:
     nv.setDelegate_(self._nvDelegate)
     self._this = nv
 
+  def _override_viewController(self):
+    # --- `UIViewController` Methods
+    def viewDidLoad(_self, _cmd):
+      #print('viewDidLoad')
+      this = ObjCInstance(_self)
+      view = this.view()
+      view.backgroundColor = Red
+
+    def viewWillAppear_(_self, _cmd, _animated):
+      #print('viewWillAppear')
+      pass
+
+    def viewDidAppear_(_self, _cmd, _animated):
+      #print('viewDidAppear')
+      this = ObjCInstance(_self)
+      view = this.view()
+      window = view.window()
+      #pdbg.state(this)
+
+    def viewWillDisappear_(_self, _cmd, _animated):
+      #print('viewWillDisappear')
+      pass
+
+    def viewDidDisappear_(_self, _cmd, _animated):
+      #print('viewDidDisappear')
+      pass
+
+    def viewWillLayoutSubviews(_self, _cmd):
+      #print('viewWillLayoutSubviews')
+      pass
+
+    def viewDidLayoutSubviews(_self, _cmd):
+      #print('viewDidLayoutSubviews')
+      pass
+
+    # --- `UIViewController` set up
+    _methods = [
+      viewDidLoad,
+      viewWillAppear_,
+      viewDidAppear_,
+      viewWillDisappear_,
+      viewDidDisappear_,
+      viewWillLayoutSubviews,
+      viewDidLayoutSubviews,
+    ]
+
+    create_kwargs = {
+      'name': '_vc',
+      'superclass': UIViewController,
+      'methods': _methods,
+    }
+    _vc = create_objc_class(**create_kwargs)
+    self._viewController = _vc
+
+  def _override_navigationController(self):
+    # --- `UINavigationController` Methods
+    def doneButtonTapped_(_self, _cmd, _sender):
+      this = ObjCInstance(_self)
+      topViewController = this.topViewController()
+      topViewController.dismissViewControllerAnimated_completion_(True, None)
+
+    # --- `UIViewController` set up
+    _methods = [
+      doneButtonTapped_,
+    ]
+
+    create_kwargs = {
+      'name': '_nv',
+      'superclass': UINavigationController,
+      'methods': _methods,
+    }
+    _nv = create_objc_class(**create_kwargs)
+    self._navigationController = _nv
+
   def create_navigationControllerDelegate(self):
     # --- `UINavigationControllerDelegate` Methods
     def navigationController_willShowViewController_animated_(
@@ -91,82 +165,6 @@ class ObjcUIViewController:
     }
     _nvDelegate = create_objc_class(**create_kwargs)
     return _nvDelegate.new()
-
-  def _override_viewController(self):
-    # --- `UIViewController` Methods
-    def viewDidLoad(_self, _cmd):
-      #print('viewDidLoad')
-      this = ObjCInstance(_self)
-      view = this.view()
-      view.backgroundColor = Red
-
-    def viewWillAppear_(_self, _cmd, _animated):
-      #print('viewWillAppear')
-      pass
-
-    def viewDidAppear_(_self, _cmd, _animated):
-      #print('viewDidAppear')
-      this = ObjCInstance(_self)
-      view = this.view()
-      window = view.window()
-      #pdbg.state(this)
-
-    def viewWillDisappear_(_self, _cmd, _animated):
-      #print('viewWillDisappear')
-      pass
-
-    def viewDidDisappear_(_self, _cmd, _animated):
-      #print('viewDidDisappear')
-      pass
-
-    def viewWillLayoutSubviews(_self, _cmd):
-      #print('viewWillLayoutSubviews')
-      pass
-
-    def viewDidLayoutSubviews(_self, _cmd):
-      #print('viewDidLayoutSubviews')
-      this = ObjCInstance(_self)
-      view = this.view()
-      window = view.window()
-
-    # --- `UIViewController` set up
-    _methods = [
-      viewDidLoad,
-      viewWillAppear_,
-      viewDidAppear_,
-      viewWillDisappear_,
-      viewDidDisappear_,
-      viewWillLayoutSubviews,
-      viewDidLayoutSubviews,
-    ]
-
-    create_kwargs = {
-      'name': '_vc',
-      'superclass': UIViewController,
-      'methods': _methods,
-    }
-    _vc = create_objc_class(**create_kwargs)
-    self._viewController = _vc
-
-  def _override_navigationController(self):
-    # --- `UINavigationController` Methods
-    def doneButtonTapped_(_self, _cmd, _sender):
-      this = ObjCInstance(_self)
-      topViewController = this.topViewController()
-      topViewController.dismissViewControllerAnimated_completion_(True, None)
-
-    # --- `UIViewController` set up
-    _methods = [
-      doneButtonTapped_,
-    ]
-
-    create_kwargs = {
-      'name': '_nv',
-      'superclass': UINavigationController,
-      'methods': _methods,
-    }
-    _nv = create_objc_class(**create_kwargs)
-    self._navigationController = _nv
 
   @classmethod
   def new(cls) -> ObjCInstance:
