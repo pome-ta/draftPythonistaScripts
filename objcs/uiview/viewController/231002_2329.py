@@ -19,6 +19,10 @@ BLUE = UIColor.blueColor()
 CYAN = UIColor.cyanColor()
 
 
+UIView = ObjCClass('UIView')
+UILabel = ObjCClass('UILabel')
+
+
 class ObjcUIViewController:
 
   def __init__(self):
@@ -46,6 +50,22 @@ class ObjcUIViewController:
       this = ObjCInstance(_self)
       view = this.view()
       view.backgroundColor = Red
+      
+      tmp_frame = ((0.0, 0.0), (100.0, 100.0))
+      
+      sub_view = UIView.new()
+      sub_view.setFrame_(tmp_frame)
+      sub_view.setAutoresizingMask_((1 << 1) | (1 << 4))
+      sub_view.backgroundColor = CYAN
+      view.addSubview_(sub_view)
+      
+      _frame = ((0.0, 0.0), (100.0, 100.0))
+      label1 = UILabel.alloc().initWithFrame_(_frame)
+      label1.text = 'ほげ'
+      label2 = UILabel.alloc().initWithFrame_(_frame)
+      label2.text = 'ほげ'
+      view.addSubview_(label1)
+      view.addSubview_(label2)
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
@@ -119,6 +139,8 @@ class ObjcUIViewController:
         _self, _cmd, _navigationController, _viewController, _animated):
       navigationController = ObjCInstance(_navigationController)
       viewController = ObjCInstance(_viewController)
+      
+      navigationController.setEdgesForExtendedLayout_(0)
 
       # --- appearance
       appearance = UINavigationBarAppearance.alloc()
