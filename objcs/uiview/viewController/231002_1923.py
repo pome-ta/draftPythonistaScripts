@@ -24,6 +24,7 @@ class ObjcUIViewController:
   def __init__(self):
     self._this: ObjCInstance
     self._viewController: UIViewController
+    self._navigationController: UINavigationController
     self._nvDelegate: 'UINavigationControllerDelegate'
 
   @on_main_thread
@@ -34,7 +35,7 @@ class ObjcUIViewController:
     nv.initWithRootViewController_(vc).autorelease()
     self._nvDelegate = self.create_navigationControllerDelegate()
     nv.setDelegate_(self._nvDelegate)
-    #pdbg.state(nv)
+    pdbg.state(nv)
 
     self._this = nv
 
@@ -42,7 +43,7 @@ class ObjcUIViewController:
     # --- `UINavigationControllerDelegate` Methods
     def navigationController_willShowViewController_animated_(
         _self, _cmd, _navigationController, _viewController, _animated):
-      print('will')
+      #print('will')
       this = ObjCInstance(_self)
       navigationController = ObjCInstance(_navigationController)
       viewController = ObjCInstance(_viewController)
@@ -96,7 +97,6 @@ class ObjcUIViewController:
       view.backgroundColor = Red
 
       navigationController = this.navigationController()
-      
       '''
 
       # --- appearance
@@ -179,6 +179,25 @@ class ObjcUIViewController:
     }
     _vc = create_objc_class(**create_kwargs)
     self._viewController = _vc
+
+  def _override_navigationController(self):
+    # --- `UINavigationController` Methods
+    def doneButtonTapped_(_self, _cmd, _sender):
+      sender = ObjCInstance(_sender)
+      ObjCInstance(_self).dismissViewControllerAnimated_completion_(True, None)
+
+    # --- `UIViewController` set up
+    _methods = [
+      doneButtonTapped_,
+    ]
+
+    create_kwargs = {
+      'name': '_nv',
+      'superclass': UINavigationController,
+      'methods': _methods,
+    }
+    _nv = create_objc_class(**create_kwargs)
+    self._navigationController = _nv
 
   @classmethod
   def new(cls) -> ObjCInstance:
