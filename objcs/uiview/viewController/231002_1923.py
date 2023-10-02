@@ -35,8 +35,11 @@ class ObjcUIViewController:
     nv.initWithRootViewController_(vc).autorelease()
     self._nvDelegate = self.create_navigationControllerDelegate()
     nv.setDelegate_(self._nvDelegate)
-    pdbg.state(nv)
 
+    #pdbg.state(nv)
+    #pdbg.state(nv.navigationItem())
+    #pdbg.state(nv.viewControllers())
+    #pdbg.state(nv.topViewController())
     self._this = nv
 
   def create_navigationControllerDelegate(self):
@@ -48,6 +51,7 @@ class ObjcUIViewController:
       navigationController = ObjCInstance(_navigationController)
       viewController = ObjCInstance(_viewController)
       #pdbg.state(viewController)
+
       # --- appearance
       appearance = UINavigationBarAppearance.alloc()
       appearance.configureWithOpaqueBackground()
@@ -60,6 +64,15 @@ class ObjcUIViewController:
       navigationBar.scrollEdgeAppearance = appearance
       navigationBar.compactAppearance = appearance
       navigationBar.compactScrollEdgeAppearance = appearance
+
+      #pdbg.state(navigationController)
+
+      #pdbg.state(navigationController.navigationItem())
+      topViewController = navigationController.topViewController()
+      # --- navigationItem
+      navigationItem = topViewController.navigationItem()
+      navigationItem.setTitle_(str(file_name))
+      #pdbg.state(navigationBar)
 
     def navigationController_didShowViewController_animated_(
         _self, _cmd, _navigationController, _viewController, _animated):
@@ -127,9 +140,10 @@ class ObjcUIViewController:
 
       # --- navigationItem
       navigationItem = this.navigationItem()
-      navigationItem.setTitle_(str(file_name))
+      #navigationItem.setTitle_(str(file_name))
 
       navigationItem.leftBarButtonItem = done_btn
+      #pdbg.state(navigationItem)
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')

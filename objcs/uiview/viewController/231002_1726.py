@@ -117,6 +117,7 @@ class ObjcUIViewController:
       childModalViewController
       '''
       #pdbg.state(this.presentingViewController())
+      pdbg.state(this.topViewController())
 
     def viewDidAppear_(_self, _cmd, _animated):
       #print('viewDidAppear')
