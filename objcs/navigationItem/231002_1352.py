@@ -29,9 +29,9 @@ class ObjcUIViewController:
   @on_main_thread
   def _init(self):
     self._override_viewController()
-    vc = self._viewController.new()
+    vc = self._viewController.new().autorelease()
     nv = UINavigationController.alloc()
-    nv.initWithRootViewController_(vc)
+    nv.initWithRootViewController_(vc).autorelease()
 
     self._this = nv
 
@@ -46,32 +46,36 @@ class ObjcUIViewController:
       view = this.view()
       view.backgroundColor = Red
 
-      navigationItem = this.navigationItem()
-      navigationItem.setTitle_(str(file_name))
-
       navigationController = this.navigationController()
-      navigationBar = navigationController.navigationBar()
 
+      # --- appearance
       appearance = UINavigationBarAppearance.alloc()
       appearance.configureWithOpaqueBackground()
       appearance.backgroundColor = BLUE
 
-      #pdbg.state(navigationItem)
+      # --- navigationBar
+      navigationBar = navigationController.navigationBar()
+
       navigationBar.standardAppearance = appearance
       navigationBar.scrollEdgeAppearance = appearance
       navigationBar.compactAppearance = appearance
       navigationBar.compactScrollEdgeAppearance = appearance
 
-      # xxx: bg の色変える？
+      # [UIBarStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uibarstyle?language=objc)
+      '''
+      0 : UIBarStyleDefault
+      1 : UIBarStyleBlack
+      '''
+      #navigationBar.setBarStyle_(1)
+      #navigationBar.setTranslucent_(False)
 
-      #pdbg.state(navigationController)
-      # todo: bar に直接
-
-      navigationBar.setBarStyle_(1)
-      navigationBar.setTranslucent_(False)
-      _ubbi = UIBarButtonItem.alloc()
-      done_btn = _ubbi.initWithBarButtonSystemItem_target_action_(
+      _done_btn = UIBarButtonItem.alloc()
+      done_btn = _done_btn.initWithBarButtonSystemItem_target_action_(
         0, this, sel('doneButtonTapped:'))
+
+      # --- navigationItem
+      navigationItem = this.navigationItem()
+      navigationItem.setTitle_(str(file_name))
 
       navigationItem.leftBarButtonItem = done_btn
 
