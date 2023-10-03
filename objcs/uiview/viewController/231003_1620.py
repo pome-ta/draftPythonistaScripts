@@ -16,6 +16,7 @@ UIBarButtonItem = ObjCClass('UIBarButtonItem')
 UIColor = ObjCClass('UIColor')
 #pdbg.state(UIColor)
 
+systemBackgroundColor = UIColor.systemBackgroundColor()
 systemBlackColor = UIColor.systemBlackColor()
 systemBlueColor = UIColor.systemBlueColor()
 systemBrownColor = UIColor.systemBrownColor()
@@ -100,7 +101,8 @@ class ObjcUIViewController:
       #print('viewDidLoad')
       this = ObjCInstance(_self)
       view = this.view()
-      view.backgroundColor = Red
+      #view.backgroundColor = Red
+      view.backgroundColor = systemGray2Color
 
       tmp_frame = ((0.0, 0.0), (100.0, 100.0))
 
@@ -176,9 +178,17 @@ class ObjcUIViewController:
       topViewController = this.topViewController()
       topViewController.dismissViewControllerAnimated_completion_(True, None)
 
+    def viewDidLoad(_self, _cmd):
+      #print('viewDidLoad')
+      this = ObjCInstance(_self)
+      view = this.view()
+      window = view.window()
+      pdbg.state(window)
+
     # --- `UIViewController` set up
     _methods = [
       doneButtonTapped_,
+      viewDidLoad,
     ]
 
     create_kwargs = {
@@ -196,6 +206,11 @@ class ObjcUIViewController:
 
       navigationController = ObjCInstance(_navigationController)
       viewController = ObjCInstance(_viewController)
+      
+      view = navigationController.view()
+      window = view.window()
+      
+      #window.backgroundColor = systemDarkBlueColor
 
       #pdbg.state(navigationController.view().window().backgroundColor())
 
@@ -207,6 +222,7 @@ class ObjcUIViewController:
       #appearance.configureWithTransparentBackground()
 
       #appearance.backgroundColor = BLUE
+      #window.backgroundColor = systemDarkBlueColor
 
       # --- navigationBar
       navigationBar = navigationController.navigationBar()
@@ -218,7 +234,10 @@ class ObjcUIViewController:
 
       navigationBar.prefersLargeTitles = True
 
-      #viewController.setEdgesForExtendedLayout_(0)
+      viewController.setEdgesForExtendedLayout_(0)
+      
+      
+      #navigationController.setExtendedLayoutIncludesOpaqueBars_(True)
       #viewController.setExtendedLayoutIncludesOpaqueBars_(True)
       #print(navigationController.edgesForExtendedLayout())
       #print(navigationController.extendedLayoutIncludesOpaqueBars())
