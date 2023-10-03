@@ -3,7 +3,7 @@ from pathlib import Path
 from objc_util import ObjCClass, ObjCInstance, create_objc_class
 from objc_util import on_main_thread, sel
 
-from SystemColor import systemDarkBlueColor, systemGray2Color, systemCyanColor, systemBrownColor, systemBackgroundColor, systemTealColor
+from SystemColor import systemDarkBlueColor, systemGray2Color, systemCyanColor, systemBrownColor, systemBackgroundColor, systemTealColor, systemDarkPinkColor
 import pdbg
 
 file_name = Path(__file__).name
@@ -119,14 +119,16 @@ class ObjcUIViewController:
     def doneButtonTapped_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
       topViewController = this.topViewController()
+      pdbg.mthd(this.view())
       topViewController.dismissViewControllerAnimated_completion_(True, None)
 
     def viewDidLoad(_self, _cmd):
       #print('viewDidLoad')
       this = ObjCInstance(_self)
       view = this.view()
+      #view.backgroundColor = systemTealColor
       window = view.window()
-      pdbg.state(window)
+      #pdbg.state(view.backgroundColor())
 
     # --- `UIViewController` set up
     _methods = [
@@ -153,7 +155,7 @@ class ObjcUIViewController:
       view = navigationController.view()
       window = view.window()
 
-      #window.backgroundColor = systemDarkBlueColor
+      #window.backgroundColor = systemDarkPinkColor
 
       #pdbg.state(navigationController.view().window().backgroundColor())
 
@@ -200,6 +202,7 @@ class ObjcUIViewController:
       navigationItem.rightBarButtonItem = done_btn
 
       #pdbg.state(navigationController.automaticallyAdjustsScrollViewInsets())
+      #pdbg.mthd(view)
 
     def navigationController_didShowViewController_animated_(
         _self, _cmd, _navigationController, _viewController, _animated):
