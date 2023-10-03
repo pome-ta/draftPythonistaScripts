@@ -3,7 +3,7 @@ from pathlib import Path
 from objc_util import ObjCClass, ObjCInstance, create_objc_class
 from objc_util import on_main_thread, sel
 
-from SystemColor import systemDarkBlueColor, systemGray2Color, systemCyanColor, systemBrownColor, systemBackgroundColor, systemTealColor, systemDarkPinkColor
+import SystemColor as sc
 import pdbg
 
 file_name = Path(__file__).name
@@ -11,7 +11,6 @@ file_name = Path(__file__).name
 UIViewController = ObjCClass('UIViewController')
 UINavigationController = ObjCClass('UINavigationController')
 UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
-
 UIBarButtonItem = ObjCClass('UIBarButtonItem')
 
 UIView = ObjCClass('UIView')
@@ -44,15 +43,13 @@ class ObjcUIViewController:
       #print('viewDidLoad')
       this = ObjCInstance(_self)
       view = this.view()
-      #view.backgroundColor = Red
-      #view.backgroundColor = systemGray2Color
 
       tmp_frame = ((0.0, 0.0), (100.0, 100.0))
 
       sub_view = UIView.new()
       sub_view.setFrame_(tmp_frame)
       #sub_view.setAutoresizingMask_((1 << 1) | (1 << 4))
-      sub_view.backgroundColor = systemCyanColor
+      sub_view.backgroundColor = sc.systemCyanColor
       view.addSubview_(sub_view)
 
       _frame = ((0.0, 0.0), (100.0, 100.0))
@@ -61,12 +58,9 @@ class ObjcUIViewController:
       label2 = UILabel.alloc().initWithFrame_(_frame)
       label2.text = 'ほげ'
 
-      label2.setBackgroundColor_(systemBrownColor)
-      #pdbg.state(label1)
+      #label2.setBackgroundColor_(sc.systemBrownColor)
       view.addSubview_(label1)
       view.addSubview_(label2)
-      #pdbg.state(this)
-      #pdbg.state(this.edgesForExtendedLayout())
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
@@ -77,7 +71,6 @@ class ObjcUIViewController:
       this = ObjCInstance(_self)
       view = this.view()
       window = view.window()
-      #pdbg.state(this)
 
     def viewWillDisappear_(_self, _cmd, _animated):
       #print('viewWillDisappear')
@@ -125,9 +118,7 @@ class ObjcUIViewController:
       #print('viewDidLoad')
       this = ObjCInstance(_self)
       view = this.view()
-      view.backgroundColor = systemTealColor
-      window = view.window()
-      #pdbg.state(view.backgroundColor())
+      view.backgroundColor = sc.systemWhiteColor
 
     # --- `UIViewController` set up
     _methods = [
@@ -151,43 +142,26 @@ class ObjcUIViewController:
       navigationController = ObjCInstance(_navigationController)
       viewController = ObjCInstance(_viewController)
 
-      view = navigationController.view()
-      window = view.window()
-
-      #window.backgroundColor = systemDarkPinkColor
-
-      #pdbg.state(navigationController.view().window().backgroundColor())
-
       # --- appearance
       appearance = UINavigationBarAppearance.alloc()
-      #pdbg.state(appearance)
-      #appearance.configureWithOpaqueBackground()
       appearance.configureWithDefaultBackground()
+      #appearance.configureWithOpaqueBackground()
       #appearance.configureWithTransparentBackground()
-
-      #appearance.backgroundColor = systemDarkPinkColor
-      #window.backgroundColor = systemTealColor
+      #appearance.backgroundColor = sc.systemExtraLightGrayColor
 
       # --- navigationBar
       navigationBar = navigationController.navigationBar()
-
+      '''
       navigationBar.standardAppearance = appearance
       navigationBar.scrollEdgeAppearance = appearance
       navigationBar.compactAppearance = appearance
       navigationBar.compactScrollEdgeAppearance = appearance
+      '''
 
       #navigationBar.prefersLargeTitles = True
 
       viewController.setEdgesForExtendedLayout_(0)
-
-      #navigationController.setExtendedLayoutIncludesOpaqueBars_(True)
       #viewController.setExtendedLayoutIncludesOpaqueBars_(True)
-      #print(navigationController.edgesForExtendedLayout())
-      #print(navigationController.extendedLayoutIncludesOpaqueBars())
-      #print(navigationBar.isTranslucent())
-      #print(this.isTranslucent())
-      #pdbg.state(navigationController)
-      #pdbg.state(navigationBar)
 
       _done_btn = UIBarButtonItem.alloc()
       done_btn = _done_btn.initWithBarButtonSystemItem_target_action_(
@@ -197,11 +171,14 @@ class ObjcUIViewController:
 
       # --- navigationItem
       navigationItem = topViewController.navigationItem()
+
+      navigationItem.standardAppearance = appearance
+      navigationItem.scrollEdgeAppearance = appearance
+      navigationItem.compactAppearance = appearance
+      navigationItem.compactScrollEdgeAppearance = appearance
+
       navigationItem.setTitle_(str(file_name))
       navigationItem.rightBarButtonItem = done_btn
-
-      #pdbg.state(navigationController.automaticallyAdjustsScrollViewInsets())
-      #pdbg.mthd(view)
 
     def navigationController_didShowViewController_animated_(
         _self, _cmd, _navigationController, _viewController, _animated):
