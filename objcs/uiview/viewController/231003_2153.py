@@ -3,6 +3,7 @@ from pathlib import Path
 from objc_util import ObjCClass, ObjCInstance, create_objc_class
 from objc_util import on_main_thread, sel
 
+from SystemColor import systemDarkBlueColor, systemGray2Color, systemCyanColor, systemBrownColor, systemBackgroundColor, systemTealColor
 import pdbg
 
 file_name = Path(__file__).name
@@ -12,64 +13,6 @@ UINavigationController = ObjCClass('UINavigationController')
 UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
 
 UIBarButtonItem = ObjCClass('UIBarButtonItem')
-
-UIColor = ObjCClass('UIColor')
-#pdbg.state(UIColor)
-
-systemBackgroundColor = UIColor.systemBackgroundColor()
-systemBlackColor = UIColor.systemBlackColor()
-systemBlueColor = UIColor.systemBlueColor()
-systemBrownColor = UIColor.systemBrownColor()
-systemCyanColor = UIColor.systemCyanColor()
-systemDarkBlueColor = UIColor.systemDarkBlueColor()
-systemDarkExtraLightGrayColor = UIColor.systemDarkExtraLightGrayColor()
-systemDarkExtraLightGrayTintColor = UIColor.systemDarkExtraLightGrayTintColor()
-systemDarkGrayColor = UIColor.systemDarkGrayColor()
-systemDarkGrayTintColor = UIColor.systemDarkGrayTintColor()
-systemDarkGreenColor = UIColor.systemDarkGreenColor()
-systemDarkLightGrayColor = UIColor.systemDarkLightGrayColor()
-systemDarkLightGrayTintColor = UIColor.systemDarkLightGrayTintColor()
-systemDarkLightMidGrayColor = UIColor.systemDarkLightMidGrayColor()
-systemDarkLightMidGrayTintColor = UIColor.systemDarkLightMidGrayTintColor()
-systemDarkMidGrayColor = UIColor.systemDarkMidGrayColor()
-systemDarkMidGrayTintColor = UIColor.systemDarkMidGrayTintColor()
-systemDarkOrangeColor = UIColor.systemDarkOrangeColor()
-systemDarkPinkColor = UIColor.systemDarkPinkColor()
-systemDarkPurpleColor = UIColor.systemDarkPurpleColor()
-systemDarkRedColor = UIColor.systemDarkRedColor()
-systemDarkTealColor = UIColor.systemDarkTealColor()
-systemDarkYellowColor = UIColor.systemDarkYellowColor()
-systemExtraLightGrayColor = UIColor.systemExtraLightGrayColor()
-systemExtraLightGrayTintColor = UIColor.systemExtraLightGrayTintColor()
-systemFillColor = UIColor.systemFillColor()
-systemGray2Color = UIColor.systemGray2Color()
-systemGray3Color = UIColor.systemGray3Color()
-systemGray4Color = UIColor.systemGray4Color()
-systemGray5Color = UIColor.systemGray5Color()
-systemGray6Color = UIColor.systemGray6Color()
-systemGrayColor = UIColor.systemGrayColor()
-systemGrayTintColor = UIColor.systemGrayTintColor()
-systemGreenColor = UIColor.systemGreenColor()
-systemGroupedBackgroundColor = UIColor.systemGroupedBackgroundColor()
-systemIndigoColor = UIColor.systemIndigoColor()
-systemLightGrayColor = UIColor.systemLightGrayColor()
-systemLightGrayTintColor = UIColor.systemLightGrayTintColor()
-systemLightMidGrayColor = UIColor.systemLightMidGrayColor()
-systemLightMidGrayTintColor = UIColor.systemLightMidGrayTintColor()
-systemMidGrayColor = UIColor.systemMidGrayColor()
-systemMidGrayTintColor = UIColor.systemMidGrayTintColor()
-systemMintColor = UIColor.systemMintColor()
-systemOrangeColor = UIColor.systemOrangeColor()
-systemPinkColor = UIColor.systemPinkColor()
-systemPurpleColor = UIColor.systemPurpleColor()
-systemRedColor = UIColor.systemRedColor()
-systemTealColor = UIColor.systemTealColor()
-systemWhiteColor = UIColor.systemWhiteColor()
-systemYellowColor = UIColor.systemYellowColor()
-
-Red = UIColor.redColor()
-BLUE = UIColor.blueColor()
-CYAN = UIColor.cyanColor()
 
 UIView = ObjCClass('UIView')
 UILabel = ObjCClass('UILabel')
@@ -109,7 +52,7 @@ class ObjcUIViewController:
       sub_view = UIView.new()
       sub_view.setFrame_(tmp_frame)
       #sub_view.setAutoresizingMask_((1 << 1) | (1 << 4))
-      sub_view.backgroundColor = CYAN
+      sub_view.backgroundColor = systemCyanColor
       view.addSubview_(sub_view)
 
       _frame = ((0.0, 0.0), (100.0, 100.0))
@@ -118,7 +61,7 @@ class ObjcUIViewController:
       label2 = UILabel.alloc().initWithFrame_(_frame)
       label2.text = 'ほげ'
 
-      label2.setBackgroundColor_(BLUE)
+      label2.setBackgroundColor_(systemBrownColor)
       #pdbg.state(label1)
       view.addSubview_(label1)
       view.addSubview_(label2)
@@ -206,10 +149,10 @@ class ObjcUIViewController:
 
       navigationController = ObjCInstance(_navigationController)
       viewController = ObjCInstance(_viewController)
-      
+
       view = navigationController.view()
       window = view.window()
-      
+
       #window.backgroundColor = systemDarkBlueColor
 
       #pdbg.state(navigationController.view().window().backgroundColor())
@@ -222,7 +165,7 @@ class ObjcUIViewController:
       #appearance.configureWithTransparentBackground()
 
       #appearance.backgroundColor = BLUE
-      window.backgroundColor = systemDarkBlueColor
+      #window.backgroundColor = systemTealColor
 
       # --- navigationBar
       navigationBar = navigationController.navigationBar()
@@ -235,8 +178,7 @@ class ObjcUIViewController:
       navigationBar.prefersLargeTitles = True
 
       viewController.setEdgesForExtendedLayout_(0)
-      
-      
+
       #navigationController.setExtendedLayoutIncludesOpaqueBars_(True)
       #viewController.setExtendedLayoutIncludesOpaqueBars_(True)
       #print(navigationController.edgesForExtendedLayout())
