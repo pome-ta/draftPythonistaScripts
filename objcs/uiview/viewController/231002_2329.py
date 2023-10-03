@@ -18,7 +18,6 @@ Red = UIColor.redColor()
 BLUE = UIColor.blueColor()
 CYAN = UIColor.cyanColor()
 
-
 UIView = ObjCClass('UIView')
 UILabel = ObjCClass('UILabel')
 
@@ -48,27 +47,25 @@ class ObjcUIViewController:
     def viewDidLoad(_self, _cmd):
       #print('viewDidLoad')
       this = ObjCInstance(_self)
-      #this.setExtendedLayoutIncludesOpaqueBars_(0)
-      #setEdgesForExtendedLayout
-      print(this.edgesForExtendedLayout())
-      print(this.extendedLayoutIncludesOpaqueBars())
-      
-      
-      
-      
-      
-      
+
+      #this.setEdgesForExtendedLayout_(True)
+      #this.setExtendedLayoutIncludesOpaqueBars_(True)
+      #print(this.edgesForExtendedLayout())
+      #print(this.extendedLayoutIncludesOpaqueBars())
+      #print(this.isTranslucent())
+      #pdbg.state(this)
+
       view = this.view()
       view.backgroundColor = Red
-      
+
       tmp_frame = ((0.0, 0.0), (100.0, 100.0))
-      
+
       sub_view = UIView.new()
       sub_view.setFrame_(tmp_frame)
-      sub_view.setAutoresizingMask_((1 << 1) | (1 << 4))
+      #sub_view.setAutoresizingMask_((1 << 1) | (1 << 4))
       sub_view.backgroundColor = CYAN
       view.addSubview_(sub_view)
-      
+
       _frame = ((0.0, 0.0), (100.0, 100.0))
       label1 = UILabel.alloc().initWithFrame_(_frame)
       label1.text = 'ほげ'
@@ -149,10 +146,9 @@ class ObjcUIViewController:
     # --- `UINavigationControllerDelegate` Methods
     def navigationController_willShowViewController_animated_(
         _self, _cmd, _navigationController, _viewController, _animated):
+
       navigationController = ObjCInstance(_navigationController)
       viewController = ObjCInstance(_viewController)
-      
-      navigationController.setEdgesForExtendedLayout_(0)
 
       # --- appearance
       appearance = UINavigationBarAppearance.alloc()
@@ -166,6 +162,19 @@ class ObjcUIViewController:
       navigationBar.scrollEdgeAppearance = appearance
       navigationBar.compactAppearance = appearance
       navigationBar.compactScrollEdgeAppearance = appearance
+
+      #navigationController.setEdgesForExtendedLayout_(0)
+      #navigationController.setExtendedLayoutIncludesOpaqueBars_(True)
+      #navigationBar.setTranslucent_(False)
+
+      viewController.setEdgesForExtendedLayout_(0)
+      viewController.setExtendedLayoutIncludesOpaqueBars_(True)
+      print(navigationController.edgesForExtendedLayout())
+      print(navigationController.extendedLayoutIncludesOpaqueBars())
+      print(navigationBar.isTranslucent())
+      #print(this.isTranslucent())
+      #pdbg.state(navigationController)
+      #pdbg.state(navigationBar)
 
       _done_btn = UIBarButtonItem.alloc()
       done_btn = _done_btn.initWithBarButtonSystemItem_target_action_(
