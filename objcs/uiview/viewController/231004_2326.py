@@ -100,6 +100,36 @@ class ObjcUIViewController:
 
       view.addSubview_(self.redView)
       #view.addSubview_(self.yellowView)
+      redViewTopConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
+        self.redView, NSLayoutAttribute.top, NSLayoutRelation.equal, view,
+        NSLayoutAttribute.top, 1.0, 88)
+      '''
+      # xxx: 引数同じの2つあるからだめ?
+      redViewTopConstraint = NSLayoutConstraint.constraintWithItem(
+        self.redView,
+        attribute=NSLayoutAttribute.top,
+        relatedBy=NSLayoutRelation.equal,
+        toItem=view,
+        attribute=NSLayoutAttribute.top,
+        multiplier=1.0,
+        constant=88)
+      '''
+      view.addConstraint_(redViewTopConstraint)
+
+      redViewLeadingConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
+        self.redView, NSLayoutAttribute.leading, NSLayoutRelation.equal, view,
+        NSLayoutAttribute.leading, 1.0, 10)
+      view.addConstraint_(redViewLeadingConstraint)
+
+      redViewBottonConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
+        self.redView, NSLayoutAttribute.bottom, NSLayoutRelation.equal, view,
+        NSLayoutAttribute.bottom, 1.0, -20)
+      view.addConstraint_(redViewBottonConstraint)
+
+      redViewWidthConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
+        self.redView, NSLayoutAttribute.width, NSLayoutRelation.equal, view,
+        NSLayoutAttribute.width, 0.4, 0)
+      view.addConstraint_(redViewWidthConstraint)
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
@@ -128,36 +158,7 @@ class ObjcUIViewController:
       this = ObjCInstance(_self)
       view = this.view()
 
-      redViewTopConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
-        self.redView, NSLayoutAttribute.top, NSLayoutRelation.equal, view,
-        NSLayoutAttribute.top, 1.0, 88)
-      '''
-      # xxx: 引数同じの2つあるからだめ？
-      redViewTopConstraint = NSLayoutConstraint.constraintWithItem(
-        self.redView,
-        attribute=NSLayoutAttribute.top,
-        relatedBy=NSLayoutRelation.equal,
-        toItem=view,
-        attribute=NSLayoutAttribute.top,
-        multiplier=1.0,
-        constant=88)
-      '''
-      view.addConstraint_(redViewTopConstraint)
 
-      redViewLeadingConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
-        self.redView, NSLayoutAttribute.leading, NSLayoutRelation.equal, view,
-        NSLayoutAttribute.leading, 1.0, 10)
-      view.addConstraint_(redViewLeadingConstraint)
-
-      redViewBottonConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
-        self.redView, NSLayoutAttribute.bottom, NSLayoutRelation.equal, view,
-        NSLayoutAttribute.bottom, 1.0, -20)
-      view.addConstraint_(redViewBottonConstraint)
-
-      redViewWidthConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
-        self.redView, NSLayoutAttribute.width, NSLayoutRelation.equal, view,
-        NSLayoutAttribute.width, 0.4, 0)
-      view.addConstraint_(redViewWidthConstraint)
 
     # --- `UIViewController` set up
     _methods = [
