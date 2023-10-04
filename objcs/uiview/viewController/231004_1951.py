@@ -1,4 +1,3 @@
-from enum import Enum
 from pathlib import Path
 
 from objc_util import ObjCClass, ObjCInstance, create_objc_class
@@ -7,8 +6,8 @@ from objc_util import c, on_main_thread, sel, CGRect
 import SystemColor as sc
 import pdbg
 
-#file_name = Path(__file__).name
-file_name = 'NSLayoutConstraint でレイアウト😤'
+file_name = Path(__file__).name
+#file_name = 'NSLayoutConstraint でレイアウト😤'
 
 UIViewController = ObjCClass('UIViewController')
 UINavigationController = ObjCClass('UINavigationController')
@@ -20,36 +19,10 @@ UILabel = ObjCClass('UILabel')
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
 
-'''
-class NSLayoutAttribute(IntFlag):
-  notAnAttribute = auto()
-  left = auto()
-  right = auto()
-  top = auto()
-  bottom = auto()
-  leading = auto()
-  trailing = auto()
-  width = auto()
-  height = auto()
-  centerX = auto()
-  centerY = auto()
-  lastBaseline = auto()
-  firstBaseline = auto()
-  leftMargin = auto()
-  rightMargin = auto()
-  topMargin = auto()
-  bottomMargin = auto()
-  leadingMargin = auto()
-  trailingMargin = auto()
-  centerXWithinMargins = auto()
-  centerYWithinMargins = auto()
-  
-'''
-
-# [NSLayoutAttribute | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/nslayoutattribute?language=objc)
-
-class NSLayoutAttribute(Enum):
-  notAnAttribute = 0
+class NSLayoutAttribute:
+  """
+  [NSLayoutAttribute | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/nslayoutattribute?language=objc)
+  """
   left = 1
   right = 2
   top = 3
@@ -70,8 +43,16 @@ class NSLayoutAttribute(Enum):
   trailingMargin = 18
   centerXWithinMargins = 19
   centerYWithinMargins = 20
-  
+  notAnAttribute = 0
 
+
+class NSLayoutRelation:
+  """
+  [NSLayoutRelation | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/nslayoutrelation?language=objc)
+  """
+  lessThanOrEqual = -1
+  equal = 0
+  greaterThanOrEqual = 1
 
 
 class ObjcUIViewController:
@@ -147,25 +128,35 @@ class ObjcUIViewController:
       this = ObjCInstance(_self)
       view = this.view()
 
-      # [NSLayoutRelation | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/nslayoutrelation?language=objc)
-      '''
-      0:NSLayoutRelationEqual
-      '''
-
       redViewTopConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
-        self.redView, NSLayoutAttribute.top.value, 0, view, NSLayoutAttribute.top.value, 1.0, 88)
+        self.redView, NSLayoutAttribute.top, NSLayoutRelation.equal, view,
+        NSLayoutAttribute.top, 1.0, 88)
+      '''
+      # xxx: 引数同じの2つあるからだめ？
+      redViewTopConstraint = NSLayoutConstraint.constraintWithItem(
+        self.redView,
+        attribute=NSLayoutAttribute.top,
+        relatedBy=NSLayoutRelation.equal,
+        toItem=view,
+        attribute=NSLayoutAttribute.top,
+        multiplier=1.0,
+        constant=88)
+      '''
       view.addConstraint_(redViewTopConstraint)
 
       redViewLeadingConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
-        self.redView, 5, 0, view, 5, 1.0, 10)
+        self.redView, NSLayoutAttribute.leading, NSLayoutRelation.equal, view,
+        NSLayoutAttribute.leading, 1.0, 10)
       view.addConstraint_(redViewLeadingConstraint)
 
       redViewBottonConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
-        self.redView, 4, 0, view, 4, 1.0, -20)
+        self.redView, NSLayoutAttribute.bottom, NSLayoutRelation.equal, view,
+        NSLayoutAttribute.bottom, 1.0, -20)
       view.addConstraint_(redViewBottonConstraint)
 
       redViewWidthConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
-        self.redView, 7, 0, view, 7, 0.4, 0)
+        self.redView, NSLayoutAttribute.width, NSLayoutRelation.equal, view,
+        NSLayoutAttribute.width, 0.4, 0)
       view.addConstraint_(redViewWidthConstraint)
 
     # --- `UIViewController` set up
