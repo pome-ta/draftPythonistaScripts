@@ -15,6 +15,9 @@ UIBarButtonItem = ObjCClass('UIBarButtonItem')
 
 UIView = ObjCClass('UIView')
 UILabel = ObjCClass('UILabel')
+NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
+
+#pdbg.state(NSLayoutConstraint)
 
 
 class ObjcUIViewController:
@@ -38,22 +41,33 @@ class ObjcUIViewController:
     self._this = nv
 
   def _override_viewController(self):
+    self.redView: UIView
+    self.yellowView: UIView
+
     # --- `UIViewController` Methods
     def viewDidLoad(_self, _cmd):
       #print('viewDidLoad')
       this = ObjCInstance(_self)
       view = this.view()
+      view.backgroundColor = sc.systemDarkGrayColor
       #pdbg.state(view.translatesAutoresizingMaskIntoConstraints())
 
       #view.translatesAutoresizingMaskIntoConstraints = False
 
       CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
-      redView = UIView.alloc().initWithFrame_(CGRectZero)
-      redView.translatesAutoresizingMaskIntoConstraints = False
+      self.redView = UIView.alloc().initWithFrame_(CGRectZero)
+      self.redView.backgroundColor = sc.systemRedColor
+      self.redView.translatesAutoresizingMaskIntoConstraints = False
 
-      yellowView = UIView.alloc().initWithFrame_(CGRectZero)
-      yellowView.translatesAutoresizingMaskIntoConstraints = False
-      #pdbg.state(redView)
+      self.yellowView = UIView.alloc().initWithFrame_(CGRectZero)
+      self.yellowView.backgroundColor = sc.systemYellowColor
+      self.yellowView.translatesAutoresizingMaskIntoConstraints = False
+
+      view.addSubview_(self.redView)
+      view.addSubview_(self.yellowView)
+
+      #pdbg.state(view)
+      '''
 
       tmp_frame = ((0.0, 0.0), (100.0, 100.0))
 
@@ -72,6 +86,7 @@ class ObjcUIViewController:
       #label2.setBackgroundColor_(sc.systemBrownColor)
       view.addSubview_(label1)
       view.addSubview_(label2)
+      '''
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
@@ -97,7 +112,37 @@ class ObjcUIViewController:
 
     def viewDidLayoutSubviews(_self, _cmd):
       #print('viewDidLayoutSubviews')
-      pass
+      this = ObjCInstance(_self)
+      view = this.view()
+
+      # [NSLayoutAttribute | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/nslayoutattribute?language=objc)
+      '''
+      3:NSLayoutAttributeTop
+      5:NSLayoutAttributeLeading
+      4:NSLayoutAttributeBottom
+      7:NSLayoutAttributeWidth
+      
+      '''
+      # [NSLayoutRelation | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/nslayoutrelation?language=objc)
+      '''
+      0:NSLayoutRelationEqual
+      '''
+
+      redViewTopConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
+        self.redView, 3, 0, view, 3, 1.0, 88)
+      view.addConstraint_(redViewTopConstraint)
+
+      redViewLeadingConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
+        self.redView, 5, 0, view, 5, 1.0, 10)
+      view.addConstraint_(redViewLeadingConstraint)
+
+      redViewBottonConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
+        self.redView, 4, 0, view, 4, 1.0, -20)
+      view.addConstraint_(redViewBottonConstraint)
+
+      redViewWidthConstraint = NSLayoutConstraint.constraintWithItem_attribute_relatedBy_toItem_attribute_multiplier_constant_(
+        self.redView, 7, 0, view, 7, 0.4, 0)
+      view.addConstraint_(redViewWidthConstraint)
 
     # --- `UIViewController` set up
     _methods = [
@@ -129,7 +174,8 @@ class ObjcUIViewController:
       #print('viewDidLoad')
       this = ObjCInstance(_self)
       view = this.view()
-      view.backgroundColor = sc.systemWhiteColor
+      #view.backgroundColor = sc.systemWhiteColor
+      view.backgroundColor = sc.systemDarkExtraLightGrayColor
 
     # --- `UIViewController` set up
     _methods = [
