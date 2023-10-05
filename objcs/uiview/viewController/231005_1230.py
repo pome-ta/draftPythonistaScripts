@@ -17,44 +17,8 @@ UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
 UIBarButtonItem = ObjCClass('UIBarButtonItem')
 
 UIView = ObjCClass('UIView')
-UILabel = ObjCClass('UILabel')
+#UILabel = ObjCClass('UILabel')
 #NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
-
-
-class NSLayoutAttribute:
-  """
-  [NSLayoutAttribute | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/nslayoutattribute?language=objc)
-  """
-  left = 1
-  right = 2
-  top = 3
-  bottom = 4
-  leading = 5
-  trailing = 6
-  width = 7
-  height = 8
-  centerX = 9
-  centerY = 10
-  lastBaseline = 11
-  firstBaseline = 12
-  leftMargin = 13
-  rightMargin = 14
-  topMargin = 15
-  bottomMargin = 16
-  leadingMargin = 17
-  trailingMargin = 18
-  centerXWithinMargins = 19
-  centerYWithinMargins = 20
-  notAnAttribute = 0
-
-
-class NSLayoutRelation:
-  """
-  [NSLayoutRelation | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/nslayoutrelation?language=objc)
-  """
-  lessThanOrEqual = -1
-  equal = 0
-  greaterThanOrEqual = 1
 
 
 class ObjcUIViewController:
