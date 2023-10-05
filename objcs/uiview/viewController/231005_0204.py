@@ -1,3 +1,5 @@
+# [Auto Layoutをコードで書いてみた - Qiita](https://qiita.com/dddisk/items/8001598ea7951bcdcc30)
+
 from pathlib import Path
 
 from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
@@ -76,7 +78,8 @@ class ObjcUIViewController:
     self._this = nv
 
   def _override_viewController(self):
-    self.redView: UIView
+
+    self.redView = UIView.alloc()
 
     # --- `UIViewController` Methods
     def viewDidLoad(_self, _cmd):
@@ -86,15 +89,39 @@ class ObjcUIViewController:
       view.backgroundColor = sc.systemDarkGrayColor
 
       CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
-      self.redView = UIView.alloc().initWithFrame_(CGRectZero)
+      self.redView.initWithFrame_(CGRectZero)
+      #self.redView.initWithFrame_(view.frame())
       self.redView.backgroundColor = sc.systemRedColor
       self.redView.translatesAutoresizingMaskIntoConstraints = False
 
       view.addSubview_(self.redView)
-      
-      pdbg.state(self.redView.widthAnchor())
-      
-      
+      '''
+      bottomAnchor
+      centerXAnchor
+      centerYAnchor
+      firstBaselineAnchor
+      heightAnchor
+      lastBaselineAnchor
+      leadingAnchor
+      leftAnchor
+      rightAnchor
+      topAnchor
+      trailingAnchor
+      widthAnchor
+      '''
+      self.redView.centerXAnchor().constraintEqualToAnchor_(
+        view.centerXAnchor()).setActive_(True)
+      self.redView.centerYAnchor().constraintEqualToAnchor_(
+        view.centerYAnchor()).setActive_(True)
+      self.redView.widthAnchor().constraintEqualToAnchor_multiplier_(
+        view.widthAnchor(), 0.5).setActive_(True)
+
+      self.redView.heightAnchor().constraintEqualToAnchor_multiplier_(
+        view.heightAnchor(), 0.9).setActive_(True)
+
+      #pdbg.state(self.redView.widthAnchor())
+      #pdbg.state(self.redView.heightAnchor().constraintEqualToAnchor_multiplier_(view.heightAnchor(), 0.5))
+
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
       pass
@@ -122,7 +149,9 @@ class ObjcUIViewController:
       this = ObjCInstance(_self)
       view = this.view()
 
-
+    def didReceiveMemoryWarning(_self, _cmd):
+      # Dispose of any resources that can be recreated.
+      print('Dispose of any resources that can be recreated.')
 
     # --- `UIViewController` set up
     _methods = [
@@ -133,6 +162,7 @@ class ObjcUIViewController:
       viewDidDisappear_,
       viewWillLayoutSubviews,
       viewDidLayoutSubviews,
+      didReceiveMemoryWarning,
     ]
 
     create_kwargs = {
