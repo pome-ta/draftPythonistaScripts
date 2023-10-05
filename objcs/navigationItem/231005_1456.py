@@ -177,8 +177,8 @@ class ObjcUIViewController:
       # --- appearance
       appearance = UINavigationBarAppearance.alloc()
       #appearance.configureWithDefaultBackground()
-      #appearance.configureWithOpaqueBackground()
-      appearance.configureWithTransparentBackground()
+      appearance.configureWithOpaqueBackground()
+      #appearance.configureWithTransparentBackground()
       #appearance.backgroundColor = sc.systemExtraLightGrayColor
 
       # --- navigationBar
@@ -192,17 +192,31 @@ class ObjcUIViewController:
 
       #navigationBar.prefersLargeTitles = True
 
-      #viewController.setEdgesForExtendedLayout_(0)
+      viewController.setEdgesForExtendedLayout_(0)
       #viewController.setExtendedLayoutIncludesOpaqueBars_(True)
+
+      # --- toolbar
+      navigationController.setToolbarHidden_(False)
+      # xxx: 49 ? がデフォ？
+      toolbar = navigationController.toolbar()
+
+      #pdbg.state(toolbar)
 
       _done_btn = UIBarButtonItem.alloc()
       done_btn = _done_btn.initWithBarButtonSystemItem_target_action_(
         0, navigationController, sel('doneButtonTapped:'))
 
-      topViewController = navigationController.topViewController()
+      #topViewController = navigationController.topViewController()
+      visibleViewController = navigationController.visibleViewController()
+
+      #pdbg.state(navigationController)
+      #pdbg.state(navigationController.toolbar().isHidden())
+
+      #pdbg.state(visibleViewController)
 
       # --- navigationItem
-      navigationItem = topViewController.navigationItem()
+      #navigationItem = topViewController.navigationItem()
+      navigationItem = visibleViewController.navigationItem()
 
       navigationItem.standardAppearance = appearance
       navigationItem.scrollEdgeAppearance = appearance
