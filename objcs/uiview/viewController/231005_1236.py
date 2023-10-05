@@ -9,7 +9,7 @@ import SystemColor as sc
 import pdbg
 
 file_name = Path(__file__).name
-#file_name = 'NSLayoutAnchor でレイアウト😤'
+file_name = 'NSLayoutAnchor でレイアウト😤'
 
 UIViewController = ObjCClass('UIViewController')
 UINavigationController = ObjCClass('UINavigationController')
@@ -80,7 +80,7 @@ class ObjcUIViewController:
         self.redView.centerYAnchor().constraintEqualToAnchor_(
           view.centerYAnchor()),
         self.redView.widthAnchor().constraintEqualToAnchor_multiplier_(
-          view.widthAnchor(), 0.5),
+          view.widthAnchor(), 0.9),
         self.redView.heightAnchor().constraintEqualToAnchor_multiplier_(
           view.heightAnchor(), 0.9),
       ])
