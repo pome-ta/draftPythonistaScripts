@@ -15,7 +15,6 @@ UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
 UIBarButtonItem = ObjCClass('UIBarButtonItem')
 
 UIView = ObjCClass('UIView')
-#UILabel = ObjCClass('UILabel')
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
 
@@ -48,7 +47,8 @@ class ObjcUIViewController:
       #print('viewDidLoad')
       this = ObjCInstance(_self)
       view = this.view()
-      view.backgroundColor = sc.systemDarkGrayColor
+      #view.backgroundColor = sc.systemDarkGrayColor
+      view.backgroundColor = sc.systemYellowColor
 
       CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
       self.redView.initWithFrame_(CGRectZero).autorelease()
@@ -91,7 +91,6 @@ class ObjcUIViewController:
       #print('viewDidAppear')
       this = ObjCInstance(_self)
       view = this.view()
-      window = view.window()
 
     def viewWillDisappear_(_self, _cmd, _animated):
       #print('viewWillDisappear')
@@ -139,9 +138,8 @@ class ObjcUIViewController:
     def doneButtonTapped_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
       #topViewController = this.topViewController()
-      #topViewController.dismissViewControllerAnimated_completion_(True, None)
-
       visibleViewController = this.visibleViewController()
+      #topViewController.dismissViewControllerAnimated_completion_(True, None)
       visibleViewController.dismissViewControllerAnimated_completion_(
         True, None)
 
@@ -150,7 +148,8 @@ class ObjcUIViewController:
       this = ObjCInstance(_self)
       view = this.view()
       #view.backgroundColor = sc.systemWhiteColor
-      view.backgroundColor = sc.systemDarkExtraLightGrayColor
+      #view.backgroundColor = sc.systemDarkExtraLightGrayColor
+      view.backgroundColor = sc.systemDarkBlueColor
 
     # --- `UIViewController` set up
     _methods = [
@@ -174,66 +173,48 @@ class ObjcUIViewController:
       navigationController = ObjCInstance(_navigationController)
       navigationBar = navigationController.navigationBar()
       toolbar = navigationController.toolbar()
-      
+
       viewController = ObjCInstance(_viewController)
       #topViewController = navigationController.topViewController()
       visibleViewController = navigationController.visibleViewController()
+
       #navigationItem = topViewController.navigationItem()
       navigationItem = visibleViewController.navigationItem()
-      
+
+      visibleViewController.setEdgesForExtendedLayout_(0)
+      #visibleViewController.setExtendedLayoutIncludesOpaqueBars_(True)
 
       # --- appearance
       appearance = UINavigationBarAppearance.alloc()
-      #appearance.configureWithDefaultBackground()
-      appearance.configureWithOpaqueBackground()
+      appearance.configureWithDefaultBackground()
+      #appearance.configureWithOpaqueBackground()
       #appearance.configureWithTransparentBackground()
       #appearance.backgroundColor = sc.systemExtraLightGrayColor
 
       # --- navigationBar
-      
-      '''
       navigationBar.standardAppearance = appearance
       navigationBar.scrollEdgeAppearance = appearance
       navigationBar.compactAppearance = appearance
       navigationBar.compactScrollEdgeAppearance = appearance
-      '''
-
       #navigationBar.prefersLargeTitles = True
       #navigationController.setHidesBarsOnSwipe_(True)
 
-      viewController.setEdgesForExtendedLayout_(0)
-      #viewController.setExtendedLayoutIncludesOpaqueBars_(True)
-      
-      #pdbg.state(navigationController)
-
       # --- toolbar
       navigationController.setToolbarHidden_(False)
-      # xxx: 49 ? がデフォ？
-      
-
+      # xxx: 49 ? がデフォ?
+      _add_btn = UIBarButtonItem.alloc()
+      add_btn = _add_btn.initWithBarButtonSystemItem_target_action_(
+        4, None, None)
       #pdbg.state(toolbar)
+      toolbar.setItems_animated_([add_btn], False)
+      pdbg.state(toolbar)
 
       _done_btn = UIBarButtonItem.alloc()
       done_btn = _done_btn.initWithBarButtonSystemItem_target_action_(
         0, navigationController, sel('doneButtonTapped:'))
 
-
-
-      #pdbg.state(navigationController)
-      #pdbg.state(navigationController.toolbar().isHidden())
-
-      #pdbg.state(visibleViewController)
-
       # --- navigationItem
-
-      #pdbg.state(navigationItem)
       #navigationItem.setLargeTitleDisplayMode_(0)
-
-      navigationItem.standardAppearance = appearance
-      navigationItem.scrollEdgeAppearance = appearance
-      navigationItem.compactAppearance = appearance
-      navigationItem.compactScrollEdgeAppearance = appearance
-
       navigationItem.setTitle_(str(file_name))
       navigationItem.rightBarButtonItem = done_btn
 
@@ -295,5 +276,6 @@ def present_objc(vc):
 if __name__ == '__main__':
   ovc = ObjcUIViewController.new()
   present_objc(ovc)
+
 
 
