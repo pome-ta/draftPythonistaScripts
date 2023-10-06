@@ -1,3 +1,5 @@
+# [[iOS 11] iOS 11で追加されたUINavigationItemのsearchControllerプロパティを使ってSearchBarをナビゲーションインターフェースに統合する | DevelopersIO](https://dev.classmethod.jp/articles/ios-11-uinavigationitem-searchcontroller/)
+
 from pathlib import Path
 
 from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
@@ -8,8 +10,11 @@ import pdbg
 file_name = Path(__file__).name
 #file_name = 'searchController'
 
+UINavigationController = ObjCClass('UINavigationController')
 UIViewController = ObjCClass('UIViewController')
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
+
+UISearchController = ObjCClass('UISearchController')
 
 UIView = ObjCClass('UIView')
 
@@ -17,6 +22,36 @@ UIColor = ObjCClass('UIColor')
 
 systemDarkBlueColor = UIColor.systemDarkBlueColor()
 systemDarkOrangeColor = UIColor.systemDarkOrangeColor()
+
+#initWithSearchResultsController
+
+all_items = [
+  'Swift',
+  'Java',
+  'Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,',
+  'Ruby',
+  'C++',
+  'C',
+  'C#',
+  'Python',
+  'Perl',
+  'JavaScript',
+  'PHP',
+  'Scratch',
+  'Scala',
+  'COBOL',
+  'Curl',
+  'Dart',
+  'HTML',
+  'CSS',
+  'Ruby on Rails',
+  'TypeScript',
+  'ECMAScript',
+  'Jython',
+  'CPython',
+  'PyPy',
+  'IronPython',
+]
 
 
 class ObjcUIViewController:
@@ -28,14 +63,13 @@ class ObjcUIViewController:
   @on_main_thread
   def _init(self):
     self._override_viewController()
-
     vc = self._viewController.new().autorelease()
-
-    self._this = vc
+    nv = UINavigationController.alloc()
+    nv.initWithRootViewController_(vc).autorelease()
+    self._this = nv
 
   def _override_viewController(self):
-
-    self.redView = UIView.alloc()
+    self.searchController = UISearchController.alloc()
 
     # --- `UIViewController` Methods
     def viewDidLoad(_self, _cmd):
@@ -44,38 +78,17 @@ class ObjcUIViewController:
       view = this.view()
       view.backgroundColor = systemDarkBlueColor
 
-      CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
-      self.redView.initWithFrame_(CGRectZero).autorelease()
-      #self.redView.initWithFrame_(view.frame())
-      self.redView.backgroundColor = systemDarkOrangeColor
-      self.redView.translatesAutoresizingMaskIntoConstraints = False
+      self.searchController.initWithSearchResultsController_(None)
+      #self.searchController.setSearchResultsUpdater_(this)
+      self.searchController.setObscuresBackgroundDuringPresentation_(False)
 
-      view.addSubview_(self.redView)
-      '''
-      bottomAnchor
-      centerXAnchor
-      centerYAnchor
-      firstBaselineAnchor
-      heightAnchor
-      lastBaselineAnchor
-      leadingAnchor
-      leftAnchor
-      rightAnchor
-      topAnchor
-      trailingAnchor
-      widthAnchor
-      '''
+      navigationItem = this.navigationItem()
+      navigationItem.setTitle_('Sample data')
+      navigationItem.setSearchController_(self.searchController)
+      navigationItem.setHidesSearchBarWhenScrolling_(True)
+      #pdbg.state(navigationItem)
 
-      NSLayoutConstraint.activateConstraints_([
-        self.redView.centerXAnchor().constraintEqualToAnchor_(
-          view.centerXAnchor()),
-        self.redView.centerYAnchor().constraintEqualToAnchor_(
-          view.centerYAnchor()),
-        self.redView.widthAnchor().constraintEqualToAnchor_multiplier_(
-          view.widthAnchor(), 0.9),
-        self.redView.heightAnchor().constraintEqualToAnchor_multiplier_(
-          view.heightAnchor(), 0.9),
-      ])
+      
 
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
@@ -86,6 +99,8 @@ class ObjcUIViewController:
       this = ObjCInstance(_self)
       view = this.view()
       window = view.window()
+      #pdbg.mthd(view)
+      #pdbg.state(this.navigationController())
 
     def viewWillDisappear_(_self, _cmd, _animated):
       #print('viewWillDisappear')
