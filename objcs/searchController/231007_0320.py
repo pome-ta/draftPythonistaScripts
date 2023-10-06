@@ -11,10 +11,11 @@ file_name = Path(__file__).name
 #file_name = 'searchController'
 
 UINavigationController = ObjCClass('UINavigationController')
+UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
 UIBarButtonItem = ObjCClass('UIBarButtonItem')
 UIViewController = ObjCClass('UIViewController')
-NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
+NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
 UISearchController = ObjCClass('UISearchController')
 
@@ -34,7 +35,6 @@ systemDarkLightGrayTintColor = UIColor.systemDarkLightGrayTintColor()
 systemDarkLightMidGrayColor = UIColor.systemDarkLightMidGrayColor()
 systemDarkLightMidGrayTintColor = UIColor.systemDarkLightMidGrayTintColor()
 systemDarkMidGrayColor = UIColor.systemDarkMidGrayColor()
-
 
 all_items = [
   'Swift',
@@ -85,26 +85,43 @@ class ObjcUIViewController:
     # --- `UIViewController` Methods
     def doneButtonTapped_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
-      this.dismissViewControllerAnimated_completion_(
-        True, None)
-    
+      this.dismissViewControllerAnimated_completion_(True, None)
+
     def viewDidLoad(_self, _cmd):
       #print('viewDidLoad')
       this = ObjCInstance(_self)
       view = this.view()
+      navigationController = this.navigationController()
+      navigationBar = navigationController.navigationBar()
+      navigationItem = this.navigationItem()
+
       #view.backgroundColor = systemDarkBlueColor
       #view.backgroundColor = systemDarkMidGrayColor
 
-      _done_btn = UIBarButtonItem.alloc()
-      done_btn = _done_btn.initWithBarButtonSystemItem_target_action_(0, this, sel('doneButtonTapped:'))
+      # --- appearance
+      appearance = UINavigationBarAppearance.alloc()
+      appearance.configureWithDefaultBackground()
+      #appearance.configureWithOpaqueBackground()
+      #appearance.configureWithTransparentBackground()
 
+      # --- navigationBar
+      navigationBar.standardAppearance = appearance
+      navigationBar.scrollEdgeAppearance = appearance
+      navigationBar.compactAppearance = appearance
+      navigationBar.compactScrollEdgeAppearance = appearance
+
+      #navigationBar.prefersLargeTitles = True
+      #navigationController.setHidesBarsOnSwipe_(True)
+
+      _done_btn = UIBarButtonItem.alloc()
+      done_btn = _done_btn.initWithBarButtonSystemItem_target_action_(
+        0, this, sel('doneButtonTapped:'))
 
       self.searchController.initWithSearchResultsController_(None)
       #self.searchController.setSearchResultsUpdater_(this)
       self.searchController.setObscuresBackgroundDuringPresentation_(False)
 
-      navigationItem = this.navigationItem()
-      navigationItem.setTitle_('Sample data')
+      navigationItem.setTitle_('searchController Sample')
       navigationItem.rightBarButtonItem = done_btn
       navigationItem.setSearchController_(self.searchController)
       navigationItem.setHidesSearchBarWhenScrolling_(True)
@@ -119,8 +136,6 @@ class ObjcUIViewController:
       this = ObjCInstance(_self)
       view = this.view()
       window = view.window()
-      #pdbg.mthd(view)
-      #pdbg.state(this.navigationController())
 
     def viewWillDisappear_(_self, _cmd, _animated):
       #print('viewWillDisappear')
