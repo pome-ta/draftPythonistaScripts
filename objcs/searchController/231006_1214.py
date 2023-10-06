@@ -88,8 +88,6 @@ class ObjcUIViewController:
       navigationItem.setHidesSearchBarWhenScrolling_(True)
       #pdbg.state(navigationItem)
 
-      
-
     def viewWillAppear_(_self, _cmd, _animated):
       #print('viewWillAppear')
       pass
