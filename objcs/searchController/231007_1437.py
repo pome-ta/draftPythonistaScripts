@@ -66,6 +66,7 @@ class ObjcUIViewController:
 
   @on_main_thread
   def _init(self):
+    self._init_table_extensions()
     self._override_viewController()
     vc = self._viewController.new().autorelease()
     nv = UINavigationController.alloc()
@@ -87,7 +88,7 @@ class ObjcUIViewController:
       self.nav_setup(this)
       view = this.view()
 
-      #view.backgroundColor = systemDarkBlueColor
+      view.backgroundColor = UIColor.systemDarkBlueColor()
       #view.backgroundColor = systemDarkMidGrayColor
 
       CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
@@ -98,10 +99,13 @@ class ObjcUIViewController:
       2 : UITableViewStyleInsetGrouped
       '''
       self.tableView.initWithFrame_style_(CGRectZero, 0)
-      self.tableView.backgroundColor = UIColor.systemDarkLightGrayColor()
+      #self.tableView.backgroundColor = UIColor.systemDarkLightGrayColor()
 
       self.tableView.registerClass_forCellReuseIdentifier_(
         UITableViewCell, self.cell_identifier)
+
+      self.tableView.setDataSource_(self.table_extensions)
+      self.tableView.setDelegate_(self.table_extensions)
 
       view.addSubview_(self.tableView)
 
@@ -208,7 +212,7 @@ class ObjcUIViewController:
     navigationBar.compactAppearance = appearance
     navigationBar.compactScrollEdgeAppearance = appearance
 
-    #navigationBar.prefersLargeTitles = True
+    navigationBar.prefersLargeTitles = True
     #navigationController.setHidesBarsOnSwipe_(True)
 
     _done_btn = UIBarButtonItem.alloc()
