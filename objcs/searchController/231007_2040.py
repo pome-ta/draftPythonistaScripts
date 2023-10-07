@@ -24,6 +24,8 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
 UIColor = ObjCClass('UIColor')
 
+
+
 all_items = [
   'Swift',
   'Java',
@@ -52,6 +54,8 @@ all_items = [
   'IronPython',
 ]
 
+
+all_items = [f'row: {i:03}' for i in range(101)]
 
 class ObjcUIViewController:
 

@@ -24,33 +24,7 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
 UIColor = ObjCClass('UIColor')
 
-all_items = [
-  'Swift',
-  'Java',
-  'Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,Java,',
-  'Ruby',
-  'C++',
-  'C',
-  'C#',
-  'Python',
-  'Perl',
-  'JavaScript',
-  'PHP',
-  'Scratch',
-  'Scala',
-  'COBOL',
-  'Curl',
-  'Dart',
-  'HTML',
-  'CSS',
-  'Ruby on Rails',
-  'TypeScript',
-  'ECMAScript',
-  'Jython',
-  'CPython',
-  'PyPy',
-  'IronPython',
-]
+all_items = [f'row: {i:03}' for i in range(128)]
 
 
 class ObjcUIViewController:
@@ -62,7 +36,9 @@ class ObjcUIViewController:
     self._this: ObjCInstance
     self._viewController: UIViewController
     self._table_extensions: 'Protocol'
+
     self.searchController: UISearchController
+    self.tableView: UITableView
 
   @on_main_thread
   def _init(self):
@@ -153,6 +129,9 @@ class ObjcUIViewController:
   @property
   def table_extensions(self):
     return self._table_extensions.new()
+
+  def _init_search_extensions(self):
+    pass
 
   def _init_table_extensions(self):
     # --- `UITableViewDataSource` Methods
