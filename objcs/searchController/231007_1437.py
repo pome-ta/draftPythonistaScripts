@@ -58,6 +58,7 @@ class ObjcUIViewController:
   def __init__(self):
     self._this: ObjCInstance
     self._viewController: UIViewController
+    self.searchController: UISearchController
 
   @on_main_thread
   def _init(self):
@@ -119,36 +120,6 @@ class ObjcUIViewController:
 
       #view.backgroundColor = systemDarkBlueColor
       #view.backgroundColor = systemDarkMidGrayColor
-      '''
-
-      # --- appearance
-      appearance = UINavigationBarAppearance.alloc()
-      appearance.configureWithDefaultBackground()
-      #appearance.configureWithOpaqueBackground()
-      #appearance.configureWithTransparentBackground()
-
-      # --- navigationBar
-      navigationBar.standardAppearance = appearance
-      navigationBar.scrollEdgeAppearance = appearance
-      navigationBar.compactAppearance = appearance
-      navigationBar.compactScrollEdgeAppearance = appearance
-
-      #navigationBar.prefersLargeTitles = True
-      #navigationController.setHidesBarsOnSwipe_(True)
-
-      _done_btn = UIBarButtonItem.alloc()
-      done_btn = _done_btn.initWithBarButtonSystemItem_target_action_(
-        0, this, sel('doneButtonTapped:'))
-
-      self.searchController.initWithSearchResultsController_(None)
-      #self.searchController.setSearchResultsUpdater_(this)
-      self.searchController.setObscuresBackgroundDuringPresentation_(False)
-
-      navigationItem.setTitle_('searchController Sample')
-      navigationItem.rightBarButtonItem = done_btn
-      navigationItem.setSearchController_(self.searchController)
-      navigationItem.setHidesSearchBarWhenScrolling_(True)
-      '''
 
     def didReceiveMemoryWarning(_self, _cmd):
       # Dispose of any resources that can be recreated.
