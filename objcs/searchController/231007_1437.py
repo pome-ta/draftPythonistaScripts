@@ -89,9 +89,34 @@ class ObjcUIViewController:
 
       #view.backgroundColor = systemDarkBlueColor
       #view.backgroundColor = systemDarkMidGrayColor
-      
+
       CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
-      
+      # [UITableViewStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uitableviewstyle?language=objc)
+      '''
+      0 : UITableViewStylePlain
+      1 : UITableViewStyleGrouped
+      2 : UITableViewStyleInsetGrouped
+      '''
+      self.tableView.initWithFrame_style_(CGRectZero, 0)
+      self.tableView.backgroundColor = UIColor.systemDarkLightGrayColor()
+
+      self.tableView.registerClass_forCellReuseIdentifier_(
+        UITableViewCell, self.cell_identifier)
+
+      view.addSubview_(self.tableView)
+
+      self.tableView.translatesAutoresizingMaskIntoConstraints = False
+
+      NSLayoutConstraint.activateConstraints_([
+        self.tableView.centerXAnchor().constraintEqualToAnchor_(
+          view.centerXAnchor()),
+        self.tableView.centerYAnchor().constraintEqualToAnchor_(
+          view.centerYAnchor()),
+        self.tableView.widthAnchor().constraintEqualToAnchor_multiplier_(
+          view.widthAnchor(), 1.0),
+        self.tableView.heightAnchor().constraintEqualToAnchor_multiplier_(
+          view.heightAnchor(), 1.0),
+      ])
 
     def didReceiveMemoryWarning(_self, _cmd):
       # Dispose of any resources that can be recreated.
