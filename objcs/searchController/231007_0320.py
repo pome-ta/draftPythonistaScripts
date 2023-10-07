@@ -1,25 +1,25 @@
 # [[iOS 11] iOS 11で追加されたUINavigationItemのsearchControllerプロパティを使ってSearchBarをナビゲーションインターフェースに統合する | DevelopersIO](https://dev.classmethod.jp/articles/ios-11-uinavigationitem-searchcontroller/)
 
-from pathlib import Path
-
 from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
 from objc_util import sel, CGRect
 
 import pdbg
 
-file_name = Path(__file__).name
-#file_name = 'searchController'
-
+# --- navigation
 UINavigationController = ObjCClass('UINavigationController')
 UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
 UIBarButtonItem = ObjCClass('UIBarButtonItem')
-UIViewController = ObjCClass('UIViewController')
-
-NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
-
 UISearchController = ObjCClass('UISearchController')
 
+# --- viewController
+UIViewController = ObjCClass('UIViewController')
+
+# --- view
 UIView = ObjCClass('UIView')
+NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
+
+UITableView = ObjCClass('UITableView')
+UITableViewCell = ObjCClass('UITableViewCell')
 
 UIColor = ObjCClass('UIColor')
 
