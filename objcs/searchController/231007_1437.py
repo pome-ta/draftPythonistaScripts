@@ -56,8 +56,12 @@ all_items = [
 class ObjcUIViewController:
 
   def __init__(self):
+    self.items: list = all_items
+    self.cell_identifier: str = 'cell'
+
     self._this: ObjCInstance
     self._viewController: UIViewController
+    self._table_extensions: 'Protocol'
     self.searchController: UISearchController
 
   @on_main_thread
@@ -68,8 +72,102 @@ class ObjcUIViewController:
     nv.initWithRootViewController_(vc).autorelease()
     self._this = nv
 
-  #@on_main_thread
-  def nav_init(self, this: UIViewController):
+  def _override_viewController(self):
+    self.searchController = UISearchController.alloc()
+    self.tableView = UITableView.new()
+
+    # --- `UIViewController` Methods
+    def doneButtonTapped_(_self, _cmd, _sender):
+      this = ObjCInstance(_self)
+      this.dismissViewControllerAnimated_completion_(True, None)
+
+    def viewDidLoad(_self, _cmd):
+      #print('viewDidLoad')
+      this = ObjCInstance(_self)
+      self.nav_setup(this)
+      view = this.view()
+
+      #view.backgroundColor = systemDarkBlueColor
+      #view.backgroundColor = systemDarkMidGrayColor
+      
+      CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
+      
+
+    def didReceiveMemoryWarning(_self, _cmd):
+      # Dispose of any resources that can be recreated.
+      print('Dispose of any resources that can be recreated.')
+
+    # --- `UIViewController` set up
+    _methods = [
+      doneButtonTapped_,
+      viewDidLoad,
+      didReceiveMemoryWarning,
+    ]
+
+    create_kwargs = {
+      'name': '_vc',
+      'superclass': UIViewController,
+      'methods': _methods,
+    }
+    _vc = create_objc_class(**create_kwargs)
+    self._viewController = _vc
+
+  @property
+  def table_extensions(self):
+    return self._table_extensions.new()
+
+  def _init_table_extensions(self):
+    # --- `UITableViewDataSource` Methods
+    def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
+      return len(self.items)
+
+    def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
+      tableView = ObjCInstance(_tableView)
+      indexPath = ObjCInstance(_indexPath)
+      # xxx: `dequeueReusableCellWithIdentifier_forIndexPath_` は、落ちる? -> `numberOfSectionsInTableView_` 定義しないと落ちる
+      #cell = tableView.dequeueReusableCellWithIdentifier_(self.cell_identifier)
+
+      cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
+        self.cell_identifier, indexPath)
+
+      cell_text = self.items[indexPath.row()]
+      cell.textLabel().setText_(cell_text)
+
+      return cell.ptr
+
+    def numberOfSectionsInTableView_(_self, _cmd, _tableView):
+      # xxx: とりあえずの`1`
+      return 1
+
+    # --- `UITableViewDelegate` Methods
+    def tableView_didSelectRowAtIndexPath_(_self, _cmd, _tableView,
+                                           _indexPath):
+      indexPath = ObjCInstance(_indexPath)
+      item = self.items[indexPath.row()]
+
+    # --- `UITableViewDataSource` & `UITableViewDelegate` set up
+    _methods = [
+      tableView_numberOfRowsInSection_,
+      tableView_cellForRowAtIndexPath_,
+      numberOfSectionsInTableView_,
+      tableView_didSelectRowAtIndexPath_,
+    ]
+    _protocols = [
+      'UITableViewDataSource',
+      'UITableViewDelegate',
+    ]
+
+    create_kwargs = {
+      'name': 'table_extensions',
+      'methods': _methods,
+      'protocols': _protocols,
+    }
+
+    table_extensions = create_objc_class(**create_kwargs)
+    self._table_extensions = table_extensions
+
+  def nav_setup(self, this: UIViewController):
+    # todo: navigation 系を外出し
     navigationController = this.navigationController()
     navigationBar = navigationController.navigationBar()
     navigationItem = this.navigationItem()
@@ -100,45 +198,6 @@ class ObjcUIViewController:
     navigationItem.rightBarButtonItem = done_btn
     navigationItem.setSearchController_(self.searchController)
     navigationItem.setHidesSearchBarWhenScrolling_(True)
-
-  def _override_viewController(self):
-    self.searchController = UISearchController.alloc()
-
-    # --- `UIViewController` Methods
-    def doneButtonTapped_(_self, _cmd, _sender):
-      this = ObjCInstance(_self)
-      this.dismissViewControllerAnimated_completion_(True, None)
-
-    def viewDidLoad(_self, _cmd):
-      #print('viewDidLoad')
-      this = ObjCInstance(_self)
-      view = this.view()
-      navigationController = this.navigationController()
-      navigationBar = navigationController.navigationBar()
-      navigationItem = this.navigationItem()
-      self.nav_init(this)
-
-      #view.backgroundColor = systemDarkBlueColor
-      #view.backgroundColor = systemDarkMidGrayColor
-
-    def didReceiveMemoryWarning(_self, _cmd):
-      # Dispose of any resources that can be recreated.
-      print('Dispose of any resources that can be recreated.')
-
-    # --- `UIViewController` set up
-    _methods = [
-      doneButtonTapped_,
-      viewDidLoad,
-      didReceiveMemoryWarning,
-    ]
-
-    create_kwargs = {
-      'name': '_vc',
-      'superclass': UIViewController,
-      'methods': _methods,
-    }
-    _vc = create_objc_class(**create_kwargs)
-    self._viewController = _vc
 
   @classmethod
   def new(cls) -> ObjCInstance:
