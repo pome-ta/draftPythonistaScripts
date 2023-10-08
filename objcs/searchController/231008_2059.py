@@ -205,6 +205,17 @@ class ObjcUIViewController:
     table_extensions = create_objc_class(**create_kwargs)
     self._table_extensions = table_extensions
 
+  def reload_items(self, target_text):
+    text = target_text if isinstance(target_text, str) else str(target_text)
+
+    try:
+      # xxx: 記号の処理対応
+      prog = re.compile(text, flags=re.IGNORECASE)
+      self.grep_items = [item for item in self.all_items if prog.search(item)]
+    except:
+      pass
+    self.tableView.reloadData()
+
   def nav_setup(self, this: UIViewController):
     # todo: navigation 系を外出し
     navigationController = this.navigationController()
