@@ -74,9 +74,6 @@ class ObjcUIViewController:
       navigationItem.setSearchController_(self.searchController)
       navigationItem.setHidesSearchBarWhenScrolling_(True)
 
-      #view.backgroundColor = UIColor.systemDarkBlueColor()
-      #view.backgroundColor = systemDarkMidGrayColor
-
       CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
       # [UITableViewStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uitableviewstyle?language=objc)
       '''
@@ -86,9 +83,6 @@ class ObjcUIViewController:
       '''
       self.tableView.initWithFrame_style_(CGRectZero, 0)
       view.addSubview_(self.tableView)
-
-      #self.tableView.backgroundColor = UIColor.systemDarkLightGrayColor()
-
       self.tableView.registerClass_forCellReuseIdentifier_(
         UITableViewCell, self.cell_identifier)
 
