@@ -36,6 +36,7 @@ class ObjcUIViewController:
     self._this: ObjCInstance
     self._viewController: UIViewController
     self._table_extensions: 'Protocol'
+    self._search_extensions: 'Protocol'
 
     self.searchController: UISearchController
     self.tableView: UITableView
@@ -119,6 +120,10 @@ class ObjcUIViewController:
     }
     _vc = create_objc_class(**create_kwargs)
     self._viewController = _vc
+
+  @property
+  def search_extensions(self):
+    return self._search_extensions.new()
 
   @property
   def table_extensions(self):
