@@ -5,7 +5,7 @@ import plistlib
 from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
 from objc_util import sel, CGRect
 
-import pdbg
+#import pdbg
 
 # --- navigation
 UINavigationController = ObjCClass('UINavigationController')
