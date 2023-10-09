@@ -1,5 +1,7 @@
 # [[iOS 11] iOS 11で追加されたUINavigationItemのsearchControllerプロパティを使ってSearchBarをナビゲーションインターフェースに統合する | DevelopersIO](https://dev.classmethod.jp/articles/ios-11-uinavigationitem-searchcontroller/)
 
+import re
+
 from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
 from objc_util import sel, CGRect
 
@@ -30,7 +32,8 @@ all_items = [f'row: {i:03}' for i in range(128)]
 class ObjcUIViewController:
 
   def __init__(self):
-    self.items: list = all_items
+    self.all_items: list = all_items
+    self.grep_items: list = []
     self.cell_identifier: str = 'cell'
 
     self._this: ObjCInstance
@@ -135,7 +138,10 @@ class ObjcUIViewController:
     def updateSearchResultsForSearchController_(_self, _cmd,
                                                 _searchController):
       searchController = ObjCInstance(_searchController)
-      print('h')
+      text = searchController.searchBar().text()
+      if text:
+        self.reload_items(str(text))
+      #pdbg.state(text)
 
     # --- `UISearchResultsUpdating` set up
     _methods = [
@@ -157,7 +163,8 @@ class ObjcUIViewController:
   def _init_table_extensions(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
-      return len(self.items)
+      items = self.grep_items if self.grep_items else self.all_items
+      return len(items)
 
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
@@ -168,7 +175,9 @@ class ObjcUIViewController:
       cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
         self.cell_identifier, indexPath)
 
-      cell_text = self.items[indexPath.row()]
+      items = self.grep_items if self.grep_items else self.all_items
+
+      cell_text = items[indexPath.row()]
       cell.textLabel().setText_(cell_text)
 
       return cell.ptr
@@ -207,6 +216,7 @@ class ObjcUIViewController:
 
   def reload_items(self, target_text):
     text = target_text if isinstance(target_text, str) else str(target_text)
+    print(type(target_text))
 
     try:
       # xxx: 記号の処理対応
