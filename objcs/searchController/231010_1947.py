@@ -117,7 +117,6 @@ class ObjcUIViewController:
 
       # --- tableView layout
       view.addSubview_(self.tableView)
-
       self.tableView.translatesAutoresizingMaskIntoConstraints = False
 
       NSLayoutConstraint.activateConstraints_([
@@ -236,6 +235,7 @@ class ObjcUIViewController:
     return table_extensions.new()
 
   def setup_navigation(self, this: UIViewController):
+    this.setEdgesForExtendedLayout_(0)
     # todo: view 閉じる用の実装など
     navigationController = this.navigationController()
     navigationBar = navigationController.navigationBar()
