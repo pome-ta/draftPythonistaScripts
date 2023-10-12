@@ -33,8 +33,8 @@ class ObjcUIViewController:
 
     # xxx: navigationItem 関係は、`UINavigationController` を`create_objc_class` して、navigation 側で処理してもいいかも
     # --- navigationItem
-    navigationItem = this.navigationItem()
-    navigationItem.setTitle_(self.nav_title)
+    #navigationItem = this.navigationItem()
+    #navigationItem.setTitle_(self.nav_title)
 
     # --- view
     CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
@@ -44,14 +44,9 @@ class ObjcUIViewController:
   def _override_viewController(self):
 
     # --- `UIViewController` Methods
-    def doneButtonTapped_(_self, _cmd, _sender):
-      this = ObjCInstance(_self)
-      this.dismissViewControllerAnimated_completion_(True, None)
-
     def viewDidLoad(_self, _cmd):
       #print('viewDidLoad')
       this = ObjCInstance(_self)
-      self.setup_navigation(this)
       self.setup_viewDidLoad(this)
       view = this.view()
 
@@ -72,7 +67,6 @@ class ObjcUIViewController:
 
     # --- `UIViewController` set up
     _methods = [
-      doneButtonTapped_,
       viewDidLoad,
     ]
 
@@ -83,33 +77,6 @@ class ObjcUIViewController:
     }
     _vc = create_objc_class(**create_kwargs)
     self._viewController = _vc
-
-  def setup_navigation(self, this: UIViewController):
-    this.setEdgesForExtendedLayout_(0)
-    # todo: view 閉じる用の実装など
-    navigationController = this.navigationController()
-    navigationBar = navigationController.navigationBar()
-
-    # --- appearance
-    appearance = UINavigationBarAppearance.alloc()
-    appearance.configureWithDefaultBackground()
-    #appearance.configureWithOpaqueBackground()
-    #appearance.configureWithTransparentBackground()
-
-    # --- navigationBar
-    navigationBar.standardAppearance = appearance
-    navigationBar.scrollEdgeAppearance = appearance
-    navigationBar.compactAppearance = appearance
-    navigationBar.compactScrollEdgeAppearance = appearance
-
-    #navigationBar.prefersLargeTitles = True
-
-    done_btn = UIBarButtonItem.alloc(
-    ).initWithBarButtonSystemItem_target_action_(0, this,
-                                                 sel('doneButtonTapped:'))
-
-    navigationItem = this.navigationItem()
-    navigationItem.rightBarButtonItem = done_btn
 
   def _override_navigationController(self):
     # --- `UINavigationController` Methods
@@ -126,7 +93,7 @@ class ObjcUIViewController:
       #view.backgroundColor = sc.systemWhiteColor
       #view.backgroundColor = sc.systemDarkExtraLightGrayColor
 
-    # --- `UIViewController` set up
+    # --- `UINavigationController` set up
     _methods = [
       doneButtonTapped_,
       viewDidLoad,
@@ -175,9 +142,9 @@ class ObjcUIViewController:
       visibleViewController = navigationController.visibleViewController()
 
       # --- navigationItem
-      navigationItem = topViewController.visibleViewController()
+      navigationItem = visibleViewController.navigationItem()
 
-      navigationItem.setTitle_(str(file_name))
+      navigationItem.setTitle_('nv')
       navigationItem.rightBarButtonItem = done_btn
 
     def navigationController_didShowViewController_animated_(
@@ -205,9 +172,13 @@ class ObjcUIViewController:
   @on_main_thread
   def _init(self):
     self._override_viewController()
+    self._override_navigationController()
+    _delegate = self.create_navigationControllerDelegate()
     vc = self._viewController.new().autorelease()
-    nv = UINavigationController.alloc()
+    #nv = UINavigationController.alloc()
+    nv = self._navigationController.alloc()
     nv.initWithRootViewController_(vc).autorelease()
+    nv.setDelegate_(_delegate)
     return nv
 
   @classmethod
