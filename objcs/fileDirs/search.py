@@ -16,11 +16,14 @@ def _search_print(path_name, compiler):
     print('ファイルがありません：終了します')
     return
   fw_list = sorted(list(search_path.iterdir()))
-  result = [fw for fw in fw_list if compiler.search(fw.name)]
+  #result = [f'{fw}\n\t->\t{fw.name}' for fw in fw_list if compiler.search(fw.name)]
+  result = [f'\t{fw.name}' for fw in fw_list if compiler.search(fw.name)]
+
   print(f'--- {path_name} :hit {len(result)}')
   print(*result, sep='\n')
 
 
 if __name__ == '__main__':
-  search_word = 'Vision'
+  search_word = 'swift'
   search_frameworks(search_word)
+
