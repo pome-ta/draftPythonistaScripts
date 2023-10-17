@@ -27,10 +27,10 @@ class_names = [class_getName(b).decode('ascii') for b in buffer]
 class_names.sort()
 
 
-target = 'PAS'
+target = 'simd'
 
-#prog = re.compile(target, flags=re.IGNORECASE)
-prog = re.compile(target)
+prog = re.compile(target, flags=re.IGNORECASE)
+#prog = re.compile(target)
 grep_names =  [c_name for c_name in class_names if prog.search(c_name)]
 #pprint(class_names)
 
