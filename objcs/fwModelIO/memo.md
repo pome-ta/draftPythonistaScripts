@@ -6,12 +6,12 @@
 
 ```
 # --- name______
-<objc_util.ObjCInstanceMethod object at 0x1158ff9d0>
+<objc_util.ObjCInstanceMethod object at 0x1113c8430>
 # --- vars( )______
 {'_objc_msgSend': None,
  'encoding': b'@60@0:81632B40q44@52',
  'method': 8834873001,
- 'obj': <b'MDLMesh': <<MDLMesh: 0x16b7e38c8>, Name: Obj5, VertexCount: 0, VertexBufferCount: 0>>,
+ 'obj': <b'MDLMesh': <<MDLMesh: 0x16d7e78c8>, Name: Obj0, VertexCount: 0, VertexBufferCount: 0>>,
  'sel_name': 'initSphereWithExtent:segments:inwardNormals:geometryType:allocator:'}
 # --- dir( )______
 ['__call__',
@@ -46,7 +46,6 @@
  'method',
  'obj',
  'sel_name']
-
 
 ```
 
