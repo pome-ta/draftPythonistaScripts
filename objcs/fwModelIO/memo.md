@@ -2,6 +2,12 @@
 
 ## encoding 調査
 
+
+[Type Encodings](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html)
+
+
+よくわかってない ↑ を理解することになるのか、、、
+
 ```.py
 device = MTLCreateSystemDefaultDevice()
 allocator = MTKMeshBufferAllocator.alloc().initWithDevice_(device)
