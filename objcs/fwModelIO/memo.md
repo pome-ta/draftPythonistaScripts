@@ -1,6 +1,68 @@
 # 📝 2023/10/20
 
+## encoding 調査
 
+```.py
+device = MTLCreateSystemDefaultDevice()
+allocator = MTKMeshBufferAllocator.alloc().initWithDevice_(device)
+```
+
+`device` が引数の場合。
+
+
+`encoding` はどうなってるか？
+
+```
+'encoding': b'@24@0:8@16'
+```
+
+
+
+```
+# --- name______
+<objc_util.ObjCInstanceMethod object at 0x110d31e10>
+# --- vars( )______
+{'_objc_msgSend': None,
+ 'encoding': b'@24@0:8@16',
+ 'method': 8977835473,
+ 'obj': <b'MTKMeshBufferAllocator': <MTKMeshBufferAllocator: 0x283b30440>>,
+ 'sel_name': 'initWithDevice:'}
+# --- dir( )______
+['__call__',
+ '__class__',
+ '__delattr__',
+ '__dict__',
+ '__dir__',
+ '__doc__',
+ '__eq__',
+ '__format__',
+ '__ge__',
+ '__getattribute__',
+ '__gt__',
+ '__hash__',
+ '__init__',
+ '__init_subclass__',
+ '__le__',
+ '__lt__',
+ '__module__',
+ '__ne__',
+ '__new__',
+ '__reduce__',
+ '__reduce_ex__',
+ '__repr__',
+ '__setattr__',
+ '__sizeof__',
+ '__str__',
+ '__subclasshook__',
+ '__weakref__',
+ '_objc_msgSend',
+ 'encoding',
+ 'method',
+ 'obj',
+ 'sel_name']
+
+
+```
 
 ## `initSphereWithExtent:segments:inwardNormals:geometryType:allocator:`
 

@@ -17,6 +17,10 @@ device = MTLCreateSystemDefaultDevice()
 allocator = MTKMeshBufferAllocator.alloc().initWithDevice_(device)
 
 mdlMesh = MDLMesh.new()
-mdlMesh.initSphereWithExtent_segments_inwardNormals_geometryType_allocator_
-pdbg.state(mdlMesh.initSphereWithExtent_segments_inwardNormals_geometryType_allocator_)
+#mdlMesh.initSphereWithExtent_segments_inwardNormals_geometryType_allocator_
+#pdbg.state(mdlMesh.initSphereWithExtent_segments_inwardNormals_geometryType_allocator_)
+
+
+pdbg.state(MTKMeshBufferAllocator.alloc().initWithDevice_)
+
 
