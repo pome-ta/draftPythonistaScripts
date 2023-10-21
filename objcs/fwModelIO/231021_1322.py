@@ -1,4 +1,7 @@
 import ctypes
+
+import numpy as np
+
 from objc_util import ObjCClass, ObjCInstance, c
 import pdbg
 
