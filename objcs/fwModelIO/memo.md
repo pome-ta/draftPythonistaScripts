@@ -1,6 +1,16 @@
 # 📝 2023/10/21
 
 
+## error
+
+
+```
+raise TypeError('expected %i arguments, got %i' % (len(argtypes) - 2, len(args)))
+TypeError: expected 3 arguments, got 5
+
+```
+
+
 ## `new()`
 
 ```.py
