@@ -1,3 +1,118 @@
+# 📝 2023/10/21
+
+
+## `new()`
+
+```.py
+
+MDLMesh = ObjCClass('MDLMesh')
+mdlMesh = MDLMesh.new()
+```
+
+
+```
+# --- name______
+<b'MDLMesh': <<MDLMesh: 0x16f58bf58>, Name: Obj0, VertexCount: 0, VertexBufferCount: 0>>
+# --- vars( )______
+{'_as_parameter_': 10772961328,
+ '_cached_methods': {'retain': <objc_util.ObjCInstanceMethodProxy object at 0x10f687370>},
+ 'ptr': 10772961328,
+ 'weakrefs': <WeakValueDictionary at 0x10f6873a0>}
+# --- dir( )______
+['_calculateFaceNormalsFromPositions_positionStride_normals_normalStride_creaseThreshold_',
+ '_calculateTangentBasisFromPositions_positionStride_positionsBufferSize_normals_normalStride_normalsBufferSize_uvs_uvStride_uvsBufferSize_tangents_tangentsStride_tangentsBufferSize_bitagents_bitangentStride_bitangentsBufferSize_tangentFormat_selector_',
+ '_createWithVertexBuffer_vertexCount_descriptor_submeshes_',
+ '_enumerateSubmeshesUsingBlock_stopPointer_',
+ 'addAttributeWithName_format_',
+ 'addAttributeWithName_format_type_data_stride_',
+ 'addAttributeWithName_format_type_data_stride_time_',
+ 'addChild_',
+ 'addNormalsWithAttributeNamed_creaseThreshold_',
+ 'addOrthTanBasisForTextureCoordinateAttributeNamed_normalAttributeNamed_tangentAttributeNamed_',
+ 'addTangentBasisForTextureCoordinateAttributeNamed_normalAttributeNamed_tangentAttributeNamed_',
+ 'addTangentBasisForTextureCoordinateAttributeNamed_tangentAttributeNamed_bitangentAttributeNamed_',
+ 'addUnwrappedTextureCoordinatesForAttributeNamed_',
+ 'addVertexBuffer_',
+ 'allocator',
+ 'boundingBox',
+ 'boundingBoxAtTime_',
+ 'children',
+ 'componentConformingToProtocol_',
+ 'components',
+ 'controlNodeForINdex_',
+ 'copy',
+ 'copyDataVector_toAttr_',
+ 'createSourceDataVector_attr_srcElementCount_dstElementCount_',
+ 'dealloc',
+ 'debugPrintToFile_',
+ 'description',
+ 'enumerateChildObjectsOfClass_root_usingBlock_stopPointer_',
+ 'enumerateSubmeshesUsingBlock_',
+ 'flipTextureCoordinatesInAttributeNamed_',
+ 'generateAmbientOcclusionTextureWithQuality_attenuationFactor_objectsToConsider_vertexAttributeNamed_materialPropertyNamed_',
+ 'generateAmbientOcclusionTextureWithSize_raysPerSample_attenuationFactor_objectsToConsider_vertexAttributeNamed_materialPropertyNamed_',
+ 'generateAmbientOcclusionVertexColorsWithQuality_attenuationFactor_objectsToConsider_vertexAttributeNamed_',
+ 'generateAmbientOcclusionVertexColorsWithRaysPerSample_attenuationFactor_objectsToConsider_vertexAttributeNamed_',
+ 'generateLightMapTextureWithQuality_lightsToConsider_objectsToConsider_vertexAttributeNamed_materialPropertyNamed_',
+ 'generateLightMapTextureWithTextureSize_lightsToConsider_objectsToConsider_vertexAttributeNamed_materialPropertyNamed_',
+ 'generateLightMapVertexColorsWithLightsToConsider_objectsToConsider_vertexAttributeNamed_',
+ 'hidden',
+ 'init',
+ 'initBoxWithExtent_segments_inwardNormals_geometryType_allocator_',
+ 'initCapsuleWithExtent_cylinderSegments_hemisphereSegments_inwardNormals_geometryType_allocator_',
+ 'initConeWithExtent_segments_inwardNormals_cap_geometryType_allocator_',
+ 'initCylinderWithExtent_segments_inwardNormals_topCap_bottomCap_geometryType_allocator_',
+ 'initHemisphereWithExtent_segments_inwardNormals_cap_geometryType_allocator_',
+ 'initIcosahedronWithExtent_inwardNormals_geometryType_allocator_',
+ 'initMeshBySubdividingMesh_submeshIndex_subdivisionLevels_allocator_',
+ 'initPlaneWithExtent_segments_geometryType_allocator_',
+ 'initSphereWithExtent_segments_inwardNormals_geometryType_allocator_',
+ 'initWithBufferAllocator_',
+ 'initWithVertexBuffer_vertexCount_descriptor_submeshes_',
+ 'initWithVertexBuffers_vertexCount_descriptor_submeshes_',
+ 'instance',
+ 'inverseBasePoseForIndex_',
+ 'makeVerticesUnique',
+ 'makeVerticesUniqueAndReturnError_',
+ 'mutableCopy',
+ 'name',
+ 'objectAtPath_',
+ 'objectForKeyedSubscript_',
+ 'parent',
+ 'path',
+ 'performSelectorInBackground_withObject_',
+ 'performSelectorOnMainThread_withObject_waitUntilDone_',
+ 'performSelector_withObject_afterDelay_',
+ 'recursiveDescription',
+ 'removeAttributeNamed_',
+ 'replaceAttributeNamed_withData_',
+ 'setChildren_',
+ 'setComponent_forProtocol_',
+ 'setHidden_',
+ 'setInstance_',
+ 'setName_',
+ 'setObject_forKeyedSubscript_',
+ 'setParent_',
+ 'setSubdivisionScheme_',
+ 'setSubmeshes_',
+ 'setTransform_',
+ 'setVertexBuffers_',
+ 'setVertexCount_',
+ 'setVertexDescriptor_',
+ 'subdivisionScheme',
+ 'submeshCount',
+ 'submeshes',
+ 'transform',
+ 'triangulate',
+ 'updateAttributeNamed_withData_',
+ 'vertexAttributeDataForAttributeNamed_',
+ 'vertexAttributeDataForAttributeNamed_asFormat_',
+ 'vertexBuffers',
+ 'vertexCount',
+ 'vertexDescriptor']
+
+```
+
 # 📝 2023/10/20
 
 ## encoding 調査
