@@ -45,7 +45,11 @@ triangle = 3
 
 #mdlMesh = MDLMesh.alloc().initSphereWithExtent_segments_inwardNormals_geometryType_allocator_
 
-mdlMesh = MDLMesh.alloc()#.init(extent=extent, segments=segments, inwardNormals=False, geometryType=triangle, allocator=allocator)
+mdlMesh = MDLMesh.alloc().initSphere(extent=extent,
+                                     segments=segments,
+                                     inwardNormals=False,
+                                     geometryType=triangle,
+                                     allocator=allocator)
 
 pdbg.state(mdlMesh)
 
