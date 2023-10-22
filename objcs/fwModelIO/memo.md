@@ -1,3 +1,51 @@
+
+# 📝 2023/10/22
+
+
+```
+# --- name______
+<objc_util.ObjCClassMethod object at 0x1342eca30>
+# --- vars( )______
+{'cls': <objc_util.ObjCClass object at 0x11ddb8370>,
+ 'encoding': b'@48@0:8d16d24d32d40',
+ 'method': 7162391469,
+ 'sel_name': 'colorWithRed:green:blue:alpha:'}
+# --- dir( )______
+['__call__',
+ '__class__',
+ '__delattr__',
+ '__dict__',
+ '__dir__',
+ '__doc__',
+ '__eq__',
+ '__format__',
+ '__ge__',
+ '__getattribute__',
+ '__gt__',
+ '__hash__',
+ '__init__',
+ '__init_subclass__',
+ '__le__',
+ '__lt__',
+ '__module__',
+ '__ne__',
+ '__new__',
+ '__reduce__',
+ '__reduce_ex__',
+ '__repr__',
+ '__setattr__',
+ '__sizeof__',
+ '__str__',
+ '__subclasshook__',
+ '__weakref__',
+ 'cls',
+ 'encoding',
+ 'method',
+ 'sel_name']
+
+
+```
+
 # 📝 2023/10/21
 
 
