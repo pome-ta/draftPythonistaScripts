@@ -1,6 +1,3 @@
-# [https://github.com/pome-ta/pysta-icons/blob/master/sfSymbols4objcUtil.py](https://github.com/pome-ta/pysta-icons/blob/master/sfSymbols4objcUtil.py)
-
-
 import re
 from pathlib import Path
 import plistlib
@@ -74,16 +71,16 @@ class ObjcUIViewController:
 
   def setup_viewDidLoad(self, this: UIViewController):
     # --- searchController
-    self.searchController.initWithSearchResultsController_(None)
-    self.searchController.setSearchResultsUpdater_(self.search_extensions)
-    self.searchController.setObscuresBackgroundDuringPresentation_(False)
+    self.searchController.initWithSearchResultsController(None)
+    self.searchController.setSearchResultsUpdater(self.search_extensions)
+    self.searchController.setObscuresBackgroundDuringPresentation(False)
 
     # --- navigationItem
     navigationItem = this.navigationItem()
-    navigationItem.setTitle_(self.nav_title)
-    navigationItem.setSearchController_(self.searchController)
+    navigationItem.setTitle(self.nav_title)
+    navigationItem.setSearchController(self.searchController)
     #navigationItem.setHidesSearchBarWhenScrolling_(True)
-    navigationItem.setHidesSearchBarWhenScrolling_(False)
+    navigationItem.setHidesSearchBarWhenScrolling(False)
 
     # --- tableView
     CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
