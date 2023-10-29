@@ -90,11 +90,11 @@ class ObjcUIViewController:
     1 : UITableViewStyleGrouped
     2 : UITableViewStyleInsetGrouped
     '''
-    self.tableView.initWithFrame_style_(CGRectZero, 0)
-    self.tableView.registerClass_forCellReuseIdentifier_(
-      UITableViewCell, self.cell_identifier)
-    self.tableView.setDataSource_(self.table_extensions)
-    self.tableView.setDelegate_(self.table_extensions)
+    self.tableView.initWithFrame(CGRectZero, style=0)
+    self.tableView.registerClass(UITableViewCell,
+                                 forCellReuseIdentifier=self.cell_identifier)
+    self.tableView.setDataSource(self.table_extensions)
+    self.tableView.setDelegate(self.table_extensions)
     # [UIScrollView.KeyboardDismissMode | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uiscrollview/keyboarddismissmode)
     self.tableView.setKeyboardDismissMode_(1)  # onDrag
 
@@ -103,7 +103,7 @@ class ObjcUIViewController:
     # --- `UIViewController` Methods
     def doneButtonTapped_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
-      this.dismissViewControllerAnimated_completion_(True, None)
+      this.dismissViewControllerAnimated(True, completion=None)
 
     def viewDidLoad(_self, _cmd):
       #print('viewDidLoad')
@@ -116,19 +116,21 @@ class ObjcUIViewController:
       #this.setExtendedLayoutIncludesOpaqueBars_(True)
 
       # --- tableView layout
-      view.addSubview_(self.tableView)
+      view.addSubview(self.tableView)
       self.tableView.translatesAutoresizingMaskIntoConstraints = False
 
-      NSLayoutConstraint.activateConstraints_([
-        self.tableView.centerXAnchor().constraintEqualToAnchor_(
+      constraints = [
+        self.tableView.centerXAnchor().constraintEqualToAnchor(
           view.centerXAnchor()),
-        self.tableView.centerYAnchor().constraintEqualToAnchor_(
+        self.tableView.centerYAnchor().constraintEqualToAnchor(
           view.centerYAnchor()),
-        self.tableView.widthAnchor().constraintEqualToAnchor_multiplier_(
-          view.widthAnchor(), 1.0),
-        self.tableView.heightAnchor().constraintEqualToAnchor_multiplier_(
-          view.heightAnchor(), 1.0),
-      ])
+        self.tableView.widthAnchor().constraintEqualToAnchor(
+          view.widthAnchor(), multiplier=1.0),
+        self.tableView.heightAnchor().constraintEqualToAnchor(
+          view.heightAnchor(), multiplier=1.0),
+      ]
+
+      NSLayoutConstraint.activateConstraints(constraints)
 
     def didReceiveMemoryWarning(_self, _cmd):
       print('Dispose of any resources that can be recreated.')
@@ -184,20 +186,20 @@ class ObjcUIViewController:
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
       indexPath = ObjCInstance(_indexPath)
-      cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
-        self.cell_identifier, indexPath)
+      cell = tableView.dequeueReusableCellWithIdentifier(
+        self.cell_identifier, forIndexPath=indexPath)
 
       items = self.grep_items if self.grep_items else self.all_items
 
       cell_text = items[indexPath.row()]
-      cell_image = UIImage.systemImageNamed_(cell_text)
+      cell_image = UIImage.systemImageNamed(cell_text)
 
       content = cell.defaultContentConfiguration()
-      content.textProperties().setNumberOfLines_(1)
-      content.setText_(cell_text)
-      content.setImage_(cell_image)
+      content.textProperties().setNumberOfLines(1)
+      content.setText(cell_text)
+      content.setImage(cell_image)
 
-      cell.setContentConfiguration_(content)
+      cell.setContentConfiguration(content)
 
       return cell.ptr
 
@@ -254,9 +256,8 @@ class ObjcUIViewController:
     navigationBar.prefersLargeTitles = True
     #navigationController.setHidesBarsOnSwipe_(True)
 
-    done_btn = UIBarButtonItem.alloc(
-    ).initWithBarButtonSystemItem_target_action_(0, this,
-                                                 sel('doneButtonTapped:'))
+    done_btn = UIBarButtonItem.alloc().initWithBarButtonSystemItem(
+      0, target=this, action=sel('doneButtonTapped:'))
 
     navigationItem = this.navigationItem()
     navigationItem.rightBarButtonItem = done_btn
@@ -266,7 +267,7 @@ class ObjcUIViewController:
     self._override_viewController()
     vc = self._viewController.new().autorelease()
     nv = UINavigationController.alloc()
-    nv.initWithRootViewController_(vc).autorelease()
+    nv.initWithRootViewController(vc).autorelease()
     return nv
 
   @classmethod
@@ -298,10 +299,11 @@ def present_objc(vc):
   case  8 : blurOverFullScreen
   '''
   vc.setModalPresentationStyle(0)
-  root_vc.presentViewController_animated_completion_(vc, True, None)
+  root_vc.presentViewController(vc, animated=True, completion=None)
 
 
 if __name__ == '__main__':
   ovc = ObjcUIViewController.new()
   present_objc(ovc)
+
 
