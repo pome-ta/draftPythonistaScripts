@@ -1,0 +1,99 @@
+# 📝 2023/11/12
+
+
+```
+- Academy Engraved LET
+- Al Nile
+- American Typewriter
+- Anonymous Pro
+- Apple Color Emoji
+- Apple SD Gothic Neo
+- Apple Symbols
+- Arial
+- Arial Hebrew
+- Arial Rounded MT Bold
+- Avenir
+- Avenir Next
+- Avenir Next Condensed
+- Baskerville
+- Bodoni 72
+- Bodoni 72 Oldstyle
+- Bodoni 72 Smallcaps
+- Bodoni Ornaments
+- Bradley Hand
+- Chalkboard SE
+- Chalkduster
+- Charter
+- Cochin
+- Copperplate
+- Courier New
+- Cousine
+- Damascus
+- DejaVu Sans Mono
+- Devanagari Sangam MN
+- Didot
+- DIN Alternate
+- DIN Condensed
+- Euphemia UCAS
+- Farah
+- Fira Mono
+- Futura
+- Galvji
+- Geeza Pro
+- Georgia
+- Gill Sans
+- Grantha Sangam MN
+- Helvetica
+- Helvetica Neue
+- Hiragino Maru Gothic ProN
+- Hiragino Mincho ProN
+- Hiragino Sans
+- Hoefler Text
+- Impact
+- Inconsolata
+- Kailasa
+- Kefa
+- Khmer Sangam MN
+- Kohinoor Bangla
+- Kohinoor Devanagari
+- Kohinoor Gujarati
+- Kohinoor Telugu
+- Lao Sangam MN
+- Malayalam Sangam MN
+- Marker Felt
+- Menlo
+- Mishafi
+- Mukta Mahee
+- Myanmar Sangam MN
+- Noteworthy
+- Noto Nastaliq Urdu
+- Noto Sans Kannada
+- Noto Sans Myanmar
+- Noto Sans Oriya
+- Optima
+- Palatino
+- Papyrus
+- Party LET
+- PingFang HK
+- PingFang SC
+- PingFang TC
+- Rockwell
+- Savoye LET
+- Sinhala Sangam MN
+- Snell Roundhand
+- Source Code Pro
+- Source Sans Pro
+- STIX Two Math
+- STIX Two Text
+- Symbol
+- Tamil Sangam MN
+- Thonburi
+- Times New Roman
+- Trebuchet MS
+- Ubuntu Mono
+- Verdana
+- Zapf Dingbats
+- Zapfino
+
+
+```
