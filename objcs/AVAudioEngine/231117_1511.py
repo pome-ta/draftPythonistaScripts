@@ -6,14 +6,14 @@ import pdbg
 AVAudioEngine = ObjCClass('AVAudioEngine')
 AVAudioSourceNode = ObjCClass('AVAudioSourceNode')
 
-pdbg.state(AVAudioEngine)
-
 
 class Synthesizer:
 
   def __init__(self):
     self.audioEngine = 0
     self.time = 0.0
+    self.frequencyRamp = 0.0
+    self.currentFrequency = 0.0
 
 
 if __name__ == '__main__':
