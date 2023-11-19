@@ -10,10 +10,14 @@ AVAudioSourceNode = ObjCClass('AVAudioSourceNode')
 class Synthesizer:
 
   def __init__(self):
-    self.audioEngine = 0
+    self.audioEngine: AVAudioEngine
+    self.sourceNode: AVAudioSourceNode
     self.time = 0.0
     self.frequencyRamp = 0.0
     self.currentFrequency = 0.0
+
+  def _setup(self):
+    pass
 
 
 if __name__ == '__main__':
