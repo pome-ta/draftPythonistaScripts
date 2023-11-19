@@ -5,6 +5,7 @@ import pdbg
 
 AVAudioEngine = ObjCClass('AVAudioEngine')
 AVAudioSourceNode = ObjCClass('AVAudioSourceNode')
+AVAudioFormat = ObjCClass('AVAudioFormat')
 
 
 class Synthesizer:
