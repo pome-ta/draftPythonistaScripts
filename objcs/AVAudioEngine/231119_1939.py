@@ -33,7 +33,7 @@ class Synthesizer:
       interleaved=format.isInterleaved())
     #pdbg.state(inputFormat)
     #pdbg.state(format.sampleRate())
-    renderBlock = ObjCBlock(self.create_block,
+    renderBlock = ObjCBlock(self._create_block,
                             restype=OSStatus,
                             argtypes=[
                               ctypes.c_void_p,
@@ -49,12 +49,16 @@ class Synthesizer:
 
     self.audioEngine.attachNode(self.sourceNode)
     #pdbg.state(self.audioEngine)
-    self.audioEngine.startAndReturnError(None)
-
-  def create_block(self, _cmd, _isSilence, _timestamp, _frameCount,
+  def _create_block(self, _cmd, _isSilence, _timestamp, _frameCount,
                    _outputData):
     print('h')
     return noErr
+    
+  def start(self):
+    self.audioEngine.startAndReturnError(None)
+
+
+    
 
 
 if __name__ == '__main__':
