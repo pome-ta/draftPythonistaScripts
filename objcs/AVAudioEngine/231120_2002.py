@@ -57,7 +57,6 @@ class Synthesizer:
   def _create_block(self, _cmd, _isSilence, _timestamp, _frameCount,
                     _outputData):
     print('h')
-    a
     return noErr
 
   def start(self):
@@ -67,5 +66,5 @@ class Synthesizer:
 if __name__ == '__main__':
   synthesizer = Synthesizer()
   synthesizer._setup()
-  synthesizer.start()
+  #synthesizer.start()
 
