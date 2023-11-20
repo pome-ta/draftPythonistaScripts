@@ -34,15 +34,7 @@ class Synthesizer:
       interleaved=format.isInterleaved())
     #pdbg.state(inputFormat)
     #pdbg.state(format.sampleRate())
-    renderBlock = ObjCBlock(self._create_block,
-                            restype=OSStatus,
-                            argtypes=[
-                              ctypes.c_void_p,
-                              ctypes.c_void_p,
-                              ctypes.c_void_p,
-                              ctypes.c_void_p,
-                              ctypes.c_void_p,
-                            ])
+    renderBlock = ObjCBlock(self._create_renderBlock)
     #pdbg.state(renderBlock)
     #pdbg.state(self.audioEngine)
     self.sourceNode = AVAudioSourceNode.alloc().initWithRenderBlock(
@@ -60,6 +52,25 @@ class Synthesizer:
                     _outputData):
     print('h')
     return noErr
+
+  def _create_renderBlock(self):
+
+    @on_main_thread
+    def render(_cmd, _isSilence, _timestamp, _frameCount, _outputData):
+      print('fuga')
+      return noErr
+
+    _block = ObjCBlock(render,
+                       restype=OSStatus,
+                       argtypes=[
+                         ctypes.c_void_p,
+                         ctypes.c_void_p,
+                         ctypes.c_void_p,
+                         ctypes.c_void_p,
+                         ctypes.c_void_p,
+                       ])
+    #print('hoge')
+    return _block
 
   def start(self):
     self.audioEngine.startAndReturnError(None)
