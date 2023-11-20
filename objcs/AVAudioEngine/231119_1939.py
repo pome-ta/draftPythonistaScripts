@@ -1,7 +1,10 @@
 # [A simple synthesizer class in Swift · GitHub](https://gist.github.com/larsaugustin/1ba0b01ace8772cf5ecbda8f4e3cf63d)
-
-from objc_util import ObjCClass, ObjCInstance
+import ctypes
+from objc_util import ObjCClass, ObjCInstance, ObjCBlock
 import pdbg
+
+OSStatus = ctypes.c_int32
+noErr = 0
 
 AVAudioEngine = ObjCClass('AVAudioEngine')
 AVAudioSourceNode = ObjCClass('AVAudioSourceNode')
@@ -19,7 +22,9 @@ class Synthesizer:
 
   def _setup(self):
     self.audioEngine = AVAudioEngine.new()
-    format = self.audioEngine.outputNode().inputFormatForBus(0)
+    outputNode = self.audioEngine.outputNode()
+    #format = self.audioEngine.outputNode().inputFormatForBus(0)
+    format = outputNode.inputFormatForBus(0)
 
     inputFormat = AVAudioFormat.alloc().initWithCommonFormat(
       format.commonFormat(),
@@ -27,7 +32,29 @@ class Synthesizer:
       channels=1,
       interleaved=format.isInterleaved())
     #pdbg.state(inputFormat)
-    pdbg.state(format.sampleRate())
+    #pdbg.state(format.sampleRate())
+    renderBlock = ObjCBlock(self.create_block,
+                            restype=OSStatus,
+                            argtypes=[
+                              ctypes.c_void_p,
+                              ctypes.c_void_p,
+                              ctypes.c_void_p,
+                              ctypes.c_void_p,
+                            ])
+    #pdbg.state(renderBlock)
+    #pdbg.state(self.audioEngine)
+    self.sourceNode = AVAudioSourceNode.alloc().initWithRenderBlock(
+      renderBlock)
+    #pdbg.state(self.sourceNode)
+
+    self.audioEngine.attachNode(self.sourceNode)
+    #pdbg.state(self.audioEngine)
+    self.audioEngine.startAndReturnError(None)
+
+  def create_block(self, _cmd, _isSilence, _timestamp, _frameCount,
+                   _outputData):
+    print('h')
+    return noErr
 
 
 if __name__ == '__main__':
