@@ -20,6 +20,7 @@ class Synthesizer:
     self.frequencyRamp = 0.0
     self.currentFrequency = 0.0
 
+  #@on_main_thread
   def _setup(self):
     self.audioEngine = AVAudioEngine.new()
     outputNode = self.audioEngine.outputNode()
@@ -66,5 +67,5 @@ class Synthesizer:
 if __name__ == '__main__':
   synthesizer = Synthesizer()
   synthesizer._setup()
-  #synthesizer.start()
+  synthesizer.start()
 
