@@ -53,9 +53,10 @@ class Synthesizer:
     print('h')
     return noErr
 
+  @on_main_thread
   def _create_renderBlock(self):
 
-    @on_main_thread
+    #@on_main_thread
     def render(_cmd, _isSilence, _timestamp, _frameCount, _outputData):
       print('fuga')
       return noErr
