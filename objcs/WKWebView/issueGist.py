@@ -1,7 +1,5 @@
 #[WKWebView - modern webview for Pythonista](https://gist.github.com/sbbosco/1290f59d79c6963e62bb678f0f05b035)
 
-
-wkwebview.py
 #coding: utf-8
 '''
 WKWebView - modern webview for Pythonista
