@@ -3,7 +3,7 @@
 from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
 from objc_util import sel, CGRect
 
-#import pdbg
+import pdbg
 
 # --- navigation
 UINavigationController = ObjCClass('UINavigationController')
@@ -216,5 +216,4 @@ if __name__ == '__main__':
   cvc = CustomViewController.new()
   ovc = ObjcUIViewController.new(cvc)
   present_objc(ovc)
-
 
