@@ -52,14 +52,14 @@ class CustomViewController:
       self.sub_view.translatesAutoresizingMaskIntoConstraints = False
 
       NSLayoutConstraint.activateConstraints_([
-        self.sub_view.centerXAnchor().constraintEqualToAnchor(
+        self.sub_view.centerXAnchor().constraintEqualToAnchor_(
           view.centerXAnchor()),
-        self.sub_view.centerYAnchor().constraintEqualToAnchor(
+        self.sub_view.centerYAnchor().constraintEqualToAnchor_(
           view.centerYAnchor()),
-        self.sub_view.widthAnchor().constraintEqualToAnchor(view.widthAnchor(),
-                                                            multiplier=0.9),
-        self.sub_view.heightAnchor().constraintEqualToAnchor(
-          view.heightAnchor(), multiplier=0.9),
+        self.sub_view.widthAnchor().constraintEqualToAnchor_multiplier_(
+          view.widthAnchor(), 0.9),
+        self.sub_view.heightAnchor().constraintEqualToAnchor_multiplier_(
+          view.heightAnchor(), 0.9),
       ])
 
     # --- `UIViewController` set up
@@ -97,8 +97,8 @@ class ObjcUIViewController:
     def doneButtonTapped_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
       visibleViewController = this.visibleViewController()
-      visibleViewController.dismissViewControllerAnimated(True,
-                                                          completion=None)
+      visibleViewController.dismissViewControllerAnimated_completion_(
+        True, None)
 
     # --- `UINavigationController` set up
     _methods = [
@@ -119,9 +119,7 @@ class ObjcUIViewController:
         _self, _cmd, _navigationController, _viewController, _animated):
 
       navigationController = ObjCInstance(_navigationController)
-
       viewController = ObjCInstance(_viewController)
-      viewController.setEdgesForExtendedLayout_(0)
 
       # --- appearance
       appearance = UINavigationBarAppearance.alloc()
@@ -135,13 +133,17 @@ class ObjcUIViewController:
       navigationBar.compactAppearance = appearance
       navigationBar.compactScrollEdgeAppearance = appearance
 
-      done_btn = UIBarButtonItem.alloc().initWithBarButtonSystemItem(
-        0, target=navigationController, action=sel('doneButtonTapped:'))
+      viewController.setEdgesForExtendedLayout_(0)
+
+      done_btn = UIBarButtonItem.alloc(
+      ).initWithBarButtonSystemItem_target_action_(0, navigationController,
+                                                   sel('doneButtonTapped:'))
 
       visibleViewController = navigationController.visibleViewController()
 
       # --- navigationItem
       navigationItem = visibleViewController.navigationItem()
+
       navigationItem.rightBarButtonItem = done_btn
 
     # --- `UINavigationControllerDelegate` set up
@@ -184,8 +186,9 @@ def present_objc(vc):
 
   while root_vc.presentedViewController():
     root_vc = root_vc.presentedViewController()
+
   vc.setModalPresentationStyle(0)
-  root_vc.presentViewController(vc, animated=True, completion=None)
+  root_vc.presentViewController_animated_completion_(vc, True, None)
 
 
 if __name__ == '__main__':
