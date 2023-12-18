@@ -10,7 +10,6 @@ UIBarButtonItem = ObjCClass('UIBarButtonItem')
 
 # --- viewController
 UIViewController = ObjCClass('UIViewController')
-#pdbg.state(UIViewController.new())
 
 # --- view
 UIView = ObjCClass('UIView')
@@ -27,7 +26,7 @@ class _ViewController:
   def didLoad(self, this: UIViewController):
     pass
 
-  def willAppear(self, this_viewController: UIViewController, animated: bool):
+  def willAppear(self, this: UIViewController, animated: bool):
     pass
 
   def willLayoutSubviews(self, this: UIViewController):
