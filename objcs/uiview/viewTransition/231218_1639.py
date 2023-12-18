@@ -44,6 +44,7 @@ class _ViewController:
     # --- `UIViewController` Methods
     def viewDidLoad(_self, _cmd):
       this = ObjCInstance(_self)
+      print('viewDidLoad')
       self.didLoad(this)
       view = this.view()
 
@@ -62,9 +63,19 @@ class _ViewController:
           view.heightAnchor(), 0.9),
       ])
 
+    def viewWillAppear_animated(_self, _cmd, _animated):
+      this = ObjCInstance(_self)
+      print('viewWillAppear')
+
+    def viewWillLayoutSubviews(_self, _cmd):
+      this = ObjCInstance(_self)
+      print('viewWillLayoutSubviews')
+
     # --- `UIViewController` set up
     _methods = [
       viewDidLoad,
+      viewWillAppear_animated,
+      viewWillLayoutSubviews,
     ]
 
     create_kwargs = {
