@@ -23,69 +23,64 @@ class _ViewController:
 
   def __init__(self):
     self._viewController: UIViewController
-    self.nav_title = 'nav title'
-    self.sub_view = UIView.alloc()
 
   def didLoad(self, this: UIViewController):
-    view = this.view()
+    pass
 
-    view.setBackgroundColor_(UIColor.systemBlueColor())
+  def willAppear(self, this_viewController: UIViewController, animated: bool):
+    pass
 
-    navigationItem = this.navigationItem()
-    navigationItem.setTitle_(self.nav_title)
+  def willLayoutSubviews(self, this: UIViewController):
+    pass
 
-    # --- view
-    CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
-    self.sub_view.initWithFrame_(CGRectZero)
-    self.sub_view.setBackgroundColor_(UIColor.systemRedColor())
+  def didLayoutSubviews(self, this: UIViewController):
+    pass
+
+  def didAppear(self, this: UIViewController, animated: bool):
+    pass
+
+  def willDisappear(self, this: UIViewController, animated: bool):
+    pass
+
+  def didDisappear(self, this: UIViewController, animated: bool):
+    pass
 
   def _override_viewController(self):
-
     # --- `UIViewController` Methods
     def viewDidLoad(_self, _cmd):
       this = ObjCInstance(_self)
       print('viewDidLoad')
       self.didLoad(this)
-      view = this.view()
 
-      # --- layout
-      view.addSubview_(self.sub_view)
-      self.sub_view.translatesAutoresizingMaskIntoConstraints = False
-
-      NSLayoutConstraint.activateConstraints_([
-        self.sub_view.centerXAnchor().constraintEqualToAnchor_(
-          view.centerXAnchor()),
-        self.sub_view.centerYAnchor().constraintEqualToAnchor_(
-          view.centerYAnchor()),
-        self.sub_view.widthAnchor().constraintEqualToAnchor_multiplier_(
-          view.widthAnchor(), 0.9),
-        self.sub_view.heightAnchor().constraintEqualToAnchor_multiplier_(
-          view.heightAnchor(), 0.9),
-      ])
-
-    def viewWillAppear_(_self, _cmd, _animated):
+    def viewWillAppear_(_self, _cmd, animated):
       this = ObjCInstance(_self)
       print('viewWillAppear_')
+      self.willAppear(this, animated)
 
     def viewWillLayoutSubviews(_self, _cmd):
       this = ObjCInstance(_self)
       print('viewWillLayoutSubviews')
+      self.willLayoutSubviews(this)
 
     def viewDidLayoutSubviews(_self, _cmd):
       this = ObjCInstance(_self)
       print('viewDidLayoutSubviews')
+      self.didLayoutSubviews(this)
 
-    def viewDidAppear_(_self, _cmd, _animated):
+    def viewDidAppear_(_self, _cmd, animated):
       this = ObjCInstance(_self)
       print('viewDidAppear_')
+      self.didAppear(this, animated)
 
-    def viewWillDisappear_(_self, _cmd, _animated):
+    def viewWillDisappear_(_self, _cmd, animated):
       this = ObjCInstance(_self)
       print('viewWillDisappear_')
+      self.willDisappear(this, animated)
 
-    def viewDidDisappear_(_self, _cmd, _animated):
+    def viewDidDisappear_(_self, _cmd, animated):
       this = ObjCInstance(_self)
       print('viewDidDisappear_')
+      self.didDisappear(this, animated)
 
     # --- `UIViewController` set up
     _methods = [
@@ -106,7 +101,6 @@ class _ViewController:
     _vc = create_objc_class(**create_kwargs)
     self._viewController = _vc
 
-  #@on_main_thread
   def _init(self):
     self._override_viewController()
     vc = self._viewController.new().autorelease()
