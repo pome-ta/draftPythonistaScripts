@@ -10,6 +10,7 @@ UIBarButtonItem = ObjCClass('UIBarButtonItem')
 
 # --- viewController
 UIViewController = ObjCClass('UIViewController')
+#pdbg.state(UIViewController.new())
 
 # --- view
 UIView = ObjCClass('UIView')
@@ -63,19 +64,39 @@ class _ViewController:
           view.heightAnchor(), 0.9),
       ])
 
-    def viewWillAppear_animated(_self, _cmd, _animated):
+    def viewWillAppear_(_self, _cmd, _animated):
       this = ObjCInstance(_self)
-      print('viewWillAppear')
+      print('viewWillAppear_')
 
     def viewWillLayoutSubviews(_self, _cmd):
       this = ObjCInstance(_self)
       print('viewWillLayoutSubviews')
 
+    def viewDidLayoutSubviews(_self, _cmd):
+      this = ObjCInstance(_self)
+      print('viewDidLayoutSubviews')
+
+    def viewDidAppear_(_self, _cmd, _animated):
+      this = ObjCInstance(_self)
+      print('viewDidAppear_')
+
+    def viewWillDisappear_(_self, _cmd, _animated):
+      this = ObjCInstance(_self)
+      print('viewWillDisappear_')
+
+    def viewDidDisappear_(_self, _cmd, _animated):
+      this = ObjCInstance(_self)
+      print('viewDidDisappear_')
+
     # --- `UIViewController` set up
     _methods = [
       viewDidLoad,
-      viewWillAppear_animated,
+      viewWillAppear_,
       viewWillLayoutSubviews,
+      viewDidLayoutSubviews,
+      viewDidAppear_,
+      viewWillDisappear_,
+      viewDidDisappear_,
     ]
 
     create_kwargs = {
@@ -220,7 +241,8 @@ def present_objc(vc):
 
 
 if __name__ == '__main__':
-  cvc = CustomViewController.new()
+  #cvc = CustomViewController.new()
+  cvc = _ViewController.new()
   nvc = NavigationController.new(cvc)
   present_objc(nvc)
 
