@@ -208,13 +208,19 @@ def present_objc(vc):
   root_vc.presentViewController_animated_completion_(vc, True, None)
 
 
+### ### ###
+
+
 class CustomViewController(_ViewController):
 
-  def setup_viewDidLoad(self, this: UIViewController):
-    # xxx: `viewDidLoad` が肥大化しそうなので、レイアウト関係以外はこっちで処理
+  def __init__(self):
+    self.nav_title = 'CustomViewController'
+    self.sub_view = UIView.alloc()
+
+  def didLoad(self, this: UIViewController):
     view = this.view()
 
-    view.setBackgroundColor_(UIColor.systemPinkColor())
+    view.setBackgroundColor_(UIColor.systemBlueColor())
 
     navigationItem = this.navigationItem()
     navigationItem.setTitle_(self.nav_title)
@@ -222,12 +228,26 @@ class CustomViewController(_ViewController):
     # --- view
     CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
     self.sub_view.initWithFrame_(CGRectZero)
-    self.sub_view.setBackgroundColor_(UIColor.systemBlueColor())
+    self.sub_view.setBackgroundColor_(UIColor.systemRedColor())
+    # --- layout
+    view.addSubview_(self.sub_view)
+    self.sub_view.translatesAutoresizingMaskIntoConstraints = False
+
+    NSLayoutConstraint.activateConstraints_([
+      self.sub_view.centerXAnchor().constraintEqualToAnchor_(
+        view.centerXAnchor()),
+      self.sub_view.centerYAnchor().constraintEqualToAnchor_(
+        view.centerYAnchor()),
+      self.sub_view.widthAnchor().constraintEqualToAnchor_multiplier_(
+        view.widthAnchor(), 0.9),
+      self.sub_view.heightAnchor().constraintEqualToAnchor_multiplier_(
+        view.heightAnchor(), 0.9),
+    ])
 
 
 if __name__ == '__main__':
-  #cvc = CustomViewController.new()
-  cvc = _ViewController.new()
+  cvc = CustomViewController.new()
+  #cvc = _ViewController.new()
   nvc = NavigationController.new(cvc)
   present_objc(nvc)
 
