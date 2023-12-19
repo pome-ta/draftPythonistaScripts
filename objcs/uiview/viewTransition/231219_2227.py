@@ -210,15 +210,6 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 UIColor = ObjCClass('UIColor')
 UIButton = ObjCClass('UIButton')
 UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
-#pdbg.state(UIButtonConfiguration.new())
-#pdbg.state(UIButtonConfiguration)
-
-'''
-plainButtonConfiguration()
-filledButtonConfiguration()
-grayButtonConfiguration()
-tintedButtonConfiguration()
-'''
 
 
 class FirstViewController(_ViewController):
@@ -226,42 +217,28 @@ class FirstViewController(_ViewController):
   def __init__(self):
     self.nav_title = 'FirstViewController'
     self.sub_view = UIView.alloc()
-    #self.btn = UIButton.alloc()
-    #pdbg.state(self.btn)
     self.btn = UIButton.new()
 
   def didLoad(self, this: UIViewController):
     view = this.view()
-
-    #view.setBackgroundColor_(UIColor.systemBlueColor())
+    view.setBackgroundColor_(UIColor.systemBlueColor())
 
     navigationItem = this.navigationItem()
     navigationItem.setTitle_(self.nav_title)
 
     # --- view
-    CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
 
-    #self.btn.initWithFrame_(CGRectZero)
-    #setConfiguration_
-    #setConfiguration_
     config = UIButtonConfiguration.tintedButtonConfiguration()
     config.setTitle_('tap')
-    #pdbg.state(config)
+    config.setBaseBackgroundColor_(UIColor.systemPinkColor())
+    config.setBaseForegroundColor_(UIColor.systemGreenColor())
+    
+
     self.btn.setConfiguration_(config)
-    #self.btn.configuration = config
-    #self.btn = UIButton.alloc().setConfiguration_(config)
-    #pdbg.state(self.btn)
-    self.btn.setBackgroundColor_(UIColor.systemPinkColor())
-    '''
-    self.btn.setTitle_('tap')
-    self.btn.setBackgroundColor_(UIColor.systemPinkColor())
-    self.btn.setTintColor_(UIColor.systemBlackColor())
-    #pdbg.state(self.btn)
-    '''
 
     # --- layout
     view.addSubview_(self.btn)
-    
+    pdbg.state(self.btn)
 
     self.btn.translatesAutoresizingMaskIntoConstraints = False
 
@@ -271,12 +248,46 @@ class FirstViewController(_ViewController):
       self.btn.widthAnchor().constraintEqualToAnchor_multiplier_(
         view.widthAnchor(), 0.4),
       self.btn.heightAnchor().constraintEqualToAnchor_multiplier_(
-        view.heightAnchor(), 0.2),
+        view.heightAnchor(), 0.1),
     ])
-    
-    pdbg.state(self.btn)
-    
 
+
+class SecondViewController(_ViewController):
+
+  def __init__(self):
+    self.nav_title = 'SecondViewController'
+    self.sub_view = UIView.alloc()
+    self.btn = UIButton.new()
+
+  def didLoad(self, this: UIViewController):
+    view = this.view()
+    view.setBackgroundColor_(UIColor.systemGreenColor())
+
+    navigationItem = this.navigationItem()
+    navigationItem.setTitle_(self.nav_title)
+
+    # --- view
+
+    config = UIButtonConfiguration.tintedButtonConfiguration()
+    config.setTitle_('tap')
+    config.setBaseBackgroundColor_(UIColor.systemPinkColor())
+    config.setBaseForegroundColor_(UIColor.systemBlueColor())
+
+    self.btn.setConfiguration_(config)
+
+    # --- layout
+    view.addSubview_(self.btn)
+
+    self.btn.translatesAutoresizingMaskIntoConstraints = False
+
+    NSLayoutConstraint.activateConstraints_([
+      self.btn.centerXAnchor().constraintEqualToAnchor_(view.centerXAnchor()),
+      self.btn.centerYAnchor().constraintEqualToAnchor_(view.centerYAnchor()),
+      self.btn.widthAnchor().constraintEqualToAnchor_multiplier_(
+        view.widthAnchor(), 0.4),
+      self.btn.heightAnchor().constraintEqualToAnchor_multiplier_(
+        view.heightAnchor(), 0.1),
+    ])
 
 if __name__ == '__main__':
   fvc = FirstViewController.new()
