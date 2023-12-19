@@ -11,12 +11,6 @@ UIBarButtonItem = ObjCClass('UIBarButtonItem')
 # --- viewController
 UIViewController = ObjCClass('UIViewController')
 
-# --- view
-UIView = ObjCClass('UIView')
-NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
-
-UIColor = ObjCClass('UIColor')
-
 
 class NavigationController:
 
@@ -209,13 +203,22 @@ def present_objc(vc):
 
 
 ### ### ###
+# --- view
+UIView = ObjCClass('UIView')
+NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
+
+UIColor = ObjCClass('UIColor')
+UIButton = ObjCClass('UIButton')
+UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
+#pdbg.state(UIButtonConfiguration.new())
 
 
-class CustomViewController(_ViewController):
+class FirstViewController(_ViewController):
 
   def __init__(self):
-    self.nav_title = 'CustomViewController'
+    self.nav_title = 'FirstViewController'
     self.sub_view = UIView.alloc()
+    self.btn = UIButton.alloc()
 
   def didLoad(self, this: UIViewController):
     view = this.view()
@@ -227,27 +230,30 @@ class CustomViewController(_ViewController):
 
     # --- view
     CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
-    self.sub_view.initWithFrame_(CGRectZero)
-    self.sub_view.setBackgroundColor_(UIColor.systemRedColor())
+
+    self.btn.initWithFrame_(CGRectZero)
+    self.btn.setTitle_('tap')
+    self.btn.setBackgroundColor_(UIColor.systemPinkColor())
+    self.btn.setTintColor_(UIColor.systemBlackColor())
+    pdbg.state(self.btn)
+
     # --- layout
-    view.addSubview_(self.sub_view)
-    self.sub_view.translatesAutoresizingMaskIntoConstraints = False
+    view.addSubview_(self.btn)
+
+    self.btn.translatesAutoresizingMaskIntoConstraints = False
 
     NSLayoutConstraint.activateConstraints_([
-      self.sub_view.centerXAnchor().constraintEqualToAnchor_(
-        view.centerXAnchor()),
-      self.sub_view.centerYAnchor().constraintEqualToAnchor_(
-        view.centerYAnchor()),
-      self.sub_view.widthAnchor().constraintEqualToAnchor_multiplier_(
-        view.widthAnchor(), 0.9),
-      self.sub_view.heightAnchor().constraintEqualToAnchor_multiplier_(
-        view.heightAnchor(), 0.9),
+      self.btn.centerXAnchor().constraintEqualToAnchor_(view.centerXAnchor()),
+      self.btn.centerYAnchor().constraintEqualToAnchor_(view.centerYAnchor()),
+      self.btn.widthAnchor().constraintEqualToAnchor_multiplier_(
+        view.widthAnchor(), 0.4),
+      self.btn.heightAnchor().constraintEqualToAnchor_multiplier_(
+        view.heightAnchor(), 0.2),
     ])
 
 
 if __name__ == '__main__':
-  cvc = CustomViewController.new()
-  #cvc = _ViewController.new()
-  nvc = NavigationController.new(cvc)
+  fvc = FirstViewController.new()
+  nvc = NavigationController.new(fvc)
   present_objc(nvc)
 
