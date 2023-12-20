@@ -264,9 +264,6 @@ class FirstViewController(_ViewController):
 
     self.btn.addTarget_action_forControlEvents_(this, sel('btnClick:'),
                                                 UIControlEventTouchUpInside)
-    #pdbg.state(config)
-    #pdbg.state(view)
-    pdbg.state(this)
 
     # --- layout
     view.addSubview_(self.btn)
@@ -291,6 +288,17 @@ class SecondViewController(_ViewController):
     self.sub_view = UIView.alloc()
     self.btn = UIButton.new()
 
+  def override(self):
+
+    def btnClick_(_self, _cmd, _sender):
+      this = ObjCInstance(_self)
+      sender = ObjCInstance(_sender)
+      tvc = ThirdViewController.new()
+      navigationController = this.navigationController()
+      navigationController.pushViewController_animated_(tvc, True)
+
+    self.add_msg(btnClick_)
+
   def didLoad(self, this: UIViewController):
     view = this.view()
     view.setBackgroundColor_(UIColor.systemGreenColor())
@@ -306,6 +314,65 @@ class SecondViewController(_ViewController):
     config.setBaseForegroundColor_(UIColor.systemBlueColor())
 
     self.btn.setConfiguration_(config)
+
+    self.btn.addTarget_action_forControlEvents_(this, sel('btnClick:'),
+                                                UIControlEventTouchUpInside)
+
+    # --- layout
+    view.addSubview_(self.btn)
+
+    self.btn.translatesAutoresizingMaskIntoConstraints = False
+
+    NSLayoutConstraint.activateConstraints_([
+      self.btn.centerXAnchor().constraintEqualToAnchor_(view.centerXAnchor()),
+      self.btn.centerYAnchor().constraintEqualToAnchor_(view.centerYAnchor()),
+      self.btn.widthAnchor().constraintEqualToAnchor_multiplier_(
+        view.widthAnchor(), 0.4),
+      self.btn.heightAnchor().constraintEqualToAnchor_multiplier_(
+        view.heightAnchor(), 0.1),
+    ])
+
+
+class ThirdViewController(_ViewController):
+
+  def __init__(self):
+    super().__init__()
+    self.nav_title = 'ThirdViewController'
+    self.sub_view = UIView.alloc()
+    self.btn = UIButton.new()
+
+  def override(self):
+
+    def btnClick_(_self, _cmd, _sender):
+      this = ObjCInstance(_self)
+      sender = ObjCInstance(_sender)
+      svc = SecondViewController.new()
+      navigationController = this.navigationController()
+      navigationController.popToRootViewControllerAnimated_(True)
+
+    self.add_msg(btnClick_)
+
+  def didLoad(self, this: UIViewController):
+    view = this.view()
+    view.setBackgroundColor_(UIColor.systemPinkColor())
+    #systemPinkColor
+    #systemGreenColor
+    #systemBlueColor
+
+    navigationItem = this.navigationItem()
+    navigationItem.setTitle_(self.nav_title)
+
+    # --- view
+
+    config = UIButtonConfiguration.tintedButtonConfiguration()
+    config.setTitle_('tap')
+    config.setBaseBackgroundColor_(UIColor.systemGreenColor())
+    config.setBaseForegroundColor_(UIColor.systemPinkColor())
+
+    self.btn.setConfiguration_(config)
+
+    self.btn.addTarget_action_forControlEvents_(this, sel('btnClick:'),
+                                                UIControlEventTouchUpInside)
 
     # --- layout
     view.addSubview_(self.btn)
