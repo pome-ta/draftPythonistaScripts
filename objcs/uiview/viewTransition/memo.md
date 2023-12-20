@@ -1,3 +1,12 @@
+# 📝 2023/12/20
+
+
+[iOS14からはaddTargetじゃなくてaddAction - コネヒト開発者ブログ](https://tech.connehito.com/entry/uicontrol-addaction)
+
+
+どしよ
+
+
 # 📝 2023/12/17
 
 ## 画面遷移

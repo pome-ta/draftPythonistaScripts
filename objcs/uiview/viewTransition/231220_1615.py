@@ -1,5 +1,5 @@
 from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
-from objc_util import sel, ns, CGRect
+from objc_util import sel, CGRect
 
 import pdbg
 
@@ -224,6 +224,7 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 UIColor = ObjCClass('UIColor')
 UIButton = ObjCClass('UIButton')
 UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
+UIControlEventTouchUpInside = 1 << 6
 
 
 class FirstViewController(_ViewController):
@@ -236,10 +237,10 @@ class FirstViewController(_ViewController):
 
   def override(self):
 
-    def www(_self, _cmd):
-      print('www')
+    def wwww(_self, _cmd):
+      print('wwww')
 
-    self.add_msg(www)
+    self.add_msg(wwww)
 
   def didLoad(self, this: UIViewController):
     view = this.view()
@@ -256,7 +257,11 @@ class FirstViewController(_ViewController):
     config.setBaseForegroundColor_(UIColor.systemGreenColor())
 
     self.btn.setConfiguration_(config)
-    this.www()
+
+    self.btn.addTarget_action_forControlEvents_(this, sel('wwww'),
+                                                UIControlEventTouchUpInside)
+    #pdbg.state(config)
+    #pdbg.state(view)
 
     # --- layout
     view.addSubview_(self.btn)
