@@ -1,5 +1,5 @@
 from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
-from objc_util import sel, ns,CGRect
+from objc_util import sel, ns, CGRect
 
 import pdbg
 
@@ -105,7 +105,9 @@ class NavigationController:
 class _ViewController:
 
   def __init__(self):
+    self._msgs: list['def'] = []  # xxx: 型ちゃんとやる
     self._viewController: UIViewController
+    self.override()
 
   def didLoad(self, this: UIViewController):
     pass
@@ -127,6 +129,13 @@ class _ViewController:
 
   def didDisappear(self, this: UIViewController, animated: bool):
     pass
+
+  def override(self):
+    # todo: objc でmethod 生やしたいときなど
+    pass
+
+  def add_msg(self, method):
+    self._msgs.append(method)
 
   def _override_viewController(self):
     # --- `UIViewController` Methods
@@ -168,6 +177,9 @@ class _ViewController:
       viewWillDisappear_,
       viewDidDisappear_,
     ]
+
+    if self._msgs:
+      _methods.extend(self._msgs)
 
     create_kwargs = {
       'name': '_vc',
@@ -215,10 +227,19 @@ UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
 class FirstViewController(_ViewController):
 
   def __init__(self):
+    super().__init__()
     self.nav_title = 'FirstViewController'
     self.sub_view = UIView.alloc()
     self.btn = UIButton.new()
-    self.add_msg()
+
+    www = lambda _self, _cmd: print('lm')
+    print(www)
+
+    def www(_self, _cmd):
+      print('www')
+
+    print(www)
+    self.add_msg(www)
 
   def didLoad(self, this: UIViewController):
     view = this.view()
@@ -233,12 +254,11 @@ class FirstViewController(_ViewController):
     config.setTitle_('tap')
     config.setBaseBackgroundColor_(UIColor.systemPinkColor())
     config.setBaseForegroundColor_(UIColor.systemGreenColor())
-    
 
     self.btn.setConfiguration_(config)
     #print(self._viewController)
-    #pdbg.state(self._viewController)
-    
+    this.www()
+    #pdbg.state(this)
 
     # --- layout
     view.addSubview_(self.btn)
@@ -256,25 +276,6 @@ class FirstViewController(_ViewController):
       self.btn.heightAnchor().constraintEqualToAnchor_multiplier_(
         view.heightAnchor(), 0.1),
     ])
-    
-  def add_msg(self):
-    # add msg
-    def onClick():
-      print('hoge')
-    
-    # --- `UIViewController` set up
-    _methods = [
-      onClick,
-    ]
-
-    create_kwargs = {
-      'name': '_vc',
-      'superclass': self._viewController,
-      'methods': _methods,
-    }
-    #_vc = create_objc_class(**create_kwargs)
-    #self._viewController = _vc
-
 
 
 class SecondViewController(_ViewController):
@@ -313,6 +314,7 @@ class SecondViewController(_ViewController):
       self.btn.heightAnchor().constraintEqualToAnchor_multiplier_(
         view.heightAnchor(), 0.1),
     ])
+
 
 if __name__ == '__main__':
   fvc = FirstViewController.new()
