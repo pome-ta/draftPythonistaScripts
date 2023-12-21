@@ -1,3 +1,5 @@
+import functools
+
 from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
 from objc_util import sel, CGRect
 
@@ -115,8 +117,14 @@ class _ViewController:
     # [Pythonのデコレータにはwrapsをつけるべきという覚え書き #Python - Qiita](https://qiita.com/moonwalkerpoday/items/9bd987667a860adf80a2)
     pass
 
-  def add_msg(self, method):
-    self._msgs.append(method)
+  def add_msg(self, fnc):
+    if not (hasattr(self, '_msgs')):
+      self._msgs: list['def'] = []
+    #@functools.wraps(fnc)
+    def _wrapper(*args, **kwargs):
+      self._msgs.append(fnc)
+
+    return _wrapper
 
   def didLoad(self, this: UIViewController):
     pass
@@ -237,6 +245,7 @@ class FirstViewController(_ViewController):
 
   def override(self):
 
+    @self.add_msg
     def btnClick_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
       sender = ObjCInstance(_sender)
@@ -244,7 +253,7 @@ class FirstViewController(_ViewController):
       navigationController = this.navigationController()
       navigationController.pushViewController_animated_(svc, True)
 
-    self.add_msg(btnClick_)
+    #self.add_msg(btnClick_)
 
   def didLoad(self, this: UIViewController):
     view = this.view()
@@ -291,6 +300,7 @@ class SecondViewController(_ViewController):
 
   def override(self):
 
+    @self.add_msg
     def btnClick_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
       sender = ObjCInstance(_sender)
@@ -298,7 +308,7 @@ class SecondViewController(_ViewController):
       navigationController = this.navigationController()
       navigationController.pushViewController_animated_(tvc, True)
 
-    self.add_msg(btnClick_)
+    #self.add_msg(btnClick_)
 
   def didLoad(self, this: UIViewController):
     view = this.view()
