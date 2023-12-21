@@ -180,8 +180,7 @@ class _ViewController:
       viewDidDisappear_,
     ]
 
-    if self._msgs:
-      _methods.extend(self._msgs)
+    if self._msgs: _methods.extend(self._msgs)
 
     create_kwargs = {
       'name': '_vc',
@@ -253,7 +252,6 @@ class FirstViewController(_ViewController):
     navigationItem.setTitle_(self.nav_title)
 
     # --- view
-
     config = UIButtonConfiguration.tintedButtonConfiguration()
     config.setTitle_('tap')
     config.setBaseBackgroundColor_(UIColor.systemPinkColor())
