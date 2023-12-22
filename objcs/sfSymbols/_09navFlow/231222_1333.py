@@ -216,9 +216,17 @@ def present_objc(vc):
 
 
 ### ### ###
-# --- view
+# --- main
+### ### ###
+
+from pathlib import Path
+import plistlib
+
 UIView = ObjCClass('UIView')
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
+
+UITableView = ObjCClass('UITableView')
+UITableViewCell = ObjCClass('UITableViewCell')
 
 UIColor = ObjCClass('UIColor')
 UIButton = ObjCClass('UIButton')
@@ -226,58 +234,17 @@ UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
 UIControlEventTouchUpInside = 1 << 6
 
 
-class FirstViewController(_ViewController):
+def get_order_list():
+  CoreGlyphs_path = '/System/Library/CoreServices/CoreGlyphs.bundle/'
 
-  def __init__(self):
-    super().__init__()
-    self.nav_title = 'FirstViewController'
-    self.sub_view = UIView.alloc()
-    self.btn = UIButton.new()
+  symbol_order_path = 'symbol_order.plist'
+  symbol_order_bundle = Path(CoreGlyphs_path, symbol_order_path)
 
-  def override(self):
-
-    @self.add_msg
-    def btnClick_(_self, _cmd, _sender):
-      this = ObjCInstance(_self)
-      sender = ObjCInstance(_sender)
-      svc = SecondViewController.new(name='SecondViewController')
-      navigationController = this.navigationController()
-      navigationController.pushViewController_animated_(svc, True)
-
-  def didLoad(self, this: UIViewController):
-    view = this.view()
-    view.setBackgroundColor_(UIColor.systemBlueColor())
-
-    navigationItem = this.navigationItem()
-    navigationItem.setTitle_(self.nav_title)
-
-    # --- view
-    config = UIButtonConfiguration.tintedButtonConfiguration()
-    config.setTitle_('tap')
-    config.setBaseBackgroundColor_(UIColor.systemPinkColor())
-    config.setBaseForegroundColor_(UIColor.systemGreenColor())
-
-    self.btn.setConfiguration_(config)
-
-    self.btn.addTarget_action_forControlEvents_(this, sel('btnClick:'),
-                                                UIControlEventTouchUpInside)
-
-    # --- layout
-    view.addSubview_(self.btn)
-
-    self.btn.translatesAutoresizingMaskIntoConstraints = False
-
-    NSLayoutConstraint.activateConstraints_([
-      self.btn.centerXAnchor().constraintEqualToAnchor_(view.centerXAnchor()),
-      self.btn.centerYAnchor().constraintEqualToAnchor_(view.centerYAnchor()),
-      self.btn.widthAnchor().constraintEqualToAnchor_multiplier_(
-        view.widthAnchor(), 0.4),
-      self.btn.heightAnchor().constraintEqualToAnchor_multiplier_(
-        view.heightAnchor(), 0.1),
-    ])
+  order_list = plistlib.loads(symbol_order_bundle.read_bytes())
+  return order_list
 
 
-class SecondViewController(_ViewController):
+class TopViewController(_ViewController):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
@@ -285,103 +252,112 @@ class SecondViewController(_ViewController):
     self.sub_view = UIView.alloc()
     self.btn = UIButton.new()
 
-  def override(self):
+    # --- table
+    self.tableView = UITableView.new()
+    self.all_items: list = get_order_list()
+    self.all_items.sort()
+    self.grep_items: list = []
+    self.cell_identifier: str = 'cell'
 
-    @self.add_msg
-    def btnClick_(_self, _cmd, _sender):
-      this = ObjCInstance(_self)
-      sender = ObjCInstance(_sender)
-      tvc = ThirdViewController.new()
-      navigationController = this.navigationController()
-      navigationController.pushViewController_animated_(tvc, True)
+    self.table_extensions = self.create_table_extensions()
+
+  def override(self):
+    pass
+
+  #@on_main_thread
+  def create_table_extensions(self):
+    # --- `UITableViewDataSource` Methods
+    def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
+      items = self.grep_items if self.grep_items else self.all_items
+      return len(items)
+
+    def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
+      tableView = ObjCInstance(_tableView)
+      indexPath = ObjCInstance(_indexPath)
+      cell = tableView.dequeueReusableCellWithIdentifier(
+        self.cell_identifier, forIndexPath=indexPath)
+
+      items = self.grep_items if self.grep_items else self.all_items
+
+      cell_text = items[indexPath.row()]
+      cell_image = UIImage.systemImageNamed(cell_text)
+
+      content = cell.defaultContentConfiguration()
+      content.textProperties().setNumberOfLines(1)
+      content.setText(cell_text)
+      content.setImage(cell_image)
+
+      cell.setContentConfiguration(content)
+
+      return cell.ptr
+
+    def numberOfSectionsInTableView_(_self, _cmd, _tableView):
+      # xxx: とりあえずの`1`
+      return 1
+
+    # --- `UITableViewDelegate` Methods
+    def tableView_didSelectRowAtIndexPath_(_self, _cmd, _tableView,
+                                           _indexPath):
+      indexPath = ObjCInstance(_indexPath)
+      items = self.grep_items if self.grep_items else self.all_items
+      item = items[indexPath.row()]
+      print(f'{indexPath}: {item}')
+
+    # --- `UITableViewDataSource` & `UITableViewDelegate` set up
+    _methods = [
+      tableView_numberOfRowsInSection_,
+      tableView_cellForRowAtIndexPath_,
+      numberOfSectionsInTableView_,
+      tableView_didSelectRowAtIndexPath_,
+    ]
+    _protocols = [
+      'UITableViewDataSource',
+      'UITableViewDelegate',
+    ]
+
+    create_kwargs = {
+      'name': 'table_extensions',
+      'methods': _methods,
+      'protocols': _protocols,
+    }
+
+    table_extensions = create_objc_class(**create_kwargs)
+    return table_extensions.new()
 
   def didLoad(self, this: UIViewController):
     view = this.view()
-    view.setBackgroundColor_(UIColor.systemGreenColor())
-
     navigationItem = this.navigationItem()
     navigationItem.setTitle_(self.nav_title)
 
-    # --- view
-    config = UIButtonConfiguration.tintedButtonConfiguration()
-    config.setTitle_('tap')
-    config.setBaseBackgroundColor_(UIColor.systemPinkColor())
-    config.setBaseForegroundColor_(UIColor.systemBlueColor())
-
-    self.btn.setConfiguration_(config)
-
-    self.btn.addTarget_action_forControlEvents_(this, sel('btnClick:'),
-                                                UIControlEventTouchUpInside)
+    # --- tableView
+    CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
+    self.tableView.initWithFrame(CGRectZero, style=0)
+    self.tableView.registerClass_forCellReuseIdentifier_(
+      UITableViewCell, self.cell_identifier)
+    self.tableView.setDataSource(self.table_extensions)
+    self.tableView.setDelegate(self.table_extensions)
+    self.tableView.setKeyboardDismissMode_(1)  # onDrag
 
     # --- layout
-    view.addSubview_(self.btn)
-
-    self.btn.translatesAutoresizingMaskIntoConstraints = False
-
-    NSLayoutConstraint.activateConstraints_([
-      self.btn.centerXAnchor().constraintEqualToAnchor_(view.centerXAnchor()),
-      self.btn.centerYAnchor().constraintEqualToAnchor_(view.centerYAnchor()),
-      self.btn.widthAnchor().constraintEqualToAnchor_multiplier_(
-        view.widthAnchor(), 0.4),
-      self.btn.heightAnchor().constraintEqualToAnchor_multiplier_(
-        view.heightAnchor(), 0.1),
-    ])
-
-
-class ThirdViewController(_ViewController):
-
-  def __init__(self):
-    super().__init__()
-    self.nav_title = 'ThirdViewController'
-    self.sub_view = UIView.alloc()
-    self.btn = UIButton.new()
-
-  def override(self):
-
-    def btnClick_(_self, _cmd, _sender):
-      this = ObjCInstance(_self)
-      navigationController = this.navigationController()
-      visibleViewController = navigationController.visibleViewController()
-      visibleViewController.dismissViewControllerAnimated_completion_(
-        True, None)
-
-    self.add_msg(btnClick_)
-
-  def didLoad(self, this: UIViewController):
-    view = this.view()
-    view.setBackgroundColor_(UIColor.systemPinkColor())
-
-    navigationItem = this.navigationItem()
-    navigationItem.setTitle_(self.nav_title)
-
-    # --- view
-    config = UIButtonConfiguration.tintedButtonConfiguration()
-    config.setTitle_('tap')
-    config.setBaseBackgroundColor_(UIColor.systemGreenColor())
-    config.setBaseForegroundColor_(UIColor.systemPinkColor())
-
-    self.btn.setConfiguration_(config)
-
-    self.btn.addTarget_action_forControlEvents_(this, sel('btnClick:'),
-                                                UIControlEventTouchUpInside)
-
-    # --- layout
-    view.addSubview_(self.btn)
-
-    self.btn.translatesAutoresizingMaskIntoConstraints = False
+    view.addSubview(self.tableView)
+    self.tableView.translatesAutoresizingMaskIntoConstraints = False
 
     NSLayoutConstraint.activateConstraints_([
-      self.btn.centerXAnchor().constraintEqualToAnchor_(view.centerXAnchor()),
-      self.btn.centerYAnchor().constraintEqualToAnchor_(view.centerYAnchor()),
-      self.btn.widthAnchor().constraintEqualToAnchor_multiplier_(
+      self.tableView.centerXAnchor().constraintEqualToAnchor_(
+        view.centerXAnchor()),
+      self.tableView.centerYAnchor().constraintEqualToAnchor_(
+        view.centerYAnchor()),
+      self.tableView.widthAnchor().constraintEqualToAnchor_multiplier_(
         view.widthAnchor(), 0.4),
-      self.btn.heightAnchor().constraintEqualToAnchor_multiplier_(
+      self.tableView.heightAnchor().constraintEqualToAnchor_multiplier_(
         view.heightAnchor(), 0.1),
     ])
 
 
 if __name__ == '__main__':
-  fvc = FirstViewController.new()
-  nvc = NavigationController.new(fvc)
+  nav_name = 'SF Symbols tableList 😤'
+  tvc = TopViewController.new(name=nav_name)
+  nvc = NavigationController.new(tvc)
   present_objc(nvc)
+
 
