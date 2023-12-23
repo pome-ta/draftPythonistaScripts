@@ -227,6 +227,7 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
 UITableView = ObjCClass('UITableView')
 UITableViewCell = ObjCClass('UITableViewCell')
+UIImage = ObjCClass('UIImage')
 
 UIColor = ObjCClass('UIColor')
 UIButton = ObjCClass('UIButton')
@@ -258,11 +259,11 @@ class TopViewController(_ViewController):
     self.all_items.sort()
     self.grep_items: list = []
     self.cell_identifier: str = 'cell'
-
-  def override(self):
     self.table_extensions = self.create_table_extensions()
 
-  #@on_main_thread
+  def override(self):
+    pass
+
   def create_table_extensions(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
@@ -272,8 +273,8 @@ class TopViewController(_ViewController):
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
       indexPath = ObjCInstance(_indexPath)
-      cell = tableView.dequeueReusableCellWithIdentifier(
-        self.cell_identifier, forIndexPath=indexPath)
+      cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
+        self.cell_identifier, indexPath)
 
       items = self.grep_items if self.grep_items else self.all_items
 
@@ -281,11 +282,11 @@ class TopViewController(_ViewController):
       cell_image = UIImage.systemImageNamed(cell_text)
 
       content = cell.defaultContentConfiguration()
-      content.textProperties().setNumberOfLines(1)
-      content.setText(cell_text)
-      content.setImage(cell_image)
+      content.textProperties().setNumberOfLines_(1)
+      content.setText_(cell_text)
+      content.setImage_(cell_image)
 
-      cell.setContentConfiguration(content)
+      cell.setContentConfiguration_(content)
 
       return cell.ptr
 
@@ -333,10 +334,8 @@ class TopViewController(_ViewController):
     self.tableView.registerClass_forCellReuseIdentifier_(
       UITableViewCell, self.cell_identifier)
 
-    #pdbg.state(self.table_extensions)
     self.tableView.setDataSource(self.table_extensions)
-    #self.tableView.setDelegate(self.table_extensions)
-    #self.tableView.setKeyboardDismissMode_(1)  # onDrag
+    self.tableView.setDelegate(self.table_extensions)
 
     # --- layout
     view.addSubview(self.tableView)
