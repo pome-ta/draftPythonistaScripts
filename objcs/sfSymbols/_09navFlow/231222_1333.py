@@ -259,10 +259,8 @@ class TopViewController(_ViewController):
     self.grep_items: list = []
     self.cell_identifier: str = 'cell'
 
-    self.table_extensions = self.create_table_extensions()
-
   def override(self):
-    pass
+    self.table_extensions = self.create_table_extensions()
 
   #@on_main_thread
   def create_table_extensions(self):
@@ -334,9 +332,11 @@ class TopViewController(_ViewController):
     self.tableView.initWithFrame(CGRectZero, style=0)
     self.tableView.registerClass_forCellReuseIdentifier_(
       UITableViewCell, self.cell_identifier)
+
+    #pdbg.state(self.table_extensions)
     self.tableView.setDataSource(self.table_extensions)
-    self.tableView.setDelegate(self.table_extensions)
-    self.tableView.setKeyboardDismissMode_(1)  # onDrag
+    #self.tableView.setDelegate(self.table_extensions)
+    #self.tableView.setKeyboardDismissMode_(1)  # onDrag
 
     # --- layout
     view.addSubview(self.tableView)
@@ -348,9 +348,9 @@ class TopViewController(_ViewController):
       self.tableView.centerYAnchor().constraintEqualToAnchor_(
         view.centerYAnchor()),
       self.tableView.widthAnchor().constraintEqualToAnchor_multiplier_(
-        view.widthAnchor(), 0.4),
+        view.widthAnchor(), 1.0),
       self.tableView.heightAnchor().constraintEqualToAnchor_multiplier_(
-        view.heightAnchor(), 0.1),
+        view.heightAnchor(), 1.0),
     ])
 
 
