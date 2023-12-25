@@ -1,0 +1,17 @@
+{
+  "fastForward": "forward.fill",
+  "rewind": "backward.fill",
+  "add": "plus",
+  "organize": "folder",
+  "stop": "xmark",
+  "trash": "trash",
+  "reply": "arrowshape.turn.up.left",
+  "action": "square.and.arrow.up",
+  "refresh": "arrow.clockwise",
+  "camera": "camera",
+  "compose": "square.and.pencil",
+  "pause": "pause.fill",
+  "search": "magnifyingglass",
+  "play": "play.fill",
+  "bookmarks": "book"
+}
