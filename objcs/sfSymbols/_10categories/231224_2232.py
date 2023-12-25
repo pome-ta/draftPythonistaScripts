@@ -30,7 +30,7 @@ def copy_write_data(path: Path, base_path: Path) -> None:
     return
   file_name = path.name
   new_file_path = Path(base_path, file_name)
-  new_file_path.write_text(file_data, encoding='utf-8')
+  #new_file_path.write_text(file_data, encoding='utf-8')
 
 
 if __name__ == '__main__':

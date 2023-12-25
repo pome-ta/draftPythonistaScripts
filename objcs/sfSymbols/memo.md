@@ -1,3 +1,21 @@
+# 📝 2023/12/25
+
+`CoreGlyphs` から、何を活用すべきか？
+
+- symbol_categories.plist
+- symbol_search.plist
+- legacy_flippable.plist
+- nofill_to_fill.strings
+- name_availability.plist
+- Info.plist
+- symbol_restrictions.strings
+- name_aliases.strings
+- semantic_to_descriptive_name.strings
+- categories.plist
+- symbol_order.plist
+
+
+
 # 📝 2023/09/13
 
 [UILabelの改行まとめ - Qiita](https://qiita.com/Nonchalant/items/f47736ab4ce117342147)
@@ -6,9 +24,6 @@
 
 
 [Pythonista-scripts/Gists/UITableViewController user swipe.py at master · cvpe/Pythonista-scripts](https://github.com/cvpe/Pythonista-scripts/blob/master/Gists/UITableViewController%20user%20swipe.py)
-
-
-
 
 
 
