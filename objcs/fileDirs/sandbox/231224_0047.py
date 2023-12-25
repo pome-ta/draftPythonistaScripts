@@ -1,3 +1,4 @@
+from pathlib import Path
 import webbrowser
 from objc_util import ObjCClass
 
@@ -19,7 +20,16 @@ def get_toplevel_path(up_level: int=9) -> str:
 
 if __name__ == '__main__':
   # todo: 1番上まで戻り、tmp ディレクトリへ
-  path = get_toplevel_path() + get_temporaryDirectory_path()
+  path = get_temporaryDirectory_path()
+  tmp_path = Path(path)
+  
   #webbrowser.open(f'pythonista3://{path}')
+  
+  tmp_list = list(tmp_path.iterdir())
+  
+  for i in tmp_list:
+    print(i.name)
+    for j in i.iterdir():
+      print(f'  {j.name}')
 
 
