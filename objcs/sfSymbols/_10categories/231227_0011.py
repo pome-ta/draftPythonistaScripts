@@ -230,12 +230,97 @@ class TopViewController(_ViewController):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
+    self.nav_title = kwargs['name']
     self.bundles = kwargs['_bundles']
+    self.categories = self.bundles.categories
     # --- table
     self.tableView = UITableView.new()
     self.cell_identifier: str = 'cell'
-    
-    print(len(self.bundles.categories))
+    self.table_extensions = self.create_table_extensions()
+
+  def didLoad(self, this: UIViewController):
+    view = this.view()
+    navigationItem = this.navigationItem()
+    navigationItem.setTitle_(self.nav_title)
+    # --- tableView
+    CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
+    self.tableView.initWithFrame(CGRectZero, style=0)
+    self.tableView.registerClass_forCellReuseIdentifier_(
+      UITableViewCell, self.cell_identifier)
+
+    self.tableView.setDataSource(self.table_extensions)
+    self.tableView.setDelegate(self.table_extensions)
+
+    # --- layout
+    view.addSubview(self.tableView)
+    self.tableView.translatesAutoresizingMaskIntoConstraints = False
+
+    NSLayoutConstraint.activateConstraints_([
+      self.tableView.centerXAnchor().constraintEqualToAnchor_(
+        view.centerXAnchor()),
+      self.tableView.centerYAnchor().constraintEqualToAnchor_(
+        view.centerYAnchor()),
+      self.tableView.widthAnchor().constraintEqualToAnchor_multiplier_(
+        view.widthAnchor(), 1.0),
+      self.tableView.heightAnchor().constraintEqualToAnchor_multiplier_(
+        view.heightAnchor(), 1.0),
+    ])
+
+  def create_table_extensions(self):
+    # --- `UITableViewDataSource` Methods
+    def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
+      return len(self.categories)
+
+    def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
+      tableView = ObjCInstance(_tableView)
+      indexPath = ObjCInstance(_indexPath)
+      cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
+        self.cell_identifier, indexPath)
+
+      item = self.categories[indexPath.row()]
+      cell_text = item['key']
+      cell_image = UIImage.systemImageNamed(item['icon'])
+      content = cell.defaultContentConfiguration()
+      content.textProperties().setNumberOfLines_(1)
+      content.setText_(cell_text)
+      content.setImage_(cell_image)
+
+      cell.setContentConfiguration_(content)
+
+      return cell.ptr
+
+    def numberOfSectionsInTableView_(_self, _cmd, _tableView):
+      # xxx: とりあえずの`1`
+      return 1
+
+    # --- `UITableViewDelegate` Methods
+    def tableView_didSelectRowAtIndexPath_(_self, _cmd, _tableView,
+                                           _indexPath):
+      indexPath = ObjCInstance(_indexPath)
+      items = self.grep_items if self.grep_items else self.all_items
+      item = items[indexPath.row()]
+      print(f'{indexPath}: {item}')
+
+    # --- `UITableViewDataSource` & `UITableViewDelegate` set up
+    _methods = [
+      tableView_numberOfRowsInSection_,
+      tableView_cellForRowAtIndexPath_,
+      numberOfSectionsInTableView_,
+      tableView_didSelectRowAtIndexPath_,
+    ]
+    _protocols = [
+      'UITableViewDataSource',
+      'UITableViewDelegate',
+    ]
+
+    create_kwargs = {
+      'name': 'table_extensions',
+      'methods': _methods,
+      'protocols': _protocols,
+    }
+
+    table_extensions = create_objc_class(**create_kwargs)
+    return table_extensions.new()
 
 
 ### ### ###
@@ -243,7 +328,6 @@ class TopViewController(_ViewController):
 ### ### ###
 from pathlib import Path
 import plistlib
-
 '''
 symbol_categories
 symbol_search
@@ -294,5 +378,8 @@ if __name__ == '__main__':
   }
 
   bundles = DictDotNotation(paths)
-  tvc = TopViewController.new(_bundles=bundles)
+  name = 'SF Symbols'
+  tvc = TopViewController.new(name=name, _bundles=bundles)
+  nvc = NavigationController.new(tvc)
+  present_objc(nvc)
 
