@@ -1,3 +1,20 @@
+# 📝 2023/12/27
+
+```
+symbol_categories            : <class 'dict'>
+symbol_search                : <class 'dict'>
+legacy_flippable             : <class 'list'>
+nofill_to_fill               : <class 'dict'>
+name_availability            : <class 'dict'>
+symbol_restrictions          : <class 'dict'>
+name_aliases                 : <class 'dict'>
+semantic_to_descriptive_name : <class 'dict'>
+categories                   : <class 'list'>
+symbol_order                 : <class 'list'>
+
+
+```
+
 # 📝 2023/12/25
 
 `CoreGlyphs` から、何を活用すべきか？
