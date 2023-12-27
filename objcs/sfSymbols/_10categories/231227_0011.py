@@ -223,7 +223,10 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
 UITableView = ObjCClass('UITableView')
 UITableViewCell = ObjCClass('UITableViewCell')
+
 UIImage = ObjCClass('UIImage')
+
+disclosureIndicator = 1
 
 
 class TopViewController(_ViewController):
@@ -269,7 +272,8 @@ class TopViewController(_ViewController):
   def create_table_extensions(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
-      return len(self.categories)
+      #return len(self.categories)
+      return 1
 
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
@@ -284,8 +288,11 @@ class TopViewController(_ViewController):
       content.textProperties().setNumberOfLines_(1)
       content.setText_(cell_text)
       content.setImage_(cell_image)
+      #pdbg.state(content)
+      #pdbg.state(cell)
 
       cell.setContentConfiguration_(content)
+      cell.setAccessoryType_(disclosureIndicator)
 
       return cell.ptr
 
@@ -297,8 +304,8 @@ class TopViewController(_ViewController):
     def tableView_didSelectRowAtIndexPath_(_self, _cmd, _tableView,
                                            _indexPath):
       indexPath = ObjCInstance(_indexPath)
-      items = self.grep_items if self.grep_items else self.all_items
-      item = items[indexPath.row()]
+
+      item = self.categories[indexPath.row()]
       print(f'{indexPath}: {item}')
 
     # --- `UITableViewDataSource` & `UITableViewDelegate` set up
