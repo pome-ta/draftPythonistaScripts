@@ -313,7 +313,8 @@ class TopViewController(_ViewController):
       tableView = ObjCInstance(_tableView)
       #navigationController = this.navigationController()
       #pdbg.state(tableView)
-      pdbg.state(this)
+      #pdbg.state(this)
+      pdbg.state(tableView.superview())
 
     # --- `UITableViewDataSource` & `UITableViewDelegate` set up
     _methods = [

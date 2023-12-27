@@ -240,6 +240,7 @@ class FirstViewController(_ViewController):
     def btnClick_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
       sender = ObjCInstance(_sender)
+      pdbg.state(this)
       svc = SecondViewController.new(name='SecondViewController')
       navigationController = this.navigationController()
       navigationController.pushViewController_animated_(svc, True)
