@@ -10,7 +10,7 @@ UIBarButtonItem = ObjCClass('UIBarButtonItem')
 
 # --- viewController
 UIViewController = ObjCClass('UIViewController')
-
+UISheetPresentationController = ObjCClass('UISheetPresentationController')
 
 class NavigationController:
 
@@ -226,6 +226,9 @@ UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
 UIControlEventTouchUpInside = 1 << 6
 
 
+
+
+
 class FirstViewController(_ViewController):
 
   def __init__(self):
@@ -240,7 +243,7 @@ class FirstViewController(_ViewController):
     def btnClick_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
       sender = ObjCInstance(_sender)
-      #pdbg.state(this)
+      pdbg.state(this.sheetPresentationController())
       svc = SecondViewController.new(name='SecondViewController')
       navigationController = this.navigationController()
       navigationController.pushViewController_animated_(svc, True)
