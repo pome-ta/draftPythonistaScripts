@@ -17,7 +17,6 @@ def searchBar_textDidChange_(_self, _cmd, _searchBar, _searchText) -> None:
   pass
 ```
 
-
 ### OK
 
 ```.py
@@ -26,14 +25,9 @@ def searchBar_textDidChange_(_self, _cmd, _searchBar, _searchText):
   pass
 ```
 
-
-
-
 # 📝 2023/09/03
 
-
 ## `ui.View` と`UIView`
-
 
 メソッドの違いは数箇所のみ
 
@@ -58,4 +52,3 @@ def searchBar_textDidChange_(_self, _cmd, _searchBar, _searchText):
 # 📝 2022/11/02
 
 作成
-
