@@ -303,22 +303,127 @@ class TopViewController(_ViewController):
     def tableView_didSelectRowAtIndexPath_(_self, _cmd, _tableView,
                                            _indexPath):
       indexPath = ObjCInstance(_indexPath)
-      '''
-      item = self.categories[indexPath.row()]
-      print(f'{indexPath}\t:\t {item}')
-      '''
       this = ObjCInstance(_self)
       tableView = ObjCInstance(_tableView)
-      #navigationController = this.navigationController()
-      #pdbg.state(tableView)
-      #pdbg.state(this)
+
       nextResponder = tableView.superview().nextResponder()
       navigationController = nextResponder.navigationController()
-      #pdbg.state(navigationController)
+
       item = self.categories[indexPath.row()]
       cell_text = item['key']
-      svc = TopViewController.new(name=cell_text, _bundles=self.bundles)
+      svc = SecondViewController.new(select=cell_text, _bundles=self.bundles)
       navigationController.pushViewController_animated_(svc, True)
+      #tableView.deselectRowAtIndexPath_animated_(indexPath, True)
+
+    # --- `UITableViewDataSource` & `UITableViewDelegate` set up
+    _methods = [
+      tableView_numberOfRowsInSection_,
+      tableView_cellForRowAtIndexPath_,
+      numberOfSectionsInTableView_,
+      tableView_didSelectRowAtIndexPath_,
+    ]
+    _protocols = [
+      'UITableViewDataSource',
+      'UITableViewDelegate',
+    ]
+
+    create_kwargs = {
+      'name': 'table_extensions',
+      'methods': _methods,
+      'protocols': _protocols,
+    }
+
+    table_extensions = create_objc_class(**create_kwargs)
+    return table_extensions.new()
+
+
+class SecondViewController(_ViewController):
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.select = kwargs['select']
+    self.nav_title = self.select
+    self.bundles = kwargs['_bundles']
+
+    self.symbol_categories = self.bundles.symbol_categories
+
+    self.table_items = [
+      key for key, value in self.symbol_categories.items()
+      if self.select in value
+    ] if self.select != 'all' else list(self.symbol_categories.keys())
+    #print(self.table_items)
+
+    # --- table
+    self.tableView = UITableView.new()
+    self.cell_identifier: str = 'cell'
+    self.table_extensions = self.create_table_extensions()
+    #print(len(self.table_items))
+
+  def didLoad(self, this: UIViewController):
+    view = this.view()
+    navigationItem = this.navigationItem()
+    navigationItem.setTitle_(self.nav_title)
+    # --- tableView
+    CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
+    self.tableView.initWithFrame(CGRectZero, style=0)
+    self.tableView.registerClass_forCellReuseIdentifier_(
+      UITableViewCell, self.cell_identifier)
+
+    self.tableView.setDataSource(self.table_extensions)
+    self.tableView.setDelegate(self.table_extensions)
+
+    # --- layout
+    view.addSubview(self.tableView)
+    self.tableView.translatesAutoresizingMaskIntoConstraints = False
+
+    NSLayoutConstraint.activateConstraints_([
+      self.tableView.centerXAnchor().constraintEqualToAnchor_(
+        view.centerXAnchor()),
+      self.tableView.centerYAnchor().constraintEqualToAnchor_(
+        view.centerYAnchor()),
+      self.tableView.widthAnchor().constraintEqualToAnchor_multiplier_(
+        view.widthAnchor(), 1.0),
+      self.tableView.heightAnchor().constraintEqualToAnchor_multiplier_(
+        view.heightAnchor(), 1.0),
+    ])
+
+  def create_table_extensions(self):
+    # --- `UITableViewDataSource` Methods
+    def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
+      return len(self.table_items)
+      #return 1
+
+    def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
+      tableView = ObjCInstance(_tableView)
+      indexPath = ObjCInstance(_indexPath)
+      cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
+        self.cell_identifier, indexPath)
+
+      cell_text = self.table_items[indexPath.row()]
+      cell_image = UIImage.systemImageNamed(cell_text)
+
+      content = cell.defaultContentConfiguration()
+      content.textProperties().setNumberOfLines_(1)
+      content.setText_(cell_text)
+      content.setImage_(cell_image)
+
+      cell.setContentConfiguration_(content)
+      #cell.setAccessoryType_(disclosureIndicator)
+
+      return cell.ptr
+
+    def numberOfSectionsInTableView_(_self, _cmd, _tableView):
+      # xxx: とりあえずの`1`
+      return 1
+
+    # --- `UITableViewDelegate` Methods
+    def tableView_didSelectRowAtIndexPath_(_self, _cmd, _tableView,
+                                           _indexPath):
+      indexPath = ObjCInstance(_indexPath)
+
+      item = self.table_items[indexPath.row()]
+      print(f'{indexPath}: {item}')
+
       #tableView.deselectRowAtIndexPath_animated_(indexPath, True)
 
     # --- `UITableViewDataSource` & `UITableViewDelegate` set up
