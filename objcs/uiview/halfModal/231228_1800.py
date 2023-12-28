@@ -240,7 +240,7 @@ class FirstViewController(_ViewController):
     def btnClick_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
       sender = ObjCInstance(_sender)
-      #pdbg.state(this)
+      pdbg.state(this)
       svc = SecondViewController.new(name='SecondViewController')
       navigationController = this.navigationController()
       navigationController.pushViewController_animated_(svc, True)
@@ -385,4 +385,5 @@ if __name__ == '__main__':
   fvc = FirstViewController.new()
   nvc = NavigationController.new(fvc)
   present_objc(nvc)
+
 
