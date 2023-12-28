@@ -273,8 +273,8 @@ class TopViewController(_ViewController):
   def create_table_extensions(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
-      #return len(self.categories)
-      return 1
+      return len(self.categories)
+      #return 1
 
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
@@ -289,8 +289,6 @@ class TopViewController(_ViewController):
       content.textProperties().setNumberOfLines_(1)
       content.setText_(cell_text)
       content.setImage_(cell_image)
-      #pdbg.state(content)
-      #pdbg.state(cell)
 
       cell.setContentConfiguration_(content)
       cell.setAccessoryType_(disclosureIndicator)
@@ -317,8 +315,11 @@ class TopViewController(_ViewController):
       nextResponder = tableView.superview().nextResponder()
       navigationController = nextResponder.navigationController()
       #pdbg.state(navigationController)
-      svc = TopViewController.new(name=name, _bundles=self.bundles)
+      item = self.categories[indexPath.row()]
+      cell_text = item['key']
+      svc = TopViewController.new(name=cell_text, _bundles=self.bundles)
       navigationController.pushViewController_animated_(svc, True)
+      #tableView.deselectRowAtIndexPath_animated_(indexPath, True)
 
     # --- `UITableViewDataSource` & `UITableViewDelegate` set up
     _methods = [
