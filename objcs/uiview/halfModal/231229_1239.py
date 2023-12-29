@@ -11,7 +11,7 @@ UIBarButtonItem = ObjCClass('UIBarButtonItem')
 # --- viewController
 UIViewController = ObjCClass('UIViewController')
 UISheetPresentationController = ObjCClass('UISheetPresentationController')
-pdbg.state(UISheetPresentationController.alloc())
+#pdbg.state(UISheetPresentationController.alloc())
 
 class NavigationController:
 
@@ -226,7 +226,7 @@ UIButton = ObjCClass('UIButton')
 UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
 UIControlEventTouchUpInside = 1 << 6
 
-
+pageSheet = 1
 
 
 
@@ -244,10 +244,24 @@ class FirstViewController(_ViewController):
     def btnClick_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
       sender = ObjCInstance(_sender)
-      pdbg.state(this.sheetPresentationController())
+      #this.setModalPresentationStyle_(pageSheet)
+      #pdbg.state(this.sheetPresentationController())
+      
+      #pdbg.state(this)
       svc = SecondViewController.new(name='SecondViewController')
+      
+      pdbg.state(svc.sheetPresentationController().detents())
       navigationController = this.navigationController()
-      navigationController.pushViewController_animated_(svc, True)
+      #pdbg.state(navigationController)
+      '''
+      presentModalViewController_animated_
+      presentModalViewController_withTransition_
+      presentMoviePlayerViewControllerAnimated_
+      presentViewController_animated_completion_
+      presentViewController_withTransition_completion_
+      '''
+      #navigationController.pushViewController_animated_(svc, True)
+      navigationController.presentViewController_animated_completion_(svc, True, None)
 
   def didLoad(self, this: UIViewController):
     view = this.view()
