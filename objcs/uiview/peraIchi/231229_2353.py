@@ -1,7 +1,15 @@
-from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
-from objc_util import sel, CGRect
+#from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
+#from objc_util import sel, CGRect
+'''
+from pathlib import Path
+import sys
+sys.path.append(str(Path.cwd()) + '/imp_objc_util.py')
+'''
+from imp_objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
+from imp_objc_util import sel, CGRect
 
-import pdbg
+
+#import pdbg
 
 # --- navigation
 UINavigationController = ObjCClass('UINavigationController')
@@ -11,12 +19,13 @@ UIBarButtonItem = ObjCClass('UIBarButtonItem')
 # --- viewController
 UIViewController = ObjCClass('UIViewController')
 UISheetPresentationController = ObjCClass('UISheetPresentationController')
-pdbg.state(UISheetPresentationController.alloc())
+#pdbg.state(UISheetPresentationController.alloc())
 
 
 class NavigationController:
 
   def __init__(self):
+    
     self._navigationController: UINavigationController
 
   def _override_navigationController(self):
@@ -389,6 +398,8 @@ class ThirdViewController(_ViewController):
 
 if __name__ == '__main__':
   fvc = FirstViewController.new()
+  print('fvc')
   nvc = NavigationController.new(fvc)
+  print('nvc')
   present_objc(nvc)
 

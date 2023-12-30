@@ -1,12 +1,8 @@
+#[https://github.com/hirax/python4ios23/blob/notebooks/package/objc_util/objc_util.py](https://github.com/hirax/python4ios23/blob/notebooks/package/objc_util/objc_util.py)
+
+
 #import 'pythonista'
 # coding: utf-8
-
-
-"""`ui` モジュールのimport をコメントアウト
-`objc_util` モジュールをPythonista3 より借用
-Pythonista3 以外でも使えるようにするため、Pythonista3 依存のモジュールを除去
-
-"""
 
 __all__ = ['c', 'LP64', 'CGFloat', 'NSInteger', 'NSUInteger', 'NSNotFound', 'NSUTF8StringEncoding', 'NS_UTF8', 'CGPoint', 'CGSize', 'CGVector', 'CGRect', 'CGAffineTransform', 'UIEdgeInsets', 'NSRange', 'sel', 'ObjCClass', 'ObjCInstance', 'ObjCClassMethod', 'ObjCInstanceMethod', 'NSObject', 'NSArray', 'NSMutableArray', 'NSDictionary', 'NSMutableDictionary', 'NSSet', 'NSMutableSet', 'NSString', 'NSMutableString', 'NSData', 'NSMutableData', 'NSNumber', 'NSURL', 'NSEnumerator', 'NSThread', 'NSBundle', 'UIColor', 'UIImage', 'UIBezierPath', 'UIApplication', 'UIView', 'ObjCBlock', 'ns', 'nsurl', 'retain_global', 'release_global', 'on_main_thread', 'create_objc_class',
 'Structure', 'sizeof', 'byref', 'c_void_p', 'c_char', 'c_byte', 'c_char_p', 'c_double', 'c_float', 'c_int', 'c_longlong', 'c_short', 'c_bool', 'c_long', 'c_int32', 'c_ubyte', 'c_uint', 'c_ushort', 'c_ulong', 'c_ulonglong', 'POINTER', 'pointer', 'load_framework', 'nsdata_to_bytes', 'uiimage_to_png']
@@ -21,13 +17,20 @@ import re
 import sys
 import os
 import itertools
-#import ui
+#import ui # comment out if we use other than Pythonista
 import weakref
 import string
 import pyparsing as pp
+
 import inspect
+# monkey patch
+# https://github.com/pyinvoke/invoke/issues/833
+if not hasattr(inspect, 'getargspec'):
+    inspect.getargspec = inspect.getfullargspec
+
 import functools
 import contextlib
+
 
 PY3 = sys.version_info[0] >= 3
 
@@ -1229,3 +1232,4 @@ def autoreleasepool():
 	pool = ObjCClass('NSAutoreleasePool').new()
 	yield
 	pool.drain()
+
