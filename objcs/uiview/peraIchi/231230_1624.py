@@ -278,16 +278,16 @@ class TopViewController(_ViewController):
     # --- layout
     view.addSubview_(self.header_view)
 
-    NSLayoutConstraint.activateConstraints_([
-      self.header_view.centerXAnchor().constraintEqualToAnchor_(
-        view.centerXAnchor()),
-      self.header_view.centerYAnchor().constraintEqualToAnchor_(
-        view.centerYAnchor()),
-      self.header_view.widthAnchor().constraintEqualToAnchor_multiplier_(
-        view.widthAnchor(), 0.4),
-      self.header_view.heightAnchor().constraintEqualToAnchor_multiplier_(
-        view.heightAnchor(), 0.1),
-    ])
+    NSLayoutConstraint.activateConstraints_(
+      [
+        self.header_view.centerXAnchor().constraintEqualToAnchor_(
+          view.centerXAnchor()),
+        #self.header_view.centerYAnchor().constraintEqualToAnchor_(view.centerYAnchor()),
+        self.header_view.widthAnchor().constraintEqualToAnchor_multiplier_(
+          view.widthAnchor(), 0.4),
+        self.header_view.heightAnchor().constraintEqualToAnchor_multiplier_(
+          view.heightAnchor(), 0.1),
+      ], )
 
 
 if __name__ == '__main__':
