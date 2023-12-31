@@ -281,14 +281,16 @@ class TopViewController(_ViewController):
     view.addSubview_(self.header_view)
     layoutMarginsGuide = view.layoutMarginsGuide()
     #pdbg.state()
-    pdbg.state(layoutMarginsGuide.leadingAnchor())
+    #pdbg.state(layoutMarginsGuide.leadingAnchor())
+    pdbg.state(self.header_view.leadingAnchor())
+    #leadingAnchor
+    #trailingAnchor
+    
 
     NSLayoutConstraint.activateConstraints_(
       [
-        self.header_view.centerXAnchor().constraintEqualToAnchor_(view.centerXAnchor()),
-        #self.header_view.centerYAnchor().constraintEqualToAnchor_(view.centerYAnchor()),
-        self.header_view.widthAnchor().constraintEqualToAnchor_multiplier_(view.widthAnchor(), 1.0),
-        self.header_view.heightAnchor().constraintEqualToAnchor_constant_(self.header_view.heightAnchor(), 0),
+        self.header_view.leadingAnchor().constraintEqualToAnchor_(layoutMarginsGuide.leadingAnchor()),
+        self.header_view.trailingAnchor().constraintEqualToAnchor_(layoutMarginsGuide.trailingAnchor()),
       ], )
 
 

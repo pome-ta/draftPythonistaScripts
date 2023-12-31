@@ -223,6 +223,12 @@ def present_objc(vc):
 # --- view
 UIView = ObjCClass('UIView')
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
+NSLayoutDimension = ObjCClass('NSLayoutDimension')
+
+dim = NSLayoutDimension.new()
+#pdbg.state(dim.constraintEqualToConstant_(40.0))
+
+#constraintEqualToConstant
 
 UIColor = ObjCClass('UIColor')
 UIButton = ObjCClass('UIButton')
@@ -266,12 +272,11 @@ class TopViewController(_ViewController):
 
   def didLoad(self, this: UIViewController):
     view = this.view()
-    view.setBackgroundColor_(UIColor.systemBlueColor())
-
     navigationItem = this.navigationItem()
     navigationItem.setTitle_(self.nav_title)
 
     # --- view
+    view.setBackgroundColor_(UIColor.systemBlueColor())
     self.header_view = WrapView.new()
     #self.header_view.setSize_((50.0, 48.0))
     #pdbg.state(self.header_view)
@@ -280,16 +285,22 @@ class TopViewController(_ViewController):
     # --- layout
     view.addSubview_(self.header_view)
     layoutMarginsGuide = view.layoutMarginsGuide()
-    #pdbg.state()
-    pdbg.state(layoutMarginsGuide.leadingAnchor())
+    pdbg.state(layoutMarginsGuide)
+    #pdbg.state(layoutMarginsGuide.leadingAnchor())
+    #pdbg.state(self.header_view.leadingAnchor())
+    #leadingAnchor
+    #trailingAnchor
+    #pdbg.state(self.header_view.heightAnchor())
 
-    NSLayoutConstraint.activateConstraints_(
-      [
-        self.header_view.centerXAnchor().constraintEqualToAnchor_(view.centerXAnchor()),
-        #self.header_view.centerYAnchor().constraintEqualToAnchor_(view.centerYAnchor()),
-        self.header_view.widthAnchor().constraintEqualToAnchor_multiplier_(view.widthAnchor(), 1.0),
-        self.header_view.heightAnchor().constraintEqualToAnchor_constant_(self.header_view.heightAnchor(), 0),
-      ], )
+    NSLayoutConstraint.activateConstraints_([
+      self.header_view.leadingAnchor().constraintEqualToAnchor_(
+        layoutMarginsGuide.leadingAnchor()),
+      self.header_view.trailingAnchor().constraintEqualToAnchor_(
+        layoutMarginsGuide.trailingAnchor()),
+      self.header_view.widthAnchor().constraintEqualToAnchor_multiplier_(
+        layoutMarginsGuide.widthAnchor(), 1.0),
+      self.header_view.heightAnchor().constraintEqualToConstant_(48.0),
+    ], )
 
 
 if __name__ == '__main__':

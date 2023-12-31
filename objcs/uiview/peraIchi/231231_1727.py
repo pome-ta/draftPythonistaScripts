@@ -223,11 +223,19 @@ def present_objc(vc):
 # --- view
 UIView = ObjCClass('UIView')
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
+NSLayoutDimension = ObjCClass('NSLayoutDimension')
+
+dim = NSLayoutDimension.new()
+#pdbg.state(dim.constraintEqualToConstant_(40.0))
+
+#constraintEqualToConstant
 
 UIColor = ObjCClass('UIColor')
 UIButton = ObjCClass('UIButton')
 UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
 UIControlEventTouchUpInside = 1 << 6
+
+is_layout_debug = True
 
 
 class WrapView:
@@ -255,7 +263,7 @@ class TopViewController(_ViewController):
     self.nav_title = kwargs['name']
 
     self.header_view: UIView
-    self.uid_view = UIView.alloc()
+    self.uid_view: UIView
 
   def override(self):
 
@@ -264,32 +272,58 @@ class TopViewController(_ViewController):
       this = ObjCInstance(_self)
       sender = ObjCInstance(_sender)
 
+  @on_main_thread
+  def _addSubviews(parent_view: UIView, *arg):
+    #print(arg)
+    #pdbg.state(parent_view)
+    for v in arg:
+      #print(v)
+      if is_layout_debug:
+        v.layer().setBorderWidth_(1.0)
+      #parent_view.addSubview_(v)
+
   def didLoad(self, this: UIViewController):
     view = this.view()
-    view.setBackgroundColor_(UIColor.systemBlueColor())
-
     navigationItem = this.navigationItem()
     navigationItem.setTitle_(self.nav_title)
 
     # --- view
+    view.setBackgroundColor_(UIColor.systemBlueColor())
     self.header_view = WrapView.new()
-    #self.header_view.setSize_((50.0, 48.0))
-    #pdbg.state(self.header_view)
+    self.uid_view = WrapView.new()
+    #setBorderWidth
+    #self.header_view.layer().setBorderWidth_(1.0)
+    #pdbg.state(self.header_view.layer())
+
     self.header_view.setBackgroundColor_(UIColor.systemRedColor())
+    self.uid_view.setBackgroundColor_(UIColor.systemGreenColor())
 
     # --- layout
-    view.addSubview_(self.header_view)
-    layoutMarginsGuide = view.layoutMarginsGuide()
-    #pdbg.state()
-    pdbg.state(layoutMarginsGuide.leadingAnchor())
+    #view.addSubview_(self.header_view)
+    #view.addSubview_(self.uid_view)
+    #pdbg.state(view)
 
-    NSLayoutConstraint.activateConstraints_(
-      [
-        self.header_view.centerXAnchor().constraintEqualToAnchor_(view.centerXAnchor()),
-        #self.header_view.centerYAnchor().constraintEqualToAnchor_(view.centerYAnchor()),
-        self.header_view.widthAnchor().constraintEqualToAnchor_multiplier_(view.widthAnchor(), 1.0),
-        self.header_view.heightAnchor().constraintEqualToAnchor_constant_(self.header_view.heightAnchor(), 0),
-      ], )
+    self._addSubviews(view, self.header_view, self.uid_view)
+    layoutMarginsGuide = view.layoutMarginsGuide()
+
+    NSLayoutConstraint.activateConstraints_([
+      self.header_view.leadingAnchor().constraintEqualToAnchor_(
+        layoutMarginsGuide.leadingAnchor()),
+      self.header_view.trailingAnchor().constraintEqualToAnchor_(
+        layoutMarginsGuide.trailingAnchor()),
+      self.header_view.widthAnchor().constraintEqualToAnchor_multiplier_(
+        layoutMarginsGuide.widthAnchor(), 1.0),
+      self.header_view.heightAnchor().constraintEqualToConstant_(80.0),
+    ])
+    NSLayoutConstraint.activateConstraints_([
+      self.uid_view.topAnchor().constraintEqualToAnchor_constant_(
+        self.header_view.bottomAnchor(), 8.0),
+      self.uid_view.leadingAnchor().constraintEqualToAnchor_(
+        layoutMarginsGuide.leadingAnchor()),
+      self.uid_view.trailingAnchor().constraintEqualToAnchor_(
+        layoutMarginsGuide.trailingAnchor()),
+      self.uid_view.heightAnchor().constraintEqualToConstant_(32.0),
+    ])
 
 
 if __name__ == '__main__':
