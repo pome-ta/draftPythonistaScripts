@@ -236,8 +236,6 @@ UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
 UIControlEventTouchUpInside = 1 << 6
 
 
-
-
 class WrapView:
 
   def __init__(self):
@@ -272,7 +270,6 @@ class TopViewController(_ViewController):
       this = ObjCInstance(_self)
       sender = ObjCInstance(_sender)
 
-
   def didLoad(self, this: UIViewController):
     view = this.view()
     navigationItem = this.navigationItem()
@@ -282,7 +279,7 @@ class TopViewController(_ViewController):
     view.setBackgroundColor_(UIColor.systemBlueColor())
     self.header_view = WrapView.new()
     self.uid_view = WrapView.new()
-    
+
     self.header_view.layer().setBorderWidth_(1.0)
     #pdbg.state(self.header_view.layer())
 
@@ -293,7 +290,6 @@ class TopViewController(_ViewController):
     view.addSubview_(self.header_view)
     view.addSubview_(self.uid_view)
 
-    
     layoutMarginsGuide = view.layoutMarginsGuide()
 
     NSLayoutConstraint.activateConstraints_([
@@ -304,7 +300,7 @@ class TopViewController(_ViewController):
       self.header_view.widthAnchor().constraintEqualToAnchor_multiplier_(
         layoutMarginsGuide.widthAnchor(), 1.0),
       self.header_view.heightAnchor().constraintEqualToConstant_(80.0),
-    ])
+    ])  # yapf: enable
     NSLayoutConstraint.activateConstraints_([
       self.uid_view.topAnchor().constraintEqualToAnchor_constant_(
         self.header_view.bottomAnchor(), 8.0),
