@@ -319,9 +319,11 @@ class TopViewController(_ViewController):
     view.addSubview_(self.uid_view)
 
     layoutMarginsGuide = view.layoutMarginsGuide()
+    #pdbg.state(layoutMarginsGuide)
 
     NSLayoutConstraint.activateConstraints_([
       # --- header_main
+      self.header_view.topAnchor().constraintEqualToAnchor_(view.topAnchor()),  # todo: top 定義しないと、子view のYセンター軸が定義できない
       self.header_view.leadingAnchor().constraintEqualToAnchor_(
         layoutMarginsGuide.leadingAnchor()),
       self.header_view.trailingAnchor().constraintEqualToAnchor_(
@@ -336,6 +338,8 @@ class TopViewController(_ViewController):
       self.header_icon_view.heightAnchor().constraintEqualToAnchor_multiplier_(
         self.header_view.heightAnchor(), 0.8),
       #self.header_icon_view.centerYAnchor().constraintEqualToAnchor_multiplier_(self.header_view.heightAnchor(),0.5),
+      self.header_icon_view.centerYAnchor().constraintEqualToAnchor_(self.header_view.centerYAnchor()),
+      
       
     ])
     NSLayoutConstraint.activateConstraints_([
@@ -351,7 +355,8 @@ class TopViewController(_ViewController):
   def didLayoutSubviews(self, this: UIViewController):
     #pdbg.state()
     #print('j')
-    pdbg.state(self.header_view)
+    #pdbg.state(self.header_view.centerYAnchor().constraintsAffectingLayout())
+    pass
 
 
 if __name__ == '__main__':
