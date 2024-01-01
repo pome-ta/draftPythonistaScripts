@@ -233,6 +233,8 @@ UIImageView = ObjCClass('UIImageView')
 scaleAspectFit = 1
 
 UILabel = ObjCClass('UILabel')
+UITextField = ObjCClass('UITextField')
+NSAttributedString = ObjCClass('NSAttributedString')
 
 UIButton = ObjCClass('UIButton')
 UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
@@ -278,6 +280,13 @@ class WrapLabelView(WrapView):
     self.view = UILabel.new()
     self.view.setText_(kwargs['text'])
     self.view.sizeToFit()
+
+
+class WrapTextFieldView(WrapView):
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.view = UITextField.new()
 
 
 class TopViewController(_ViewController):
@@ -337,20 +346,29 @@ class TopViewController(_ViewController):
     # xxx: 雑に並べていく
     self.header_icon_img = UIImage.imageWithContentsOfFile_(
       str(self.dummy_img_path))
-    #pdbg.state(self.header_icon_img)
-    #self.header_icon_img.size = ((48.0, 48.0))
-    self.header_icon = WrapImageView.new(image=self.header_icon_img)
-    #self.header_icon.setSize_((24.0, 24.0))
 
+    self.header_icon = WrapImageView.new(image=self.header_icon_img)
     self.header_icon.setContentMode_(scaleAspectFit)
-    #pdbg.state(self.header_icon)
 
     self.header_label = WrapLabelView.new(text=self.nav_title)
+
+    self.uid_label = WrapLabelView.new(text='UID:')
+
+    placeholder = NSAttributedString.alloc().initWithString_('📝 ここに、UID を入力 🥺')
+    self.uid_textfield = WrapTextFieldView.new()
+    self.uid_textfield.setAttributedPlaceholder_(placeholder)
+
+    self.username_key_label = WrapLabelView.new(text='ユーザー名:')
+    self.username_value_label = WrapLabelView.new(text='ここにユーザー名が入る？😂')
 
     # todo: layout
     this.roughSetLayouts_([
       self.header_icon,
       self.header_label,
+      self.uid_label,
+      self.uid_textfield,
+      self.username_key_label,
+      self.username_value_label,
     ])
 
 
@@ -359,4 +377,7 @@ if __name__ == '__main__':
   fvc = TopViewController.new(name=top_name)
   nvc = NavigationController.new(fvc)
   present_objc(nvc)
+
+
+
 
