@@ -323,6 +323,10 @@ class TopViewController(_ViewController):
       self.header_view.widthAnchor().constraintEqualToAnchor_multiplier_(
         layoutMarginsGuide.widthAnchor(), 1.0),
       self.header_view.heightAnchor().constraintEqualToConstant_(80.0),
+      self.header_icon_view.widthAnchor().constraintEqualToAnchor_multiplier_(
+        self.header_view.heightAnchor(), 1.0),
+      self.header_icon_view.heightAnchor().constraintEqualToAnchor_multiplier_(
+        self.header_view.heightAnchor(), 1.0),
     ])
     NSLayoutConstraint.activateConstraints_([
       self.uid_view.topAnchor().constraintEqualToAnchor_constant_(
