@@ -233,6 +233,7 @@ UIImageView = ObjCClass('UIImageView')
 scaleAspectFit = 1
 
 UILabel = ObjCClass('UILabel')
+#pdbg.state(UILabel.alloc())
 
 UIButton = ObjCClass('UIButton')
 UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
@@ -277,7 +278,9 @@ class WrapLabelView(WrapView):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
-    self.view = UIImageView.alloc().initWithImage_(kwargs['image'])
+    self.view = UILabel.new()
+    self.view.setText_(kwargs['text'])
+    self.view.sizeToFit()
 
 
 class TopViewController(_ViewController):
@@ -317,8 +320,12 @@ class TopViewController(_ViewController):
     self.header_icon_view.setContentMode_(scaleAspectFit)
     #pdbg.state(self.header_icon_view)
     #setContentMode
+    
+    self.header_label = WrapLabelView.new(text=self.nav_title)
+    #pdbg.state(self.header_label)
 
     self.header_view.addSubview_(self.header_icon_view)
+    self.header_view.addSubview_(self.header_label)
 
     self.uid_view = WrapView.new()
     self.uid_view.setBackgroundColor_(UIColor.systemGreenColor())
@@ -349,6 +356,12 @@ class TopViewController(_ViewController):
         self.header_view.heightAnchor(), 1.0),
       #self.header_icon_view.centerYAnchor().constraintEqualToAnchor_multiplier_(self.header_view.heightAnchor(),0.5),
       self.header_icon_view.centerYAnchor().constraintEqualToAnchor_(
+        self.header_view.centerYAnchor()),
+      
+      # --- label
+      self.header_label.trailingAnchor().constraintEqualToAnchor_(
+        self.header_view.trailingAnchor()),
+      self.header_label.centerYAnchor().constraintEqualToAnchor_(
         self.header_view.centerYAnchor()),
     ])
     NSLayoutConstraint.activateConstraints_([
