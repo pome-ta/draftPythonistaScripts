@@ -236,6 +236,9 @@ UILabel = ObjCClass('UILabel')
 UITextField = ObjCClass('UITextField')
 NSAttributedString = ObjCClass('NSAttributedString')
 
+
+UIScrollView = ObjCClass('UIScrollView')
+
 UIButton = ObjCClass('UIButton')
 UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
 UIControlEventTouchUpInside = 1 << 6
@@ -289,6 +292,18 @@ class WrapTextFieldView(WrapView):
     self.view = UITextField.new()
 
 
+
+
+class WrapScrollView(WrapView):
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.view = UIScrollView.alloc()
+    CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
+    self.view.initWithFrame_(CGRectZero)
+
+
+
 class TopViewController(_ViewController):
 
   def __init__(self, *args, **kwargs):
@@ -326,12 +341,13 @@ class TopViewController(_ViewController):
             layoutMarginsGuide.trailingAnchor()),
         ])
 
-        # xxx: ひでーけど、取り急ぎ(`UIImageView` かどうかを知りたい)
+        # xxx: ひでーけど、取り急ぎ(特定のclass かどうかを知りたい)
         if str(child)[:12] == '<UIImageView':
           NSLayoutConstraint.activateConstraints_([
             child.widthAnchor().constraintEqualToConstant_(48.0),
             child.heightAnchor().constraintEqualToConstant_(48.0),
           ])
+        print(child)
 
         pre_child = child
 
@@ -360,6 +376,14 @@ class TopViewController(_ViewController):
 
     self.username_key_label = WrapLabelView.new(text='ユーザー名:')
     self.username_value_label = WrapLabelView.new(text='ここにユーザー名が入る？😂')
+    
+    self.worldrank_key_label = WrapLabelView.new(text='世界ランク:')
+    self.worldrank_value_label = WrapLabelView.new(text='ここに世界ランクが入る?😂')
+    
+    self.result_scroll=WrapScrollView.new()
+    self.result_scroll.setContentSize_((1000.0, 10000.0))
+    self.result_scroll.setBackgroundColor_(UIColor.systemRedColor())
+    #pdbg.state(self.result_scroll)
 
     # todo: layout
     this.roughSetLayouts_([
@@ -369,6 +393,9 @@ class TopViewController(_ViewController):
       self.uid_textfield,
       self.username_key_label,
       self.username_value_label,
+      self.worldrank_key_label,
+      self.worldrank_value_label,
+      self.result_scroll,
     ])
 
 
