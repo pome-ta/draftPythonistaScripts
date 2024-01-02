@@ -236,8 +236,9 @@ UILabel = ObjCClass('UILabel')
 UITextField = ObjCClass('UITextField')
 NSAttributedString = ObjCClass('NSAttributedString')
 
-
 UIScrollView = ObjCClass('UIScrollView')
+
+UISwitch = ObjCClass('UISwitch')
 
 UIButton = ObjCClass('UIButton')
 UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
@@ -292,8 +293,6 @@ class WrapTextFieldView(WrapView):
     self.view = UITextField.new()
 
 
-
-
 class WrapScrollView(WrapView):
 
   def __init__(self, *args, **kwargs):
@@ -302,6 +301,26 @@ class WrapScrollView(WrapView):
     CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
     self.view.initWithFrame_(CGRectZero)
 
+
+class WrapSwitch(WrapView):
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.view = UISwitch.new()
+
+
+class WrapButton(WrapView):
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.view = UIButton.new()
+    title = kwargs['title']
+    config = UIButtonConfiguration.tintedButtonConfiguration()
+    config.setTitle_(title)
+    config.setBaseBackgroundColor_(UIColor.systemPinkColor())
+    config.setBaseForegroundColor_(UIColor.systemGreenColor())
+
+    self.view.setConfiguration_(config)
 
 
 class TopViewController(_ViewController):
@@ -347,7 +366,13 @@ class TopViewController(_ViewController):
             child.widthAnchor().constraintEqualToConstant_(48.0),
             child.heightAnchor().constraintEqualToConstant_(48.0),
           ])
-        print(child)
+        if str(child)[:13] == '<UIScrollView':
+          NSLayoutConstraint.activateConstraints_([
+            child.widthAnchor().constraintEqualToAnchor_multiplier_(
+              layoutMarginsGuide.widthAnchor(), 1.0),
+            child.heightAnchor().constraintEqualToAnchor_multiplier_(
+              layoutMarginsGuide.widthAnchor(), 0.5),
+          ])
 
         pre_child = child
 
@@ -376,14 +401,30 @@ class TopViewController(_ViewController):
 
     self.username_key_label = WrapLabelView.new(text='ユーザー名:')
     self.username_value_label = WrapLabelView.new(text='ここにユーザー名が入る？😂')
-    
+
     self.worldrank_key_label = WrapLabelView.new(text='世界ランク:')
     self.worldrank_value_label = WrapLabelView.new(text='ここに世界ランクが入る?😂')
-    
-    self.result_scroll=WrapScrollView.new()
-    self.result_scroll.setContentSize_((1000.0, 10000.0))
+
+    self.result_scroll = WrapScrollView.new()
+    self.result_scroll.setContentSize_((0.0, 1024.0))
     self.result_scroll.setBackgroundColor_(UIColor.systemRedColor())
     #pdbg.state(self.result_scroll)
+
+    self.computation_view = WrapLabelView.new(text='計算方式')
+
+    self.hp_label = WrapLabelView.new(text='HP(換算):')
+    self.hp_switch = WrapSwitch.new()
+    self.power_label = WrapLabelView.new(text='攻撃力(換算):')
+    self.power_switch = WrapSwitch.new()
+    self.defence_label = WrapLabelView.new(text='防御(換算):')
+    self.defence_switch = WrapSwitch.new()
+    self.charge_label = WrapLabelView.new(text='元素チャージ効率(換算):')
+    self.charge_switch = WrapSwitch.new()
+
+    self.familiarity_label = WrapLabelView.new(text='熟知(換算):')
+    self.familiarity_switch = WrapSwitch.new()
+
+    self.btn = WrapButton.new(title='作成')
 
     # todo: layout
     this.roughSetLayouts_([
@@ -396,6 +437,18 @@ class TopViewController(_ViewController):
       self.worldrank_key_label,
       self.worldrank_value_label,
       self.result_scroll,
+      self.computation_view,
+      self.hp_label,
+      self.hp_switch,
+      self.power_label,
+      self.power_switch,
+      self.defence_label,
+      self.defence_switch,
+      self.charge_label,
+      self.charge_switch,
+      self.familiarity_label,
+      self.familiarity_switch,
+      self.btn,
     ])
 
 
@@ -404,6 +457,7 @@ if __name__ == '__main__':
   fvc = TopViewController.new(name=top_name)
   nvc = NavigationController.new(fvc)
   present_objc(nvc)
+
 
 
 
