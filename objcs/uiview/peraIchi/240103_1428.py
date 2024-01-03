@@ -233,6 +233,7 @@ UIImageView = ObjCClass('UIImageView')
 scaleAspectFit = 1
 
 UILabel = ObjCClass('UILabel')
+NSTextAlignmentCenter = 1
 UITextField = ObjCClass('UITextField')
 NSAttributedString = ObjCClass('NSAttributedString')
 
@@ -249,6 +250,24 @@ IS_LAYOUT_DEBUG = True
 dummy_img_uri = '/private/var/containers/Bundle/Application/99EB2042-EF33-4FDA-9808-9886DC80C7CC/Pythonista3.app/Media/Images/test/Boat@2x.png'
 
 UIStackView = ObjCClass('UIStackView')
+UILayoutConstraintAxisHorizontal = 0
+UILayoutConstraintAxisVertical = 1
+
+UIStackViewAlignmentFill = 0
+UIStackViewAlignmentLeading = 1
+UIStackViewAlignmentFirstBaseline = 2
+UIStackViewAlignmentCenter = 3
+UIStackViewAlignmentTrailing = 4
+UIStackViewAlignmentLastBaseline = 5
+UIStackViewAlignmentTop = UIStackViewAlignmentLeading
+UIStackViewAlignmentBottom = UIStackViewAlignmentTrailing
+
+UIStackViewDistributionFill = 0
+UIStackViewDistributionFillEqually = 1
+UIStackViewDistributionFillProportionally = 2
+UIStackViewDistributionEqualSpacing = 3
+UIStackViewDistributionEqualCentering = 4
+
 #pdbg.state(UIStackView.new())
 
 
@@ -289,6 +308,15 @@ class ObjcImageView(ObjcView):
     self.instance = UIImageView.alloc().initWithImage_(kwargs['image'])
 
 
+class ObjcLabelView(ObjcView):
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.instance = UILabel.new()
+    self.instance.setText_(kwargs['text'])
+    self.instance.sizeToFit()
+
+
 class TopViewController(_ViewController):
 
   def __init__(self, *args, **kwargs):
@@ -312,11 +340,44 @@ class TopViewController(_ViewController):
 
     # --- view
     self.main_stack = ObjcStackView.new()
+
     # --- header
+    self.header_icon_img = UIImage.imageWithContentsOfFile_(
+      str(self.dummy_img_path))
+    self.header_icon = ObjcImageView.new(image=self.header_icon_img)
+    self.header_icon.setContentMode_(scaleAspectFit)
+    self.header_icon.setBackgroundColor_(UIColor.systemRedColor())
+    
+    self.header_label = ObjcLabelView.new(text=self.nav_title)
+    self.header_label.setTextAlignment_(NSTextAlignmentCenter)
+    #pdbg.state(self.header_label)
+
     self.header_stack = ObjcStackView.new()
-    
-    
-    
+    self.header_stack.setAxis_(UILayoutConstraintAxisHorizontal)
+    self.header_stack.setAlignment_(UIStackViewAlignmentCenter)
+    self.header_stack.addArrangedSubview_(self.header_icon)
+    self.header_stack.addArrangedSubview_(self.header_label)
+
+    #pdbg.state(self.header_stack)
+    # --- layout
+    view.addSubview_(self.header_stack)
+    layoutMarginsGuide = view.layoutMarginsGuide()
+
+    NSLayoutConstraint.activateConstraints_([
+      # --- header_main
+      self.header_stack.topAnchor().constraintEqualToAnchor_(
+        view.topAnchor()),  # todo: top 定義しないと、子view のYセンター軸が定義できない
+      self.header_stack.leadingAnchor().constraintEqualToAnchor_(
+        layoutMarginsGuide.leadingAnchor()),
+      self.header_stack.trailingAnchor().constraintEqualToAnchor_(
+        layoutMarginsGuide.trailingAnchor()),
+      self.header_stack.widthAnchor().constraintEqualToAnchor_multiplier_(
+        layoutMarginsGuide.widthAnchor(), 1.0),
+      self.header_stack.heightAnchor().constraintEqualToConstant_(80.0),
+      self.header_icon.widthAnchor().constraintEqualToConstant_(80.0),
+      self.header_icon.heightAnchor().constraintEqualToConstant_(80.0),
+      
+    ])
 
 
 if __name__ == '__main__':
