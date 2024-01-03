@@ -233,8 +233,11 @@ UIImageView = ObjCClass('UIImageView')
 scaleAspectFit = 1
 
 UILabel = ObjCClass('UILabel')
+NSTextAlignmentCenter = 1
 UITextField = ObjCClass('UITextField')
 NSAttributedString = ObjCClass('NSAttributedString')
+
+UIFont = ObjCClass('UIFont')
 
 UIScrollView = ObjCClass('UIScrollView')
 
@@ -244,25 +247,44 @@ UIButton = ObjCClass('UIButton')
 UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
 UIControlEventTouchUpInside = 1 << 6
 
-IS_LAYOUT_DEBUG = True
-
 dummy_img_uri = '/private/var/containers/Bundle/Application/99EB2042-EF33-4FDA-9808-9886DC80C7CC/Pythonista3.app/Media/Images/test/Boat@2x.png'
 
+UIStackView = ObjCClass('UIStackView')
+UILayoutConstraintAxisHorizontal = 0
+UILayoutConstraintAxisVertical = 1
 
-class WrapView:
+UIStackViewAlignmentFill = 0
+UIStackViewAlignmentLeading = 1
+UIStackViewAlignmentFirstBaseline = 2
+UIStackViewAlignmentCenter = 3
+UIStackViewAlignmentTrailing = 4
+UIStackViewAlignmentLastBaseline = 5
+UIStackViewAlignmentTop = UIStackViewAlignmentLeading
+UIStackViewAlignmentBottom = UIStackViewAlignmentTrailing
+
+UIStackViewDistributionFill = 0
+UIStackViewDistributionFillEqually = 1
+UIStackViewDistributionFillProportionally = 2
+UIStackViewDistributionEqualSpacing = 3
+UIStackViewDistributionEqualCentering = 4
+
+
+class ObjcView:
 
   def __init__(self, *args, **kwargs):
-    self.view = UIView.alloc()
+    self.instance = UIView.alloc()
     CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
-    self.view.initWithFrame_(CGRectZero)
+    self.instance.initWithFrame_(CGRectZero)
 
   def _init(self):
 
     if IS_LAYOUT_DEBUG:
-      self.view.layer().setBorderWidth_(1.0)
-    self.view.setTranslatesAutoresizingMaskIntoConstraints_(False)
+      color = UIColor.systemRedColor()
+      self.instance.layer().setBorderWidth_(1.0)
+      self.instance.layer().setBorderColor_(color.cgColor())
+    self.instance.setTranslatesAutoresizingMaskIntoConstraints_(False)
 
-    return self.view
+    return self.instance
 
   @classmethod
   def new(cls, *args, **kwargs) -> ObjCInstance:
@@ -270,57 +292,36 @@ class WrapView:
     return _cls._init()
 
 
-class WrapImageView(WrapView):
+class ObjcStackView(ObjcView):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
-    self.view = UIImageView.alloc().initWithImage_(kwargs['image'])
-
-
-class WrapLabelView(WrapView):
-
-  def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    self.view = UILabel.new()
-    self.view.setText_(kwargs['text'])
-    self.view.sizeToFit()
-
-
-class WrapTextFieldView(WrapView):
-
-  def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    self.view = UITextField.new()
-
-
-class WrapScrollView(WrapView):
-
-  def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    self.view = UIScrollView.alloc()
+    self.instance = UIStackView.alloc()
     CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
-    self.view.initWithFrame_(CGRectZero)
+    self.instance.initWithFrame_(CGRectZero)
 
 
-class WrapSwitch(WrapView):
-
-  def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    self.view = UISwitch.new()
-
-
-class WrapButton(WrapView):
+class ObjcImageView(ObjcView):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
-    self.view = UIButton.new()
-    title = kwargs['title']
-    config = UIButtonConfiguration.tintedButtonConfiguration()
-    config.setTitle_(title)
-    config.setBaseBackgroundColor_(UIColor.systemPinkColor())
-    config.setBaseForegroundColor_(UIColor.systemGreenColor())
+    self.instance = UIImageView.alloc().initWithImage_(kwargs['image'])
 
-    self.view.setConfiguration_(config)
+
+class ObjcLabel(ObjcView):
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.instance = UILabel.new()
+    self.instance.setText_(kwargs['text'])
+    self.instance.sizeToFit()
+
+
+class ObjcTextField(ObjcView):
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.instance = UITextField.new()
 
 
 class TopViewController(_ViewController):
@@ -337,135 +338,178 @@ class TopViewController(_ViewController):
     def btnClick_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
       sender = ObjCInstance(_sender)
-      #pdbg.state(self.hp_switch)
-      hp_bool = self.hp_switch.isOn()
-      print(hp_bool)
-      self.username_value_label.setText_('hoge')
-      
 
     @self.add_msg
-    def roughSetLayouts_(_self, _cmd, _views):
+    def setupHeaderStack(_self, _cmd):
+      # xxx: `return` 調べてないので`self` で全体的に持つ
       this = ObjCInstance(_self)
       view = this.view()
+      # --- stack init
+      self.header_stack = ObjcStackView.new()
+      self.header_stack.setAxis_(UILayoutConstraintAxisHorizontal)
+      self.header_stack.setAlignment_(UIStackViewAlignmentCenter)
+
+      # --- stack items
+      self.header_icon_img = UIImage.imageWithContentsOfFile_(
+        str(self.dummy_img_path))
+      self.header_icon = ObjcImageView.new(image=self.header_icon_img)
+      self.header_icon.setContentMode_(scaleAspectFit)
+      #self.header_icon.setBackgroundColor_(UIColor.systemRedColor())
+
+      self.header_label = ObjcLabel.new(text=self.nav_title)
+      self.header_label.setTextAlignment_(NSTextAlignmentCenter)
+      self.header_label.setFont_(UIFont.systemFontOfSize_(48.0))
+
+      # --- layout
+      self.header_stack.addArrangedSubview_(self.header_icon)
+      self.header_stack.addArrangedSubview_(self.header_label)
+      view.addSubview_(self.header_stack)
+
       layoutMarginsGuide = view.layoutMarginsGuide()
 
-      views = ObjCInstance(_views)
+      NSLayoutConstraint.activateConstraints_([
+        self.header_stack.leadingAnchor().constraintEqualToAnchor_(
+          layoutMarginsGuide.leadingAnchor()),
+        self.header_stack.trailingAnchor().constraintEqualToAnchor_(
+          layoutMarginsGuide.trailingAnchor()),
+        self.header_stack.widthAnchor().constraintEqualToAnchor_multiplier_(
+          layoutMarginsGuide.widthAnchor(), 1.0),
+        self.header_stack.heightAnchor().constraintEqualToConstant_(80.0),
+        self.header_icon.widthAnchor().constraintEqualToAnchor_(
+          self.header_stack.heightAnchor()),
+        self.header_icon.heightAnchor().constraintEqualToAnchor_(
+          self.header_stack.heightAnchor()),
+      ])
 
-      pre_child = None
-      for child in views:
-        view.addSubview_(child)
+    @self.add_msg
+    def setupUIDStack(_self, _cmd):
+      this = ObjCInstance(_self)
+      view = this.view()
+      # --- stack init
+      self.uid_stack = ObjcStackView.new()
+      self.uid_stack.setAxis_(UILayoutConstraintAxisHorizontal)
+      self.uid_stack.setAlignment_(UIStackViewAlignmentFill)
 
-        NSLayoutConstraint.activateConstraints_([
-          child.topAnchor().constraintEqualToAnchor_(pre_child.bottomAnchor())
-          if pre_child else child.topAnchor().constraintEqualToAnchor_(
-            view.topAnchor()),
-          child.leadingAnchor().constraintEqualToAnchor_(
-            layoutMarginsGuide.leadingAnchor()),
-          child.trailingAnchor().constraintEqualToAnchor_(
-            layoutMarginsGuide.trailingAnchor()),
-        ])
+      self.uid_stack.setSpacing_(16.0)
 
-        # xxx: ひでーけど、取り急ぎ(特定のclass かどうかを知りたい)
-        if str(child)[:12] == '<UIImageView':
-          NSLayoutConstraint.activateConstraints_([
-            child.widthAnchor().constraintEqualToConstant_(48.0),
-            child.heightAnchor().constraintEqualToConstant_(48.0),
-          ])
-        if str(child)[:13] == '<UIScrollView':
-          #pdbg.state(child)
-          NSLayoutConstraint.activateConstraints_([
-            child.widthAnchor().constraintEqualToAnchor_multiplier_(
-              layoutMarginsGuide.widthAnchor(), 1.0),
-            child.heightAnchor().constraintEqualToAnchor_multiplier_(
-              layoutMarginsGuide.widthAnchor(), 0.5),
-          ])
+      # --- stack items
+      self.uid_label = ObjcLabel.new(text='UID:')
+      self.uid_textfield = ObjcTextField.new()
+      placeholder = NSAttributedString.alloc().initWithString_(
+        'input to UID ...')
+      self.uid_textfield.setAttributedPlaceholder_(placeholder)
+      self.uid_textfield.setBackgroundColor_(UIColor.systemDarkGrayColor())
+      #systemDarkExtraLightGrayColor
+      #systemDarkLightGrayColor
+      #systemDarkGrayColor
+      #pdbg.state(self.uid_textfield.layer())
+      #self.uid_textfield.layer().setCornerRadius_(4)
+      #self.uid_textfield.layer().setMasksToBounds_(True)
 
-        pre_child = child
+      # --- layout
+      self.uid_stack.addArrangedSubview_(self.uid_label)
+      self.uid_stack.addArrangedSubview_(self.uid_textfield)
+
+      view.addSubview_(self.uid_stack)
+
+      layoutMarginsGuide = view.layoutMarginsGuide()
+      NSLayoutConstraint.activateConstraints_([
+        self.uid_stack.leadingAnchor().constraintEqualToAnchor_(
+          layoutMarginsGuide.leadingAnchor()),
+        self.uid_stack.trailingAnchor().constraintEqualToAnchor_(
+          layoutMarginsGuide.trailingAnchor()),
+        self.uid_stack.heightAnchor().constraintEqualToConstant_(32.0),
+      ])
+
+    @self.add_msg
+    def setupUserRankStack(_self, _cmd):
+      this = ObjCInstance(_self)
+      view = this.view()
+
+      # --- stack init
+      self.userrank_stack = ObjcStackView.new()
+      self.userrank_stack.setAxis_(UILayoutConstraintAxisHorizontal)
+      self.userrank_stack.setDistribution_(UIStackViewDistributionEqualSpacing)
+
+      self.userrank_stack.setAlignment_(UIStackViewAlignmentFill)
+
+      self.userrank_stack.setSpacing_(16.0)
+      #pdbg.state(self.userrank_stack)
+
+      # --- stack items
+      font_size = UIFont.systemFontOfSize_(12.0)
+      # --- leading
+      leading_stack = ObjcStackView.new()
+      leading_stack.setAxis_(UILayoutConstraintAxisHorizontal)
+      leading_stack.setAlignment_(UIStackViewAlignmentFill)
+      leading_stack.setSpacing_(8.0)
+
+      self.username_key_label = ObjcLabel.new(text='ユーザー名:')
+      self.username_key_label.setFont_(font_size)
+      self.username_value_label = ObjcLabel.new(text='hogehoge fugapiyooo')
+      self.username_value_label.setFont_(font_size)
+      leading_stack.addArrangedSubview_(self.username_key_label)
+      leading_stack.addArrangedSubview_(self.username_value_label)
+
+      # --- trailing
+
+      trailing_stack = ObjcStackView.new()
+      trailing_stack.setAxis_(UILayoutConstraintAxisHorizontal)
+      trailing_stack.setAlignment_(UIStackViewAlignmentFill)
+      trailing_stack.setSpacing_(8.0)
+
+      self.worldrank_key_label = ObjcLabel.new(text='世界ランク:')
+      self.worldrank_key_label.setFont_(font_size)
+
+      self.worldrank_value_label = ObjcLabel.new(text='60')
+      self.worldrank_value_label.setFont_(font_size)
+
+      trailing_stack.addArrangedSubview_(self.worldrank_key_label)
+      trailing_stack.addArrangedSubview_(self.worldrank_value_label)
+
+      # --- layout
+      self.userrank_stack.addArrangedSubview(leading_stack)
+      self.userrank_stack.addArrangedSubview(trailing_stack)
+      view.addSubview_(self.userrank_stack)
+
+      layoutMarginsGuide = view.layoutMarginsGuide()
+      NSLayoutConstraint.activateConstraints_([
+        self.userrank_stack.leadingAnchor().constraintEqualToAnchor_(
+          layoutMarginsGuide.leadingAnchor()),
+        self.userrank_stack.trailingAnchor().constraintEqualToAnchor_(
+          layoutMarginsGuide.trailingAnchor()),
+        self.userrank_stack.heightAnchor().constraintEqualToConstant_(32.0),
+        #leading_stack.widthAnchor().constraintEqualToAnchor_multiplier_(layoutMarginsGuide.widthAnchor(), 0.7),
+        #trailing_stack.widthAnchor().constraintEqualToAnchor_multiplier_(layoutMarginsGuide.widthAnchor(), 0.3),
+      ])
 
   def didLoad(self, this: UIViewController):
     view = this.view()
     navigationItem = this.navigationItem()
     navigationItem.setTitle_(self.nav_title)
+    #view.setBackgroundColor_(UIColor.systemBlueColor())
 
     # --- view
-    view.setBackgroundColor_(UIColor.systemBlueColor())
+    self.main_stack = ObjcStackView.new()
+    this.setupHeaderStack()
+    this.setupUIDStack()
+    this.setupUserRankStack()
 
-    # xxx: 雑に並べていく
-    self.header_icon_img = UIImage.imageWithContentsOfFile_(
-      str(self.dummy_img_path))
-
-    self.header_icon = WrapImageView.new(image=self.header_icon_img)
-    self.header_icon.setContentMode_(scaleAspectFit)
-
-    self.header_label = WrapLabelView.new(text=self.nav_title)
-
-    self.uid_label = WrapLabelView.new(text='UID:')
-
-    placeholder = NSAttributedString.alloc().initWithString_('📝 ここに、UID を入力 🥺')
-    self.uid_textfield = WrapTextFieldView.new()
-    self.uid_textfield.setAttributedPlaceholder_(placeholder)
-
-    self.username_key_label = WrapLabelView.new(text='ユーザー名:')
-    self.username_value_label = WrapLabelView.new(text='ここにユーザー名が入る？😂')
-
-    self.worldrank_key_label = WrapLabelView.new(text='世界ランク:')
-    self.worldrank_value_label = WrapLabelView.new(text='ここに世界ランクが入る?😂')
-
-    self.result_scroll = WrapScrollView.new()
-    self.result_scroll.setContentSize_((0.0, 1024.0))
-    self.result_scroll.setBackgroundColor_(UIColor.systemRedColor())
-    #pdbg.state(self.result_scroll)
-
-    self.computation_view = WrapLabelView.new(text='計算方式')
-
-    self.hp_label = WrapLabelView.new(text='HP(換算):')
-    self.hp_switch = WrapSwitch.new()
-    self.power_label = WrapLabelView.new(text='攻撃力(換算):')
-    self.power_switch = WrapSwitch.new()
-    self.defence_label = WrapLabelView.new(text='防御(換算):')
-    self.defence_switch = WrapSwitch.new()
-    self.charge_label = WrapLabelView.new(text='元素チャージ効率(換算):')
-    self.charge_switch = WrapSwitch.new()
-
-    self.familiarity_label = WrapLabelView.new(text='熟知(換算):')
-    self.familiarity_switch = WrapSwitch.new()
-
-    self.btn = WrapButton.new(title='作成')
-    self.btn.addTarget_action_forControlEvents_(this, sel('btnClick:'), UIControlEventTouchUpInside)
-
-    # todo: layout
-    this.roughSetLayouts_([
-      self.header_icon,
-      self.header_label,
-      self.uid_label,
-      self.uid_textfield,
-      self.username_key_label,
-      self.username_value_label,
-      self.worldrank_key_label,
-      self.worldrank_value_label,
-      self.result_scroll,
-      self.computation_view,
-      self.hp_label,
-      self.hp_switch,
-      self.power_label,
-      self.power_switch,
-      self.defence_label,
-      self.defence_switch,
-      self.charge_label,
-      self.charge_switch,
-      self.familiarity_label,
-      self.familiarity_switch,
-      self.btn,
+    # --- layout
+    NSLayoutConstraint.activateConstraints_([
+      self.header_stack.topAnchor().constraintEqualToAnchor_(view.topAnchor()),
+      self.uid_stack.topAnchor().constraintEqualToAnchor_constant_(
+        self.header_stack.bottomAnchor(), 16.0),
+      self.userrank_stack.topAnchor().constraintEqualToAnchor_constant_(
+        self.uid_stack.bottomAnchor(), 16.0),
     ])
 
 
 if __name__ == '__main__':
+  IS_LAYOUT_DEBUG = True
+  #IS_LAYOUT_DEBUG = False
   top_name = 'Artifacter'
   fvc = TopViewController.new(name=top_name)
   nvc = NavigationController.new(fvc)
   present_objc(nvc)
-
-
-
-
 

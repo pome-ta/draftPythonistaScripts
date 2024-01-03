@@ -398,10 +398,13 @@ class TopViewController(_ViewController):
       # --- stack items
       self.uid_label = ObjcLabel.new(text='UID:')
       self.uid_textfield = ObjcTextField.new()
-      placeholder = NSAttributedString.alloc().initWithString_(
-        '📝 ここに、UID を入力 🥺')
+      placeholder = NSAttributedString.alloc().initWithString_('input to UID ...')
       self.uid_textfield.setAttributedPlaceholder_(placeholder)
-      self.uid_textfield.setBackgroundColor_(UIColor.systemBlueColor())
+      self.uid_textfield.setBackgroundColor_(UIColor.systemDarkGrayColor())
+      #systemDarkExtraLightGrayColor
+      #systemDarkLightGrayColor
+      #systemDarkGrayColor
+      #pdbg.state(UIColor)
 
       # --- layout
       self.uid_stack.addArrangedSubview_(self.uid_label)
@@ -445,5 +448,4 @@ if __name__ == '__main__':
   fvc = TopViewController.new(name=top_name)
   nvc = NavigationController.new(fvc)
   present_objc(nvc)
-)
 
