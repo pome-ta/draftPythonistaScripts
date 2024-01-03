@@ -272,7 +272,7 @@ UIStackViewDistributionEqualCentering = 4
 
 #pdbg.state(UIStackView.new())
 
-pdbg.state(UIColor.systemDarkGrayTintColor().cgColor())
+
 class ObjcView:
 
   def __init__(self, *args, **kwargs):
@@ -283,8 +283,9 @@ class ObjcView:
   def _init(self):
 
     if IS_LAYOUT_DEBUG:
+      color = UIColor.systemRedColor()
       self.instance.layer().setBorderWidth_(1.0)
-      #self.instance.layer().setBorderColor_(UIColor.systemDarkGrayTintColor().cgColor())
+      self.instance.layer().setBorderColor_(color.cgColor())
     self.instance.setTranslatesAutoresizingMaskIntoConstraints_(False)
 
     return self.instance
@@ -335,6 +336,51 @@ class TopViewController(_ViewController):
       this = ObjCInstance(_self)
       sender = ObjCInstance(_sender)
 
+    @self.add_msg
+    def setupHeaderStack(_self, _cmd):
+      # xxx: `return` 調べてないので`self` で全体的に持つ
+      this = ObjCInstance(_self)
+      view = this.view()
+      # --- stack init
+      self.header_stack = ObjcStackView.new()
+      self.header_stack.setAxis_(UILayoutConstraintAxisHorizontal)
+      self.header_stack.setAlignment_(UIStackViewAlignmentCenter)
+
+      # --- stack items
+      self.header_icon_img = UIImage.imageWithContentsOfFile_(
+        str(self.dummy_img_path))
+      self.header_icon = ObjcImageView.new(image=self.header_icon_img)
+      self.header_icon.setContentMode_(scaleAspectFit)
+      self.header_icon.setBackgroundColor_(UIColor.systemRedColor())
+
+      self.header_label = ObjcLabelView.new(text=self.nav_title)
+      self.header_label.setTextAlignment_(NSTextAlignmentCenter)
+      self.header_label.setFont_(UIFont.systemFontOfSize_(48.0))
+
+      # --- layout
+      self.header_stack.addArrangedSubview_(self.header_icon)
+      self.header_stack.addArrangedSubview_(self.header_label)
+      view.addSubview_(self.header_stack)
+
+      layoutMarginsGuide = view.layoutMarginsGuide()
+
+      NSLayoutConstraint.activateConstraints_([
+        # --- header_main
+        self.header_stack.topAnchor().constraintEqualToAnchor_(
+          view.topAnchor()),  # todo: top 定義しないと、子view のYセンター軸が定義できない
+        self.header_stack.leadingAnchor().constraintEqualToAnchor_(
+          layoutMarginsGuide.leadingAnchor()),
+        self.header_stack.trailingAnchor().constraintEqualToAnchor_(
+          layoutMarginsGuide.trailingAnchor()),
+        self.header_stack.widthAnchor().constraintEqualToAnchor_multiplier_(
+          layoutMarginsGuide.widthAnchor(), 1.0),
+        self.header_stack.heightAnchor().constraintEqualToConstant_(80.0),
+        self.header_icon.widthAnchor().constraintEqualToAnchor_(
+          self.header_stack.heightAnchor()),
+        self.header_icon.heightAnchor().constraintEqualToAnchor_(
+          self.header_stack.heightAnchor()),
+      ])
+
   def didLoad(self, this: UIViewController):
     view = this.view()
     navigationItem = this.navigationItem()
@@ -343,8 +389,10 @@ class TopViewController(_ViewController):
 
     # --- view
     self.main_stack = ObjcStackView.new()
+    this.setupHeaderStack()
 
     # --- header
+    '''
     self.header_icon_img = UIImage.imageWithContentsOfFile_(
       str(self.dummy_img_path))
     self.header_icon = ObjcImageView.new(image=self.header_icon_img)
@@ -376,9 +424,12 @@ class TopViewController(_ViewController):
       self.header_stack.widthAnchor().constraintEqualToAnchor_multiplier_(
         layoutMarginsGuide.widthAnchor(), 1.0),
       self.header_stack.heightAnchor().constraintEqualToConstant_(80.0),
-      self.header_icon.widthAnchor().constraintEqualToConstant_(80.0),
-      self.header_icon.heightAnchor().constraintEqualToConstant_(80.0),
+      self.header_icon.widthAnchor().constraintEqualToAnchor_(
+        self.header_stack.heightAnchor()),
+      self.header_icon.heightAnchor().constraintEqualToAnchor_(
+        self.header_stack.heightAnchor()),
     ])
+    '''
 
 
 if __name__ == '__main__':
