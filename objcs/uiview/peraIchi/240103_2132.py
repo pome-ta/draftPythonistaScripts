@@ -437,7 +437,7 @@ class TopViewController(_ViewController):
       #pdbg.state(self.userrank_stack)
 
       # --- stack items
-      font_size = UIFont.systemFontOfSize_(12.0)
+      font_size = UIFont.systemFontOfSize_(16.0)
       # --- leading
       leading_stack = ObjcStackView.new()
       leading_stack.setAxis_(UILayoutConstraintAxisHorizontal)
@@ -446,7 +446,7 @@ class TopViewController(_ViewController):
 
       self.username_key_label = ObjcLabel.new(text='ユーザー名:')
       self.username_key_label.setFont_(font_size)
-      self.username_value_label = ObjcLabel.new(text='hogehoge fugapiyooo')
+      self.username_value_label = ObjcLabel.new(text='hogehoge fugapiyooo hogehoge')
       self.username_value_label.setFont_(font_size)
       leading_stack.addArrangedSubview_(self.username_key_label)
       leading_stack.addArrangedSubview_(self.username_value_label)
