@@ -247,8 +247,6 @@ UIButton = ObjCClass('UIButton')
 UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
 UIControlEventTouchUpInside = 1 << 6
 
-IS_LAYOUT_DEBUG = True
-
 dummy_img_uri = '/private/var/containers/Bundle/Application/99EB2042-EF33-4FDA-9808-9886DC80C7CC/Pythonista3.app/Media/Images/test/Boat@2x.png'
 
 UIStackView = ObjCClass('UIStackView')
@@ -269,8 +267,6 @@ UIStackViewDistributionFillEqually = 1
 UIStackViewDistributionFillProportionally = 2
 UIStackViewDistributionEqualSpacing = 3
 UIStackViewDistributionEqualCentering = 4
-
-#pdbg.state(UIStackView.new())
 
 
 class ObjcView:
@@ -312,13 +308,20 @@ class ObjcImageView(ObjcView):
     self.instance = UIImageView.alloc().initWithImage_(kwargs['image'])
 
 
-class ObjcLabelView(ObjcView):
+class ObjcLabel(ObjcView):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
     self.instance = UILabel.new()
     self.instance.setText_(kwargs['text'])
     self.instance.sizeToFit()
+
+
+class ObjcTextField(ObjcView):
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.instance = UITextField.new()
 
 
 class TopViewController(_ViewController):
@@ -353,7 +356,7 @@ class TopViewController(_ViewController):
       self.header_icon.setContentMode_(scaleAspectFit)
       self.header_icon.setBackgroundColor_(UIColor.systemRedColor())
 
-      self.header_label = ObjcLabelView.new(text=self.nav_title)
+      self.header_label = ObjcLabel.new(text=self.nav_title)
       self.header_label.setTextAlignment_(NSTextAlignmentCenter)
       self.header_label.setFont_(UIFont.systemFontOfSize_(48.0))
 
@@ -365,9 +368,7 @@ class TopViewController(_ViewController):
       layoutMarginsGuide = view.layoutMarginsGuide()
 
       NSLayoutConstraint.activateConstraints_([
-        # --- header_main
-        self.header_stack.topAnchor().constraintEqualToAnchor_(
-          view.topAnchor()),  # todo: top 定義しないと、子view のYセンター軸が定義できない
+        #self.header_stack.topAnchor().constraintEqualToAnchor_(view.topAnchor()),  # todo: top 定義しないと、子view のYセンター軸が定義できない
         self.header_stack.leadingAnchor().constraintEqualToAnchor_(
           layoutMarginsGuide.leadingAnchor()),
         self.header_stack.trailingAnchor().constraintEqualToAnchor_(
@@ -381,6 +382,42 @@ class TopViewController(_ViewController):
           self.header_stack.heightAnchor()),
       ])
 
+    @self.add_msg
+    def setupUIDStack(_self, _cmd):
+      this = ObjCInstance(_self)
+      view = this.view()
+      # --- stack init
+      self.uid_stack = ObjcStackView.new()
+      self.uid_stack.setAxis_(UILayoutConstraintAxisHorizontal)
+      #self.uid_stack.setAlignment_(UIStackViewAlignmentCenter)
+      self.uid_stack.setAlignment_(UIStackViewAlignmentFill)
+
+      self.uid_stack.setSpacing_(32.0)
+      #pdbg.state(self.uid_stack)
+
+      # --- stack items
+      self.uid_label = ObjcLabel.new(text='UID:')
+      self.uid_textfield = ObjcTextField.new()
+      placeholder = NSAttributedString.alloc().initWithString_(
+        '📝 ここに、UID を入力 🥺')
+      self.uid_textfield.setAttributedPlaceholder_(placeholder)
+      self.uid_textfield.setBackgroundColor_(UIColor.systemBlueColor())
+
+      # --- layout
+      self.uid_stack.addArrangedSubview_(self.uid_label)
+      self.uid_stack.addArrangedSubview_(self.uid_textfield)
+
+      view.addSubview_(self.uid_stack)
+
+      layoutMarginsGuide = view.layoutMarginsGuide()
+      NSLayoutConstraint.activateConstraints_([
+        self.uid_stack.leadingAnchor().constraintEqualToAnchor_(
+          layoutMarginsGuide.leadingAnchor()),
+        self.uid_stack.trailingAnchor().constraintEqualToAnchor_(
+          layoutMarginsGuide.trailingAnchor()),
+        self.uid_stack.heightAnchor().constraintEqualToConstant_(48.0),
+      ])
+
   def didLoad(self, this: UIViewController):
     view = this.view()
     navigationItem = this.navigationItem()
@@ -390,51 +427,23 @@ class TopViewController(_ViewController):
     # --- view
     self.main_stack = ObjcStackView.new()
     this.setupHeaderStack()
-
-    # --- header
-    '''
-    self.header_icon_img = UIImage.imageWithContentsOfFile_(
-      str(self.dummy_img_path))
-    self.header_icon = ObjcImageView.new(image=self.header_icon_img)
-    self.header_icon.setContentMode_(scaleAspectFit)
-    self.header_icon.setBackgroundColor_(UIColor.systemRedColor())
-
-    self.header_label = ObjcLabelView.new(text=self.nav_title)
-    self.header_label.setTextAlignment_(NSTextAlignmentCenter)
-    self.header_label.setFont_(UIFont.systemFontOfSize_(48.0))
-
-    self.header_stack = ObjcStackView.new()
-    self.header_stack.setAxis_(UILayoutConstraintAxisHorizontal)
-    self.header_stack.setAlignment_(UIStackViewAlignmentCenter)
-    self.header_stack.addArrangedSubview_(self.header_icon)
-    self.header_stack.addArrangedSubview_(self.header_label)
+    this.setupUIDStack()
+    #constant
 
     # --- layout
-    view.addSubview_(self.header_stack)
-    layoutMarginsGuide = view.layoutMarginsGuide()
-
     NSLayoutConstraint.activateConstraints_([
-      # --- header_main
-      self.header_stack.topAnchor().constraintEqualToAnchor_(
-        view.topAnchor()),  # todo: top 定義しないと、子view のYセンター軸が定義できない
-      self.header_stack.leadingAnchor().constraintEqualToAnchor_(
-        layoutMarginsGuide.leadingAnchor()),
-      self.header_stack.trailingAnchor().constraintEqualToAnchor_(
-        layoutMarginsGuide.trailingAnchor()),
-      self.header_stack.widthAnchor().constraintEqualToAnchor_multiplier_(
-        layoutMarginsGuide.widthAnchor(), 1.0),
-      self.header_stack.heightAnchor().constraintEqualToConstant_(80.0),
-      self.header_icon.widthAnchor().constraintEqualToAnchor_(
-        self.header_stack.heightAnchor()),
-      self.header_icon.heightAnchor().constraintEqualToAnchor_(
-        self.header_stack.heightAnchor()),
+      self.header_stack.topAnchor().constraintEqualToAnchor_(view.topAnchor()),
+      self.uid_stack.topAnchor().constraintEqualToAnchor_constant_(
+        self.header_stack.bottomAnchor(), 16.0),
     ])
-    '''
 
 
 if __name__ == '__main__':
+  IS_LAYOUT_DEBUG = True
+  IS_LAYOUT_DEBUG = False
   top_name = 'Artifacter'
   fvc = TopViewController.new(name=top_name)
   nvc = NavigationController.new(fvc)
   present_objc(nvc)
+)
 
