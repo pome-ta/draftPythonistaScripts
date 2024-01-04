@@ -235,6 +235,7 @@ scaleAspectFit = 1
 UILabel = ObjCClass('UILabel')
 NSTextAlignmentCenter = 1
 UITextField = ObjCClass('UITextField')
+UITextFieldViewModeAlways = 3
 NSAttributedString = ObjCClass('NSAttributedString')
 
 UIFont = ObjCClass('UIFont')
@@ -398,13 +399,17 @@ class TopViewController(_ViewController):
       placeholder = NSAttributedString.alloc().initWithString_(
         'input to UID ...')
       self.uid_textfield.setAttributedPlaceholder_(placeholder)
-      self.uid_textfield.setBackgroundColor_(UIColor.systemDarkGrayColor())
+      #self.uid_textfield.setBackgroundColor_(UIColor.systemDarkGrayColor())
+      self.uid_textfield.setBackgroundColor_(UIColor.systemDarkRedColor())
       #systemDarkExtraLightGrayColor
       #systemDarkLightGrayColor
       #systemDarkGrayColor
       #pdbg.state(self.uid_textfield.layer())
-      #self.uid_textfield.layer().setCornerRadius_(4)
-      #self.uid_textfield.layer().setMasksToBounds_(True)
+      self.uid_textfield.layer().setCornerRadius_(16)
+      self.uid_textfield.setClipsToBounds_(True)
+      self.uid_textfield.setClearButtonMode_(UITextFieldViewModeAlways)
+      
+      pdbg.state(self.uid_textfield)
 
       # --- layout
       self.uid_stack.addArrangedSubview_(self.uid_label)
@@ -507,7 +512,7 @@ class TopViewController(_ViewController):
 
 if __name__ == '__main__':
   IS_LAYOUT_DEBUG = True
-  #IS_LAYOUT_DEBUG = False
+  IS_LAYOUT_DEBUG = False
   top_name = 'Artifacter'
   fvc = TopViewController.new(name=top_name)
   nvc = NavigationController.new(fvc)
