@@ -160,6 +160,7 @@ class _ViewController:
     def viewDidLayoutSubviews(_self, _cmd):
       this = ObjCInstance(_self)
       self.didLayoutSubviews(this)
+      print('sub')
 
     def viewDidAppear_(_self, _cmd, animated):
       this = ObjCInstance(_self)
@@ -405,11 +406,15 @@ class TopViewController(_ViewController):
       #systemDarkLightGrayColor
       #systemDarkGrayColor
       #pdbg.state(self.uid_textfield.layer())
-      self.uid_textfield.layer().setCornerRadius_(16)
+      #self.uid_textfield.layer().setCornerRadius_(16)
+      self.uid_textfield.layer().setMasksToBounds_(True)
+      self.uid_textfield.layer().setBorderWidth_(2)
+      #pdbg.state(self.uid_textfield.layer())
+      
       self.uid_textfield.setClipsToBounds_(True)
       self.uid_textfield.setClearButtonMode_(UITextFieldViewModeAlways)
       
-      pdbg.state(self.uid_textfield)
+      #pdbg.state(self.uid_textfield)
 
       # --- layout
       self.uid_stack.addArrangedSubview_(self.uid_label)
@@ -508,6 +513,17 @@ class TopViewController(_ViewController):
       self.userrank_stack.topAnchor().constraintEqualToAnchor_constant_(
         self.uid_stack.bottomAnchor(), 16.0),
     ])
+    
+  def didLayoutSubviews(self, this: UIViewController):
+    print('h')
+    self.uid_textfield.layer().setCornerRadius_(16)
+    self.uid_textfield.layer().setMasksToBounds_(True)
+    self.uid_textfield.layer().setBorderWidth_(2)
+    #pdbg.state(self.uid_textfield.layer())
+    
+    self.uid_textfield.setClipsToBounds_(True)
+    
+    
 
 
 if __name__ == '__main__':
