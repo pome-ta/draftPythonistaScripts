@@ -421,7 +421,7 @@ class TopViewController(_ViewController):
         self.uid_label.widthAnchor().constraintEqualToAnchor_multiplier_(
           self.uid_stack.widthAnchor(), 0.1),
         self.uid_text_wrap.widthAnchor().constraintEqualToAnchor_multiplier_(
-          self.uid_stack.widthAnchor(), 0.88),
+          self.uid_stack.widthAnchor(), 0.86),
         self.uid_textfield.centerXAnchor().constraintEqualToAnchor_(
           self.uid_text_wrap.centerXAnchor()),
         self.uid_textfield.centerYAnchor().constraintEqualToAnchor_(
@@ -442,20 +442,21 @@ class TopViewController(_ViewController):
 
       self.userrank_stack.setAlignment_(UIStackViewAlignmentFill)
 
-      self.userrank_stack.setSpacing_(16.0)
+      #self.userrank_stack.setSpacing_(16.0)
       #pdbg.state(self.userrank_stack)
 
       # --- stack items
-      font_size = UIFont.systemFontOfSize_(16.0)
+      font_size = UIFont.systemFontOfSize_(12.0)
       # --- leading
       leading_stack = ObjcStackView.new()
       leading_stack.setAxis_(UILayoutConstraintAxisHorizontal)
       leading_stack.setAlignment_(UIStackViewAlignmentFill)
-      leading_stack.setSpacing_(8.0)
+      #leading_stack.setSpacing_(8.0)
 
       self.username_key_label = ObjcLabel.new(text='ユーザー名:')
       self.username_key_label.setFont_(font_size)
-      self.username_value_label = ObjcLabel.new(text='hogehoge fugapiyooo')
+      self.username_value_label = ObjcLabel.new(
+        text='hogehoge fugapiyooo fugapiyooo')
       self.username_value_label.setFont_(font_size)
       leading_stack.addArrangedSubview_(self.username_key_label)
       leading_stack.addArrangedSubview_(self.username_value_label)
@@ -465,7 +466,7 @@ class TopViewController(_ViewController):
       trailing_stack = ObjcStackView.new()
       trailing_stack.setAxis_(UILayoutConstraintAxisHorizontal)
       trailing_stack.setAlignment_(UIStackViewAlignmentFill)
-      trailing_stack.setSpacing_(8.0)
+      #trailing_stack.setSpacing_(8.0)
 
       self.worldrank_key_label = ObjcLabel.new(text='世界ランク:')
       self.worldrank_key_label.setFont_(font_size)
@@ -488,6 +489,21 @@ class TopViewController(_ViewController):
         self.userrank_stack.trailingAnchor().constraintEqualToAnchor_(
           layoutMarginsGuide.trailingAnchor()),
         self.userrank_stack.heightAnchor().constraintEqualToConstant_(32.0),
+        leading_stack.widthAnchor().constraintEqualToAnchor_multiplier_(
+          self.userrank_stack.widthAnchor(), 0.64),
+        self.username_key_label.widthAnchor().
+        constraintEqualToAnchor_multiplier_(leading_stack.widthAnchor(), 0.3),
+        self.username_value_label.widthAnchor().
+        constraintEqualToAnchor_multiplier_(leading_stack.widthAnchor(), 0.7),
+        trailing_stack.widthAnchor().constraintEqualToAnchor_multiplier_(
+          self.userrank_stack.widthAnchor(), 0.28),
+        self.worldrank_key_label.widthAnchor(
+        ).constraintEqualToAnchor_multiplier_(trailing_stack.widthAnchor(),
+                                              0.64),
+        self.worldrank_value_label.widthAnchor(
+        ).constraintEqualToAnchor_multiplier_(trailing_stack.widthAnchor(),
+                                              0.36),
+
         #leading_stack.widthAnchor().constraintEqualToAnchor_multiplier_(layoutMarginsGuide.widthAnchor(), 0.7),
         #trailing_stack.widthAnchor().constraintEqualToAnchor_multiplier_(layoutMarginsGuide.widthAnchor(), 0.3),
       ])
@@ -516,7 +532,7 @@ class TopViewController(_ViewController):
 
 if __name__ == '__main__':
   IS_LAYOUT_DEBUG = True
-  #IS_LAYOUT_DEBUG = False
+  IS_LAYOUT_DEBUG = False
   top_name = 'Artifacter'
   fvc = TopViewController.new(name=top_name)
   nvc = NavigationController.new(fvc)
