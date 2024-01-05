@@ -269,6 +269,8 @@ UIStackViewDistributionFillProportionally = 2
 UIStackViewDistributionEqualSpacing = 3
 UIStackViewDistributionEqualCentering = 4
 
+UITableView = ObjCClass('UITableView')
+
 
 class ObjcView:
 
@@ -325,6 +327,19 @@ class ObjcTextField(ObjcView):
     self.instance = UITextField.new()
 
 
+class ObjcTableView(ObjcView):
+
+  def __init__(self, *args, **kwargs):
+    self.instance = UIView.alloc()
+    CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
+    self.instance.initWithFrame_(CGRectZero)
+
+
+###
+# --- TopViewController
+###
+
+
 class TopViewController(_ViewController):
 
   def __init__(self, *args, **kwargs):
@@ -374,7 +389,7 @@ class TopViewController(_ViewController):
           layoutMarginsGuide.trailingAnchor()),
         self.header_stack.widthAnchor().constraintEqualToAnchor_multiplier_(
           layoutMarginsGuide.widthAnchor(), 1.0),
-        self.header_stack.heightAnchor().constraintEqualToConstant_(80.0),
+        self.header_stack.heightAnchor().constraintEqualToConstant_(64.0),
         self.header_icon.widthAnchor().constraintEqualToAnchor_(
           self.header_stack.heightAnchor()),
         self.header_icon.heightAnchor().constraintEqualToAnchor_(
@@ -396,7 +411,6 @@ class TopViewController(_ViewController):
       self.uid_text_wrap.layer().setCornerRadius_(16)
       #self.uid_text_wrap.setBackgroundColor_(UIColor.systemDarkGrayColor())
       self.uid_text_wrap.setBackgroundColor_(UIColor.systemGray3Color())
-      
 
       self.uid_textfield = ObjcTextField.new()
       placeholder = NSAttributedString.alloc().initWithString_(
@@ -442,7 +456,6 @@ class TopViewController(_ViewController):
       self.userrank_stack.setDistribution_(UIStackViewDistributionEqualSpacing)
 
       self.userrank_stack.setAlignment_(UIStackViewAlignmentFill)
-
 
       # --- stack items
       font_size = UIFont.systemFontOfSize_(12.0)
@@ -500,7 +513,6 @@ class TopViewController(_ViewController):
         self.worldrank_value_label.widthAnchor(
         ).constraintEqualToAnchor_multiplier_(trailing_stack.widthAnchor(),
                                               0.36),
-
       ])
 
   def didLoad(self, this: UIViewController):
@@ -510,19 +522,57 @@ class TopViewController(_ViewController):
     #view.setBackgroundColor_(UIColor.systemBlueColor())
 
     # --- view
-    self.main_stack = ObjcStackView.new()
+    #self.main_stack = ObjcStackView.new()
     this.setupHeaderStack()
     this.setupUIDStack()
     this.setupUserRankStack()
+    self.tableView = ObjcTableView.new()
+    view.addSubview_(self.tableView)
 
     # --- layout
+    layoutMarginsGuide = view.layoutMarginsGuide()
+
+    NSLayoutConstraint.activateConstraints_([
+      self.tableView.leadingAnchor().constraintEqualToAnchor_(
+        layoutMarginsGuide.leadingAnchor()),
+      self.tableView.trailingAnchor().constraintEqualToAnchor_(
+        layoutMarginsGuide.trailingAnchor()),
+      self.tableView.heightAnchor().constraintEqualToConstant_(128.0),
+    ])
+
+    views = [
+      self.header_stack,
+      self.uid_stack,
+      self.userrank_stack,
+      self.tableView,
+    ]
+    _pre_view = None
+    activateConstraints = []
+    for v in views:
+      constraint = None
+      if _pre_view:
+        activateConstraints.append(
+          v.topAnchor().constraintEqualToAnchor_constant_(
+            _pre_view.bottomAnchor(), 16.0))
+      else:
+        activateConstraints.append(v.topAnchor().constraintEqualToAnchor_(
+          view.topAnchor()))
+
+      #activateConstraints.append(constraint)
+      _pre_view = v
+
+    NSLayoutConstraint.activateConstraints_(activateConstraints)
+    '''
     NSLayoutConstraint.activateConstraints_([
       self.header_stack.topAnchor().constraintEqualToAnchor_(view.topAnchor()),
       self.uid_stack.topAnchor().constraintEqualToAnchor_constant_(
         self.header_stack.bottomAnchor(), 16.0),
       self.userrank_stack.topAnchor().constraintEqualToAnchor_constant_(
         self.uid_stack.bottomAnchor(), 16.0),
+      self.tableView.topAnchor().constraintEqualToAnchor_constant_(
+        self.uid_stack.bottomAnchor(), 16.0),
     ])
+    '''
 
 
 if __name__ == '__main__':
