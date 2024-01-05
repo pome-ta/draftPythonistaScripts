@@ -389,7 +389,7 @@ class TopViewController(_ViewController):
       # --- stack init
       self.uid_stack = ObjcStackView.new()
       self.uid_stack.setAxis_(UILayoutConstraintAxisHorizontal)
-      self.uid_stack.setDistribution_(UIStackViewDistributionFillEqually)
+      #self.uid_stack.setDistribution_(UIStackViewDistributionFillEqually)
       self.uid_stack.setAlignment_(UIStackViewAlignmentFill)
 
       self.uid_stack.setSpacing_(16.0)
@@ -433,12 +433,12 @@ class TopViewController(_ViewController):
         self.uid_stack.trailingAnchor().constraintEqualToAnchor_(
           layoutMarginsGuide.trailingAnchor()),
         self.uid_stack.heightAnchor().constraintEqualToConstant_(32.0),
-        self.uid_textfield.centerXAnchor().constraintEqualToAnchor_(
-          self.uid_text_wrap.centerXAnchor()),
+        #self.uid_textfield.centerXAnchor().constraintEqualToAnchor_(self.uid_text_wrap.centerXAnchor()),
         self.uid_textfield.centerYAnchor().constraintEqualToAnchor_(
           self.uid_text_wrap.centerYAnchor()),
-        self.uid_textfield.widthAnchor().constraintEqualToAnchor_constant_(self.uid_text_wrap.widthAnchor(), 0),
+        #self.uid_textfield.widthAnchor().constraintEqualToAnchor_constant_(self.uid_stack.widthAnchor(), 0),
       ])
+      #pdbg.state(self.uid_text_wrap.leadingAnchor().item())
 
     @self.add_msg
     def setupUserRankStack(_self, _cmd):
@@ -465,8 +465,7 @@ class TopViewController(_ViewController):
 
       self.username_key_label = ObjcLabel.new(text='ユーザー名:')
       self.username_key_label.setFont_(font_size)
-      self.username_value_label = ObjcLabel.new(
-        text='hogehoge fugapiyooo')
+      self.username_value_label = ObjcLabel.new(text='hogehoge fugapiyooo')
       self.username_value_label.setFont_(font_size)
       leading_stack.addArrangedSubview_(self.username_key_label)
       leading_stack.addArrangedSubview_(self.username_value_label)
@@ -523,6 +522,9 @@ class TopViewController(_ViewController):
       self.userrank_stack.topAnchor().constraintEqualToAnchor_constant_(
         self.uid_stack.bottomAnchor(), 16.0),
     ])
+
+  def didLayoutSubviews(self, this: UIViewController):
+    pdbg.state(self.uid_text_wrap.widthAnchor().item())
 
 
 if __name__ == '__main__':
