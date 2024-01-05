@@ -539,7 +539,7 @@ class TopViewController(_ViewController):
     self.tableView.setDataSource(self.table_extensions)
     self.tableView.setDelegate(self.table_extensions)
     
-    view.addSubview_(self.tableView)
+    
 
     # --- layout
     layoutMarginsGuide = view.layoutMarginsGuide()
@@ -551,6 +551,7 @@ class TopViewController(_ViewController):
         layoutMarginsGuide.trailingAnchor()),
       self.tableView.heightAnchor().constraintEqualToConstant_(128.0),
     ])
+    view.addSubview_(self.tableView)
 
     views = [
       self.header_stack,
