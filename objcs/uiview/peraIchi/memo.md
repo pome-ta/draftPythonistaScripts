@@ -1,3 +1,8 @@
+# 📝 2024/01/06
+
+[【iOS】UIViewをUIImageに変換する - Iganinのブログ](https://iganin.hatenablog.com/entry/2020/05/11/070950)
+
+
 # 📝 2024/01/03
 
 [遅ればせながら UIStackView 入門 #Swift - Qiita](https://qiita.com/tasanobu/items/6908c956b758547ccf6c)
