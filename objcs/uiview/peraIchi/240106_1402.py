@@ -275,8 +275,8 @@ UITableViewStylePlain = 0
 
 UIGraphicsImageRenderer = ObjCClass('UIGraphicsImageRenderer')
 
-ug = UIGraphicsImageRenderer.alloc().initWithSize_((48.0, 48.0))
-pdbg.state(ug)
+#ug = UIGraphicsImageRenderer.alloc().initWithSize_((48.0, 48.0))
+#pdbg.state(ug)
 #imageWithActions
 
 
@@ -604,10 +604,16 @@ class TopViewController(_ViewController):
       content = cell.defaultContentConfiguration()
       content.textProperties().setNumberOfLines_(1)
       content.setText_(cell_text)
-      content.setImage_(cell_image)
+      #content.setImage_(cell_image)
 
       cell.setContentConfiguration_(content)
       #cell.setAccessoryType_(disclosureIndicator)
+      i = ObjcImageView.new(image=dummy_img)
+      i.setSize_((24.0, 24.0))
+      #pdbg.state(i)
+      cell.contentView().addSubview_(i)
+
+      #pdbg.state(cell.contentView().addSubview_())
 
       return cell.ptr
 
