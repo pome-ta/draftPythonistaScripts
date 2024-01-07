@@ -604,7 +604,7 @@ class TopViewController(_ViewController):
       content = cell.defaultContentConfiguration()
       content.textProperties().setNumberOfLines_(1)
       content.setText_(cell_text)
-      #content.setImage_(cell_image)
+      content.setImage_(cell_image)
 
       cell.setContentConfiguration_(content)
       #cell.setAccessoryType_(disclosureIndicator)
