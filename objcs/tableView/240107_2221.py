@@ -436,7 +436,7 @@ class TopViewController(_ViewController):
       content.textProperties().setNumberOfLines_(1)
       content.setText_(main_text)
       content.setSecondaryText_(secondary_text)
-      #pdbg.state(content)
+      pdbg.state(content)
 
       cell.setContentConfiguration_(content)
       return cell.ptr
