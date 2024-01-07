@@ -270,15 +270,13 @@ UIStackViewDistributionEqualSpacing = 3
 UIStackViewDistributionEqualCentering = 4
 
 UITableView = ObjCClass('UITableView')
-UITableViewCell = ObjCClass('UITableViewCell')
 UITableViewStylePlain = 0
 
-UIGraphicsImageRenderer = ObjCClass('UIGraphicsImageRenderer')
-
-#ug = UIGraphicsImageRenderer.alloc().initWithSize_((48.0, 48.0))
-#pdbg.state(ug)
-#imageWithActions
-
+UITableViewCell = ObjCClass('UITableViewCell')
+UITableViewCellStyleDefault = 0
+UITableViewCellStyleValue1 = 1
+UITableViewCellStyleValue2 = 2
+UITableViewCellStyleSubtitle = 3
 
 class ObjcView:
 
@@ -546,8 +544,13 @@ class TopViewController(_ViewController):
           layoutMarginsGuide.leadingAnchor()),
         self.tableView.trailingAnchor().constraintEqualToAnchor_(
           layoutMarginsGuide.trailingAnchor()),
-        self.tableView.heightAnchor().constraintEqualToConstant_(512.0),
+        self.tableView.heightAnchor().constraintEqualToConstant_(256.0),
       ])
+      
+    @self.add_msg
+    def setupSwitchStack(_self, _cmd):
+      this = ObjCInstance(_self)
+      view = this.view()
 
   def didLoad(self, this: UIViewController):
     view = this.view()
@@ -594,33 +597,22 @@ class TopViewController(_ViewController):
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
       indexPath = ObjCInstance(_indexPath)
-      cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
-        self.cell_identifier, indexPath)
-
-      pdbg.state(cell.prepareForReuse())
       
-      cell_text = 'self.table_items[indexPath.row()]'
-      dummy_img = UIImage.imageWithContentsOfFile_(str(self.dummy_img_path))
-      cell_image = dummy_img
+      cell = UITableViewCell.alloc().initWithStyle_reuseIdentifier_(
+        UITableViewCellStyleValue1, self.cell_identifier)
+      
+      main_text = 'main' + str(indexPath.pt_row())
+      secondary_text = 'secondary'
+      
+      content = cell.defaultContentConfiguration()
+      content.textProperties().setNumberOfLines_(1)
+      content.setText_(main_text)
+      content.setSecondaryText_(secondary_text)
+      
+      cell.setContentConfiguration_(content)
+
 
       content = cell.defaultContentConfiguration()
-      #pdbg.state(content)
-      #content.textProperties().setNumberOfLines_(1)
-      content.setText_(cell_text)
-      content.setSecondaryText_('hoge')
-      #content.setSecondaryAttributedText_('fuga')
-      #content.setImage_(cell_image)
-
-      cell.setContentConfiguration_(content)
-      #cell.setAccessoryType_(disclosureIndicator)
-      i = ObjcImageView.new(image=dummy_img)
-      i.setSize_((24.0, 24.0))
-      #pdbg.state(i)
-      #cell.contentView().addSubview_(i)
-
-      #pdbg.state(cell.contentView().addSubview_())
-      #pdbg.state(cell.contentView())
-
       return cell.ptr
 
     def numberOfSectionsInTableView_(_self, _cmd, _tableView):
