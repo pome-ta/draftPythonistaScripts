@@ -20,8 +20,8 @@ class NavigationController:
   def _override_navigationController(self):
     # --- `UINavigationController` Methods
     def doneButtonTapped_(_self, _cmd, _sender):
-      """（自身の）アプリケーション終了
-      `NavigationController` から生やした`done_btn` ボタンのアクション
+      """(自身の)アプリケーション終了
+      `NavigationController` から生やした`done_btn` ボタンのアクション
       
       """
       this = ObjCInstance(_self)
@@ -229,8 +229,9 @@ UIColor = ObjCClass('UIColor')
 
 UIImage = ObjCClass('UIImage')
 UIImageView = ObjCClass('UIImageView')
-#[UIView.ContentMode | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uiview/contentmode)
-scaleAspectFit = 1
+
+UIViewContentModeScaleToFill = 0
+UIViewContentModeScaleAspectFit = 1
 
 UILabel = ObjCClass('UILabel')
 NSTextAlignmentCenter = 1
@@ -247,8 +248,6 @@ UISwitch = ObjCClass('UISwitch')
 UIButton = ObjCClass('UIButton')
 UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
 UIControlEventTouchUpInside = 1 << 6
-
-dummy_img_uri = '/private/var/containers/Bundle/Application/99EB2042-EF33-4FDA-9808-9886DC80C7CC/Pythonista3.app/Media/Images/test/Boat@2x.png'
 
 UIStackView = ObjCClass('UIStackView')
 UILayoutConstraintAxisHorizontal = 0
@@ -274,10 +273,6 @@ UITableViewCell = ObjCClass('UITableViewCell')
 UITableViewStylePlain = 0
 
 UIGraphicsImageRenderer = ObjCClass('UIGraphicsImageRenderer')
-
-#ug = UIGraphicsImageRenderer.alloc().initWithSize_((48.0, 48.0))
-#pdbg.state(ug)
-#imageWithActions
 
 
 class ObjcView:
@@ -349,6 +344,7 @@ class ObjcTableView(ObjcView):
 ###
 
 
+
 class TopViewController(_ViewController):
 
   def __init__(self, *args, **kwargs):
@@ -358,171 +354,6 @@ class TopViewController(_ViewController):
     self.dummy_img_path = Path(dummy_img_uri)
 
   def override(self):
-
-    @self.add_msg
-    def btnClick_(_self, _cmd, _sender):
-      this = ObjCInstance(_self)
-      sender = ObjCInstance(_sender)
-
-    @self.add_msg
-    def setupHeaderStack(_self, _cmd):
-      # xxx: `return` 調べてないので`self` で全体的に持つ
-      this = ObjCInstance(_self)
-      view = this.view()
-      # --- stack init
-      self.header_stack = ObjcStackView.new()
-      self.header_stack.setAxis_(UILayoutConstraintAxisHorizontal)
-      self.header_stack.setAlignment_(UIStackViewAlignmentCenter)
-
-      # --- stack items
-      self.header_icon_img = UIImage.imageWithContentsOfFile_(
-        str(self.dummy_img_path))
-      self.header_icon = ObjcImageView.new(image=self.header_icon_img)
-      self.header_icon.setContentMode_(scaleAspectFit)
-
-      self.header_label = ObjcLabel.new(text=self.nav_title)
-      self.header_label.setTextAlignment_(NSTextAlignmentCenter)
-      self.header_label.setFont_(UIFont.systemFontOfSize_(48.0))
-
-      # --- layout
-      self.header_stack.addArrangedSubview_(self.header_icon)
-      self.header_stack.addArrangedSubview_(self.header_label)
-      view.addSubview_(self.header_stack)
-
-      layoutMarginsGuide = view.layoutMarginsGuide()
-
-      NSLayoutConstraint.activateConstraints_([
-        self.header_stack.leadingAnchor().constraintEqualToAnchor_(
-          layoutMarginsGuide.leadingAnchor()),
-        self.header_stack.trailingAnchor().constraintEqualToAnchor_(
-          layoutMarginsGuide.trailingAnchor()),
-        self.header_stack.widthAnchor().constraintEqualToAnchor_multiplier_(
-          layoutMarginsGuide.widthAnchor(), 1.0),
-        self.header_stack.heightAnchor().constraintEqualToConstant_(64.0),
-        self.header_icon.widthAnchor().constraintEqualToAnchor_(
-          self.header_stack.heightAnchor()),
-        self.header_icon.heightAnchor().constraintEqualToAnchor_(
-          self.header_stack.heightAnchor()),
-      ])
-
-    @self.add_msg
-    def setupUIDStack(_self, _cmd):
-      this = ObjCInstance(_self)
-      view = this.view()
-      # --- stack init
-      self.uid_stack = ObjcStackView.new()
-      self.uid_stack.setAxis_(UILayoutConstraintAxisHorizontal)
-      self.uid_stack.setAlignment_(UIStackViewAlignmentFill)
-
-      # --- stack items
-      self.uid_label = ObjcLabel.new(text='UID:')
-      self.uid_text_wrap = ObjcView.new()
-      self.uid_text_wrap.layer().setCornerRadius_(16)
-      #self.uid_text_wrap.setBackgroundColor_(UIColor.systemDarkGrayColor())
-      self.uid_text_wrap.setBackgroundColor_(UIColor.systemGray3Color())
-
-      self.uid_textfield = ObjcTextField.new()
-      placeholder = NSAttributedString.alloc().initWithString_(
-        'input to UID ...')
-      self.uid_textfield.setAttributedPlaceholder_(placeholder)
-      self.uid_textfield.setClearButtonMode_(UITextFieldViewModeAlways)
-
-      # --- layout
-      self.uid_text_wrap.addSubview_(self.uid_textfield)
-
-      self.uid_stack.addArrangedSubview_(self.uid_label)
-      self.uid_stack.addArrangedSubview_(self.uid_text_wrap)
-
-      view.addSubview_(self.uid_stack)
-
-      layoutMarginsGuide = view.layoutMarginsGuide()
-      NSLayoutConstraint.activateConstraints_([
-        self.uid_stack.leadingAnchor().constraintEqualToAnchor_(
-          layoutMarginsGuide.leadingAnchor()),
-        self.uid_stack.trailingAnchor().constraintEqualToAnchor_(
-          layoutMarginsGuide.trailingAnchor()),
-        self.uid_stack.heightAnchor().constraintEqualToConstant_(32.0),
-        self.uid_label.widthAnchor().constraintEqualToAnchor_multiplier_(
-          self.uid_stack.widthAnchor(), 0.1),
-        self.uid_text_wrap.widthAnchor().constraintEqualToAnchor_multiplier_(
-          self.uid_stack.widthAnchor(), 0.86),
-        self.uid_textfield.centerXAnchor().constraintEqualToAnchor_(
-          self.uid_text_wrap.centerXAnchor()),
-        self.uid_textfield.centerYAnchor().constraintEqualToAnchor_(
-          self.uid_text_wrap.centerYAnchor()),
-        self.uid_textfield.widthAnchor().constraintEqualToAnchor_constant_(
-          self.uid_text_wrap.widthAnchor(), -32),
-      ])
-
-    @self.add_msg
-    def setupUserRankStack(_self, _cmd):
-      this = ObjCInstance(_self)
-      view = this.view()
-
-      # --- stack init
-      self.userrank_stack = ObjcStackView.new()
-      self.userrank_stack.setAxis_(UILayoutConstraintAxisHorizontal)
-      self.userrank_stack.setDistribution_(UIStackViewDistributionEqualSpacing)
-
-      self.userrank_stack.setAlignment_(UIStackViewAlignmentFill)
-
-      # --- stack items
-      font_size = UIFont.systemFontOfSize_(12.0)
-      # --- leading
-      leading_stack = ObjcStackView.new()
-      leading_stack.setAxis_(UILayoutConstraintAxisHorizontal)
-      leading_stack.setAlignment_(UIStackViewAlignmentFill)
-
-      self.username_key_label = ObjcLabel.new(text='ユーザー名:')
-      self.username_key_label.setFont_(font_size)
-      self.username_value_label = ObjcLabel.new(
-        text='hogehoge fugapiyooo fugapiyooo')
-      self.username_value_label.setFont_(font_size)
-      leading_stack.addArrangedSubview_(self.username_key_label)
-      leading_stack.addArrangedSubview_(self.username_value_label)
-
-      # --- trailing
-
-      trailing_stack = ObjcStackView.new()
-      trailing_stack.setAxis_(UILayoutConstraintAxisHorizontal)
-      trailing_stack.setAlignment_(UIStackViewAlignmentFill)
-
-      self.worldrank_key_label = ObjcLabel.new(text='世界ランク:')
-      self.worldrank_key_label.setFont_(font_size)
-
-      self.worldrank_value_label = ObjcLabel.new(text='60')
-      self.worldrank_value_label.setFont_(font_size)
-
-      trailing_stack.addArrangedSubview_(self.worldrank_key_label)
-      trailing_stack.addArrangedSubview_(self.worldrank_value_label)
-
-      # --- layout
-      self.userrank_stack.addArrangedSubview(leading_stack)
-      self.userrank_stack.addArrangedSubview(trailing_stack)
-      view.addSubview_(self.userrank_stack)
-
-      layoutMarginsGuide = view.layoutMarginsGuide()
-      NSLayoutConstraint.activateConstraints_([
-        self.userrank_stack.leadingAnchor().constraintEqualToAnchor_(
-          layoutMarginsGuide.leadingAnchor()),
-        self.userrank_stack.trailingAnchor().constraintEqualToAnchor_(
-          layoutMarginsGuide.trailingAnchor()),
-        self.userrank_stack.heightAnchor().constraintEqualToConstant_(32.0),
-        leading_stack.widthAnchor().constraintEqualToAnchor_multiplier_(
-          self.userrank_stack.widthAnchor(), 0.64),
-        self.username_key_label.widthAnchor().
-        constraintEqualToAnchor_multiplier_(leading_stack.widthAnchor(), 0.3),
-        self.username_value_label.widthAnchor().
-        constraintEqualToAnchor_multiplier_(leading_stack.widthAnchor(), 0.7),
-        trailing_stack.widthAnchor().constraintEqualToAnchor_multiplier_(
-          self.userrank_stack.widthAnchor(), 0.28),
-        self.worldrank_key_label.widthAnchor(
-        ).constraintEqualToAnchor_multiplier_(trailing_stack.widthAnchor(),
-                                              0.64),
-        self.worldrank_value_label.widthAnchor(
-        ).constraintEqualToAnchor_multiplier_(trailing_stack.widthAnchor(),
-                                              0.36),
-      ])
 
     @self.add_msg
     def setupTableView(_self, _cmd):
@@ -556,18 +387,12 @@ class TopViewController(_ViewController):
     #view.setBackgroundColor_(UIColor.systemBlueColor())
 
     # --- view
-    #self.main_stack = ObjcStackView.new()
-    this.setupHeaderStack()
-    this.setupUIDStack()
-    this.setupUserRankStack()
+
     this.setupTableView()
 
     # --- layout
 
     views = [
-      self.header_stack,
-      self.uid_stack,
-      self.userrank_stack,
       self.tableView,
     ]
     _pre_view = None
@@ -588,7 +413,6 @@ class TopViewController(_ViewController):
   def create_table_extensions(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
-      #return len(self.table_items)
       return 1
 
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
@@ -597,30 +421,13 @@ class TopViewController(_ViewController):
       cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
         self.cell_identifier, indexPath)
 
-      pdbg.state(cell.prepareForReuse())
-      
-      cell_text = 'self.table_items[indexPath.row()]'
-      dummy_img = UIImage.imageWithContentsOfFile_(str(self.dummy_img_path))
-      cell_image = dummy_img
+      cell_text = 'main'
 
       content = cell.defaultContentConfiguration()
-      #pdbg.state(content)
-      #content.textProperties().setNumberOfLines_(1)
+      content.textProperties().setNumberOfLines_(1)
       content.setText_(cell_text)
-      content.setSecondaryText_('hoge')
-      #content.setSecondaryAttributedText_('fuga')
-      #content.setImage_(cell_image)
 
       cell.setContentConfiguration_(content)
-      #cell.setAccessoryType_(disclosureIndicator)
-      i = ObjcImageView.new(image=dummy_img)
-      i.setSize_((24.0, 24.0))
-      #pdbg.state(i)
-      #cell.contentView().addSubview_(i)
-
-      #pdbg.state(cell.contentView().addSubview_())
-      #pdbg.state(cell.contentView())
-
       return cell.ptr
 
     def numberOfSectionsInTableView_(_self, _cmd, _tableView):
@@ -631,11 +438,6 @@ class TopViewController(_ViewController):
     def tableView_didSelectRowAtIndexPath_(_self, _cmd, _tableView,
                                            _indexPath):
       indexPath = ObjCInstance(_indexPath)
-
-      #item = self.table_items[indexPath.row()]
-      #print(f'{indexPath}: {item}')
-
-      #tableView.deselectRowAtIndexPath_animated_(indexPath, True)
 
     # --- `UITableViewDataSource` & `UITableViewDelegate` set up
     _methods = [
@@ -662,7 +464,10 @@ class TopViewController(_ViewController):
 if __name__ == '__main__':
   IS_LAYOUT_DEBUG = True
   #IS_LAYOUT_DEBUG = False
-  top_name = 'Artifacter'
+
+  dummy_img_uri = '/private/var/containers/Bundle/Application/99EB2042-EF33-4FDA-9808-9886DC80C7CC/Pythonista3.app/Media/Images/test/Boat@2x.png'
+
+  top_name = 'tv cell style test'
   fvc = TopViewController.new(name=top_name)
   nvc = NavigationController.new(fvc)
   present_objc(nvc)

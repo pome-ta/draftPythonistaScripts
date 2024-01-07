@@ -20,8 +20,8 @@ class NavigationController:
   def _override_navigationController(self):
     # --- `UINavigationController` Methods
     def doneButtonTapped_(_self, _cmd, _sender):
-      """（自身の）アプリケーション終了
-      `NavigationController` から生やした`done_btn` ボタンのアクション
+      """(自身の)アプリケーション終了
+      `NavigationController` から生やした`done_btn` ボタンのアクション
       
       """
       this = ObjCInstance(_self)
@@ -229,8 +229,9 @@ UIColor = ObjCClass('UIColor')
 
 UIImage = ObjCClass('UIImage')
 UIImageView = ObjCClass('UIImageView')
-#[UIView.ContentMode | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uiview/contentmode)
-scaleAspectFit = 1
+
+UIViewContentModeScaleToFill = 0
+UIViewContentModeScaleAspectFit = 1
 
 UILabel = ObjCClass('UILabel')
 NSTextAlignmentCenter = 1
@@ -366,7 +367,7 @@ class TopViewController(_ViewController):
 
     @self.add_msg
     def setupHeaderStack(_self, _cmd):
-      # xxx: `return` 調べてないので`self` で全体的に持つ
+      # xxx: `return` 調べてないので`self` で全体的に持つ
       this = ObjCInstance(_self)
       view = this.view()
       # --- stack init
@@ -378,7 +379,7 @@ class TopViewController(_ViewController):
       self.header_icon_img = UIImage.imageWithContentsOfFile_(
         str(self.dummy_img_path))
       self.header_icon = ObjcImageView.new(image=self.header_icon_img)
-      self.header_icon.setContentMode_(scaleAspectFit)
+      self.header_icon.setContentMode_(UIViewContentModeScaleAspectFit)
 
       self.header_label = ObjcLabel.new(text=self.nav_title)
       self.header_label.setTextAlignment_(NSTextAlignmentCenter)
@@ -597,29 +598,24 @@ class TopViewController(_ViewController):
       cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(
         self.cell_identifier, indexPath)
 
-      pdbg.state(cell.prepareForReuse())
-      
       cell_text = 'self.table_items[indexPath.row()]'
       dummy_img = UIImage.imageWithContentsOfFile_(str(self.dummy_img_path))
       cell_image = dummy_img
 
       content = cell.defaultContentConfiguration()
-      #pdbg.state(content)
-      #content.textProperties().setNumberOfLines_(1)
+      content.textProperties().setNumberOfLines_(1)
       content.setText_(cell_text)
-      content.setSecondaryText_('hoge')
-      #content.setSecondaryAttributedText_('fuga')
-      #content.setImage_(cell_image)
+      content.setImage_(cell_image)
 
       cell.setContentConfiguration_(content)
       #cell.setAccessoryType_(disclosureIndicator)
       i = ObjcImageView.new(image=dummy_img)
       i.setSize_((24.0, 24.0))
       #pdbg.state(i)
-      #cell.contentView().addSubview_(i)
+      cell.contentView().addSubview_(i)
 
       #pdbg.state(cell.contentView().addSubview_())
-      #pdbg.state(cell.contentView())
+      pdbg.state(cell.contentView())
 
       return cell.ptr
 
