@@ -269,8 +269,13 @@ UIStackViewDistributionEqualSpacing = 3
 UIStackViewDistributionEqualCentering = 4
 
 UITableView = ObjCClass('UITableView')
-UITableViewCell = ObjCClass('UITableViewCell')
 UITableViewStylePlain = 0
+
+UITableViewCell = ObjCClass('UITableViewCell')
+UITableViewCellStyleDefault = 0
+UITableViewCellStyleValue1 = 1
+UITableViewCellStyleValue2 = 2
+UITableViewCellStyleSubtitle = 3
 
 UIGraphicsImageRenderer = ObjCClass('UIGraphicsImageRenderer')
 
@@ -417,11 +422,11 @@ class TopViewController(_ViewController):
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
       indexPath = ObjCInstance(_indexPath)
-      
-      
+
       #cell = tableView.dequeueReusableCellWithIdentifier_forIndexPath_(self.cell_identifier, indexPath)
-      
-      cell = UITableViewCell.alloc().initWithStyle_reuseIdentifier_(1,self.cell_identifier)
+
+      cell = UITableViewCell.alloc().initWithStyle_reuseIdentifier_(
+        UITableViewCellStyleValue1, self.cell_identifier)
 
       main_text = 'main' + str(indexPath.pt_row())
       #pdbg.state(indexPath.pt_row())
