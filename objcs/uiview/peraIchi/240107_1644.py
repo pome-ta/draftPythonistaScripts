@@ -561,16 +561,60 @@ class TopViewController(_ViewController):
       this = ObjCInstance(_self)
       view = this.view()
 
-      trailing_stack = ObjcStackView.new()
+      self.switchStack = ObjcStackView.new()
+      self.switchStack.setAxis_(UILayoutConstraintAxisHorizontal)
 
-      self.hp_label = ObjcLabel.new(text='HP(換算):')
+      leading_stack = ObjcStackView.new()
+      leading_stack.setAxis_(UILayoutConstraintAxisVertical)
+      trailing_stack = ObjcStackView.new()
+      trailing_stack.setAxis_(UILayoutConstraintAxisVertical)
+
+
+      labels = [
+      'HP(換算):',
+      '攻撃力(換算):',
+      '防御(換算):',
+      '元素チャージ効率(換算):',
+      '熟知(換算):',
+      ]
+
       self.hp_switch = ObjcSwitch.new()
-      self.power_label = ObjcLabel.new(text='攻撃力(換算):')
       self.power_switch = ObjcSwitch.new()
-      self.defence_label = ObjcLabel.new(text='防御(換算):')
       self.defence_switch = ObjcSwitch.new()
-      self.charge_label = ObjcLabel.new(text='元素チャージ効率(換算):')
       self.charge_switch = ObjcSwitch.new()
+      self.familiarity_switch = ObjcSwitch.new()
+      self.switches = [self.hp_switch,self.power_switch,self.defence_switch,self.charge_switch,self.familiarity_switch]
+
+      for n,(s,l) in enumerate(zip(self.switches, labels)):
+        _stack = ObjcStackView.new()
+        _stack.setAxis_(UILayoutConstraintAxisHorizontal)
+        _stack.setAlignment_(UIStackViewAlignmentFill)
+        _label = ObjcLabel.new(text=l)
+        _stack.addArrangedSubview_(_label)
+        _stack.addArrangedSubview_(s)
+        leading_stack.addArrangedSubview_(_stack) if n < 3 else trailing_stack.addArrangedSubview_(_stack)
+      
+
+      self.switchStack.addArrangedSubview_(leading_stack)
+      self.switchStack.addArrangedSubview_(trailing_stack)
+      view.addSubview_(self.switchStack)
+
+      layoutMarginsGuide = view.layoutMarginsGuide()
+      NSLayoutConstraint.activateConstraints_([
+        self.switchStack.leadingAnchor().constraintEqualToAnchor_(
+          layoutMarginsGuide.leadingAnchor()),
+        self.switchStack.trailingAnchor().constraintEqualToAnchor_(
+          layoutMarginsGuide.trailingAnchor()),
+
+        leading_stack.widthAnchor().constraintEqualToAnchor_multiplier_(
+          self.switchStack.widthAnchor(), 0.45),
+        trailing_stack.uid_text_wrap.widthAnchor().constraintEqualToAnchor_multiplier_(
+          self.switchStack.widthAnchor(), 0.45),
+      ])
+
+
+
+
 
   def didLoad(self, this: UIViewController):
     view = this.view()
@@ -584,6 +628,7 @@ class TopViewController(_ViewController):
     this.setupUIDStack()
     this.setupUserRankStack()
     this.setupTableView()
+    this.setupSwitchStack()
 
     # --- layout
 
@@ -592,6 +637,7 @@ class TopViewController(_ViewController):
       self.uid_stack,
       self.userrank_stack,
       self.tableView,
+      self.switchStack,
     ]
     _pre_view = None
     activateConstraints = []
