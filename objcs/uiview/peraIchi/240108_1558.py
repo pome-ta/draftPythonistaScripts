@@ -350,6 +350,20 @@ class ObjcSwitch(ObjcView):
     self.instance = UISwitch.new()
 
 
+class ObjcButton(ObjcView):
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.instance = UIButton.new()
+    title = kwargs['title']
+    config = UIButtonConfiguration.tintedButtonConfiguration()
+    config.setTitle_(title)
+    config.setBaseBackgroundColor_(UIColor.systemPinkColor())
+    config.setBaseForegroundColor_(UIColor.systemGreenColor())
+
+    self.instance.setConfiguration_(config)
+
+
 ###
 # --- TopViewController
 ###
@@ -538,6 +552,7 @@ class TopViewController(_ViewController):
       self.table_extensions = self.create_table_extensions()
 
       self.tableView = ObjcTableView.new(style=UITableViewStylePlain)
+      #self.tableView.setBackgroundColor_(UIColor.systemBlueColor())
       self.tableView.registerClass_forCellReuseIdentifier_(
         UITableViewCell, self.cell_identifier)
 
@@ -552,7 +567,7 @@ class TopViewController(_ViewController):
           layoutMarginsGuide.leadingAnchor()),
         self.tableView.trailingAnchor().constraintEqualToAnchor_(
           layoutMarginsGuide.trailingAnchor()),
-        self.tableView.heightAnchor().constraintEqualToConstant_(256.0),
+        self.tableView.heightAnchor().constraintEqualToConstant_(128.0),
       ])
 
     @self.add_msg
@@ -594,7 +609,7 @@ class TopViewController(_ViewController):
         self.familiarity_switch,
       ]
 
-      font_size = UIFont.systemFontOfSize_(10.0)
+      font_size = UIFont.systemFontOfSize_(12.0)
 
       for n, (s, l) in enumerate(zip(self.switches, labels)):
         _stack = ObjcStackView.new()
@@ -638,6 +653,26 @@ class TopViewController(_ViewController):
           self.switchStack.widthAnchor(), 0.48),
       ])
 
+    @self.add_msg
+    def setupButton(_self, _cmd):
+      this = ObjCInstance(_self)
+      view = this.view()
+
+      self.button_stack = ObjcStackView.new()
+      self.make_button = ObjcButton.new(title='作成')
+
+      self.button_stack.addArrangedSubview_(self.make_button)
+      view.addSubview_(self.button_stack)
+      layoutMarginsGuide = view.layoutMarginsGuide()
+
+      NSLayoutConstraint.activateConstraints_([
+        self.button_stack.leadingAnchor().constraintEqualToAnchor_(
+          layoutMarginsGuide.leadingAnchor()),
+        self.button_stack.trailingAnchor().constraintEqualToAnchor_(
+          layoutMarginsGuide.trailingAnchor()),
+        self.button_stack.heightAnchor().constraintEqualToConstant_(64.0),
+      ])
+
   def didLoad(self, this: UIViewController):
     view = this.view()
     navigationItem = this.navigationItem()
@@ -651,6 +686,7 @@ class TopViewController(_ViewController):
     this.setupUserRankStack()
     this.setupTableView()
     this.setupSwitchStack()
+    this.setupButton()
 
     # --- layout
 
@@ -660,6 +696,7 @@ class TopViewController(_ViewController):
       self.userrank_stack,
       self.tableView,
       self.switchStack,
+      self.button_stack,
     ]
     _pre_view = None
     activateConstraints = []
@@ -667,7 +704,7 @@ class TopViewController(_ViewController):
       if _pre_view:
         activateConstraints.append(
           v.topAnchor().constraintEqualToAnchor_constant_(
-            _pre_view.bottomAnchor(), 16.0))
+            _pre_view.bottomAnchor(), 32.0))
       else:
         activateConstraints.append(v.topAnchor().constraintEqualToAnchor_(
           view.topAnchor()))
@@ -735,7 +772,7 @@ class TopViewController(_ViewController):
 
 if __name__ == '__main__':
   IS_LAYOUT_DEBUG = True
-  IS_LAYOUT_DEBUG = False
+  #IS_LAYOUT_DEBUG = False
   top_name = 'Artifacter'
   fvc = TopViewController.new(name=top_name)
   nvc = NavigationController.new(fvc)
