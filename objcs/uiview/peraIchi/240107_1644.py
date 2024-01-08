@@ -279,7 +279,6 @@ UITableViewCellStyleValue2 = 2
 UITableViewCellStyleSubtitle = 3
 
 
-
 class ObjcView:
 
   def __init__(self, *args, **kwargs):
@@ -566,16 +565,19 @@ class TopViewController(_ViewController):
 
       leading_stack = ObjcStackView.new()
       leading_stack.setAxis_(UILayoutConstraintAxisVertical)
+      leading_stack.setAlignment_(UIStackViewAlignmentFill)
+      leading_stack.setSpacing_(16.0)
       trailing_stack = ObjcStackView.new()
       trailing_stack.setAxis_(UILayoutConstraintAxisVertical)
-
+      trailing_stack.setAlignment_(UIStackViewAlignmentFill)
+      trailing_stack.setSpacing_(16.0)
 
       labels = [
-      'HP(換算):',
-      '攻撃力(換算):',
-      '防御(換算):',
-      '元素チャージ効率(換算):',
-      '熟知(換算):',
+        'HP(換算):',
+        '攻撃力(換算):',
+        '防御(換算):',
+        '元素チャージ効率(換算):',
+        '熟知(換算):',
       ]
 
       self.hp_switch = ObjcSwitch.new()
@@ -583,17 +585,30 @@ class TopViewController(_ViewController):
       self.defence_switch = ObjcSwitch.new()
       self.charge_switch = ObjcSwitch.new()
       self.familiarity_switch = ObjcSwitch.new()
-      self.switches = [self.hp_switch,self.power_switch,self.defence_switch,self.charge_switch,self.familiarity_switch]
+      self.switches = [
+        self.hp_switch,
+        self.power_switch,
+        self.defence_switch,
+        self.charge_switch,
+        self.familiarity_switch,
+      ]
 
-      for n,(s,l) in enumerate(zip(self.switches, labels)):
+      font_size = UIFont.systemFontOfSize_(10.0)
+
+      for n, (s, l) in enumerate(zip(self.switches, labels)):
         _stack = ObjcStackView.new()
         _stack.setAxis_(UILayoutConstraintAxisHorizontal)
         _stack.setAlignment_(UIStackViewAlignmentFill)
+        #_stack.setSpacing_(16.0)
         _label = ObjcLabel.new(text=l)
+        _label.setFont_(font_size)
         _stack.addArrangedSubview_(_label)
         _stack.addArrangedSubview_(s)
-        leading_stack.addArrangedSubview_(_stack) if n < 3 else trailing_stack.addArrangedSubview_(_stack)
-      
+        NSLayoutConstraint.activateConstraints_([
+          _stack.heightAnchor().constraintEqualToConstant_(32.0),
+        ])
+        leading_stack.addArrangedSubview_(
+          _stack) if n < 3 else trailing_stack.addArrangedSubview_(_stack)
 
       self.switchStack.addArrangedSubview_(leading_stack)
       self.switchStack.addArrangedSubview_(trailing_stack)
@@ -605,16 +620,11 @@ class TopViewController(_ViewController):
           layoutMarginsGuide.leadingAnchor()),
         self.switchStack.trailingAnchor().constraintEqualToAnchor_(
           layoutMarginsGuide.trailingAnchor()),
-
         leading_stack.widthAnchor().constraintEqualToAnchor_multiplier_(
-          self.switchStack.widthAnchor(), 0.45),
-        trailing_stack.uid_text_wrap.widthAnchor().constraintEqualToAnchor_multiplier_(
-          self.switchStack.widthAnchor(), 0.45),
+          self.switchStack.widthAnchor(), 0.4),
+        trailing_stack.widthAnchor().constraintEqualToAnchor_multiplier_(
+          self.switchStack.widthAnchor(), 0.4),
       ])
-
-
-
-
 
   def didLoad(self, this: UIViewController):
     view = this.view()
@@ -688,11 +698,6 @@ class TopViewController(_ViewController):
     def tableView_didSelectRowAtIndexPath_(_self, _cmd, _tableView,
                                            _indexPath):
       indexPath = ObjCInstance(_indexPath)
-
-      #item = self.table_items[indexPath.row()]
-      #print(f'{indexPath}: {item}')
-
-      #tableView.deselectRowAtIndexPath_animated_(indexPath, True)
 
     # --- `UITableViewDataSource` & `UITableViewDelegate` set up
     _methods = [
