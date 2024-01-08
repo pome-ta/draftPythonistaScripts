@@ -342,6 +342,12 @@ class ObjcTableView(ObjcView):
     self.instance.initWithFrame_style_(CGRectZero, style)
 
 
+class ObjcSwitch(ObjcView):
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.instance = UISwitch.new()
+
 ###
 # --- TopViewController
 ###
@@ -551,6 +557,15 @@ class TopViewController(_ViewController):
     def setupSwitchStack(_self, _cmd):
       this = ObjCInstance(_self)
       view = this.view()
+      
+      self.hp_label = ObjcLabel.new(text='HP(換算):')
+      self.hp_switch = ObjcSwitch.new()
+      self.power_label = ObjcLabel.new(text='攻撃力(換算):')
+      self.power_switch = ObjcSwitch.new()
+      self.defence_label = ObjcLabel.new(text='防御(換算):')
+      self.defence_switch = ObjcSwitch.new()
+      self.charge_label = ObjcLabel.new(text='元素チャージ効率(換算):')
+      self.charge_switch = ObjcSwitch.new()
 
   def didLoad(self, this: UIViewController):
     view = this.view()
