@@ -278,6 +278,7 @@ UITableViewCellStyleValue1 = 1
 UITableViewCellStyleValue2 = 2
 UITableViewCellStyleSubtitle = 3
 
+
 class ObjcView:
 
   def __init__(self, *args, **kwargs):
@@ -347,6 +348,7 @@ class ObjcSwitch(ObjcView):
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
     self.instance = UISwitch.new()
+
 
 ###
 # --- TopViewController
@@ -552,12 +554,14 @@ class TopViewController(_ViewController):
           layoutMarginsGuide.trailingAnchor()),
         self.tableView.heightAnchor().constraintEqualToConstant_(256.0),
       ])
-      
+
     @self.add_msg
     def setupSwitchStack(_self, _cmd):
       this = ObjCInstance(_self)
       view = this.view()
-      
+
+      trailing_stack = ObjcStackView.new()
+
       self.hp_label = ObjcLabel.new(text='HP(換算):')
       self.hp_switch = ObjcSwitch.new()
       self.power_label = ObjcLabel.new(text='攻撃力(換算):')
@@ -612,20 +616,19 @@ class TopViewController(_ViewController):
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
       indexPath = ObjCInstance(_indexPath)
-      
+
       cell = UITableViewCell.alloc().initWithStyle_reuseIdentifier_(
         UITableViewCellStyleValue1, self.cell_identifier)
-      
+
       main_text = 'main' + str(indexPath.pt_row())
       secondary_text = 'secondary'
-      
+
       content = cell.defaultContentConfiguration()
       content.textProperties().setNumberOfLines_(1)
       content.setText_(main_text)
       content.setSecondaryText_(secondary_text)
-      
-      cell.setContentConfiguration_(content)
 
+      cell.setContentConfiguration_(content)
 
       content = cell.defaultContentConfiguration()
       return cell.ptr
