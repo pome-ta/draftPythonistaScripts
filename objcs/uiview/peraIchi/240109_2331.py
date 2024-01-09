@@ -664,7 +664,7 @@ class TopViewController(_ViewController):
       wrap_stack = ObjcStackView.new()
       wrap_stack.setAxis_(UILayoutConstraintAxisHorizontal)
       wrap_stack.setAlignment_(UIStackViewAlignmentFill)
-      #wrap_stack.setSpacing_(8.0)
+      #wrap_stack.setSpacing_(24.0)
 
       wrap_stack.addArrangedSubview_(leading_stack)
       wrap_stack.addArrangedSubview_(trailing_stack)
@@ -833,7 +833,7 @@ class TopViewController(_ViewController):
 
 if __name__ == '__main__':
   IS_LAYOUT_DEBUG = True
-  IS_LAYOUT_DEBUG = False
+  #IS_LAYOUT_DEBUG = False
   top_name = 'Artifacter'
   fvc = TopViewController.new(name=top_name)
   nvc = NavigationController.new(fvc)
