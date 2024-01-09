@@ -390,12 +390,9 @@ class TopViewController(_ViewController):
     def changeSwitch_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
       sender = ObjCInstance(_sender)
-      #pdbg.state(sender)
-      print(this)
-      print(sender)
-      print(self.switches)
-      #pdbg.state(sender)
-      sender.setOn_(True)
+      if sender.isOn():
+        [switch.setOn_(False) for switch in self.switches]
+        sender.setOn_(True)
 
     @self.add_msg
     def setupHeaderStack(_self, _cmd):
@@ -675,8 +672,8 @@ class TopViewController(_ViewController):
 
       self.button_stack = ObjcStackView.new()
       self.make_button = ObjcButton.new(title='作成')
-      self.make_button.addTarget_action_forControlEvents_(this, sel('btnClick:'),
-                                                UIControlEventTouchUpInside)
+      self.make_button.addTarget_action_forControlEvents_(
+        this, sel('btnClick:'), UIControlEventTouchUpInside)
 
       self.button_stack.addArrangedSubview_(self.make_button)
       view.addSubview_(self.button_stack)
