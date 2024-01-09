@@ -583,7 +583,21 @@ class TopViewController(_ViewController):
       self.table_extensions = self.create_table_extensions()
 
       self.tableView = ObjcTableView.new(style=UITableViewStylePlain)
+      #self.tableView.setTintColor_(UIColor.systemBlueColor())
+      #layer
       #self.tableView.setBackgroundColor_(UIColor.systemBlueColor())
+      #setBorderWidth_
+      #setCornerRadius_
+      #setBorderColor_
+      #systemDarkGrayTintColor()
+      self.tableView.layer().setBorderWidth_(2.0)
+      self.tableView.layer().setCornerRadius_(8)
+      #self.tableView.layer().setBorderColor_(UIColor.systemDarkGrayTintColor().cgColor())
+      self.tableView.layer().setBorderColor_(
+        UIColor.systemGray6Color().cgColor())
+
+      #pdbg.state(self.tableView.layer())
+      #pdbg.state(UIColor)
       self.tableView.registerClass_forCellReuseIdentifier_(
         UITableViewCell, self.cell_identifier)
 
@@ -833,7 +847,7 @@ class TopViewController(_ViewController):
 
 if __name__ == '__main__':
   IS_LAYOUT_DEBUG = True
-  #IS_LAYOUT_DEBUG = False
+  IS_LAYOUT_DEBUG = False
   top_name = 'Artifacter'
   fvc = TopViewController.new(name=top_name)
   nvc = NavigationController.new(fvc)
