@@ -459,6 +459,10 @@ class TopViewController(_ViewController):
       self.uid_text_wrap.setBackgroundColor_(UIColor.systemGray3Color())
 
       self.uid_textfield = ObjcTextField.new()
+
+      delegate = self.create_textField_delegate()
+      self.uid_textfield.setDelegate_(delegate)
+      #pdbg.state(self.uid_textfield)
       self.uid_textfield.textInputTraits().setKeyboardType_(
         UIKeyboardTypeNumbersAndPunctuation)
 
@@ -743,6 +747,32 @@ class TopViewController(_ViewController):
       _pre_view = v
 
     NSLayoutConstraint.activateConstraints_(activateConstraints)
+
+  def create_textField_delegate(self):
+    # --- `UITextFieldDelegate` Methods
+    def textFieldShouldReturn_(_self, _cmd, _textField):
+      textField = ObjCInstance(_textField)
+      textField.resignFirstResponder()
+      #print(textField)
+      #pdbg.state(textField)
+      return True
+
+    # --- `UITextFieldDelegate` set up
+    _methods = [
+      textFieldShouldReturn_,
+    ]
+    _protocols = [
+      'UITextFieldDelegate',
+    ]
+
+    create_kwargs = {
+      'name': 'textField_delegate',
+      'methods': _methods,
+      'protocols': _protocols,
+    }
+
+    textField_delegate = create_objc_class(**create_kwargs)
+    return textField_delegate.new()
 
   def create_table_extensions(self):
     # --- `UITableViewDataSource` Methods
