@@ -236,6 +236,13 @@ UILabel = ObjCClass('UILabel')
 NSTextAlignmentCenter = 1
 UITextField = ObjCClass('UITextField')
 UITextFieldViewModeAlways = 3
+
+UIKeyboardTypeDefault = 0
+UIKeyboardTypeNumbersAndPunctuation = 2
+UIKeyboardTypeNumberPad = 4
+UIKeyboardTypeASCIICapableNumberPad = 11
+UIReturnKeySearch = 6
+
 NSAttributedString = ObjCClass('NSAttributedString')
 
 UIFont = ObjCClass('UIFont')
@@ -391,8 +398,8 @@ class TopViewController(_ViewController):
       this = ObjCInstance(_self)
       sender = ObjCInstance(_sender)
       if sender.isOn():
-        [switch.setOn_(False) for switch in self.switches]
-        sender.setOn_(True)
+        [switch.setOn_animated_(False, True) for switch in self.switches]
+        sender.setOn_animated_(True, True)
 
     @self.add_msg
     def setupHeaderStack(_self, _cmd):
@@ -452,6 +459,15 @@ class TopViewController(_ViewController):
       self.uid_text_wrap.setBackgroundColor_(UIColor.systemGray3Color())
 
       self.uid_textfield = ObjcTextField.new()
+      self.uid_textfield.textInputTraits().setKeyboardType_(
+        UIKeyboardTypeNumbersAndPunctuation)
+
+      #UIKeyboardTypeDefault
+      #UIKeyboardTypeNumbersAndPunctuation
+      #UIKeyboardTypeNumberPad
+      #UIKeyboardTypeASCIICapableNumberPad
+      self.uid_textfield.textInputTraits().setReturnKeyType_(UIReturnKeySearch)
+      #pdbg.state(self.uid_textfield.textInputTraits())
       placeholder = NSAttributedString.alloc().initWithString_(
         'input to UID ...')
       self.uid_textfield.setAttributedPlaceholder_(placeholder)
@@ -505,8 +521,9 @@ class TopViewController(_ViewController):
 
       self.username_key_label = ObjcLabel.new(text='ユーザー名:')
       self.username_key_label.setFont_(font_size)
-      self.username_value_label = ObjcLabel.new(
-        text='hogehoge fugapiyooo fugapiyooo')
+      self.username_value_label = ObjcLabel.new(text='')
+      #self.username_value_label = ObjcLabel.new(text='hogehoge fugapiyooo fugapiyooo')
+
       self.username_value_label.setFont_(font_size)
       leading_stack.addArrangedSubview_(self.username_key_label)
       leading_stack.addArrangedSubview_(self.username_value_label)
