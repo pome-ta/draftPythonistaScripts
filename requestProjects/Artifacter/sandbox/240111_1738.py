@@ -6,6 +6,21 @@ from concurrent.futures import ThreadPoolExecutor
 UsrAgn = 'Mozilla/5.0 (Linux; U; Android 8.0; en-la; Nexus Build/JPG991) AppleWebKit/511.2 (KHTML, like Gecko) Version/5.0 Mobile/11S444 YJApp-ANDROID jp.co.yahoo.android.yjtop/4.01.1.5'
 
 
+# コスチュームの動的な指定
+difference_costume_json = {
+  "202901": {
+    "iconName": "UI_AvatarIcon_KleeCostumeWitch",
+    "sideIconName": "UI_AvatarIcon_Side_KleeCostumeWitch",
+    "nameTextMapHash": 2343491290
+  },
+  "201501": {
+    "iconName": "UI_AvatarIcon_KaeyaCostumeDancer",
+    "sideIconName": "UI_AvatarIcon_Side_KaeyaCostumeDancer",
+    "nameTextMapHash": 177626138
+  }
+}
+
+
 class Artifacter:
 
   def __init__(self, uid):
@@ -33,13 +48,15 @@ class Artifacter:
     # キャラクターデータをEnka.Network公式Githubから取得
     self.characters_json = ThreadPoolExecutor().submit(
       self.character_json).result()
-    #self.costumes = ThreadPoolExecutor().submit(self.costume_json).result()
+    self.costumes = ThreadPoolExecutor().submit(self.costume_json).result()
 
     player_data: dict = {}
     url = f'https://enka.network/api/uid/{self.uid}'
     player_data = self.__get_req_json_dict(url)
 
     self.player_data = player_data
+
+  
 
   def locale(self):  # 読み込んだデータの日本語化
     url = 'https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/loc.json'
@@ -58,6 +75,29 @@ class Artifacter:
     url = 'https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/characters.json'
     return self.__get_req_json_dict(url)
 
+  def costume_json(self):  # コスチューム情報の動的な抽出
+    url = 'https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/costumes.json'
+    CosJsn = self.__get_req_json_dict(url)
+
+    for key, value in difference_costume_json.items():
+      CosJsn[key] = value
+    return CosJsn
+
+  def playerinfo(self):  # プレイヤー情報の一部を取得
+    # 取得したデータから「playerInfo」を取得
+    player_infomation = self.player_data['playerInfo']
+    # 取得した「playerInfo」から「showAvatarInfoList」がある場合は以下を実行
+    if 'showAvatarInfoList' in player_infomation:
+      # 取得したプレイヤーデータからキャラクター名を日本語へ変換
+      for avater in player_infomation['showAvatarInfoList']:
+        pick_up = self.characters_json[f'{avater['avatarId']}']
+        avater['name'] = self.locale_jp['{}'.format(
+          ['NameTextMapHash'])]
+
+    return player_infomation
+  
+  
+  
   def main(self):
     print('o')
 
