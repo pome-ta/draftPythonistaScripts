@@ -18,15 +18,18 @@ class Artifacter:
     # キャラクターデータをEnka.Network公式Githubから取得
     #self.characters_json = ThreadPoolExecutor().submit(self.character_json).result()
     #self.costumes = ThreadPoolExecutor().submit(self.costume_json).result()
-    
-    #try:
-    url = fr'https://enka.network/api/uid/{self.uid}'
-    req = urllib.request.Request(url, headers={'User-Agent': UsrAgn})
-    print('r')
-    print(req)
-    json_data = urllib.request.urlopen(req).read().decode(errors='ignore')
-    self.player_data = json.loads(json_data)
-    
+
+    url = f'https://enka.network/api/uid/{self.uid}'
+    try:
+
+      req = urllib.request.Request(url, headers={'User-Agent': UsrAgn})
+      print('r')
+      print(req)
+      json_data = urllib.request.urlopen(req).read().decode(errors='ignore')
+      self.player_data = json.loads(json_data)
+    except:
+      pass
+
   def main(self):
     print('o')
 
