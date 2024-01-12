@@ -26,20 +26,24 @@ class Artifacter:
     self.uid = uid
     ThreadPoolExecutor().submit(self.Initialization).result()
 
-  def __get_req_json_dict(self, target_url: str) -> dict:
+  def __get_req(self, target_url: str) -> bytes:
+    # xxx: エラーハンドリング
     req = urllib.request.Request(target_url, headers={'User-Agent': UsrAgn})
     try:
       with urllib.request.urlopen(req) as res:
-        body = res.read().decode(errors='ignore')
-        json_dict = json.loads(body)
+        body = res.read()
 
     except urllib.error.HTTPError as err:
-      print(err.code)
+      print(f'HTTPError - code:{err.code}')
 
     except urllib.error.URLError as err:
-      print(err.reason)
+      print(f'URLError - reason:{err.reason}')
 
-    return json_dict
+    return body
+
+  def __get_req_json_dict(self, target_url: str) -> dict:
+    body = self.__get_req(target_url)
+    return json.loads(body.decode(errors='ignore'))
 
   def Initialization(self):
     # データの表記名データをEnka.Network公式Githubから取得
@@ -53,7 +57,8 @@ class Artifacter:
     url = f'https://enka.network/api/uid/{self.uid}'
     player_data = self.__get_req_json_dict(url)
 
-    self.player_data = player_data
+    # xxx: null 出しの方法要検討
+    self.player_data = player_data if player_data else {}
 
   def locale(self):  # 読み込んだデータの日本語化
     url = 'https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/loc.json'
@@ -72,6 +77,10 @@ class Artifacter:
     url = 'https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/characters.json'
     return self.__get_req_json_dict(url)
 
+  def character_pfps_json(self):  # キャラクターのアイコン取得
+    url = 'https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/pfps.json'
+    return self.__get_req_json_dict(url)
+
   def costume_json(self):  # コスチューム情報の動的な抽出
     url = 'https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/costumes.json'
     CosJsn = self.__get_req_json_dict(url)
@@ -88,20 +97,23 @@ class Artifacter:
       # 取得したプレイヤーデータからキャラクター名を日本語へ変換
       for avater in player_infomation['showAvatarInfoList']:
         avatarId = avater['avatarId']
-        character = self.characters_json[avatarId]
+        character = self.characters_json[f'{avatarId}']
         map_hash = character['NameTextMapHash']
-        avater['name'] = self.locale_jp[map_hash]
+        avater['name'] = self.locale_jp[f'{map_hash}']
 
     return player_infomation
 
   def main(self):
-    print('o')
+    # xxx: エラーハンドリング どこで弾くか？
+    #if len(self.uid) == 9:
+    player_info = self.playerinfo()
+    self.aaa = self.playerinfo()
 
 
 if __name__ == '__main__':
   uid_path = Path('./uid.txt')
   UID = uid_path.read_text()
   artifacter = Artifacter(UID)
-  print('h')
-  #ThreadPoolExecutor().submit(artifacter.main)
+  #print('h')
+  ThreadPoolExecutor().submit(artifacter.main)
 
