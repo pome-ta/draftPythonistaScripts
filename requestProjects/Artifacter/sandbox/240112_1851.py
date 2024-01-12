@@ -979,7 +979,7 @@ class TopViewController(_ViewController):
 
 if __name__ == '__main__':
   IS_LAYOUT_DEBUG = True
-  #IS_LAYOUT_DEBUG = False
+  IS_LAYOUT_DEBUG = False
   top_name = 'Artifacter'
   fvc = TopViewController.new(name=top_name)
   nvc = NavigationController.new(fvc)
