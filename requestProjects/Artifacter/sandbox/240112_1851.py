@@ -890,16 +890,16 @@ class TopViewController(_ViewController):
       # xxx: popup でフィードバックとか
       input_text = textField.text()
       self.artifacter = Artifacter(str(input_text))
+      # xxx: ↓ `Artifacter` のinit に押し込めてる
       #ThreadPoolExecutor().submit(self.artifacter.main)
 
       nickname = self.artifacter.UserName
       level = self.artifacter.WorldLank
       self.username_value_label.setText_(nickname)
       self.worldrank_value_label.setText_(str(level))
-      #artifacter.player_data['playerInfo']['nickname']
 
       icon_img = UIImage.imageWithData_(self.artifacter.png_data)
-      #pdbg.state(self.header_icon)
+      #pdbg.state(icon_img)
       self.header_icon.setImage_(icon_img)
       return True
 
