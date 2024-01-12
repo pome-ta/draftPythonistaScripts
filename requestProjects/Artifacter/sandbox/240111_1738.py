@@ -5,7 +5,6 @@ from concurrent.futures import ThreadPoolExecutor
 
 UsrAgn = 'Mozilla/5.0 (Linux; U; Android 8.0; en-la; Nexus Build/JPG991) AppleWebKit/511.2 (KHTML, like Gecko) Version/5.0 Mobile/11S444 YJApp-ANDROID jp.co.yahoo.android.yjtop/4.01.1.5'
 
-
 # コスチュームの動的な指定
 difference_costume_json = {
   "202901": {
@@ -56,8 +55,6 @@ class Artifacter:
 
     self.player_data = player_data
 
-  
-
   def locale(self):  # 読み込んだデータの日本語化
     url = 'https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/loc.json'
     LJsn = self.__get_req_json_dict(url)
@@ -90,14 +87,13 @@ class Artifacter:
     if 'showAvatarInfoList' in player_infomation:
       # 取得したプレイヤーデータからキャラクター名を日本語へ変換
       for avater in player_infomation['showAvatarInfoList']:
-        pick_up = self.characters_json[f'{avater['avatarId']}']
-        avater['name'] = self.locale_jp['{}'.format(
-          ['NameTextMapHash'])]
+        avatarId = avater['avatarId']
+        character = self.characters_json[avatarId]
+        map_hash = character['NameTextMapHash']
+        avater['name'] = self.locale_jp[map_hash]
 
     return player_infomation
-  
-  
-  
+
   def main(self):
     print('o')
 
