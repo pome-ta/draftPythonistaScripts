@@ -107,7 +107,25 @@ class Artifacter:
     # xxx: エラーハンドリング どこで弾くか？
     #if len(self.uid) == 9:
     player_info = self.playerinfo()
-    self.aaa = self.playerinfo()
+
+    # --- IconView
+    # xxx: `self` で呼ぶ？
+    _pp = self.playerinfo()['profilePicture']
+    if 'id' in _pp:
+      _id = _pp['id']  # todo: フォーマット対策
+      icon = self.character_pfps_json()[f'{_id}']['iconPath'].replace(
+        '_Circle', '')
+
+    else:
+      _id = _pp['avatarId']
+      icon = self.characters_json[f'{_id}']['SideIconName'].replace(
+        'UI_AvatarIcon_Side_', 'UI_AvatarIcon_')
+
+    #print(icon)
+    url = f'https://enka.network/ui/{icon}.png'
+    self.png_data = self.__get_req(url)
+    self.UserName = player_info['nickname']
+    self.WorldLank = player_info['level']
 
 
 if __name__ == '__main__':
