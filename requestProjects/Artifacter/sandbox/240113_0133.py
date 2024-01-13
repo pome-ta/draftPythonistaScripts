@@ -128,10 +128,18 @@ class Artifacter:
     self.png_data = self.__get_req(url)
     self.UserName = player_info['nickname']
     self.WorldLank = player_info['level']
+    avatar_lists = player_info['showAvatarInfoList']
+    # todo: table にicon 出したいならここ
+    name_level_list = [{
+      'name': _avatar['name'],
+      'level': _avatar['level'],
+    } for _avatar in avatar_lists]
+    #print(avatar_lists)
+    #print(name_level_list)
+
 
 if __name__ == '__main__':
   uid_path = Path('./uid.txt')
   UID = uid_path.read_text()
   artifacter = Artifacter(UID)
-  
 
