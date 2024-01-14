@@ -107,6 +107,14 @@ class Artifacter:
 
     return player_infomation
 
+  def full_playerinfo(self, avateriD):  # プレイヤーデータの完全版を取得
+    avatar_data = []  # 事前に宣言
+    if 'avatarInfoList' in self.player_data:  # 取得したデータから「avaterInfoList」がある場合以下を実行
+      avatar_data = list(
+        filter(lambda item: item.get('avatarId') == int(avateriD),
+               self.player_data['avatarInfoList']))[0]
+    return avatar_data
+
   def main(self):
     # xxx: エラーハンドリング どこで弾くか?
     #if len(self.uid) == 9:
@@ -135,6 +143,7 @@ class Artifacter:
     self.name_level_list = [{
       'name': _avatar['name'],
       'level': _avatar['level'],
+      'avatarId': _avatar['avatarId'],
     } for _avatar in avatar_lists]
 
 
@@ -616,6 +625,7 @@ class TopViewController(_ViewController):
                                            _indexPath):
       indexPath = ObjCInstance(_indexPath)
       self.select_table = self.table_itemlist[indexPath.pt_row()]
+      #print(self.select_table)
 
     # --- `UITableViewDataSource` & `UITableViewDelegate` set up
     _methods = [
@@ -644,7 +654,11 @@ class TopViewController(_ViewController):
     def btnClick_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
       sender = ObjCInstance(_sender)
-      print('ぼたん押された')
+      if self.table_itemlist and self.select_table and self.select_switch:
+        print('h')
+      else:
+        print('全て選択できてない警告')
+
 
     @self.add_msg
     def changeSwitch_(_self, _cmd, _sender):
