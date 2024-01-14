@@ -659,7 +659,6 @@ class TopViewController(_ViewController):
       else:
         print('全て選択できてない警告')
 
-
     @self.add_msg
     def changeSwitch_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
