@@ -129,6 +129,7 @@ class Artifacter:
     self.png_data = self.__get_req(url)
     self.UserName = player_info['nickname']
     self.WorldLank = player_info['level']
+
     avatar_lists = player_info['showAvatarInfoList']
     # todo: table にicon 出したいならここ
     self.name_level_list = [{
@@ -524,6 +525,7 @@ class TopViewController(_ViewController):
 
     self.dummy_img_path = Path(dummy_img_uri)
     self.table_itemlist = []
+    self.select_table = {}
 
   def create_textField_delegate(self):
     # --- `UITextFieldDelegate` Methods
@@ -548,12 +550,8 @@ class TopViewController(_ViewController):
       self.header_icon.setImage_(icon_img)
 
       # todo: table
-      
       self.table_itemlist = self.artifacter.name_level_list
-      #print(self.table_itemlist)
-      #pdbg.state()
       self.tableView.reloadData()
-      
 
       return True
 
@@ -577,10 +575,8 @@ class TopViewController(_ViewController):
   def create_table_extensions(self):
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
-      #self.tableView = ObjCInstance(_tableView)
       len_row = len(self.table_itemlist) if self.table_itemlist else 1
       return len_row
-      #return 1
 
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
@@ -589,21 +585,16 @@ class TopViewController(_ViewController):
       cell = UITableViewCell.alloc().initWithStyle_reuseIdentifier_(
         UITableViewCellStyleValue1, self.cell_identifier)
 
-      
       if self.table_itemlist:
         item = self.table_itemlist[indexPath.pt_row()]
         name = item['name']
         level = item['level']
-
         main_text = name
         secondary_text = f'LV: {level}'
 
       else:
         main_text = 'UID を検索してください'
         secondary_text = ''
-      
-
-      
 
       content = cell.defaultContentConfiguration()
       content.textProperties().setNumberOfLines_(1)
@@ -623,6 +614,7 @@ class TopViewController(_ViewController):
     def tableView_didSelectRowAtIndexPath_(_self, _cmd, _tableView,
                                            _indexPath):
       indexPath = ObjCInstance(_indexPath)
+      self.select_table = self.table_itemlist[indexPath.pt_row()]
 
     # --- `UITableViewDataSource` & `UITableViewDelegate` set up
     _methods = [
@@ -983,7 +975,6 @@ class TopViewController(_ViewController):
     this.setupTableView()
     this.setupSwitchStack()
     this.setupButton()
-    
 
     # --- layout
 
@@ -1014,7 +1005,7 @@ class TopViewController(_ViewController):
 if __name__ == '__main__':
 
   uid_path = Path('./uid.txt')
-  UID = uid_path.read_text()
+  UID = uid_path.read_text() if uid_path.exists() else ''
 
   is_ui = True
   #is_ui = False
