@@ -649,8 +649,12 @@ class TopViewController(_ViewController):
     def changeSwitch_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
       sender = ObjCInstance(_sender)
+      pdbg.state(sender)
       if sender.isOn():
-        [switch.setOn_animated_(False, True) for switch in self.switches]
+        [
+          switch['obj'].setOn_animated_(False, True)
+          for switch in self.switches
+        ]
         sender.setOn_animated_(True, True)
 
     @self.add_msg
@@ -871,6 +875,20 @@ class TopViewController(_ViewController):
       trailing_stack.setAlignment_(UIStackViewAlignmentFill)
       #trailing_stack.setSpacing_(16.0)
 
+      scores = [
+        'HP',
+        '攻撃力',
+        '防御力',
+        'チャージ',
+        '元素熟知',
+      ]
+
+      self.switches = [{
+        'score': score,
+        'obj': ObjcSwitch.new(),
+      } for score in scores]
+      '''
+      
       labels = [
         'HP換算:',
         '攻撃力換算:',
@@ -892,22 +910,26 @@ class TopViewController(_ViewController):
         self.charge_switch,
         self.familiarity_switch,
       ]
+      '''
 
       font_size = UIFont.systemFontOfSize_(12.0)
 
-      for n, (s, l) in enumerate(zip(self.switches, labels)):
+      for n, switch_dict in enumerate(self.switches):
+        _text = switch_dict['score']
+        _switch = switch_dict['obj']
         _stack = ObjcStackView.new()
         _stack.setAxis_(UILayoutConstraintAxisHorizontal)
         #_stack.setAlignment_(UIStackViewAlignmentFill)
         _stack.setAlignment_(UIStackViewAlignmentCenter)
 
         #_stack.setSpacing_(16.0)
-        s.addTarget_action_forControlEvents_(this, sel('changeSwitch:'),
-                                             UIControlEventValueChanged)
-        _label = ObjcLabel.new(text=l)
+        _switch.addTarget_action_forControlEvents_(this, sel('changeSwitch:'),
+                                                   UIControlEventValueChanged)
+        _text = switch_dict['score']
+        _label = ObjcLabel.new(text=f'{_text}換算:')
         _label.setFont_(font_size)
         _stack.addArrangedSubview_(_label)
-        _stack.addArrangedSubview_(s)
+        _stack.addArrangedSubview_(_switch)
         NSLayoutConstraint.activateConstraints_([
           _stack.heightAnchor().constraintEqualToConstant_(32.0),
         ])
