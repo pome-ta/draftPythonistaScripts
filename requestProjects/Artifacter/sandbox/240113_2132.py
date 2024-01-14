@@ -26,6 +26,7 @@ class Artifacter:
     self.uid = uid
     self.UserName = ''
     self.WorldLank = ''
+    self.name_level_list = []
     ThreadPoolExecutor().submit(self.Initialization).result()
     ThreadPoolExecutor().submit(self.main).result()
 
@@ -128,6 +129,12 @@ class Artifacter:
     self.png_data = self.__get_req(url)
     self.UserName = player_info['nickname']
     self.WorldLank = player_info['level']
+    avatar_lists = player_info['showAvatarInfoList']
+    # todo: table にicon 出したいならここ
+    self.name_level_list = [{
+      'name': _avatar['name'],
+      'level': _avatar['level'],
+    } for _avatar in avatar_lists]
 
 
 from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
@@ -516,6 +523,7 @@ class TopViewController(_ViewController):
     self.nav_title = kwargs['name']
 
     self.dummy_img_path = Path(dummy_img_uri)
+    self.table_itemlist = []
 
   def override(self):
 
