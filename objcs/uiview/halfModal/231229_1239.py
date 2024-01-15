@@ -13,6 +13,7 @@ UIViewController = ObjCClass('UIViewController')
 UISheetPresentationController = ObjCClass('UISheetPresentationController')
 #pdbg.state(UISheetPresentationController.alloc())
 
+
 class NavigationController:
 
   def __init__(self):
@@ -228,7 +229,8 @@ UIControlEventTouchUpInside = 1 << 6
 
 pageSheet = 1
 
-UISheetPresentationControllerDetent = ObjCClass('UISheetPresentationControllerDetent')
+UISheetPresentationControllerDetent = ObjCClass(
+  'UISheetPresentationControllerDetent')
 #pdbg.state(UISheetPresentationControllerDetent)
 
 largeDetent = UISheetPresentationControllerDetent.largeDetent()
@@ -251,10 +253,10 @@ class FirstViewController(_ViewController):
       sender = ObjCInstance(_sender)
       #this.setModalPresentationStyle_(pageSheet)
       #pdbg.state(this.sheetPresentationController())
-      
+
       #pdbg.state(this)
       svc = SecondViewController.new(name='SecondViewController')
-      
+
       #pdbg.state(svc.sheetPresentationController())
       sheet = svc.sheetPresentationController()
       #pdbg.state(sheet)
@@ -270,7 +272,8 @@ class FirstViewController(_ViewController):
       presentViewController_withTransition_completion_
       '''
       #navigationController.pushViewController_animated_(svc, True)
-      navigationController.presentViewController_animated_completion_(svc, True, None)
+      navigationController.presentViewController_animated_completion_(
+        svc, True, None)
 
   def didLoad(self, this: UIViewController):
     view = this.view()
@@ -412,4 +415,5 @@ if __name__ == '__main__':
   fvc = FirstViewController.new()
   nvc = NavigationController.new(fvc)
   present_objc(nvc)
+
 

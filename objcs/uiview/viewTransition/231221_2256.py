@@ -13,6 +13,7 @@ UIViewController = ObjCClass('UIViewController')
 UISheetPresentationController = ObjCClass('UISheetPresentationController')
 pdbg.state(UISheetPresentationController.alloc())
 
+
 class NavigationController:
 
   def __init__(self):
@@ -225,9 +226,6 @@ UIColor = ObjCClass('UIColor')
 UIButton = ObjCClass('UIButton')
 UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
 UIControlEventTouchUpInside = 1 << 6
-
-
-
 
 
 class FirstViewController(_ViewController):
