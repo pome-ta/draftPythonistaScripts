@@ -458,25 +458,31 @@ class SecondViewController(_ViewController):
     def tableView_didSelectRowAtIndexPath_(_self, _cmd, _tableView,
                                            _indexPath):
       this = ObjCInstance(_self)
+      tableView = ObjCInstance(_tableView)
       indexPath = ObjCInstance(_indexPath)
 
       item = self.table_items[indexPath.row()]
-      print(f'{indexPath}: {item}')
+      #print(f'{indexPath}: {item}')
+      # xxx: 親が`UIView` と断定。取り回し要検討
+      view = tableView.superview()
+      pdbg.state(view)
       
       create_kwargs = {
       'name': 'HalfModal',
       'symbol_name': item,
       }
       
+      
       hmvc = HalfModalViewController.new(**create_kwargs)
       sheet = hmvc.sheetPresentationController()
       sheet.setDetents_([mediumDetent, largeDetent])
       sheet.setPrefersGrabberVisible_(True)
-      navigationController = this.navigationController()
+      navigationController = view.navigationController()
       navigationController.presentViewController_animated_completion_(hmvc, True, None)
       
 
       #tableView.deselectRowAtIndexPath_animated_(indexPath, True)
+      
 
     # --- `UITableViewDataSource` & `UITableViewDelegate` set up
     _methods = [
