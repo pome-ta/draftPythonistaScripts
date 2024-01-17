@@ -2920,8 +2920,7 @@ class TopViewController(_ViewController):
           _view.topAnchor().constraintEqualToAnchor_constant_(
             _pre_view.bottomAnchor(), 32.0))
       else:
-        activateConstraints.append(_view.topAnchor().constraintEqualToAnchor_(
-          view.topAnchor()))
+        activateConstraints.append(_view.topAnchor().constraintEqualToAnchor_constant_(view.topAnchor(), 8.0))
 
       _pre_view = _view
 

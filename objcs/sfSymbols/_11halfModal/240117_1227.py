@@ -252,12 +252,12 @@ class ObjcView:
     self.instance.initWithFrame_(CGRectZero)
 
   def _init(self):
-    '''
-    if IS_LAYOUT_DEBUG:
+    
+    if 'IS_LAYOUT_DEBUG' in globals() and IS_LAYOUT_DEBUG:
+      print('hige')
       color = UIColor.systemRedColor()
       self.instance.layer().setBorderWidth_(1.0)
       self.instance.layer().setBorderColor_(color.cgColor())
-    '''
     self.instance.setTranslatesAutoresizingMaskIntoConstraints_(False)
 
     return self.instance
@@ -489,6 +489,7 @@ class SecondViewController(_ViewController):
 
       hmvc = HalfModalViewController.new(**create_kwargs)
       #pdbg.state(hmvc.navigationItem())
+      '''
       navigationItem = hmvc.navigationItem()
 
       label = ObjcLabel.new(text=str(item))
@@ -498,14 +499,16 @@ class SecondViewController(_ViewController):
         label.heightAnchor().constraintEqualToConstant_(height),
         label.widthAnchor().constraintEqualToConstant_(height),
       ])
+      '''
 
       #navigationItem.setTitle_(str(item))
-      navigationItem.setTitleView_(label)
-      pdbg.state(navigationItem)
+      #navigationItem.setTitleView_(label)
+      #pdbg.state(navigationItem)
 
       sheet = hmvc.sheetPresentationController()
       sheet.setDetents_([mediumDetent, largeDetent])
       sheet.setPrefersGrabberVisible_(True)
+      #pdbg.state(sheet)
       #hmvc.navigationItem().setTitle_(str(item))
       #pdbg.state(hmvc.navigationController())
 
@@ -550,7 +553,7 @@ class HalfModalViewController(_ViewController):
     view = this.view()
 
     navigationItem = this.navigationItem()
-    #navigationItem.setTitle_(self.nav_title)
+    navigationItem.setTitle_(self.nav_title)
     #pdbg.state(this.navigationItem())
 
     # --- view
@@ -572,6 +575,7 @@ class HalfModalViewController(_ViewController):
       self.symbol_view.heightAnchor().constraintEqualToAnchor_multiplier_(
         view.widthAnchor(), 0.5),
     ])
+    pdbg.all(view)
 
 
 ### ### ###
@@ -623,6 +627,7 @@ def is_ignore(path: Path) -> bool:
 
 
 if __name__ == '__main__':
+  IS_LAYOUT_DEBUG =True
   paths = {
     bundle.stem: get_plistdata(bundle)
     for bundle in Path(CoreGlyphs_ROOT).iterdir() if not is_ignore(bundle)

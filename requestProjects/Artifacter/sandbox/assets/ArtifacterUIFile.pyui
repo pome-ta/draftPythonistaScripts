@@ -1,0 +1,400 @@
+[
+  {
+    "nodes" : [
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{6, 6}, {100, 100}}",
+        "class" : "ImageView",
+        "attributes" : {
+          "frame" : "{{126, 260}, {100, 100}}",
+          "class" : "ImageView",
+          "name" : "IconView",
+          "uuid" : "1AF27344-FD64-4D6A-BA97-F6B68A9C0EC9"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{6, 117.66666666666666}, {77, 32}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "LRTB",
+          "name" : "",
+          "text_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "frame" : "{{101, 294}, {150, 32}}",
+          "tint_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "uuid" : "BE41CBF3-21A0-47AD-B2A5-F83E81FDC0B1",
+          "class" : "Label",
+          "alignment" : "left",
+          "text" : "UID:",
+          "font_size" : 30,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{60, 117.66666666666666}, {286, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "uuid" : "24861534-CA67-4C0C-AC63-1C2D9B95BCBF",
+          "font_size" : 17,
+          "background_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "frame" : "{{76, 294}, {200, 32}}",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "action" : "",
+          "text_color" : "RGBA(0.101961,0.101961,0.101961,1.000000)",
+          "font_name" : "<System>",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "name" : "UID",
+          "flex" : "LRTB"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{6, 158.66666666666666}, {203, 32}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "LRTB",
+          "name" : "UserName",
+          "text_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "frame" : "{{101, 294}, {150, 32}}",
+          "uuid" : "3ECAA45A-5F51-4F93-8BF7-A14BEC55BE88",
+          "class" : "Label",
+          "alignment" : "left",
+          "text" : "",
+          "font_size" : 18,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{211, 158.66666666666666}, {135, 32}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "LRTB",
+          "name" : "WorldLank",
+          "text_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "frame" : "{{101, 294}, {150, 32}}",
+          "uuid" : "8C59618A-F840-4E9C-B60B-42461DB5E08C",
+          "class" : "Label",
+          "alignment" : "left",
+          "text" : "",
+          "font_size" : 18,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{6, 198.66666666666663}, {337, 167}}",
+        "class" : "TableView",
+        "attributes" : {
+          "uuid" : "7EB40D71-4253-477B-8B64-5B4C7B90AA88",
+          "data_source_action" : "",
+          "background_color" : "RGBA(0.105201,0.105201,0.105201,1.000000)",
+          "frame" : "{{76, 210}, {200, 200}}",
+          "data_source_items" : "",
+          "tint_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "data_source_number_of_lines" : 1,
+          "border_color" : "RGBA(0.131206,0.131206,0.131206,1.000000)",
+          "data_source_delete_enabled" : false,
+          "data_source_font_size" : 18,
+          "row_height" : 44,
+          "class" : "TableView",
+          "name" : "characterList",
+          "flex" : "LRTB"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{101, 409}, {51, 31}}",
+        "class" : "Switch",
+        "attributes" : {
+          "flex" : "LRTB",
+          "action" : "",
+          "frame" : "{{151, 294}, {51, 31}}",
+          "tint_color" : "RGBA(0.090909,1.000000,0.000000,1.000000)",
+          "class" : "Switch",
+          "uuid" : "D9101DF2-E60B-4DA6-9417-71E33CB3CA85",
+          "value" : false,
+          "background_color" : "RGBA(0.241135,0.241135,0.241135,1.000000)",
+          "name" : "HP"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{9, 409}, {91, 31}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "LRTB",
+          "name" : "",
+          "text_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "frame" : "{{101, 294}, {150, 32}}",
+          "uuid" : "0D799A4D-B39B-44E9-847C-A1BE49523FED",
+          "class" : "Label",
+          "alignment" : "center",
+          "text" : "HP換算",
+          "background_color" : "RGBA(0.241135,0.241135,0.241135,1.000000)",
+          "font_size" : 18,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{17, 369}, {150, 32}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "LRTB",
+          "name" : "",
+          "text_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "frame" : "{{101, 303}, {150, 32}}",
+          "uuid" : "A75BFF52-98B9-4464-B286-805ED7926A87",
+          "class" : "Label",
+          "alignment" : "center",
+          "text" : "計算方式",
+          "background_color" : "RGBA(0.241135,0.241135,0.241135,1.000000)",
+          "font_size" : 18,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{9, 448}, {91, 31}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "LRTB",
+          "name" : "",
+          "text_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "frame" : "{{101, 303}, {150, 32}}",
+          "uuid" : "73747B9B-6F19-4DCF-9DE8-22DE2515732F",
+          "class" : "Label",
+          "alignment" : "center",
+          "text" : "攻撃力換算",
+          "background_color" : "RGBA(0.241135,0.241135,0.241135,1.000000)",
+          "font_size" : 18,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{101, 448}, {51, 31}}",
+        "class" : "Switch",
+        "attributes" : {
+          "flex" : "LRTB",
+          "action" : "",
+          "frame" : "{{151, 304}, {51, 31}}",
+          "tint_color" : "RGBA(0.090909,1.000000,0.000000,1.000000)",
+          "class" : "Switch",
+          "background_color" : "RGBA(0.239953,0.239953,0.239953,1.000000)",
+          "value" : false,
+          "uuid" : "91C05D6A-3EF8-4108-93EC-1B3696BA9F0F",
+          "name" : "ATK"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{9, 487}, {91, 31}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "LRTB",
+          "name" : "",
+          "text_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "frame" : "{{101, 303}, {150, 32}}",
+          "uuid" : "CB67D735-2E48-4948-84C4-6EA11DD7E7D0",
+          "class" : "Label",
+          "alignment" : "center",
+          "text" : "防御力換算",
+          "background_color" : "RGBA(0.242317,0.242317,0.242317,1.000000)",
+          "font_size" : 18,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{101, 487}, {51, 31}}",
+        "class" : "Switch",
+        "attributes" : {
+          "flex" : "LRTB",
+          "action" : "",
+          "frame" : "{{151, 304}, {51, 31}}",
+          "tint_color" : "RGBA(0.090909,1.000000,0.000000,1.000000)",
+          "class" : "Switch",
+          "background_color" : "RGBA(0.242317,0.242317,0.242317,1.000000)",
+          "value" : false,
+          "uuid" : "C5A0E5F1-3599-4A26-A41A-15157CFC24F9",
+          "name" : "DEF"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{151, 409}, {103, 32}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "LRTB",
+          "name" : "",
+          "text_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "frame" : "{{101, 303}, {150, 32}}",
+          "uuid" : "71CB4BAA-3395-4BB9-9C07-644E6C4394BF",
+          "class" : "Label",
+          "alignment" : "center",
+          "text" : "チャージ換算",
+          "background_color" : "RGBA(0.241135,0.241135,0.241135,1.000000)",
+          "font_size" : 18,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{152, 448}, {102, 31}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "LRTB",
+          "name" : "",
+          "text_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "frame" : "{{101, 303}, {150, 32}}",
+          "uuid" : "2099284F-5E5F-4B9C-A996-2F3D83D7B9BC",
+          "class" : "Label",
+          "alignment" : "center",
+          "text" : "熟知換算",
+          "background_color" : "RGBA(0.241135,0.241135,0.241135,1.000000)",
+          "font_size" : 18,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{258, 409}, {51, 31}}",
+        "class" : "Switch",
+        "attributes" : {
+          "flex" : "LRTB",
+          "action" : "",
+          "frame" : "{{151, 304}, {51, 31}}",
+          "tint_color" : "RGBA(0.090909,1.000000,0.000000,1.000000)",
+          "class" : "Switch",
+          "background_color" : "RGBA(0.239953,0.239953,0.239953,1.000000)",
+          "value" : false,
+          "uuid" : "B8EAE2DA-AD4E-4A3C-8741-80BE28EDC598",
+          "name" : "Chage"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{258, 448}, {51, 31}}",
+        "class" : "Switch",
+        "attributes" : {
+          "flex" : "LRTB",
+          "action" : "",
+          "tint_color" : "RGBA(0.090909,1.000000,0.000000,1.000000)",
+          "frame" : "{{151, 304}, {51, 31}}",
+          "class" : "Switch",
+          "background_color" : "RGBA(0.241135,0.241135,0.241135,1.000000)",
+          "value" : false,
+          "uuid" : "901ACE8C-9EA6-46B8-A3A5-CAA115828435",
+          "name" : "Element"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{69, 526}, {216, 99}}",
+        "class" : "Button",
+        "attributes" : {
+          "flex" : "LRTB",
+          "action" : "",
+          "frame" : "{{136, 303}, {80, 32}}",
+          "tint_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "title" : "作成",
+          "uuid" : "1CEEBBC4-AB91-4D09-B8C0-83D69AE78C18",
+          "class" : "Button",
+          "background_color" : "RGBA(0.241135,0.241135,0.241135,1.000000)",
+          "name" : "Create",
+          "font_size" : 30
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{108, 26}, {215, 59}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "LRTB",
+          "name" : "",
+          "text_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "frame" : "{{101, 303}, {150, 32}}",
+          "uuid" : "638FA462-69EF-40F5-8812-952142500D4C",
+          "class" : "Label",
+          "alignment" : "center",
+          "text" : "Artifacter",
+          "font_size" : 50,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      }
+    ],
+    "frame" : "{{0, 0}, {352, 638}}",
+    "class" : "View",
+    "attributes" : {
+      "border_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+      "enabled" : true,
+      "background_color" : "RGBA(0.104019,0.104019,0.104019,1.000000)",
+      "name" : "Artifacter",
+      "tint_color" : "RGBA(1.000000,0.062500,0.062500,1.000000)",
+      "flex" : ""
+    },
+    "selected" : false
+  }
+]

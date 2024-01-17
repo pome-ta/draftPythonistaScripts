@@ -1016,8 +1016,9 @@ class TopViewController(_ViewController):
           v.topAnchor().constraintEqualToAnchor_constant_(
             _pre_view.bottomAnchor(), 32.0))
       else:
-        activateConstraints.append(v.topAnchor().constraintEqualToAnchor_(
-          view.topAnchor()))
+        activateConstraints.append(
+          v.topAnchor().constraintEqualToAnchor_constant_(
+            view.topAnchor(), 8.0))
 
       _pre_view = v
 
@@ -1038,7 +1039,7 @@ if __name__ == '__main__':
     clipboard.set(UID)
 
     IS_LAYOUT_DEBUG = True
-    IS_LAYOUT_DEBUG = False
+    #IS_LAYOUT_DEBUG = False
     top_name = 'Artifacter'
     fvc = TopViewController.new(name=top_name)
     nvc = NavigationController.new(fvc)
