@@ -3,7 +3,6 @@ from objc_util import sel, CGRect
 
 import pdbg
 
-
 # --- navigation
 UINavigationController = ObjCClass('UINavigationController')
 UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
@@ -16,9 +15,9 @@ UIViewController = ObjCClass('UIViewController')
 class _NavigationController:
 
   def __init__(self):
-    self._function_msgs: list['def'] = []  # xxx: 型ちゃんとやる
+    self._method_msgs: list['def'] = []  # xxx: 型ちゃんとやる
     self._delegate_msgs: list['def'] = []  # xxx: 型ちゃんとやる
-    
+
     self._navigationController: UINavigationController
     self.override()
 
@@ -26,12 +25,22 @@ class _NavigationController:
     # todo: objc で特別にmethod 生やしたいときなど
     pass
 
+  def add_method_msg(self, msg):
+    if not (hasattr(self, '_method_msgs')):
+      self._method_msgs: list['def'] = []
+    self._method_msgs.append(msg)
+
+  def add_delegate_msg(self, msg):
+    if not (hasattr(self, '_delegate_msgs')):
+      self._delegate_msgs: list['def'] = []
+    self._delegate_msgs.append(msg)
+
   def _override_navigationController(self):
     # --- `UINavigationController` Methods
-    
+
     # --- `UINavigationController` set up
     _methods = []
-    if self._msgs: _methods.extend(self._msgs)
+    if self._method_msgs: _methods.extend(self._method_msgs)
 
     create_kwargs = {
       'name': '_nv',
@@ -78,6 +87,8 @@ class _NavigationController:
     _methods = [
       navigationController_willShowViewController_animated_,
     ]
+
+    if self._delegate_msgs: _methods.extend(self._delegate_msgs)
     _protocols = [
       'UINavigationControllerDelegate',
     ]
@@ -103,5 +114,4 @@ class _NavigationController:
   def new(cls, vc: UIViewController) -> ObjCInstance:
     _cls = cls()
     return _cls._init(vc)
-
 
