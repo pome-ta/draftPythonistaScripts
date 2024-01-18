@@ -252,9 +252,8 @@ class ObjcView:
     self.instance.initWithFrame_(CGRectZero)
 
   def _init(self):
-    
+
     if 'IS_LAYOUT_DEBUG' in globals() and IS_LAYOUT_DEBUG:
-      print('hige')
       color = UIColor.systemRedColor()
       self.instance.layer().setBorderWidth_(1.0)
       self.instance.layer().setBorderColor_(color.cgColor())
@@ -575,7 +574,9 @@ class HalfModalViewController(_ViewController):
       self.symbol_view.heightAnchor().constraintEqualToAnchor_multiplier_(
         view.widthAnchor(), 0.5),
     ])
-    pdbg.all(view)
+
+  def didDisappear(self, this: UIViewController, animated):
+    pdbg.all(this)
 
 
 ### ### ###
@@ -627,7 +628,7 @@ def is_ignore(path: Path) -> bool:
 
 
 if __name__ == '__main__':
-  IS_LAYOUT_DEBUG =True
+  IS_LAYOUT_DEBUG = True
   paths = {
     bundle.stem: get_plistdata(bundle)
     for bundle in Path(CoreGlyphs_ROOT).iterdir() if not is_ignore(bundle)
