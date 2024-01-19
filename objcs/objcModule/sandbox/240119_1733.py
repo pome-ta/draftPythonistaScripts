@@ -12,6 +12,26 @@ UIBarButtonItem = ObjCClass('UIBarButtonItem')
 UIViewController = ObjCClass('UIViewController')
 
 
+
+class _Controller:
+  def __init__(self, *args, **kwargs):
+    self._msgs: list['def'] = []  # xxx: 型ちゃんとやる
+    self.controller_instance: ObjCInstance
+    
+  def override(self):
+    # todo: objc で特別にmethod 生やしたいときなど
+    pass
+    
+  def add_msg(self, msg):
+    if not (hasattr(self, '_msgs')):
+      self._msgs: list['def'] = []
+    self._msgs.append(msg)
+    
+  def _override_controller(self):
+    # todo: 既存method と独自追加method をシュッと持ちたい
+    # if self._msgs: _methods.extend(self._msgs)
+    pass
+
 class _NavigationController:
 
   def __init__(self, *args, **kwargs):
