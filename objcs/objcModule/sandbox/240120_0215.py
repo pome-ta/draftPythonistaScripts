@@ -3,15 +3,7 @@ from objc_util import sel, CGRect
 
 import pdbg
 
-# --- navigation
-UINavigationController = ObjCClass('UINavigationController')
-UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
-UIBarButtonItem = ObjCClass('UIBarButtonItem')
-
-# --- viewController
-UIViewController = ObjCClass('UIViewController')
-
-
+# xxx: 抽象クラス？
 class _Controller:
 
   def __init__(self, *args, **kwargs):
@@ -39,6 +31,17 @@ class _Controller:
   @classmethod
   def new(cls) -> ObjCInstance | None:
     return None
+
+
+
+# --- navigation
+UINavigationController = ObjCClass('UINavigationController')
+UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
+UIBarButtonItem = ObjCClass('UIBarButtonItem')
+
+# --- viewController
+UIViewController = ObjCClass('UIViewController')
+
 
 
 class _NavigationController:
