@@ -75,7 +75,7 @@ class _NavigationController:
     _nvDelegate = create_objc_class(**create_kwargs)
     return _nvDelegate.new()
 
-  #@on_main_thread
+  @on_main_thread
   def _init(self, vc: UIViewController):
     self._override_navigationController()
     _delegate = self.create_navigationControllerDelegate()
@@ -141,15 +141,6 @@ class TopNavCon(PlainNavCon):
     navigationItem = visibleViewController.navigationItem()
 
     navigationItem.rightBarButtonItem = done_btn
-    
-  @on_main_thread
-  def _init(self, vc: UIViewController):
-    self._override_navigationController()
-    _delegate = self.create_navigationControllerDelegate()
-    nv = self._navigationController.alloc()
-    nv.initWithRootViewController_(vc).autorelease()
-    nv.setDelegate_(_delegate)
-    return nv
 
 
 class _ViewController:
