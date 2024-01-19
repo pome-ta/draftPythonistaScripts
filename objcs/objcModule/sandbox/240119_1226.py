@@ -14,7 +14,7 @@ UIViewController = ObjCClass('UIViewController')
 
 class _NavigationController:
 
-  def __init__(self):
+  def __init__(self, *args, **kwargs):
     self._msgs: list['def'] = []  # xxx: 型ちゃんとやる
     self._navigationController: UINavigationController
     self.override()
@@ -46,30 +46,8 @@ class _NavigationController:
   def willShowViewController(self,
                              navigationController: UINavigationController,
                              viewController: UIViewController, animated: bool):
-    # --- appearance
-    appearance = UINavigationBarAppearance.alloc()
-    appearance.configureWithDefaultBackground()
 
-    # --- navigationBar
-    navigationBar = navigationController.navigationBar()
-
-    navigationBar.standardAppearance = appearance
-    navigationBar.scrollEdgeAppearance = appearance
-    navigationBar.compactAppearance = appearance
-    navigationBar.compactScrollEdgeAppearance = appearance
-
-    viewController.setEdgesForExtendedLayout_(0)
-
-    done_btn = UIBarButtonItem.alloc(
-    ).initWithBarButtonSystemItem_target_action_(0, navigationController,
-                                                 sel('doneButtonTapped:'))
-
-    visibleViewController = navigationController.visibleViewController()
-
-    # --- navigationItem
-    navigationItem = visibleViewController.navigationItem()
-
-    navigationItem.rightBarButtonItem = done_btn
+    pass
 
   def create_navigationControllerDelegate(self):
     # --- `UINavigationControllerDelegate` Methods
@@ -110,4 +88,57 @@ class _NavigationController:
   def new(cls, vc: UIViewController) -> ObjCInstance:
     _cls = cls()
     return _cls._init(vc)
+
+
+class PlainNavCon(_NavigationController):
+
+  def __init__(self):
+    super().__init__(*args, **kwargs)
+
+  def willShowViewController(self,
+                             navigationController: UINavigationController,
+                             viewController: UIViewController, animated: bool):
+    # --- appearance
+    appearance = UINavigationBarAppearance.alloc()
+    appearance.configureWithDefaultBackground()
+
+    # --- navigationBar
+    navigationBar = navigationController.navigationBar()
+
+    navigationBar.standardAppearance = appearance
+    navigationBar.scrollEdgeAppearance = appearance
+    navigationBar.compactAppearance = appearance
+    navigationBar.compactScrollEdgeAppearance = appearance
+
+    viewController.setEdgesForExtendedLayout_(0)
+
+
+class TopNavCon(PlainNavCon):
+
+  def __init__(self):
+    super().__init__(*args, **kwargs)
+
+  def override(self):
+
+    @self.add_msg
+    def doneButtonTapped_(_self, _cmd, _sender):
+      this = ObjCInstance(_self)
+      visibleViewController = this.visibleViewController()
+      visibleViewController.dismissViewControllerAnimated_completion_(
+        True, None)
+
+  def willShowViewController(self,
+                             navigationController: UINavigationController,
+                             viewController: UIViewController, animated: bool):
+
+    done_btn = UIBarButtonItem.alloc(
+    ).initWithBarButtonSystemItem_target_action_(0, navigationController,
+                                                 sel('doneButtonTapped:'))
+
+    visibleViewController = navigationController.visibleViewController()
+
+    # --- navigationItem
+    navigationItem = visibleViewController.navigationItem()
+
+    navigationItem.rightBarButtonItem = done_btn
 
