@@ -3,7 +3,8 @@ from objc_util import sel, CGRect
 
 import pdbg
 
-# xxx: 抽象クラス？
+
+# xxx: 抽象クラス化？
 class _Controller:
 
   def __init__(self, *args, **kwargs):
@@ -33,7 +34,6 @@ class _Controller:
     return None
 
 
-
 # --- navigation
 UINavigationController = ObjCClass('UINavigationController')
 UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
@@ -43,24 +43,9 @@ UIBarButtonItem = ObjCClass('UIBarButtonItem')
 UIViewController = ObjCClass('UIViewController')
 
 
+class _NavigationController(_Controller):
 
-class _NavigationController:
-
-  def __init__(self, *args, **kwargs):
-    self._msgs: list['def'] = []  # xxx: 型ちゃんとやる
-    self._navigationController: UINavigationController
-    self.override()
-
-  def override(self):
-    # todo: objc で特別にmethod 生やしたいときなど
-    pass
-
-  def add_msg(self, msg):
-    if not (hasattr(self, '_msgs')):
-      self._msgs: list['def'] = []
-    self._msgs.append(msg)
-
-  def _override_navigationController(self):
+  def _override_controller(self):
     # --- `UINavigationController` Methods
 
     # --- `UINavigationController` set up
@@ -73,7 +58,7 @@ class _NavigationController:
       'methods': _methods,
     }
     _nv = create_objc_class(**create_kwargs)
-    self._navigationController = _nv
+    self.controller_instance = _nv
 
   def willShowViewController(self,
                              navigationController: UINavigationController,
@@ -108,10 +93,10 @@ class _NavigationController:
     return _nvDelegate.new()
 
   @on_main_thread
-  def _init(self, vc: UIViewController):
-    self._override_navigationController()
+  def _init_controller(self, vc: UIViewController):
+    self._override_controller()
     _delegate = self.create_navigationControllerDelegate()
-    nv = self._navigationController.alloc()
+    nv = self.controller_instance.alloc()
     nv.initWithRootViewController_(vc).autorelease()
     nv.setDelegate_(_delegate)
     return nv
@@ -119,13 +104,10 @@ class _NavigationController:
   @classmethod
   def new(cls, vc: UIViewController) -> ObjCInstance:
     _cls = cls()
-    return _cls._init(vc)
+    return _cls._init_controller(vc)
 
 
 class PlainNavCon(_NavigationController):
-
-  def __init__(self):
-    super().__init__(*args, **kwargs)
 
   def willShowViewController(self,
                              navigationController: UINavigationController,
@@ -148,7 +130,7 @@ class PlainNavCon(_NavigationController):
 class TopNavCon(PlainNavCon):
 
   def __init__(self):
-    super().__init__(*args, **kwargs)
+    self.override()
 
   def override(self):
 
