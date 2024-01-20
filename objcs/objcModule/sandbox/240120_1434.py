@@ -215,6 +215,7 @@ class PlainNavigationController(_NavigationController):
     # --- appearance
     appearance = UINavigationBarAppearance.alloc()
     appearance.configureWithDefaultBackground()
+    '''
 
     # --- navigationBar
     navigationBar = navigationController.navigationBar()
@@ -223,8 +224,10 @@ class PlainNavigationController(_NavigationController):
     navigationBar.scrollEdgeAppearance = appearance
     navigationBar.compactAppearance = appearance
     navigationBar.compactScrollEdgeAppearance = appearance
+    '''
 
     viewController.setEdgesForExtendedLayout_(0)
+    
 
 
 UIBarButtonItem = ObjCClass('UIBarButtonItem')
@@ -640,7 +643,7 @@ def is_ignore(path: Path) -> bool:
 
 
 if __name__ == '__main__':
-  #IS_LAYOUT_DEBUG = True
+  IS_LAYOUT_DEBUG = True
   paths = {
     bundle.stem: get_plistdata(bundle)
     for bundle in Path(CoreGlyphs_ROOT).iterdir() if not is_ignore(bundle)
