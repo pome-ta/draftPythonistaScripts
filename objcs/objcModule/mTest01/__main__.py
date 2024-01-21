@@ -1,10 +1,12 @@
 from objc_util import ObjCClass, ObjCInstance, create_objc_class
 from objc_util import sel, CGRect
-from objcista import NavigationController, ViewController, present_run
 
-UINavigationController = ObjCClass('UINavigationController')
+from objcista import NavigationController, UINavigationController
+from objcista import ViewController, UIViewController
+from objcista import present_run
+
 UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
-UIViewController = ObjCClass('UIViewController')
+UIBarButtonItem = ObjCClass('UIBarButtonItem')
 
 
 class PlainNavigationController(NavigationController):
@@ -15,7 +17,6 @@ class PlainNavigationController(NavigationController):
     # --- appearance
     appearance = UINavigationBarAppearance.alloc()
     appearance.configureWithDefaultBackground()
-    '''
 
     # --- navigationBar
     navigationBar = navigationController.navigationBar()
@@ -24,12 +25,8 @@ class PlainNavigationController(NavigationController):
     navigationBar.scrollEdgeAppearance = appearance
     navigationBar.compactAppearance = appearance
     navigationBar.compactScrollEdgeAppearance = appearance
-    '''
 
     viewController.setEdgesForExtendedLayout_(0)
-
-
-UIBarButtonItem = ObjCClass('UIBarButtonItem')
 
 
 class TopNavigationController(PlainNavigationController):
@@ -49,6 +46,16 @@ class TopNavigationController(PlainNavigationController):
   def willShowViewController(self,
                              navigationController: UINavigationController,
                              viewController: UIViewController, animated: bool):
+
+    appearance = UINavigationBarAppearance.alloc()
+    appearance.configureWithDefaultBackground()
+    # --- navigationBar
+    navigationBar = navigationController.navigationBar()
+
+    navigationBar.standardAppearance = appearance
+    navigationBar.scrollEdgeAppearance = appearance
+    navigationBar.compactAppearance = appearance
+    navigationBar.compactScrollEdgeAppearance = appearance
 
     done_btn = UIBarButtonItem.alloc(
     ).initWithBarButtonSystemItem_target_action_(0, navigationController,
@@ -453,5 +460,4 @@ if __name__ == '__main__':
   tvc = TopViewController.new(name=name, _bundles=bundles)
   nvc = TopNavigationController.new(tvc, True)
   present_run(nvc)
-  #present_objc(tvc)
 
