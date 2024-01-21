@@ -193,18 +193,36 @@ class _NavigationController(_Controller):
     return _nvDelegate.new()
 
   #@on_main_thread
-  def _init_controller(self, vc: UIViewController):
-    self._override_controller()
-    _delegate = self.create_navigationControllerDelegate()
-    nv = self.controller_instance.alloc()
-    nv.initWithRootViewController_(vc).autorelease()
-    nv.setDelegate_(_delegate)
-    return nv
+  def _init_controller(self,
+                       vc: UIViewController,
+                       is_main_thread: bool = False):
+
+    def __initialize():
+      self._override_controller()
+      _delegate = self.create_navigationControllerDelegate()
+      nv = self.controller_instance.alloc()
+      nv.initWithRootViewController_(vc).autorelease()
+      nv.setDelegate_(_delegate)
+      return nv
+
+    if is_main_thread:
+
+      @on_main_thread
+      def __run():
+        return __initialize()
+    else:
+
+      def __run():
+        return __initialize()
+
+    return __run()
 
   @classmethod
-  def new(cls, vc: UIViewController) -> ObjCInstance:
+  def new(cls,
+          viewController: UIViewController,
+          is_main_thread: bool = False) -> ObjCInstance:
     _cls = cls()
-    return _cls._init_controller(vc)
+    return _cls._init_controller(viewController, is_main_thread)
 
 
 class PlainNavigationController(_NavigationController):
@@ -227,7 +245,6 @@ class PlainNavigationController(_NavigationController):
     '''
 
     viewController.setEdgesForExtendedLayout_(0)
-    
 
 
 UIBarButtonItem = ObjCClass('UIBarButtonItem')
@@ -261,10 +278,6 @@ class TopNavigationController(PlainNavigationController):
     navigationItem = visibleViewController.navigationItem()
 
     navigationItem.rightBarButtonItem = done_btn
-    
-  @on_main_thread
-  def _init_controller(self, vc: UIViewController):
-    super()._init_controller(self)
 
 
 ### ### ###
@@ -656,7 +669,7 @@ if __name__ == '__main__':
   bundles = DictDotNotation(paths)
   name = 'SF Symbols'
   tvc = TopViewController.new(name=name, _bundles=bundles)
-  nvc = TopNavigationController.new(tvc)
+  nvc = TopNavigationController.new(tvc, True)
   present_objc(nvc)
   #present_objc(tvc)
 
