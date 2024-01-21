@@ -1,6 +1,6 @@
-from objc_util import ObjCClass,ObjCInstance, create_objc_class
+from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
 
-from metaClasses.controller import Controller
+from .metaClasses.controller import Controller
 
 UINavigationController = ObjCClass('UINavigationController')
 UIViewController = ObjCClass('UIViewController')

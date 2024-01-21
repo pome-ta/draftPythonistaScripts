@@ -1,5 +1,5 @@
 from objc_util import ObjCClass, ObjCInstance, create_objc_class
-from metaClasses.controller import Controller
+from .metaClasses.controller import Controller
 
 UIViewController = ObjCClass('UIViewController')
 
