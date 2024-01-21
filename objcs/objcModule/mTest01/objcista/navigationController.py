@@ -55,7 +55,6 @@ class NavigationController(Controller):
     _nvDelegate = create_objc_class(**create_kwargs)
     return _nvDelegate.new()
 
-  #@on_main_thread
   def _init_controller(self,
                        vc: UIViewController,
                        is_main_thread: bool = False):
