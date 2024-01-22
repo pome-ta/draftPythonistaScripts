@@ -97,37 +97,6 @@ UISheetPresentationControllerDetent = ObjCClass(
 
 largeDetent = UISheetPresentationControllerDetent.largeDetent()
 mediumDetent = UISheetPresentationControllerDetent.mediumDetent()
-'''
-class ObjcView:
-
-  def __init__(self, *args, **kwargs):
-    self.instance = UIView.alloc()
-    CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
-    self.instance.initWithFrame_(CGRectZero)
-
-  def _init(self):
-
-    if 'IS_LAYOUT_DEBUG' in globals() and IS_LAYOUT_DEBUG:
-      color = UIColor.systemRedColor()
-      self.instance.layer().setBorderWidth_(1.0)
-      self.instance.layer().setBorderColor_(color.cgColor())
-    self.instance.setTranslatesAutoresizingMaskIntoConstraints_(False)
-
-    return self.instance
-
-  @classmethod
-  def new(cls, *args, **kwargs) -> ObjCInstance:
-    _cls = cls(*args, **kwargs)
-    return _cls._init()
-
-
-class ObjcImageView(ObjcView):
-
-  def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    self.instance = UIImageView.alloc().initWithImage_(kwargs['image'])
-    
-'''
 
 
 class ObjcLabel(ObjcView):
