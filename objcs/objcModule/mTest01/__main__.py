@@ -3,6 +3,7 @@ from objc_util import sel, CGRect
 
 from objcista import ObjcNavigationController, UINavigationController
 from objcista import ObjcViewController, UIViewController
+from objcista import ObjcView, ObjcImageView
 from objcista import present_run
 
 UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
@@ -79,7 +80,7 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 UITableView = ObjCClass('UITableView')
 UITableViewCell = ObjCClass('UITableViewCell')
 
-UIImageView = ObjCClass('UIImageView')
+#UIImageView = ObjCClass('UIImageView')
 UIImage = ObjCClass('UIImage')
 
 UILabel = ObjCClass('UILabel')
@@ -96,8 +97,7 @@ UISheetPresentationControllerDetent = ObjCClass(
 
 largeDetent = UISheetPresentationControllerDetent.largeDetent()
 mediumDetent = UISheetPresentationControllerDetent.mediumDetent()
-
-
+'''
 class ObjcView:
 
   def __init__(self, *args, **kwargs):
@@ -126,6 +126,8 @@ class ObjcImageView(ObjcView):
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
     self.instance = UIImageView.alloc().initWithImage_(kwargs['image'])
+    
+'''
 
 
 class ObjcLabel(ObjcView):
@@ -383,7 +385,7 @@ class HalfModalViewController(ObjcViewController):
     # --- view
     #view.setBackgroundColor_(UIColor.systemGray2Color())
     symbol_img = UIImage.systemImageNamed(self.symbol)
-    self.symbol_view = ObjcImageView.new(image=symbol_img)
+    self.symbol_view = ObjcImageView.new(image=symbol_img, LAYOUT_DEBUG=False)
     self.symbol_view.setContentMode_(scaleAspectFit)
 
     # --- layout
@@ -449,7 +451,9 @@ def is_ignore(path: Path) -> bool:
 
 
 if __name__ == '__main__':
+
   IS_LAYOUT_DEBUG = True
+
   paths = {
     bundle.stem: get_plistdata(bundle)
     for bundle in Path(CoreGlyphs_ROOT).iterdir() if not is_ignore(bundle)
