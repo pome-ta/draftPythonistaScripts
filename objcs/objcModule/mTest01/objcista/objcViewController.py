@@ -4,7 +4,7 @@ from .metaClasses.controller import Controller
 UIViewController = ObjCClass('UIViewController')
 
 
-class ViewController(Controller):
+class ObjcViewController(Controller):
 
   def didLoad(self, this: UIViewController):
     pass

@@ -1,15 +1,15 @@
 from objc_util import ObjCClass, ObjCInstance, create_objc_class
 from objc_util import sel, CGRect
 
-from objcista import NavigationController, UINavigationController
-from objcista import ViewController, UIViewController
+from objcista import ObjcNavigationController, UINavigationController
+from objcista import ObjcViewController, UIViewController
 from objcista import present_run
 
 UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
 UIBarButtonItem = ObjCClass('UIBarButtonItem')
 
 
-class PlainNavigationController(NavigationController):
+class PlainNavigationController(ObjcNavigationController):
 
   def willShowViewController(self,
                              navigationController: UINavigationController,
@@ -137,7 +137,7 @@ class ObjcLabel(ObjcView):
     self.instance.sizeToFit()
 
 
-class TopViewController(ViewController):
+class TopViewController(ObjcViewController):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
@@ -243,7 +243,7 @@ class TopViewController(ViewController):
     return table_extensions.new()
 
 
-class SecondViewController(ViewController):
+class SecondViewController(ObjcViewController):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
@@ -363,7 +363,7 @@ class SecondViewController(ViewController):
     return table_extensions.new()
 
 
-class HalfModalViewController(ViewController):
+class HalfModalViewController(ObjcViewController):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)

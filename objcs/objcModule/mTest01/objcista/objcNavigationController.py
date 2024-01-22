@@ -6,7 +6,7 @@ UINavigationController = ObjCClass('UINavigationController')
 UIViewController = ObjCClass('UIViewController')
 
 
-class NavigationController(Controller):
+class ObjcNavigationController(Controller):
 
   def _override_controller(self):
     # --- `UINavigationController` Methods
