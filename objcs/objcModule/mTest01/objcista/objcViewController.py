@@ -1,10 +1,10 @@
 from objc_util import ObjCClass, ObjCInstance, create_objc_class
-from .metaClasses.controller import Controller
+from .metaClasses.objcController import ObjcController
 
 UIViewController = ObjCClass('UIViewController')
 
 
-class ObjcViewController(Controller):
+class ObjcViewController(ObjcController):
 
   def didLoad(self, this: UIViewController):
     pass

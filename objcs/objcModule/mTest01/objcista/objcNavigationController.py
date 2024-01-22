@@ -1,12 +1,12 @@
 from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
 
-from .metaClasses.controller import Controller
+from .metaClasses.objcController import ObjcController
 
 UINavigationController = ObjCClass('UINavigationController')
 UIViewController = ObjCClass('UIViewController')
 
 
-class ObjcNavigationController(Controller):
+class ObjcNavigationController(ObjcController):
 
   def _override_controller(self):
     # --- `UINavigationController` Methods

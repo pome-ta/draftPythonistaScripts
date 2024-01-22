@@ -1,7 +1,7 @@
 from objc_util import ObjCInstance
 
 
-class Controller:
+class ObjcController:
 
   def __init__(self, *args, **kwargs):
     self._msgs: list['def'] = []  # xxx: 型名ちゃんとやる
