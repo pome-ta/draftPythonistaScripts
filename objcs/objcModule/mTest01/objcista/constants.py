@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class UIViewContentMode:
+class UIView_ContentMode:
   # ref: [UIView.ContentMode | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uiview/contentmode)
   scaleToFill: int = 0
   scaleAspectFit: int = 1
@@ -33,4 +33,14 @@ class UIModalPresentationStyle:
   overCurrentContext: int = 6
   popover: int = 7
   blurOverFullScreen: int = 8
+
+
+@dataclass
+class UITableViewCell_AccessoryType:
+  # ref: [UITableViewCell.AccessoryType | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uitableviewcell/accessorytype)
+  none: int = 0
+  disclosureIndicator: int = 1
+  detailDisclosureButton: int = 2
+  checkmark: int = 3
+  detailButton: int = 4
 

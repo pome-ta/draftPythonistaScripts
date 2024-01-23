@@ -5,6 +5,7 @@ from objcista import ObjcNavigationController, UINavigationController
 from objcista import ObjcViewController, UIViewController
 from objcista import ObjcView, ObjcImageView
 from objcista import present_run
+from objcista.constants import *
 
 UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
 UIBarButtonItem = ObjCClass('UIBarButtonItem')
@@ -85,9 +86,9 @@ UIImage = ObjCClass('UIImage')
 
 UILabel = ObjCClass('UILabel')
 
-scaleAspectFit = 1
 
-disclosureIndicator = 1
+
+
 
 pageSheet = 1
 
@@ -169,7 +170,8 @@ class TopViewController(ObjcViewController):
       content.setImage_(cell_image)
 
       cell.setContentConfiguration_(content)
-      cell.setAccessoryType_(disclosureIndicator)
+      _type = UITableViewCell_AccessoryType.disclosureIndicator
+      cell.setAccessoryType_(_type)
 
       return cell.ptr
 
