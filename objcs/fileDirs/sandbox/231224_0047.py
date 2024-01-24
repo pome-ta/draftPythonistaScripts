@@ -1,6 +1,8 @@
 from pathlib import Path
+from datetime import datetime
 import webbrowser
 from objc_util import ObjCClass
+from pprint import pprint
 
 NSFileManager = ObjCClass('NSFileManager')
 
@@ -29,7 +31,10 @@ if __name__ == '__main__':
   
   for i in tmp_list:
     print(i.name)
+    
+    pprint(f' {datetime.fromtimestamp(i.stat())}')
     for j in i.iterdir():
       print(f'  {j.name}')
+      
 
 
