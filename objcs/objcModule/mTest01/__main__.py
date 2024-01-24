@@ -81,20 +81,10 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 UITableView = ObjCClass('UITableView')
 UITableViewCell = ObjCClass('UITableViewCell')
 
-#UIImageView = ObjCClass('UIImageView')
 UIImage = ObjCClass('UIImage')
-
-UILabel = ObjCClass('UILabel')
-
-
-
-
-
-pageSheet = 1
 
 UISheetPresentationControllerDetent = ObjCClass(
   'UISheetPresentationControllerDetent')
-#pdbg.state(UISheetPresentationControllerDetent)
 
 largeDetent = UISheetPresentationControllerDetent.largeDetent()
 mediumDetent = UISheetPresentationControllerDetent.mediumDetent()
@@ -357,7 +347,8 @@ class HalfModalViewController(ObjcViewController):
     #view.setBackgroundColor_(UIColor.systemGray2Color())
     symbol_img = UIImage.systemImageNamed(self.symbol)
     self.symbol_view = ObjcImageView.new(image=symbol_img, LAYOUT_DEBUG=False)
-    self.symbol_view.setContentMode_(scaleAspectFit)
+    _mode = UIView_ContentMode.scaleAspectFit
+    self.symbol_view.setContentMode_(_mode)
 
     # --- layout
     view.addSubview_(self.symbol_view)
