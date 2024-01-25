@@ -33,7 +33,9 @@ if __name__ == '__main__':
     print(i.name)
 
     #pprint(f' {datetime.fromtimestamp(i.stat())}')
-    print(f' {i.stat()}')
+    stat_result = i.stat()
+    #st_mtime=1691897088
+    print(f' {datetime.fromtimestamp(stat_result.st_mtime)}')
     for j in i.iterdir():
       print(f'  {j.name}')
 
