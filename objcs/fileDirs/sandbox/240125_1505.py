@@ -24,26 +24,13 @@ if __name__ == '__main__':
   # todo: 1番上まで戻り、tmp ディレクトリへ
   path = get_temporaryDirectory_path()
   tmp_path = Path(path)
+  tmp_list = list(tmp_path.iterdir())
 
   #webbrowser.open(f'pythonista3://{path}')
 
-  tmp_list = list(tmp_path.iterdir())
-  t_l = []
-
   for i in tmp_list:
-    print(i.name)
+    #print(i.name)
+    #print(type(i.name))
+    if 'BlobRegistryFiles' in str(i.name):
+      i.unlink()
 
-    #pprint(f' {datetime.fromtimestamp(i.stat())}')
-    stat_result = i.stat()
-    fromtimestamp = datetime.fromtimestamp(stat_result.st_mtime)
-    t_l.append(fromtimestamp)
-    print(f'    {fromtimestamp}')
-    #pprint(f'    {stat_result}')
-    [print(f'{s=}') for s in stat_result]
-    
-    #print(f' {datetime.fromtimestamp(stat_result.st_mtime)}')
-    for j in i.iterdir():
-      print(f'  {j.name}')
-
-  #t_l.sort()
-  #pprint(t_l)
