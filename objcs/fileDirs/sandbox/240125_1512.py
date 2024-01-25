@@ -30,9 +30,26 @@ if __name__ == '__main__':
 
   for i in tmp_list:
     print(i.name)
+
+    #pprint(f' {datetime.fromtimestamp(i.stat())}')
+    stat_result = i.stat()
+    fromtimestamp = datetime.fromtimestamp(stat_result.st_mtime)
+    print(f'    {fromtimestamp}')
+    #pprint(f'    {stat_result}')
+    [print(f'{s=}') for s in stat_result]
+    
+    #print(f' {datetime.fromtimestamp(stat_result.st_mtime)}')
+    for j in i.iterdir():
+      print(f'  {j.name}')
+
+
     #print(type(i.name))
     if 'BlobRegistryFiles' in str(i.name):
       #i.unlink()
       #i.rmdir()
       pass
+      
+    if 'NSIRD' in str(i.name):
+      i.rmdir()
+      
 
