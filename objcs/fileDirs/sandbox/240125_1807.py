@@ -7,7 +7,7 @@ NSFileManager = ObjCClass('NSFileManager')
 
 def get_temporaryDirectory_path() -> str:
   nsFileManager = NSFileManager.new()
-  pdbg.state(nsFileManager)
+  #pdbg.state(nsFileManager)
   # todo: `file://` で取得してしまうため、`uri` 呼び出し
   temp_dir = nsFileManager.temporaryDirectory().uri()
   #print(temp_dir)
@@ -24,4 +24,5 @@ if __name__ == '__main__':
   # todo: 1番上まで戻り、tmp ディレクトリへ
   path = get_toplevel_path() + get_temporaryDirectory_path()
   #webbrowser.open(f'pythonista3://{path}')
+  print(get_temporaryDirectory_path())
 
