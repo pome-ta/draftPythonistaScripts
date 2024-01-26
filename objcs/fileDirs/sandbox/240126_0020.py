@@ -23,7 +23,7 @@ level = 9
 
 hub_path = origin_path / parent_level(level)
 
-target_path = hub_path / app_file_path
+target_path = hub_path / app_file_path / 'Pythonista3'
 
 webbrowser.open(f'pythonista3:/{target_path}')
 
