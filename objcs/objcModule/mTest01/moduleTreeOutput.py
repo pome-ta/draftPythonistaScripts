@@ -6,6 +6,9 @@ module_root_uri = './objcista'
 module_root_path = Path(module_root_uri)
 
 
+def tree_dict():
+  pass
+
 def gene_tree(tree_path: Path, tree_depth: int = 0, tree_str: str = '') -> str:
   side_line = '|' + '─' * tree_depth + ' ' if tree_depth else None
   is_dir = tree_path.is_dir()
@@ -14,4 +17,5 @@ def gene_tree(tree_path: Path, tree_depth: int = 0, tree_str: str = '') -> str:
 
 
 tree_path = gene_tree(module_root_path)
-
+'''
+'''
