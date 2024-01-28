@@ -51,7 +51,9 @@ tree_path = gene_tree(module_root_path)
 '''
 tree = file_tree(module_root_uri)
 #pprint(tree)
-for p in Path(module_root_path, '').iterdir():
+for p in Path(module_root_path, 'metaClasses').iterdir():
   print(p)
+  if p.name == 'objcView.py':
+    p.unlink()
   if p.suffix  == '.icloud':
     p.unlink()
