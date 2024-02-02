@@ -227,6 +227,16 @@ UIButtonConfiguration = ObjCClass('UIButtonConfiguration')
 UIControlEventTouchUpInside = 1 << 6
 
 
+
+class InitViewController(_ViewController):
+  def __init__(self):
+    super().__init__()
+    
+  def didLoad(self, this: UIViewController):
+    view = this.view()
+    view.setBackgroundColor_(UIColor.systemBackgroundColor())
+    
+
 class FirstViewController(_ViewController):
 
   def __init__(self):
@@ -239,13 +249,15 @@ class FirstViewController(_ViewController):
 
     @self.add_msg
     def btnClick_(_self, _cmd, _sender):
-      this = ObjCInstance(_self)
+      #this = ObjCInstance(_self)
+      pdbg.state(this)
       sender = ObjCInstance(_sender)
       svc = SecondViewController.new(name='SecondViewController')
       navigationController = this.navigationController()
       navigationController.pushViewController_animated_(svc, True)
 
   def didLoad(self, this: UIViewController):
+    pdbg.state(this)
     view = this.view()
     view.setBackgroundColor_(UIColor.systemBlueColor())
 
