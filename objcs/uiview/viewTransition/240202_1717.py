@@ -257,7 +257,7 @@ class FirstViewController(_ViewController):
       navigationController.pushViewController_animated_(svc, True)
 
   def didLoad(self, this: UIViewController):
-    pdbg.state(this)
+    #pdbg.state(this)
     view = this.view()
     view.setBackgroundColor_(UIColor.systemBlueColor())
 
@@ -288,6 +288,11 @@ class FirstViewController(_ViewController):
       self.btn.heightAnchor().constraintEqualToAnchor_multiplier_(
         view.heightAnchor(), 0.1),
     ])
+
+  def willAppear(self, this: UIViewController, animated: bool):
+    ivc = InitViewController.new()
+    navigationController = this.navigationController()
+    navigationController.pushViewController_animated_(ivc, True)
 
 
 class SecondViewController(_ViewController):
