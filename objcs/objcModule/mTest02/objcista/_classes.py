@@ -4,6 +4,7 @@ UINavigationController = ObjCClass('UINavigationController')
 UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
 
 UIViewController = ObjCClass('UIViewController')
+UISplitViewController = ObjCClass('UISplitViewController')
 
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
