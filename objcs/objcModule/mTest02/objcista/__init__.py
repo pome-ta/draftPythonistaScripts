@@ -18,6 +18,7 @@ def run_controller(view_controller):
 
   full_screen = UIModalPresentationStyle.fullScreen
   view_controller.setModalPresentationStyle_(full_screen)
+  #view_controller.setModalPresentationStyle_(1)
   root_view_controller.presentViewController_animated_completion_(
     view_controller, True, None)
 
