@@ -1,4 +1,4 @@
-from objc_util import ObjCInstance, sel, create_objc_class
+from objc_util import ObjCInstance, sel, create_objc_class, on_main_thread
 
 from objcista import *
 from objcista.objcNavigationController import PlainNavigationController, ObjcNavigationController
@@ -59,6 +59,9 @@ class TopViewController(ObjcViewController):
 
 def viewDidLoad(_self, _cmd):
   this = ObjCInstance(_self)
+  view = this.view()
+  background_color = UIColor.systemBackgroundColor()
+  view.setBackgroundColor_(background_color)
   pdbg.state(this)
 
 
@@ -76,8 +79,9 @@ _vc = create_objc_class(**create_kwargs)
 
 if __name__ == "__main__":
   LAYOUT_DEBUG = True
-  tvc = TopViewController.new()
+  #tvc = TopViewController.new()
   tvc = _vc.new()
   tnc = TopNavigationController.new(tvc, True)
   run_controller(tnc)
+  #run_controller(tvc)
 
