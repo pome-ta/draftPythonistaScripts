@@ -4,19 +4,29 @@ from objc_util import ObjCInstance, sel, create_objc_class, on_main_thread
 from objcista import *
 from objcista.objcNavigationController import PlainNavigationController, ObjcNavigationController
 from objcista.objcViewController import ObjcViewController
+from objcista.objcLabel import ObjcLabel
 
 import pdbg
+
 
 @dataclass
 class UISplitViewController_Style:
   doubleColumn = 1
   tripleColumn = 2
 
+
+@dataclass
+class UISplitViewController_Column:
+  primary = 0
+  supplementary = 1
+  secondary = 2
+  compact = 3
+
+
 class TopNavigationController(PlainNavigationController):
 
   def __init__(self):
     self.override()
-    print('n')
 
   def override(self):
 
@@ -47,12 +57,51 @@ class TopNavigationController(PlainNavigationController):
     navigationItem.rightBarButtonItem = done_btn
 
 
+class TopViewController(ObjcViewController):
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.main_text = 'UIKitCatalog'
+
+  def didLoad(self, this: UIViewController):
+    view = this.view()
+    background_color = UIColor.systemBackgroundColor()
+    view.setBackgroundColor_(background_color)
+
+    label_kwargs = {
+      'text': self.main_text,
+      'LAYOUT_DEBUG': LAYOUT_DEBUG,
+    }
+    self.main_label = ObjcLabel.new(**label_kwargs)
+    self.main_label.setFont_(UIFont.systemFontOfSize_(26.0))
+
+    view.addSubview(self.main_label)
+
+    # --- layout
+    layoutMarginsGuide = view.layoutMarginsGuide()
+
+    NSLayoutConstraint.activateConstraints_([
+      self.main_label.centerXAnchor().constraintEqualToAnchor_(
+        layoutMarginsGuide.centerXAnchor()),
+      self.main_label.centerYAnchor().constraintEqualToAnchor_(
+        layoutMarginsGuide.centerYAnchor()),
+    ])
+
+
 def viewDidLoad(_self, _cmd):
   this = ObjCInstance(_self)
   view = this.view()
   background_color = UIColor.systemBackgroundColor()
   view.setBackgroundColor_(background_color)
+
+  vc = TopViewController.new()
+  nvc = TopNavigationController.new(vc, True)
+
+  secondary = UISplitViewController_Column.secondary
+
+  this.setViewController_forColumn_(nvc, secondary)
   pdbg.state(this)
+
 
 _methods = [
   viewDidLoad,
@@ -67,6 +116,7 @@ create_kwargs = {
 _vc = create_objc_class(**create_kwargs)
 
 if __name__ == "__main__":
+  LAYOUT_DEBUG = True
   #tvc = _vc.new()
   doubleColumn = UISplitViewController_Style.doubleColumn
   tvc = _vc.alloc().initWithStyle_(doubleColumn)
