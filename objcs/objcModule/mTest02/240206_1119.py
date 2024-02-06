@@ -1,16 +1,14 @@
-from objc_util import ObjCInstance, sel, create_objc_class, on_main_thread
+from objc_util import ObjCInstance, sel
 
 from objcista import *
-from objcista.objcNavigationController import PlainNavigationController, ObjcNavigationController
+from objcista.objcNavigationController import PlainNavigationController
 from objcista.objcViewController import ObjcViewController
+from objcista.objcLabel import ObjcLabel
 
 import pdbg
 
-#pdbg.state(UISplitViewController.new())
-
 
 class TopNavigationController(PlainNavigationController):
-#class TopNavigationController(ObjcNavigationController):
 
   def __init__(self):
     self.override()
@@ -27,7 +25,6 @@ class TopNavigationController(PlainNavigationController):
   def willShowViewController(self,
                              navigationController: UINavigationController,
                              viewController: UIViewController, animated: bool):
-
     super().willShowViewController(navigationController, viewController,
                                    animated)
 
@@ -48,40 +45,39 @@ class TopViewController(ObjcViewController):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
+    self.main_text = 'UIKitCatalog'
 
   def didLoad(self, this: UIViewController):
     view = this.view()
     background_color = UIColor.systemBackgroundColor()
     view.setBackgroundColor_(background_color)
-    navigationItem = this.navigationItem()
-    navigationItem.setTitle_('あ')
+    pdbg.state(this.navigationController())
 
+    label_kwargs = {
+      'text': self.main_text,
+      'LAYOUT_DEBUG': LAYOUT_DEBUG,
+    }
+    self.main_label = ObjcLabel.new(**label_kwargs)
+    self.main_label.setFont_(UIFont.systemFontOfSize_(26.0))
 
-def viewDidLoad(_self, _cmd):
-  this = ObjCInstance(_self)
-  view = this.view()
-  background_color = UIColor.systemBackgroundColor()
-  view.setBackgroundColor_(background_color)
-  pdbg.state(this)
+    view.addSubview(self.main_label)
 
+    # --- layout
+    layoutMarginsGuide = view.layoutMarginsGuide()
 
-_methods = [
-  viewDidLoad,
-]
+    NSLayoutConstraint.activateConstraints_([
+      self.main_label.centerXAnchor().constraintEqualToAnchor_(
+        layoutMarginsGuide.centerXAnchor()),
+      self.main_label.centerYAnchor().constraintEqualToAnchor_(
+        layoutMarginsGuide.centerYAnchor()),
+    ])
 
-create_kwargs = {
-  'name': '_vc',
-  'superclass': UISplitViewController,
-  'methods': _methods,
-}
-
-_vc = create_objc_class(**create_kwargs)
 
 if __name__ == "__main__":
   LAYOUT_DEBUG = True
+  #LAYOUT_DEBUG = False
   tvc = TopViewController.new()
-  #tvc = _vc.new()
   tnc = TopNavigationController.new(tvc, True)
   run_controller(tnc)
-  #run_controller(tvc)
+
 

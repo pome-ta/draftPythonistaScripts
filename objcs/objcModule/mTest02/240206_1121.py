@@ -6,14 +6,12 @@ from objcista.objcViewController import ObjcViewController
 
 import pdbg
 
-#pdbg.state(UISplitViewController.new())
-
 
 class TopNavigationController(PlainNavigationController):
-#class TopNavigationController(ObjcNavigationController):
 
   def __init__(self):
     self.override()
+    print('n')
 
   def override(self):
 
@@ -44,19 +42,6 @@ class TopNavigationController(PlainNavigationController):
     navigationItem.rightBarButtonItem = done_btn
 
 
-class TopViewController(ObjcViewController):
-
-  def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-
-  def didLoad(self, this: UIViewController):
-    view = this.view()
-    background_color = UIColor.systemBackgroundColor()
-    view.setBackgroundColor_(background_color)
-    navigationItem = this.navigationItem()
-    navigationItem.setTitle_('あ')
-
-
 def viewDidLoad(_self, _cmd):
   this = ObjCInstance(_self)
   view = this.view()
@@ -78,10 +63,9 @@ create_kwargs = {
 _vc = create_objc_class(**create_kwargs)
 
 if __name__ == "__main__":
-  LAYOUT_DEBUG = True
-  tvc = TopViewController.new()
-  #tvc = _vc.new()
+  tvc = _vc.new()
   tnc = TopNavigationController.new(tvc, True)
-  run_controller(tnc)
+
   #run_controller(tvc)
+  run_controller(tnc)
 
