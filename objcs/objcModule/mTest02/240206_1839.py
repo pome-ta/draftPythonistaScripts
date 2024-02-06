@@ -66,7 +66,7 @@ class TopViewController(ObjcViewController):
   def didLoad(self, this: UIViewController):
     view = this.view()
     background_color = UIColor.systemBackgroundColor()
-    view.setBackgroundColor_(background_color)
+    #view.setBackgroundColor_(background_color)
 
     label_kwargs = {
       'text': self.main_text,
@@ -92,7 +92,9 @@ def viewDidLoad(_self, _cmd):
   this = ObjCInstance(_self)
   view = this.view()
   background_color = UIColor.systemBackgroundColor()
-  view.setBackgroundColor_(background_color)
+  systemRedColor=UIColor.systemRedColor()
+  #view.setBackgroundColor_(background_color)
+  view.setBackgroundColor_(systemRedColor)
 
   vc = TopViewController.new()
   nvc = TopNavigationController.new(vc, True)
