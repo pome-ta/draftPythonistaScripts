@@ -100,9 +100,10 @@ def viewDidLoad(_self, _cmd):
   nvc = TopNavigationController.new(vc, True)
 
   secondary = UISplitViewController_Column.secondary
+  primary=UISplitViewController_Column.primary
 
   this.setViewController_forColumn_(nvc, secondary)
-  pdbg.state(this)
+  #pdbg.state(this)
 
 
 _methods = [
