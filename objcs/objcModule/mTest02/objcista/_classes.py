@@ -1,10 +1,12 @@
 from objc_util import ObjCClass
 
+UIViewController = ObjCClass('UIViewController')
+
 UINavigationController = ObjCClass('UINavigationController')
 UINavigationBarAppearance = ObjCClass('UINavigationBarAppearance')
 
-UIViewController = ObjCClass('UIViewController')
-UISplitViewController = ObjCClass('UISplitViewController')
+UITableViewController = ObjCClass('UITableViewController')
+UITableViewCell = ObjCClass('UITableViewCell')
 
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 

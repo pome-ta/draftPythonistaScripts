@@ -269,7 +269,7 @@ def viewDidLoad(_self, _cmd):
 
   this.setViewController_forColumn_(nvc, primary)
   this.setViewController_forColumn_(fnv, secondary)
-  pdbg.state(this.presentsWithGesture())
+  #pdbg.state(this.presentsWithGesture())
 
 
 _methods = [
