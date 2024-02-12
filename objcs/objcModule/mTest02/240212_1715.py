@@ -1,4 +1,4 @@
-from ctypes import c_void_p
+from ctypes import c_void_p,POINTER
 from objc_util import ObjCInstance, sel, create_objc_class, class_getSuperclass, class_getInstanceMethod, objc_allocateClassPair, objc_registerClassPair, objc_getClass, on_main_thread, CGRect
 
 from objcista import *
@@ -19,6 +19,7 @@ class CstmUITableViewCell:
 
   def __init__(self):
     self.tableViewCell_instance: None
+    self.is_fast = False
 
   def _override_tableViewCell(self):
 
@@ -59,7 +60,17 @@ class CstmUITableViewCell:
       
     def didAddSubview_(_self, _cmd, _subview):
       subview = ObjCInstance(_subview)
-      print(subview)
+      if not (self.is_fast):
+        selector = sel('initWithStyle:reuseIdentifier:')
+        super_function = UITableViewCell.instanceMethodForSelector_(selector)
+        
+        #print(ObjCInstance(super_function))
+        #print(bool(super_function))
+        #pdbg.state(super_function)
+        
+        #print(subview)
+        pdbg.state(ObjCInstance(_self))
+        self.is_fast = True
       print('---')
 
     #_methods=[initWithStyle_reuseIdentifier_,initWithCoder_,]
