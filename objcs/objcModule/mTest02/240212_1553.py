@@ -7,9 +7,11 @@ import pdbg
 def viewDidLoad(_self, _cmd):
   this = ObjCInstance(_self)
   #pdbg.state(this)
-  _allocateClassPair = objc_allocateClassPair(_self, 'vc', 0)
+  #_allocateClassPair = objc_allocateClassPair(_self, 'vc', 0)
   #sc = objc_getClass(objc_registerClassPair(_self))
   #print(sc)
+  #print((_cmd))
+  pdbg.state(this)
 
 
 _methods = [
