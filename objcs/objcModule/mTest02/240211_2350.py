@@ -1,4 +1,5 @@
-from objc_util import ObjCInstance, sel, create_objc_class, class_getSuperclass, class_getInstanceMethod, objc_allocateClassPair, objc_registerClassPair, objc_getClass,on_main_thread,CGRect
+from ctypes import c_void_p
+from objc_util import ObjCInstance, sel, create_objc_class, class_getSuperclass, class_getInstanceMethod, objc_allocateClassPair, objc_registerClassPair, objc_getClass, on_main_thread, CGRect
 
 from objcista import *
 #from objcista._controller import _Controller
@@ -7,6 +8,11 @@ from objcista.objcViewController import ObjcViewController
 from objcista.objcLabel import ObjcLabel
 
 import pdbg
+'''
+selector = sel('initWithStyle:reuseIdentifier:')
+super_function = UITableViewCell.instanceMethodForSelector_(selector)
+pdbg.state(c_void_p(super_function))
+'''
 
 
 class CstmUITableViewCell:
@@ -15,31 +21,45 @@ class CstmUITableViewCell:
     self.tableViewCell_instance: None
 
   def _override_tableViewCell(self):
-    
-    def initWithFrame_reuseIdentifier_(_self, _cmd,_frame,_reuseIdentifier):
+
+    def _tvc_initWithFrame_reuseIdentifier_(_self, _cmd, _frame,
+                                            _reuseIdentifier):
+      # xxx: ここは呼ばれない
       this = ObjCInstance(_self)
-      this.initWithStyle_reuseIdentifier_(0, _reuseIdentifier)
+      frame = ObjCInstance(_frame)
+      reuseIdentifier = ObjCInstance(_reuseIdentifier)
+      this.initWithFrame_(frame)
+      this.initWithStyle_reuseIdentifier_(0, reuseIdentifier)
       print('h')
       return this
-      
 
-    def initWithStyle_reuseIdentifier_(_self, _cmd, _style, _reuseIdentifier):
-      '''
-      this = ObjCInstance(_self)
-      frame = CGRect((0.0, 0.0), (10.0, 5.0))
+    def _tvc_initWithStyle_reuseIdentifier_(_self, _cmd, _style,
+                                            _reuseIdentifier):
+
+      style = ObjCInstance(_style)
       reuseIdentifier = ObjCInstance(_reuseIdentifier)
-      
-      this.initWithFrame_reuseIdentifier_(frame, _reuseIdentifier)
+
+      #this.initWithFrame_reuseIdentifier_(frame, _reuseIdentifier)
       print('iiii')
-      '''
+
+      this = ObjCInstance(_self)
+      #this.initWithStyle_reuseIdentifier_(style,reuseIdentifier)
+      super().initWithStyle_reuseIdentifier_(style, reuseIdentifier)
+      #this.addSubview_(ObjcLabel.new('hoge'))
+
+      #selector = sel('initWithStyle:reuseIdentifier:')
+      #super_function = UITableViewCell.instanceMethodForSelector_(selector)
+      #super_function(_self, selector, _style, _reuseIdentifier)
+
       return _self
+      #return this
 
     def initWithCoder_(_self, _cmd, _coder):
       print('c')
 
     #_methods=[initWithStyle_reuseIdentifier_,initWithCoder_,]
     _methods = [
-      initWithStyle_reuseIdentifier_,
+      _tvc_initWithStyle_reuseIdentifier_,
       #initWithFrame_reuseIdentifier_,
       #initWithCoder_,
     ]
@@ -53,7 +73,7 @@ class CstmUITableViewCell:
     _tvc = create_objc_class(**create_kwargs)
     self.tableViewCell_instance = _tvc
 
-  #@on_main_thread
+  @on_main_thread
   def _init_tableViewCell(self):
     self._override_tableViewCell()
     return self.tableViewCell_instance
@@ -103,8 +123,10 @@ class ObjcTableViewController:
       #print(this.ptr)
       #pdbg.state(sc)
       #view.registerClass_forCellReuseIdentifier_(UITableViewCell, self.cell_identifier)
-      view.registerClass_forCellReuseIdentifier_(CstmUITableViewCell.this(), self.cell_identifier)
+      view.registerClass_forCellReuseIdentifier_(CstmUITableViewCell.this(),
+                                                 self.cell_identifier)
 
+    # todo: UITableViewDelegate
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
 
       return 1
@@ -116,7 +138,8 @@ class ObjcTableViewController:
         self.cell_identifier, forIndexPath=indexPath)
 
       #pdbg.state(cell.contentView().subviews().objectAtIndexedSubscript_(0))
-      #pdbg.state(cell)
+      pdbg.state(cell)
+      #print(class_getSuperclass(cell.ptr))
 
       return cell.ptr
 
