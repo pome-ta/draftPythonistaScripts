@@ -1,5 +1,5 @@
 from ctypes import c_void_p,POINTER
-from objc_util import ObjCInstance, sel, create_objc_class, class_getSuperclass, class_getInstanceMethod, objc_allocateClassPair, objc_registerClassPair, objc_getClass, on_main_thread, CGRect
+from objc_util import ObjCInstance, sel, create_objc_class, class_getSuperclass, class_getInstanceMethod, objc_allocateClassPair, objc_registerClassPair, objc_getClass, on_main_thread, CGRect,c,ObjCInstanceMethod,method_getTypeEncoding
 
 from objcista import *
 #from objcista._controller import _Controller
@@ -13,7 +13,9 @@ selector = sel('initWithStyle:reuseIdentifier:')
 super_function = UITableViewCell.instanceMethodForSelector_(selector)
 pdbg.state(c_void_p(super_function))
 '''
-
+MTLCreateSystemDefaultDevice = c.MTLCreateSystemDefaultDevice
+#print(MTLCreateSystemDefaultDevice)
+#pdbg.state(MTLCreateSystemDefaultDevice)
 
 class CstmUITableViewCell:
 
@@ -61,15 +63,31 @@ class CstmUITableViewCell:
     def didAddSubview_(_self, _cmd, _subview):
       subview = ObjCInstance(_subview)
       if not (self.is_fast):
+        this = ObjCInstance(_self)
         selector = sel('initWithStyle:reuseIdentifier:')
-        super_function = UITableViewCell.instanceMethodForSelector_(selector)
+        #super_function = UITableViewCell.instanceMethodForSelector_(selector)
         
         #print(ObjCInstance(super_function))
         #print(bool(super_function))
         #pdbg.state(super_function)
         
         #print(subview)
-        pdbg.state(ObjCInstance(_self))
+        #pdbg.state(ObjCInstance(_self))
+        
+        #f = this.setFrame_
+        #pdbg.state(f)
+        #class_getSuperclass
+        #print(self.tableViewCell_instance)
+        #pdbg.state(self.tableViewCell_instance)
+        #sc = class_getSuperclass(self.tableViewCell_instance)
+        sc = ObjCInstance(class_getSuperclass(tvc))
+        superclass_method = class_getInstanceMethod(sc, selector)
+        enc = method_getTypeEncoding(superclass_method)
+        #sm = class_getInstanceMethod(ObjCInstance(sc), selector)
+        #m=ObjCInstanceMethod(ObjCInstance(sc), 'initWithStyle_reuseIdentifier_')
+        print(enc)
+        pdbg.state(superclass_method)
+        #pdbg.state(sm)
         self.is_fast = True
       print('---')
 
@@ -83,12 +101,12 @@ class CstmUITableViewCell:
     #_methods =[initWithCoder_]
     #_methods = []
     create_kwargs = {
-      'name': '_tvc',
+      'name': 'tvc',
       'superclass': UITableViewCell,
       'methods': _methods,
     }
-    _tvc = create_objc_class(**create_kwargs)
-    self.tableViewCell_instance = _tvc
+    tvc = create_objc_class(**create_kwargs)
+    self.tableViewCell_instance = tvc
 
   @on_main_thread
   def _init_tableViewCell(self):
