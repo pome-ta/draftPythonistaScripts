@@ -1,5 +1,4 @@
-from ctypes import c_void_p,POINTER
-from objc_util import ObjCInstance, sel, create_objc_class, class_getSuperclass, class_getInstanceMethod, objc_allocateClassPair, objc_registerClassPair, objc_getClass, on_main_thread, CGRect,c,ObjCInstanceMethod,method_getTypeEncoding
+from objc_util import ObjCInstance, create_objc_class, sel, CGRect
 
 from objcista import *
 #from objcista._controller import _Controller
@@ -8,14 +7,7 @@ from objcista.objcViewController import ObjcViewController
 from objcista.objcLabel import ObjcLabel
 
 import pdbg
-'''
-selector = sel('initWithStyle:reuseIdentifier:')
-super_function = UITableViewCell.instanceMethodForSelector_(selector)
-pdbg.state(c_void_p(super_function))
-'''
-MTLCreateSystemDefaultDevice = c.MTLCreateSystemDefaultDevice
-#print(MTLCreateSystemDefaultDevice)
-#pdbg.state(MTLCreateSystemDefaultDevice)
+
 
 class CstmUITableViewCell:
 
@@ -25,81 +17,33 @@ class CstmUITableViewCell:
 
   def _override_tableViewCell(self):
 
-    def _tvc_initWithFrame_reuseIdentifier_(_self, _cmd, _frame,
-                                            _reuseIdentifier):
-      # xxx: ここは呼ばれない
+    def initWithStyle_reuseIdentifier_(_self, _cmd, _style, _reuseIdentifier):
       this = ObjCInstance(_self)
-      frame = ObjCInstance(_frame)
-      reuseIdentifier = ObjCInstance(_reuseIdentifier)
-      this.initWithFrame_(frame)
-      this.initWithStyle_reuseIdentifier_(0, reuseIdentifier)
-      print('h')
-      return this
-
-    def _tvc_initWithStyle_reuseIdentifier_(_self, _cmd, _style,
-                                            _reuseIdentifier):
-
       style = ObjCInstance(_style)
       reuseIdentifier = ObjCInstance(_reuseIdentifier)
-
-      #this.initWithFrame_reuseIdentifier_(frame, _reuseIdentifier)
+      frame = CGRect((0.0, 0.0), (320.0, 44.0))
       print('iiii')
 
-      this = ObjCInstance(_self)
-      #this.initWithStyle_reuseIdentifier_(style,reuseIdentifier)
-      super().initWithStyle_reuseIdentifier_(style, reuseIdentifier)
-      #this.addSubview_(ObjcLabel.new('hoge'))
-
-      #selector = sel('initWithStyle:reuseIdentifier:')
-      #super_function = UITableViewCell.instanceMethodForSelector_(selector)
-      #super_function(_self, selector, _style, _reuseIdentifier)
-
-      return _self
-      #return this
-
     def initWithCoder_(_self, _cmd, _coder):
-      print('c')
-      
+      print('initWithCoder')
+
     def didAddSubview_(_self, _cmd, _subview):
       subview = ObjCInstance(_subview)
       if not (self.is_fast):
         this = ObjCInstance(_self)
-        selector = sel('initWithStyle:reuseIdentifier:')
-        #super_function = UITableViewCell.instanceMethodForSelector_(selector)
+        #pdbg.state(this.reuseIdentifier())
+        #pdbg.state(this)
         
-        #print(ObjCInstance(super_function))
-        #print(bool(super_function))
-        #pdbg.state(super_function)
+        #frame = CGRect((0.0, 0.0), (320.0, 44.0))
         
-        #print(subview)
-        #pdbg.state(ObjCInstance(_self))
         
-        #f = this.setFrame_
-        #pdbg.state(f)
-        #class_getSuperclass
-        #print(self.tableViewCell_instance)
-        #pdbg.state(self.tableViewCell_instance)
-        #sc = class_getSuperclass(self.tableViewCell_instance)
-        sc = ObjCInstance(class_getSuperclass(tvc))
-        superclass_method = class_getInstanceMethod(sc, selector)
-        enc = method_getTypeEncoding(superclass_method)
-        #sm = class_getInstanceMethod(ObjCInstance(sc), selector)
-        #m=ObjCInstanceMethod(ObjCInstance(sc), 'initWithStyle_reuseIdentifier_')
-        #print(enc)
-        #pdbg.state(superclass_method)
-        #pdbg.state(sm)
-        
+
         self.is_fast = True
       print('---')
 
-    #_methods=[initWithStyle_reuseIdentifier_,initWithCoder_,]
     _methods = [
-      #_tvc_initWithStyle_reuseIdentifier_,
-      #initWithFrame_reuseIdentifier_,
-      #initWithCoder_,
       didAddSubview_,
     ]
-    #_methods =[initWithCoder_]
     #_methods = []
     create_kwargs = {
       'name': 'tvc',
@@ -128,6 +72,7 @@ class ObjcTableViewController:
   def __init__(self, *args, **kwargs):
     self._msgs: list['def'] = []  # xxx: 型名ちゃんとやる
     self.cell_identifier = 'cell'
+    #self.cell_identifier = None
     self.controller_instance: ObjCInstance
 
   def override(self):
@@ -147,18 +92,6 @@ class ObjcTableViewController:
     def viewDidLoad(_self, _cmd):
       this = ObjCInstance(_self)
       view = this.view()
-      #objc_registerClassPair(_self)
-      #objc_registerClassPair(this)
-      #sc = class_getSuperclass(this)
-      #objc_getClass(_self)
-      #sc=class_getInstanceMethod(_self)
-      #sc=objc_allocateClassPair(_self)
-      #pdbg.state(class_getSuperclass(_self))
-      #CstmUITableViewCell
-      #print(_self)
-      #print(this.ptr)
-      #pdbg.state(sc)
-      #view.registerClass_forCellReuseIdentifier_(UITableViewCell, self.cell_identifier)
       view.registerClass_forCellReuseIdentifier_(CstmUITableViewCell.this(),
                                                  self.cell_identifier)
 
@@ -172,11 +105,6 @@ class ObjcTableViewController:
       indexPath = ObjCInstance(_indexPath)
       cell = tableView.dequeueReusableCellWithIdentifier(
         self.cell_identifier, forIndexPath=indexPath)
-
-      #pdbg.state(cell.contentView().subviews().objectAtIndexedSubscript_(0))
-      #pdbg.state(cell)
-      #print(class_getSuperclass(cell.ptr))
-
       return cell.ptr
 
     _methods = [
@@ -195,16 +123,7 @@ class ObjcTableViewController:
 
   def _init_controller(self):
     self._override_controller()
-
     vc = self.controller_instance.new().autorelease()
-    #UITableViewCell
-    #registerClass_forCellReuseIdentifier_
-
-    #CstmUITableViewCell
-    #vc.view().registerClass_forCellReuseIdentifier_(UITableViewCell,self.cell_identifier)
-    #vc.view().registerClass_forCellReuseIdentifier_(CstmUITableViewCell.this(),self.cell_identifier)
-
-    #pdbg.state(vc.view())
     return vc
 
   @classmethod
@@ -250,14 +169,10 @@ class TopNavigationController(PlainNavigationController):
 if __name__ == "__main__":
   LAYOUT_DEBUG = True
   #LAYOUT_DEBUG = False
-  #vc = ButtonViewController.new()
   vc = ObjcTableViewController.new()
   nv = TopNavigationController.new(vc, True)
   style = UIModalPresentationStyle.pageSheet
   #style = UIModalPresentationStyle.fullScreen
 
   run_controller(nv, style)
-  #ctv = CstmUITableViewCell.this()
-  #sc = class_getSuperclass(ctv.ptr)
-  #print(ObjCInstance(sc))
 
