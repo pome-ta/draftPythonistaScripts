@@ -21,27 +21,23 @@ class CstmUITableViewCell:
       this = ObjCInstance(_self)
       style = ObjCInstance(_style)
       reuseIdentifier = ObjCInstance(_reuseIdentifier)
-      frame = CGRect((0.0, 0.0), (320.0, 44.0))
-
-      #this.initWithFrame_(frame)
-      #this.initWithFrame_reuseIdentifier_(frame, reuseIdentifier)
-
-      this.style = style
-      #this.resignFirstResponder = resignFirstResponder.copy
-      '''
-      style
-      resignFirstResponder
-      initWithFrame_
-      initWithFrame_reuseIdentifier_
-      '''
-      #print('iiii')
-      #return _self
-      #return UITableViewCell
-      #return 0
-      #return this.initWithFrame_reuseIdentifier_(frame, reuseIdentifier)
-      a = UITableViewCell.alloc().initWithStyle_reuseIdentifier_(style,reuseIdentifier)
-      return a.ptr
       
+      super_instance = UITableViewCell.alloc().initWithStyle_reuseIdentifier_(
+        style, reuseIdentifier)
+
+      #initWithFrame_reuseIdentifier_
+      _frame=super_instance.frame()
+      #a=this.alloc().initWithFrame_(_frame).autorelease()
+      a = this.initWithFrame_reuseIdentifier_(_frame, reuseIdentifier)
+      
+      #pdbg.state(this)
+      #pdbg.state(super_instance.frame())
+      #print(this)
+      #print(super_instance)
+
+
+      
+      return super_instance.ptr
 
     def initWithCoder_(_self, _cmd, _coder):
       print('initWithCoder')
@@ -53,8 +49,6 @@ class CstmUITableViewCell:
         #pdbg.state(this.reuseIdentifier())
         #pdbg.state(this.contentView())
         pdbg.state(this)
-
-        #frame = CGRect((0.0, 0.0), (320.0, 44.0))
 
         self.is_fast = True
       print('---')

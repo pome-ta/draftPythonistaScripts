@@ -21,27 +21,11 @@ class CstmUITableViewCell:
       this = ObjCInstance(_self)
       style = ObjCInstance(_style)
       reuseIdentifier = ObjCInstance(_reuseIdentifier)
-      frame = CGRect((0.0, 0.0), (320.0, 44.0))
 
-      #this.initWithFrame_(frame)
-      #this.initWithFrame_reuseIdentifier_(frame, reuseIdentifier)
+      super_instance = UITableViewCell.alloc().initWithStyle_reuseIdentifier_(
+        style, reuseIdentifier)
 
-      this.style = style
-      #this.resignFirstResponder = resignFirstResponder.copy
-      '''
-      style
-      resignFirstResponder
-      initWithFrame_
-      initWithFrame_reuseIdentifier_
-      '''
-      #print('iiii')
-      #return _self
-      #return UITableViewCell
-      #return 0
-      #return this.initWithFrame_reuseIdentifier_(frame, reuseIdentifier)
-      a = UITableViewCell.alloc().initWithStyle_reuseIdentifier_(style,reuseIdentifier)
-      return a.ptr
-      
+      return super_instance.ptr
 
     def initWithCoder_(_self, _cmd, _coder):
       print('initWithCoder')
@@ -61,7 +45,7 @@ class CstmUITableViewCell:
 
     _methods = [
       initWithStyle_reuseIdentifier_,
-      #didAddSubview_,
+      didAddSubview_,
     ]
     #_methods = []
     create_kwargs = {
