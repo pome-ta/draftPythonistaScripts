@@ -24,18 +24,21 @@ class CstmUITableViewCell:
       frame = CGRect((0.0, 0.0), (320.0, 44.0))
 
       #this.initWithFrame_(frame)
-      #this.alloc().initWithFrame_reuseIdentifier_(frame, _reuseIdentifier)
+      #this.initWithFrame_reuseIdentifier_(frame, reuseIdentifier)
 
       this.style = style
-      this.resignFirstResponder = resignFirstResponder.copy
+      #this.resignFirstResponder = resignFirstResponder.copy
       '''
       style
       resignFirstResponder
       initWithFrame_
       initWithFrame_reuseIdentifier_
       '''
-      print('iiii')
-      return this
+      #print('iiii')
+      #return _self
+      #return UITableViewCell
+      #return 0
+      return this.initWithFrame_reuseIdentifier_(frame, reuseIdentifier)
       
 
     def initWithCoder_(_self, _cmd, _coder):
@@ -46,7 +49,8 @@ class CstmUITableViewCell:
       if not (self.is_fast):
         this = ObjCInstance(_self)
         #pdbg.state(this.reuseIdentifier())
-        #pdbg.state(this)
+        #pdbg.state(this.contentView())
+        pdbg.state(this)
 
         #frame = CGRect((0.0, 0.0), (320.0, 44.0))
 
