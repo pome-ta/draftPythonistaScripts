@@ -22,7 +22,21 @@ class CstmUITableViewCell:
       style = ObjCInstance(_style)
       reuseIdentifier = ObjCInstance(_reuseIdentifier)
       frame = CGRect((0.0, 0.0), (320.0, 44.0))
+
+      #this.initWithFrame_(frame)
+      #this.alloc().initWithFrame_reuseIdentifier_(frame, _reuseIdentifier)
+
+      this.style = style
+      this.resignFirstResponder = resignFirstResponder.copy
+      '''
+      style
+      resignFirstResponder
+      initWithFrame_
+      initWithFrame_reuseIdentifier_
+      '''
       print('iiii')
+      return this
+      
 
     def initWithCoder_(_self, _cmd, _coder):
       print('initWithCoder')
@@ -33,15 +47,14 @@ class CstmUITableViewCell:
         this = ObjCInstance(_self)
         #pdbg.state(this.reuseIdentifier())
         #pdbg.state(this)
-        
+
         #frame = CGRect((0.0, 0.0), (320.0, 44.0))
-        
-        
 
         self.is_fast = True
       print('---')
 
     _methods = [
+      #initWithStyle_reuseIdentifier_,
       didAddSubview_,
     ]
     #_methods = []
@@ -51,6 +64,7 @@ class CstmUITableViewCell:
       'methods': _methods,
     }
     tvc = create_objc_class(**create_kwargs)
+    #pdbg.state(tvc)
     self.tableViewCell_instance = tvc
 
   @on_main_thread
@@ -71,7 +85,7 @@ class ObjcTableViewController:
 
   def __init__(self, *args, **kwargs):
     self._msgs: list['def'] = []  # xxx: 型名ちゃんとやる
-    self.cell_identifier = 'cell'
+    self.cell_identifier = 'customCell'
     #self.cell_identifier = None
     self.controller_instance: ObjCInstance
 
