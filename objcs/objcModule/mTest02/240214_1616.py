@@ -1,5 +1,5 @@
 import ctypes
-from objc_util import ObjCInstance, create_objc_class, sel, CGRect, c
+from objc_util import ObjCInstance, create_objc_class, sel, CGRect, c,class_getSuperclass
 
 from objcista import *
 #from objcista._controller import _Controller
@@ -12,6 +12,13 @@ import pdbg
 #objc_msgSendSuper = c.objc_msgSendSuper
 #objc_msgSendSuper = c['objc_msgSendSuper']
 #pdbg.state(objc_msgSendSuper)
+
+
+class objc_super(ctypes.Structure):
+  _fields_ = [
+    ('receiver', ctypes.c_void_p),
+    ('super_class', ctypes.c_void_p),
+  ]
 
 
 class CstmUITableViewCell:
@@ -28,7 +35,6 @@ class CstmUITableViewCell:
       style = ObjCInstance(_style)
       reuseIdentifier = ObjCInstance(_reuseIdentifier)
 
-      
       selector = sel('initWithStyle:reuseIdentifier:')
       '''
       objc_msgSendSuper = c.objc_msgSendSuper
@@ -43,7 +49,7 @@ class CstmUITableViewCell:
       objc_msgSendSuper.restype = ctypes.c_void_p
       #cell = objc_msgSendSuper(this.ptr, selector, _self, _cmd, style,reuseIdentifier)
       '''
-      
+
       #selector = sel('contentView')
       '''
       objc_msgSendSuper = c.objc_msgSendSuper
@@ -53,7 +59,6 @@ class CstmUITableViewCell:
       ]
       objc_msgSendSuper.restype = ctypes.c_void_p
       '''
-      
       '''
       objc_msgSend = c.objc_msgSend
       objc_msgSend.argtypes = [
@@ -70,21 +75,26 @@ class CstmUITableViewCell:
         ctypes.c_void_p,
       ]
       objc_msgSendSuper.restype = ctypes.c_void_p
-      
-      
+
       #objc_msgSend
-      a = objc_msgSendSuper(_self, selector,_style, _reuseIdentifier)
+      #a = objc_msgSendSuper(_self, selector, _style, _reuseIdentifier)
       #print(a)
-      pdbg.state((a))
+      #pdbg.state((a))
+      #a = class_getSuperclass(_self)
+      super_cls = class_getSuperclass(self.tableViewCell_instance)
+      super_struct = objc_super(_self, super_cls)
       
-      
+      a = objc_msgSendSuper(ctypes.byref(super_struct), selector, _style, _reuseIdentifier)
+      #print(ObjCInstance(a))
+
       #pdbg.state(this.isOpaque())
       #pdbg.state(this.contentView())
 
       super_instance = UITableViewCell.alloc().initWithStyle_reuseIdentifier_(
         style, reuseIdentifier)
 
-      return super_instance.ptr
+      #return super_instance.ptr
+      return a
 
     def initWithCoder_(_self, _cmd, _coder):
       print('initWithCoder')
@@ -102,7 +112,7 @@ class CstmUITableViewCell:
 
     _methods = [
       initWithStyle_reuseIdentifier_,
-      #didAddSubview_,
+      didAddSubview_,
     ]
     #_methods = []
     create_kwargs = {
