@@ -1,5 +1,5 @@
 import ctypes
-from objc_util import ObjCInstance, create_objc_class, sel, CGRect, c, class_getSuperclass
+from objc_util import ObjCInstance, create_objc_class, sel, c, class_getSuperclass
 
 from objcista import *
 #from objcista._controller import _Controller
@@ -9,13 +9,18 @@ from objcista.objcLabel import ObjcLabel
 
 import pdbg
 
-#objc_msgSendSuper = c.objc_msgSendSuper
-#objc_msgSendSuper = c['objc_msgSendSuper']
-#pdbg.state(objc_msgSendSuper)
+# todo: 後ほど関数化
+objc_msgSendSuper = c.objc_msgSendSuper
+objc_msgSendSuper.argtypes = [
+  ctypes.c_void_p,  # super
+  ctypes.c_void_p,  # selector
+  ctypes.c_void_p,
+  ctypes.c_void_p,
+]
+objc_msgSendSuper.restype = ctypes.c_void_p
 
 
 class objc_super(ctypes.Structure):
-  # encoding(b"@")
   #ref: [id | Apple Developer Documentation](https://developer.apple.com/documentation/objectivec/id?language=objc)
   # ref: [Class | Apple Developer Documentation](https://developer.apple.com/documentation/objectivec/class?language=objc)
   _fields_ = [
@@ -36,89 +41,13 @@ class CstmUITableViewCell:
       super_cls = class_getSuperclass(self.tableViewCell_instance)
       super_struct = objc_super(_self, super_cls)
       super_sel = sel('initWithStyle:reuseIdentifier:')
-      
-      objc_msgSendSuper = c.objc_msgSendSuper
-      objc_msgSendSuper.argtypes = [
-        ctypes.c_void_p,  # super
-        ctypes.c_void_p,  # selector
-        ctypes.c_void_p,
-        ctypes.c_void_p,
-      ]
-      objc_msgSendSuper.restype = ctypes.c_void_p
-      
+
       _this = objc_msgSendSuper(ctypes.byref(super_struct), super_sel, _style,
-                            _reuseIdentifier)
-       
-      
-      #pdbg.state(ctypes.c_void_p(_cmd))
-      this = ObjCInstance(_self)
-      style = ObjCInstance(_style)
-      reuseIdentifier = ObjCInstance(_reuseIdentifier)
+                                _reuseIdentifier)
 
-      selector = sel('initWithStyle:reuseIdentifier:')
-      '''
-      objc_msgSendSuper = c.objc_msgSendSuper
-      objc_msgSendSuper.argtypes = [
-        ctypes.c_void_p,
-        ctypes.c_void_p,
-        ctypes.c_void_p,
-        ctypes.c_void_p,
-        ctypes.c_void_p,
-        ctypes.c_void_p,
-      ]
-      objc_msgSendSuper.restype = ctypes.c_void_p
-      #cell = objc_msgSendSuper(this.ptr, selector, _self, _cmd, style,reuseIdentifier)
-      '''
-
-      #selector = sel('contentView')
-      '''
-      objc_msgSendSuper = c.objc_msgSendSuper
-      objc_msgSendSuper.argtypes = [
-        ctypes.c_void_p,
-        ctypes.c_void_p,
-      ]
-      objc_msgSendSuper.restype = ctypes.c_void_p
-      '''
-      '''
-      objc_msgSend = c.objc_msgSend
-      objc_msgSend.argtypes = [
-        ctypes.c_void_p,
-        ctypes.c_void_p,
-      ]
-      objc_msgSend.restype = ctypes.c_void_p
-      '''
-      objc_msgSendSuper = c.objc_msgSendSuper
-      objc_msgSendSuper.argtypes = [
-        ctypes.c_void_p,
-        ctypes.c_void_p,
-        ctypes.c_void_p,
-        ctypes.c_void_p,
-      ]
-      objc_msgSendSuper.restype = ctypes.c_void_p
-
-      #objc_msgSend
-      #a = objc_msgSendSuper(_self, selector, _style, _reuseIdentifier)
-      #print(a)
-      #pdbg.state((a))
-      #a = class_getSuperclass(_self)
-      super_cls = class_getSuperclass(self.tableViewCell_instance)
-      super_struct = objc_super(_self, super_cls)
-
-      a = objc_msgSendSuper(ctypes.byref(super_struct), selector, _style,
-                            _reuseIdentifier)
-      #print(ObjCInstance(a))
-
-      #pdbg.state(this.isOpaque())
-      #pdbg.state(this.contentView())
-
-      super_instance = UITableViewCell.alloc().initWithStyle_reuseIdentifier_(
-        style, reuseIdentifier)
-
-      #return super_instance.ptr
-      return a
-
-    def initWithCoder_(_self, _cmd, _coder):
-      print('initWithCoder')
+      this = ObjCInstance(_this)
+      pdbg.state(this)
+      return _this
 
     def didAddSubview_(_self, _cmd, _subview):
       subview = ObjCInstance(_subview)
@@ -126,8 +55,6 @@ class CstmUITableViewCell:
         this = ObjCInstance(_self)
         #pdbg.state(this.reuseIdentifier())
         #pdbg.state(this.contentView())
-        pdbg.state(this)
-
         self.is_fast = True
       print('---')
 
