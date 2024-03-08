@@ -1,3 +1,53 @@
+import ctypes
+import typing
+import inspect
+
+from objc_util import c
+
+_ctype_for_type_map = {
+  type(None): None,
+  int: ctypes.c_int,
+  float: ctypes.c_double,
+  bool: ctypes.c_bool,
+  bytes: ctypes.c_char_p,
+  object: ctypes.py_object,
+}
+
+
+def ctype_for_type(tp):
+  """Look up the C type corresponding to the given Python type.
+  指定された Python 型に対応する C 型を検索します。
+
+
+    This conversion is applied to types used in
+    :class:`~rubicon.objc.api.objc_method` signatures,
+    :class:`~rubicon.objc.api.objc_ivar` types, etc. This function translates
+    Python built-in types and :mod:`rubicon.objc` classes to their
+    :mod:`ctypes` equivalents. Unregistered types (including types that are
+    already ctypes) are returned unchanged.
+    """
+
+  return _ctype_for_type_map.get(tp, tp)
+
+
+class BlockLiteral(ctypes.Structure):
+  _fields_ = [
+    ("isa", ctypes.c_void_p),
+    ("flags", ctypes.c_int),
+    ("reserved", ctypes.c_int),
+    ("invoke",
+     ctypes.c_void_p),  # NB: this must be c_void_p due to variadic nature
+    ("descriptor", ctypes.c_void_p),
+  ]
+
+_NSConcreteStackBlock = (ctypes.c_void_p * 32).in_dll(c.libc, '_NSConcreteStackBlock')
+
+
+
+
+NOTHING = object()
+
+
 class Block:
   """A wrapper that exposes a Python callable object to Objective-C as a block.
   Python 呼び出し可能オブジェクトをブロックとして Objective-C に公開するラッパー。
@@ -34,7 +84,7 @@ class Block:
         """
 
     if not callable(func):
-      raise TypeError("Blocks must be callable")
+      raise TypeError('Blocks must be callable')
 
     self.func = func
 
@@ -42,25 +92,27 @@ class Block:
       if argtypes:
         # This can't happen unless the caller does something hacky, but
         # guard against it just in case.
-        raise ValueError("Cannot pass argtypes without a restype")
+        # 呼び出し元が不正なことをしない限り、このようなことは起こりませんが、念のため注意してください。
+        raise ValueError('Cannot pass argtypes without a restype')
 
       # No explicit restype/argtypes were passed into the constructor,
       # so try to extract them from the function's type annotations.
+      # 明示的な restype/argtype がコンストラクターに渡されていないため、関数の型注釈から抽出してみてください。
 
       try:
         hints = typing.get_type_hints(func)
         signature = inspect.signature(func)
       except (TypeError, ValueError):
         raise ValueError(
-          "Could not retrieve function signature information - "
-          "please pass return and argument types directly into Block")
+          'Could not retrieve function signature information - '
+          'please pass return and argument types directly into Block')
 
       try:
-        restype = hints["return"]
+        restype = hints['return']
       except KeyError:
         raise ValueError(
-          "Function has no return type annotation - "
-          "please add one, or pass return and argument types directly into Block"
+          'Function has no return type annotation - '
+          'please add one, or pass return and argument types directly into Block'
         )
 
       argtypes = []
@@ -69,14 +121,14 @@ class Block:
           argtypes.append(hints[name])
         except KeyError:
           raise ValueError(
-            f"Function has no argument type annotation for parameter {name!r} - "
-            f"please add one, or pass return and argument types directly into Block"
+            f'Function has no argument type annotation for parameter {name!r} - '
+            f'please add one, or pass return and argument types directly into Block'
           )
 
     signature = tuple(ctype_for_type(tp) for tp in argtypes)
 
     restype = ctype_for_type(restype)
-    cfunc_type = CFUNCTYPE(restype, c_void_p, *signature)
+    cfunc_type = ctypes.CFUNCTYPE(restype, ctypes.c_void_p, *signature)
 
     self.literal = BlockLiteral()
     self.literal.isa = addressof(_NSConcreteStackBlock)
