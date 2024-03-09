@@ -1,5 +1,6 @@
 import os
 import ctypes
+from ctypes.util import find_library
 
 import typing
 import inspect
@@ -157,7 +158,7 @@ def load_library(name):
     (such as iOS).
     """
 
-  path = None  #ctypes.util.find_library(name)
+  path = find_library(name)
   if path is not None:
     return ctypes.CDLL(path)
 
