@@ -1,5 +1,6 @@
 import os
 import ctypes
+
 import typing
 import inspect
 
@@ -15,11 +16,15 @@ _ctype_for_type_map = {
 }
 
 
-_cfunc_type_block_copy = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p)
+
+_cfunc_type_block_copy = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p,
+                                          ctypes.c_void_p)
 _cfunc_type_block_dispose = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p)
 _encoding_for_ctype_map = {}
+
+
 def encoding_for_ctype(ctype):
-    """Return the Objective-C type encoding for the given ctypes type.
+  """Return the Objective-C type encoding for the given ctypes type.
 
     If a type encoding has been registered for the C type, that encoding is
     returned. Otherwise, if the C type is a pointer type, its pointed-to type
@@ -33,13 +38,13 @@ def encoding_for_ctype(ctype):
     :raises ValueError: if the conversion fails at any point
     """
 
+  try:
+    return _encoding_for_ctype_map[ctype]
+  except KeyError:
     try:
-        return _encoding_for_ctype_map[ctype]
+      return b"^" + encoding_for_ctype(ctype._type_)
     except KeyError:
-        try:
-            return b"^" + encoding_for_ctype(ctype._type_)
-        except KeyError:
-            raise ValueError(f"No type encoding known for ctype {ctype}")
+      raise ValueError(f"No type encoding known for ctype {ctype}")
 
 
 def ctype_for_type(tp):
@@ -70,20 +75,21 @@ class BlockLiteral(ctypes.Structure):
 
 
 class BlockDescriptor(ctypes.Structure):
-    _fields_ = [
-        ("reserved", ctypes.c_ulong),
-        ("size", ctypes.c_ulong),
-        ("copy_helper", _cfunc_type_block_copy),
-        ("dispose_helper", _cfunc_type_block_dispose),
-        ("signature", ctypes.c_char_p),
-    ]
+  _fields_ = [
+    ("reserved", ctypes.c_ulong),
+    ("size", ctypes.c_ulong),
+    ("copy_helper", _cfunc_type_block_copy),
+    ("dispose_helper", _cfunc_type_block_dispose),
+    ("signature", ctypes.c_char_p),
+  ]
+
 
 _lib_path = ["/usr/lib"]
 _framework_path = ["/System/Library/Frameworks"]
 
 
 def load_library(name):
-    """Load and return the C library with the given name.
+  """Load and return the C library with the given name.
 
     If the library could not be found, a :class:`ValueError` is raised.
 
@@ -94,39 +100,43 @@ def load_library(name):
     (such as iOS).
     """
 
-    path = ctypes.util.find_library(name)
-    if path is not None:
-        return ctypes.CDLL(path)
+  path = ctypes.util.find_library(name)
+  if path is not None:
+    return ctypes.CDLL(path)
 
-    # On iOS (and probably also watchOS and tvOS), ctypes.util.find_library
-    # doesn't work and always returns None. This is because the sandbox hides
-    # all system libraries from the filesystem and pretends they don't exist.
-    # However, they can still be loaded if the path is known, so we try to load
-    # the library from a few known locations.
+  # On iOS (and probably also watchOS and tvOS), ctypes.util.find_library
+  # doesn't work and always returns None. This is because the sandbox hides
+  # all system libraries from the filesystem and pretends they don't exist.
+  # However, they can still be loaded if the path is known, so we try to load
+  # the library from a few known locations.
 
-    for loc in _lib_path:
-        try:
-            return ctypes.CDLL(os.path.join(loc, "lib" + name + ".dylib"))
-        except OSError:
-            pass
+  for loc in _lib_path:
+    try:
+      return ctypes.CDLL(os.path.join(loc, "lib" + name + ".dylib"))
+    except OSError:
+      pass
 
-    for loc in _framework_path:
-        try:
-            return ctypes.CDLL(os.path.join(loc, name + ".framework", name))
-        except OSError:
-            pass
+  for loc in _framework_path:
+    try:
+      return ctypes.CDLL(os.path.join(loc, name + ".framework", name))
+    except OSError:
+      pass
 
-    raise ValueError(f"Library {name!r} not found")
+  raise ValueError(f"Library {name!r} not found")
+
+
 libc = load_library('c')
-_NSConcreteStackBlock = (ctypes.c_void_p * 32).in_dll(libc, '_NSConcreteStackBlock')
+_NSConcreteStackBlock = (ctypes.c_void_p * 32).in_dll(libc,
+                                                      '_NSConcreteStackBlock')
 
 
 class BlockConsts:
-    HAS_COPY_DISPOSE = 1 << 25
-    HAS_CTOR = 1 << 26
-    IS_GLOBAL = 1 << 28
-    HAS_STRET = 1 << 29
-    HAS_SIGNATURE = 1 << 30
+  HAS_COPY_DISPOSE = 1 << 25
+  HAS_CTOR = 1 << 26
+  IS_GLOBAL = 1 << 28
+  HAS_STRET = 1 << 29
+  HAS_SIGNATURE = 1 << 30
+
 
 NOTHING = object()
 
@@ -234,7 +244,8 @@ class Block:
     self.descriptor.signature = (
       encoding_for_ctype(restype) + b"@?" +
       b"".join(encoding_for_ctype(arg) for arg in signature))
-    self.literal.descriptor = ctypes.cast(ctypes.byref(self.descriptor), ctypes.c_void_p)
+    self.literal.descriptor = ctypes.cast(ctypes.byref(self.descriptor),
+                                          ctypes.c_void_p)
     self.block = ctypes.cast(ctypes.byref(self.literal), objc_block)
     self._as_parameter_ = self.block
 
