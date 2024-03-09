@@ -1,3 +1,4 @@
+import os
 import ctypes
 import typing
 import inspect
@@ -12,6 +13,33 @@ _ctype_for_type_map = {
   bytes: ctypes.c_char_p,
   object: ctypes.py_object,
 }
+
+
+_cfunc_type_block_copy = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p)
+_cfunc_type_block_dispose = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p)
+_encoding_for_ctype_map = {}
+def encoding_for_ctype(ctype):
+    """Return the Objective-C type encoding for the given ctypes type.
+
+    If a type encoding has been registered for the C type, that encoding is
+    returned. Otherwise, if the C type is a pointer type, its pointed-to type
+    is encoded and used to construct the pointer type encoding.
+
+    Automatic encoding of other compound types (arrays, structures, and unions)
+    is currently not supported. To encode such types, a type encoding must be
+    manually provided for them using :func:`register_preferred_encoding` or
+    :func:`register_encoding`.
+
+    :raises ValueError: if the conversion fails at any point
+    """
+
+    try:
+        return _encoding_for_ctype_map[ctype]
+    except KeyError:
+        try:
+            return b"^" + encoding_for_ctype(ctype._type_)
+        except KeyError:
+            raise ValueError(f"No type encoding known for ctype {ctype}")
 
 
 def ctype_for_type(tp):
@@ -40,10 +68,65 @@ class BlockLiteral(ctypes.Structure):
     ("descriptor", ctypes.c_void_p),
   ]
 
-_NSConcreteStackBlock = (ctypes.c_void_p * 32).in_dll(c.libc, '_NSConcreteStackBlock')
+
+class BlockDescriptor(ctypes.Structure):
+    _fields_ = [
+        ("reserved", ctypes.c_ulong),
+        ("size", ctypes.c_ulong),
+        ("copy_helper", _cfunc_type_block_copy),
+        ("dispose_helper", _cfunc_type_block_dispose),
+        ("signature", ctypes.c_char_p),
+    ]
+
+_lib_path = ["/usr/lib"]
+_framework_path = ["/System/Library/Frameworks"]
 
 
+def load_library(name):
+    """Load and return the C library with the given name.
 
+    If the library could not be found, a :class:`ValueError` is raised.
+
+    Internally, this function uses :func:`ctypes.util.find_library` to search
+    for the library in the system-standard locations. If the library cannot be
+    found this way, it is attempted to load the library from certain hard-coded
+    locations, as a fallback for systems where ``find_library`` does not work
+    (such as iOS).
+    """
+
+    path = ctypes.util.find_library(name)
+    if path is not None:
+        return ctypes.CDLL(path)
+
+    # On iOS (and probably also watchOS and tvOS), ctypes.util.find_library
+    # doesn't work and always returns None. This is because the sandbox hides
+    # all system libraries from the filesystem and pretends they don't exist.
+    # However, they can still be loaded if the path is known, so we try to load
+    # the library from a few known locations.
+
+    for loc in _lib_path:
+        try:
+            return ctypes.CDLL(os.path.join(loc, "lib" + name + ".dylib"))
+        except OSError:
+            pass
+
+    for loc in _framework_path:
+        try:
+            return ctypes.CDLL(os.path.join(loc, name + ".framework", name))
+        except OSError:
+            pass
+
+    raise ValueError(f"Library {name!r} not found")
+libc = load_library('c')
+_NSConcreteStackBlock = (ctypes.c_void_p * 32).in_dll(libc, '_NSConcreteStackBlock')
+
+
+class BlockConsts:
+    HAS_COPY_DISPOSE = 1 << 25
+    HAS_CTOR = 1 << 26
+    IS_GLOBAL = 1 << 28
+    HAS_STRET = 1 << 29
+    HAS_SIGNATURE = 1 << 30
 
 NOTHING = object()
 
@@ -131,17 +214,17 @@ class Block:
     cfunc_type = ctypes.CFUNCTYPE(restype, ctypes.c_void_p, *signature)
 
     self.literal = BlockLiteral()
-    self.literal.isa = addressof(_NSConcreteStackBlock)
+    self.literal.isa = ctypes.addressof(_NSConcreteStackBlock)
     self.literal.flags = (BlockConsts.HAS_STRET
                           | BlockConsts.HAS_SIGNATURE
                           | BlockConsts.HAS_COPY_DISPOSE)
     self.literal.reserved = 0
     cfunc_wrapper = cfunc_type(self.wrapper)
-    self.literal.invoke = cast(cfunc_wrapper, c_void_p)
+    self.literal.invoke = ctypes.cast(cfunc_wrapper, ctypes.c_void_p)
 
     self.descriptor = BlockDescriptor()
     self.descriptor.reserved = 0
-    self.descriptor.size = sizeof(BlockLiteral)
+    self.descriptor.size = ctypes.sizeof(BlockLiteral)
 
     self.cfunc_copy_helper = _cfunc_type_block_copy(self.copy_helper)
     self.cfunc_dispose_helper = _cfunc_type_block_dispose(self.dispose_helper)
@@ -151,8 +234,8 @@ class Block:
     self.descriptor.signature = (
       encoding_for_ctype(restype) + b"@?" +
       b"".join(encoding_for_ctype(arg) for arg in signature))
-    self.literal.descriptor = cast(byref(self.descriptor), c_void_p)
-    self.block = cast(byref(self.literal), objc_block)
+    self.literal.descriptor = ctypes.cast(ctypes.byref(self.descriptor), ctypes.c_void_p)
+    self.block = ctypes.cast(ctypes.byref(self.literal), objc_block)
     self._as_parameter_ = self.block
 
   def wrapper(self, block, *args):
