@@ -15,12 +15,69 @@ _ctype_for_type_map = {
   object: ctypes.py_object,
 }
 
-
-
 _cfunc_type_block_copy = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p,
                                           ctypes.c_void_p)
 _cfunc_type_block_dispose = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p)
 _encoding_for_ctype_map = {}
+
+_ctype_for_encoding_map = {}
+_encoding_for_ctype_map = {}
+
+
+def register_encoding(encoding, ctype):
+  """Register an additional conversion between an Objective-C type encoding
+    and a C type.
+
+    "Additional" means that any existing conversions in either direction are
+    *not* overwritten with the new conversion. To register an encoding and
+    overwrite existing conversions, use :func:`register_preferred_encoding`.
+    """
+
+  _ctype_for_encoding_map.setdefault(encoding, ctype)
+  _encoding_for_ctype_map.setdefault(ctype, encoding)
+
+
+def with_encoding(encoding):
+  """Register an additional conversion between an Objective-C type encoding
+    and the decorated C type.
+
+    This is equivalent to calling :func:`register_encoding` on the
+    decorated C type.
+    """
+
+  def _with_encoding_decorator(ctype):
+    register_encoding(encoding, ctype)
+    return ctype
+
+  return _with_encoding_decorator
+
+
+@with_encoding(b"@")
+class objc_id(ctypes.c_void_p):
+  """The `id <https://developer.apple.com/documentation/objectivec/id?language=objc>`__
+    type from ``<objc/objc.h>``.
+    """
+
+
+@with_encoding(b"@?")
+class objc_block(objc_id):
+  """The low-level type of block pointers.
+
+    This type tells Rubicon's internals that the object in question is a block
+    and not just a regular Objective-C object, which affects method argument and
+    return value conversions. For more details, see :ref:`objc_blocks`.
+
+    .. note::
+
+        This type does not correspond to an actual C type or Objective-C class.
+        Although the internal structure of block objects is documented, as well
+        as the fact that they are Objective-C objects, they do not have a
+        documented type or class name and are not fully defined in any header
+        file.
+
+        Aside from the special conversion behavior, this type is equivalent to
+        :class:`objc_id`.
+    """
 
 
 def encoding_for_ctype(ctype):
@@ -100,7 +157,7 @@ def load_library(name):
     (such as iOS).
     """
 
-  path = ctypes.util.find_library(name)
+  path = None  #ctypes.util.find_library(name)
   if path is not None:
     return ctypes.CDLL(path)
 
@@ -128,6 +185,8 @@ def load_library(name):
 libc = load_library('c')
 _NSConcreteStackBlock = (ctypes.c_void_p * 32).in_dll(libc,
                                                       '_NSConcreteStackBlock')
+
+#_NSConcreteStackBlock_ = (ctypes.c_void_p * 32).in_dll(c, '_NSConcreteStackBlock')
 
 
 class BlockConsts:
