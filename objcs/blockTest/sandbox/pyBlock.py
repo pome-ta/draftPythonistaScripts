@@ -5,7 +5,8 @@ from ctypes.util import find_library
 import typing
 import inspect
 
-from objc_util import c
+from objc_util import c, type_encodings
+
 
 _ctype_for_type_map = {
   type(None): None,
@@ -19,10 +20,13 @@ _ctype_for_type_map = {
 _cfunc_type_block_copy = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p,
                                           ctypes.c_void_p)
 _cfunc_type_block_dispose = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p)
-_encoding_for_ctype_map = {}
+#_encoding_for_ctype_map = {}
 
 _ctype_for_encoding_map = {}
-_encoding_for_ctype_map = {}
+
+#[Pythonで辞書のキーと値を入れ替える | note.nkmk.me](https://note.nkmk.me/python-dict-swap-key-value/)
+#d_swap = {v: k for k, v in d.items()}
+_encoding_for_ctype_map = {v: k for k, v in type_encodings.items()}
 
 
 def register_encoding(encoding, ctype):
@@ -96,6 +100,10 @@ def encoding_for_ctype(ctype):
     :raises ValueError: if the conversion fails at any point
     """
 
+  
+  #print('----')
+  #from pprint import pprint
+  #pprint(_encoding_for_ctype_map)
   try:
     return _encoding_for_ctype_map[ctype]
   except KeyError:
@@ -118,6 +126,8 @@ def ctype_for_type(tp):
     already ctypes) are returned unchanged.
     """
 
+  print('___')
+  print(tp)
   return _ctype_for_type_map.get(tp, tp)
 
 
@@ -283,6 +293,8 @@ class Block:
     restype = ctype_for_type(restype)
     cfunc_type = ctypes.CFUNCTYPE(restype, ctypes.c_void_p, *signature)
 
+    print(restype)
+    
     self.literal = BlockLiteral()
     self.literal.isa = ctypes.addressof(_NSConcreteStackBlock)
     self.literal.flags = (BlockConsts.HAS_STRET
@@ -301,6 +313,8 @@ class Block:
     self.descriptor.copy_helper = self.cfunc_copy_helper
     self.descriptor.dispose_helper = self.cfunc_dispose_helper
 
+    
+    print(signature)
     self.descriptor.signature = (
       encoding_for_ctype(restype) + b"@?" +
       b"".join(encoding_for_ctype(arg) for arg in signature))
