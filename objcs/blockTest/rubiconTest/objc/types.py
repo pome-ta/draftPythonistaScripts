@@ -133,7 +133,7 @@ def ctype_for_type(tp):
     already ctypes) are returned unchanged.
     """
 
-  print('___')
+  print('--- ctype_for_type')
   print(tp)
   return _ctype_for_type_map.get(tp, tp)
 
