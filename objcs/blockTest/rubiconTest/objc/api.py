@@ -2300,8 +2300,8 @@ class Block:
     restype = ctype_for_type(restype)
     cfunc_type = CFUNCTYPE(restype, c_void_p, *signature)
     
-    print('--- restype')
-    print(restype)
+    #print('--- restype')
+    #print(restype)
 
     self.literal = BlockLiteral()
     self.literal.isa = addressof(_NSConcreteStackBlock)
@@ -2321,8 +2321,8 @@ class Block:
     self.descriptor.copy_helper = self.cfunc_copy_helper
     self.descriptor.dispose_helper = self.cfunc_dispose_helper
 
-    print('--- signature')
-    print(signature)
+    #print('--- signature')
+    #print(signature)
     self.descriptor.signature = (
       encoding_for_ctype(restype) + b"@?" +
       b"".join(encoding_for_ctype(arg) for arg in signature))

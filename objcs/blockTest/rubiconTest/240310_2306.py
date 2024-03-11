@@ -1,6 +1,8 @@
 from enum import Enum
 
 import ctypes
+
+from objc import Block
 from objc_util import ObjCInstance, sel, create_objc_class, ns, ObjCBlock
 
 from objcista import *
@@ -132,9 +134,9 @@ class ObjcTableViewController:
   def add_extensions(self):
     # todo: objc で独自にmethod 生やしたいときなど
     # todo: この関数内に関数を作り`@self.extension`
-    
+
     @self.extension
-    def menuHandler_(_self,_cmd, _action):
+    def menuHandler_(_self, _cmd, _action):
       action = ObjCInstance(_action)
 
     # MARK: - Drop Down Menu Buttons
@@ -154,18 +156,16 @@ class ObjcTableViewController:
         action = ObjCInstance(_action)
       #pdbg.state(menuHandler_)
       '''
-      _handler = ObjCBlock(this.menuHandler_, restype=None, argtypes=[ctypes.c_void_p, ctypes.c_void_p])
-      pdbg.state(_handler)
-      print(ctypes.POINTER(_handler))
+      #_handler = ObjCBlock(this.menuHandler_, restype=None, argtypes=[ctypes.c_void_p, ctypes.c_void_p])
+      #pdbg.state(_handler)
+      #print(ctypes.POINTER(_handler))
       #handler = _handler
       handler = this.menuHandler_
-      pdbg.state(handler)
+      #pdbg.state(handler)
       handler = None
       action = UIAction.actionWithTitle_image_identifier_handler_(
-        pylocalizedString('ItemTitle'), None, 'item', handler)
+        pylocalizedString('ItemTitle'), None, 'item', None)
       #pdbg.state(action.handler())
-      
-      
       '''
       action = UIAction.new()
       action.setTitle_(pylocalizedString('ItemTitle'))

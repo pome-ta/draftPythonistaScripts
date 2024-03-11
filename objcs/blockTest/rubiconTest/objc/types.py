@@ -133,9 +133,9 @@ def ctype_for_type(tp):
     already ctypes) are returned unchanged.
     """
 
-  print('--- ctype_for_type')
-  print(tp)
-  return _ctype_for_type_map.get(tp, tp)
+  #print('--- ctype_for_type')
+  #print(tp)
+  #return _ctype_for_type_map.get(tp, tp)
 
 
 def register_ctype_for_type(tp, ctype):
