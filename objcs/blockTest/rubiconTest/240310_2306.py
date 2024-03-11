@@ -21,6 +21,10 @@ class MenuButtonKind(Enum):
   buttonMenuSelection = 'buttonMenuSelection'
 
 
+def testBloc(_cmd, ac):
+  print(ac)
+
+
 # todo: まずはここで作りつつ、モジュール化するケアも考慮
 #UITableViewController
 class ObjcTableViewController:
@@ -160,11 +164,16 @@ class ObjcTableViewController:
       #pdbg.state(_handler)
       #print(ctypes.POINTER(_handler))
       #handler = _handler
+      h_b = ObjCInstance(Block(testBloc, None, ctypes.c_void_p))
+      pdbg.state(h_b)
+
+      #pdbg.state(h_b.block)
       handler = this.menuHandler_
+
       #pdbg.state(handler)
       handler = None
       action = UIAction.actionWithTitle_image_identifier_handler_(
-        pylocalizedString('ItemTitle'), None, 'item', None)
+        pylocalizedString('ItemTitle'), None, 'item', h_b)
       #pdbg.state(action.handler())
       '''
       action = UIAction.new()
