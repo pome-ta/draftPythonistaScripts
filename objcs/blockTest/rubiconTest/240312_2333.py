@@ -17,6 +17,8 @@ class MenuButtonKind(Enum):
   buttonMenuMultiAction = 'buttonMenuMultiAction'
   buttonSubMenu = 'buttonSubMenu'
   buttonMenuSelection = 'buttonMenuSelection'
+
+
 '''
 def menuHandler_(_cmd, _action):
   action = ObjCInstance(_action)
@@ -34,9 +36,12 @@ _handler = ObjCBlock(
 
 pdbg.state(_handler)
 '''
+
+
 # todo: まずはここで作りつつ、モジュール化するケアも考慮
 #UITableViewController
 class ObjcTableViewController:
+
   def __init__(self, *args, **kwargs):
     self._msgs: list['Callable'] = []  # xxx: 型名ちゃんとやる
     self.controller_instance: ObjCInstance
@@ -63,10 +68,9 @@ class ObjcTableViewController:
 
       self.testCells.extend([
         # 0
-        CaseElement(
-          pylocalizedString('DropDownProgTitle'),
-          MenuButtonKind.buttonMenuProgrammatic.value,
-          this.configureDropDownProgrammaticButton_),
+        CaseElement(pylocalizedString('DropDownProgTitle'),
+                    MenuButtonKind.buttonMenuProgrammatic.value,
+                    this.configureDropDownProgrammaticButton_),
       ])
 
     # --- UITableViewDelegate
@@ -169,15 +173,13 @@ class ObjcTableViewController:
       #menuWithChildren_
       #pdbg.state(UIMenu)
       #item1
-      
+
       @on_main_thread
       def menuHandler_(_cmd, _action):
         action = ObjCInstance(_action)
+
       #pdbg.state(menuHandler_)
-      
-      
-      
-      
+
       _handler = ObjCBlock(
         menuHandler_,
         restype=None,
@@ -186,8 +188,6 @@ class ObjcTableViewController:
           ctypes.c_void_p,
           ctypes.c_void_p,
         ])
-      
-      
 
       handler = _handler
       #handler = this.menuHandler_
@@ -234,10 +234,12 @@ if __name__ == "__main__":
   from objcista.objcNavigationController import PlainNavigationController
 
   class TopNavigationController(PlainNavigationController):
+
     def __init__(self):
       self.add_extensions()
 
     def add_extensions(self):
+
       @self.extension
       def doneButtonTapped_(_self, _cmd, _sender):
         this = ObjCInstance(_self)
@@ -271,5 +273,4 @@ if __name__ == "__main__":
   #style = UIModalPresentationStyle.fullScreen
 
   run_controller(nv, style)
-
 
