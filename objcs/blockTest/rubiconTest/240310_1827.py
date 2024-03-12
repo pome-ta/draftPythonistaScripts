@@ -5,7 +5,7 @@ from math import sin, pi
 import ctypes
 
 from objc_util import ObjCClass, ObjCBlock
-from objc import Block
+#from objc import Block
 import ui
 
 #import pdbg
@@ -65,8 +65,8 @@ class Synth:
     ).initWithCommonFormat_sampleRate_channels_interleaved_(
       format.commonFormat(), self.sampleRate, CHANNEL, format.isInterleaved())
 
-    #sourceNode.initWithFormat_renderBlock_(inputFormat, self.render_block)
-    sourceNode.initWithFormat_renderBlock_(inputFormat, self.source_node_render)
+    sourceNode.initWithFormat_renderBlock_(inputFormat, self.render_block)
+    #sourceNode.initWithFormat_renderBlock_(inputFormat, self.source_node_render)
 
     audioEngine.attachNode_(sourceNode)
     sourceNode.volume = 0.1
@@ -77,7 +77,7 @@ class Synth:
     audioEngine.prepare()
     self.audioEngine = audioEngine
 
-  @Block
+  #@Block
   def source_node_render(self,
                          _cmd: ctypes.c_void_p,
                          _isSilence_ptr: ctypes.c_void_p,
