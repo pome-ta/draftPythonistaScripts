@@ -19,7 +19,6 @@ class MenuButtonKind(Enum):
   buttonMenuSelection = 'buttonMenuSelection'
 
 
-'''
 def menuHandler_(_cmd, _action):
   action = ObjCInstance(_action)
   pdbg.state(action)
@@ -34,8 +33,7 @@ _handler = ObjCBlock(
     ctypes.c_void_p,
   ])
 
-pdbg.state(_handler)
-'''
+#pdbg.state(_handler)
 
 
 # todo: まずはここで作りつつ、モジュール化するケアも考慮
@@ -173,7 +171,7 @@ class ObjcTableViewController:
       #menuWithChildren_
       #pdbg.state(UIMenu)
       #item1
-
+      '''
       @on_main_thread
       def menuHandler_(_cmd, _action):
         action = ObjCInstance(_action)
@@ -188,6 +186,7 @@ class ObjcTableViewController:
           ctypes.c_void_p,
           ctypes.c_void_p,
         ])
+      '''
 
       handler = _handler
       #handler = this.menuHandler_
