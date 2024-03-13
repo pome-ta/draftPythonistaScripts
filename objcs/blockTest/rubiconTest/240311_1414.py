@@ -1,6 +1,9 @@
-import inspect
-from objc import ObjCClass
-import pdbg
+#import inspect
+from objc import ObjCClass, ObjCProtocol
+from objc.runtime import objc_property_t
+
+from objc_util import ObjCInstance
+import pdbr
 
 UINavigationController = ObjCClass('UINavigationController')
 #pdbg.all(UINavigationController)
@@ -10,5 +13,10 @@ UINavigationController = ObjCClass('UINavigationController')
 
 #print(UINavigationController.partial_methods)
 
-app = ObjCClass('UIApplication')
-pdbg.state(app)
+app = ObjCClass('UIApplication').sharedApplication
+window = app.keyWindow
+#pdbg.state(app)
+#print(objc_property_t(app.ptr))
+#print(app)
+pdbr.state(window)
+
