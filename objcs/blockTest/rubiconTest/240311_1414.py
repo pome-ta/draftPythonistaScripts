@@ -1,22 +1,15 @@
-#import inspect
 from objc import ObjCClass, ObjCProtocol
-from objc.runtime import objc_property_t
 
-from objc_util import ObjCInstance
 import pdbr
 
 UINavigationController = ObjCClass('UINavigationController')
-#pdbg.all(UINavigationController)
-#print(UINavigationController)
-
-#print(inspect.getmembers(UINavigationController, inspect.ismethod))
-
-#print(UINavigationController.partial_methods)
 
 app = ObjCClass('UIApplication').sharedApplication
-window = app.keyWindow
+window = app.keyWindow if app.keyWindow else app.windows[0]
+root_vc = window.rootViewController
 #pdbg.state(app)
 #print(objc_property_t(app.ptr))
 #print(app)
-pdbr.state(window)
+#pdbr.state(app.windows[0])
+pdbr.state(root_vc.presentedViewController)
 
