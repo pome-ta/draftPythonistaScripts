@@ -1,3 +1,7 @@
+# 📝 2024/03/14
+
+[Main thread で実行 #Objective-C - Qiita](https://qiita.com/kawachi/items/808b2c0e915b32116629)
+
 # 📝 2024/03/13
 
 [【Objective-C】独自クラスのプロパティ名の一覧を取得する - It’s now or never](https://inon29.hateblo.jp/entry/2013/12/08/185711)
