@@ -10,7 +10,8 @@ root_vc = window.rootViewController
 
 while root_vc.presentedViewController:
   root_vc = root_vc.presentedViewController
-#pdbr.state(UIViewController)
+
 vc = UIViewController.new()
 vc.setModalPresentationStyle_(1)
-print(vc)
+root_vc.presentViewController_animated_completion_(vc, True, None)
+
