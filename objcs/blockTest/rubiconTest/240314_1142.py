@@ -1,12 +1,19 @@
-from objc_util import ObjCClass
+from objc_util import ObjCClass, on_main_thread
 import pdbg
 
-app = ObjCClass('UIApplication').sharedApplication()
-window = app.keyWindow() if app.keyWindow() else app.windows().firstObject()
+UIViewController = ObjCClass('UIViewController')
 
-root_vc = window.rootViewController()
-while root_vc.presentedViewController():
-  root_vc = root_vc.presentedViewController()
+@on_main_thread
+def main():
+  app = ObjCClass('UIApplication').sharedApplication()
+  window = app.keyWindow() if app.keyWindow() else app.windows().firstObject()
+  
+  root_vc = window.rootViewController()
+  while root_vc.presentedViewController():
+    root_vc = root_vc.presentedViewController()
+  
+  vc = UIViewController.new()
+  vc.setModalPresentationStyle_(1)
+  root_vc.presentViewController_animated_completion_(vc, True, None)
 
-pdbg.state(root_vc)
-
+main()
