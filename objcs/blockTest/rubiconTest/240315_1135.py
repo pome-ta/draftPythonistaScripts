@@ -2,9 +2,6 @@ from ctypes import byref, cast, Structure, c_void_p
 
 from objc import ObjCClass, ObjCInstance, Block, ObjCBlock
 from objc.runtime import objc_id, load_library
-#from objc.eventloop import EventLoopPolicy, iOSLifecycle
-
-#from objc_util import on_main_thread
 
 import pdbr
 
@@ -25,7 +22,8 @@ def dispatch_get_main_queue():
 
 
 UIViewController = ObjCClass('UIViewController')
-NSThread = ObjCClass('NSThread')
+#NSThread = ObjCClass('NSThread')
+UIColor = ObjCClass('UIColor')
 
 
 @Block
@@ -38,18 +36,17 @@ def main() -> None:
     root_vc = root_vc.presentedViewController
 
   vc = UIViewController.new()
+  #pdbr.state(UIColor)
+
+  vc.view.setBackgroundColor_(UIColor.systemDarkRedColor())
+  #pdbr.state(vc.view.setBackgroundColor_)
   vc.setModalPresentationStyle_(1)
   root_vc.presentViewController_animated_completion_(vc, True, None)
 
 
-#pdbr.state(NSThread.isMainThread)
-#pdbr.state(libdispatch.dispatch_sync)
 dispatch_sync = libdispatch.dispatch_sync
 dispatch_sync.restype = c_void_p
 dispatch_sync.argtypes = [c_void_p, c_void_p]
-
-#print(libdispatch.dispatch_sync)
-#print(NSThread.isMainThread)
 
 dispatch_sync(dispatch_get_main_queue(), main)
 
