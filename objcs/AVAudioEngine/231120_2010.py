@@ -40,7 +40,7 @@ class Synthesizer:
     self.sourceNode = AVAudioSourceNode.alloc().initWithRenderBlock(
       renderBlock)
     #pdbg.state(self.sourceNode)
-
+    pdbg.state(self.audioEngine)
     self.audioEngine.attachNode(self.sourceNode)
     #pdbg.state(self.audioEngine)
     self.audioEngine.connect(self.sourceNode,
@@ -80,5 +80,5 @@ class Synthesizer:
 if __name__ == '__main__':
   synthesizer = Synthesizer()
   synthesizer._setup()
-  synthesizer.start()
+  #synthesizer.start()
 
