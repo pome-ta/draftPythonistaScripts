@@ -6,7 +6,7 @@ import ui
 
 import pdbg
 
-CHANNEL = 1
+CHANNEL = 2
 
 OSStatus = ctypes.c_int32
 
@@ -63,7 +63,7 @@ class Synth:
 
     sourceNode.initWithFormat_renderBlock_(inputFormat, self.render_block)
 
-    pdbg.state(audioEngine)
+    #pdbg.state(format.commonFormat())
     #audioEngine.attachNode_(sourceNode)
     sourceNode.volume = 0.1
     '''
