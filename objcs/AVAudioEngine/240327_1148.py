@@ -61,6 +61,7 @@ class Synth:
     ).initWithCommonFormat_sampleRate_channels_interleaved_(
       format.commonFormat(), self.sampleRate, CHANNEL, format.isInterleaved())
 
+    pdbg.state(inputFormat)
     sourceNode.initWithFormat_renderBlock_(inputFormat, self.render_block)
 
     #pdbg.state(format.commonFormat())
