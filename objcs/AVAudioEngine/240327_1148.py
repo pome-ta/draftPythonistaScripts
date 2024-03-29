@@ -61,19 +61,20 @@ class Synth:
     ).initWithCommonFormat_sampleRate_channels_interleaved_(
       format.commonFormat(), self.sampleRate, CHANNEL, format.isInterleaved())
 
-    pdbg.state(inputFormat)
+    #pdbg.state(inputFormat)
     sourceNode.initWithFormat_renderBlock_(inputFormat, self.render_block)
 
     #pdbg.state(format.commonFormat())
-    #audioEngine.attachNode_(sourceNode)
+    audioEngine.attachNode_(sourceNode)
     sourceNode.volume = 0.1
-    '''
+    
 
     audioEngine.connect_to_format_(sourceNode, mainMixer, inputFormat)
     audioEngine.connect_to_format_(mainMixer, outputNode, inputFormat)
+    pdbg.state(format.commonFormat())
 
-    audioEngine.prepare()
-    '''
+    #audioEngine.prepare()
+    
     self.audioEngine = audioEngine
 
   def source_node_render(self,
