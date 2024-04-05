@@ -1,3 +1,5 @@
+import functools
+
 from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
 from objc_util import sel, CGRect
 
@@ -110,13 +112,16 @@ class _ViewController:
     self.override()
 
   def override(self):
-    # todo: objc で特別にmethod 生やしたいときなど
+    # todo: objc でmethod 生やしたいときなど
+    # xxx: wrap やりたい
+    # [Pythonのデコレータにはwrapsをつけるべきという覚え書き #Python - Qiita](https://qiita.com/moonwalkerpoday/items/9bd987667a860adf80a2)
     pass
 
   def add_msg(self, msg):
     if not (hasattr(self, '_msgs')):
       self._msgs: list['def'] = []
     self._msgs.append(msg)
+    
 
   def didLoad(self, this: UIViewController):
     pass
@@ -180,7 +185,8 @@ class _ViewController:
       viewDidDisappear_,
     ]
 
-    if self._msgs: _methods.extend(self._msgs)
+    if self._msgs:
+      _methods.extend(self._msgs)
 
     create_kwargs = {
       'name': '_vc',
@@ -240,11 +246,11 @@ class FirstViewController(_ViewController):
     def btnClick_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
       sender = ObjCInstance(_sender)
-      #pdbg.state(this)
       svc = SecondViewController.new(name='SecondViewController')
       navigationController = this.navigationController()
-      pdbg.state(navigationController)
       navigationController.pushViewController_animated_(svc, True)
+
+    #self.add_msg(btnClick_)
 
   def didLoad(self, this: UIViewController):
     view = this.view()
@@ -254,6 +260,7 @@ class FirstViewController(_ViewController):
     navigationItem.setTitle_(self.nav_title)
 
     # --- view
+
     config = UIButtonConfiguration.tintedButtonConfiguration()
     config.setTitle_('tap')
     config.setBaseBackgroundColor_(UIColor.systemPinkColor())
@@ -266,6 +273,7 @@ class FirstViewController(_ViewController):
 
     # --- layout
     view.addSubview_(self.btn)
+    #pdbg.state(this)
 
     self.btn.translatesAutoresizingMaskIntoConstraints = False
 
@@ -283,7 +291,8 @@ class SecondViewController(_ViewController):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
-    self.nav_title = kwargs['name']
+    name = kwargs['name']
+    self.nav_title = name  #'SecondViewController'
     self.sub_view = UIView.alloc()
     self.btn = UIButton.new()
 
@@ -297,6 +306,8 @@ class SecondViewController(_ViewController):
       navigationController = this.navigationController()
       navigationController.pushViewController_animated_(tvc, True)
 
+    #self.add_msg(btnClick_)
+
   def didLoad(self, this: UIViewController):
     view = this.view()
     view.setBackgroundColor_(UIColor.systemGreenColor())
@@ -305,6 +316,7 @@ class SecondViewController(_ViewController):
     navigationItem.setTitle_(self.nav_title)
 
     # --- view
+
     config = UIButtonConfiguration.tintedButtonConfiguration()
     config.setTitle_('tap')
     config.setBaseBackgroundColor_(UIColor.systemPinkColor())
@@ -342,21 +354,25 @@ class ThirdViewController(_ViewController):
 
     def btnClick_(_self, _cmd, _sender):
       this = ObjCInstance(_self)
+      sender = ObjCInstance(_sender)
+      svc = SecondViewController.new()
       navigationController = this.navigationController()
-      visibleViewController = navigationController.visibleViewController()
-      visibleViewController.dismissViewControllerAnimated_completion_(
-        True, None)
+      navigationController.popToRootViewControllerAnimated_(True)
 
     self.add_msg(btnClick_)
 
   def didLoad(self, this: UIViewController):
     view = this.view()
     view.setBackgroundColor_(UIColor.systemPinkColor())
+    #systemPinkColor
+    #systemGreenColor
+    #systemBlueColor
 
     navigationItem = this.navigationItem()
     navigationItem.setTitle_(self.nav_title)
 
     # --- view
+
     config = UIButtonConfiguration.tintedButtonConfiguration()
     config.setTitle_('tap')
     config.setBaseBackgroundColor_(UIColor.systemGreenColor())
