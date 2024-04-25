@@ -35,7 +35,7 @@ void main(){
   //gl_FragColor = texture2D(u_texture, uv);
   //gl_FragColor = vec4(vec3(maxFull), 1.0);
   //gl_FragColor = main;
-  gl_FragColor = main;
+  gl_FragColor = tex;
   
   
 }
