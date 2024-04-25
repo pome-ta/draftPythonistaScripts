@@ -195,8 +195,8 @@ class ObjcUIViewController:
     # --- `UITableViewDataSource` Methods
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
       items = self.grep_items if self.grep_items else self.all_items
-      #return len(items)
-      return 1
+      return len(items)
+      #return 1
 
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
       tableView = ObjCInstance(_tableView)
@@ -230,7 +230,7 @@ class ObjcUIViewController:
       indexPath = ObjCInstance(_indexPath)
       items = self.grep_items if self.grep_items else self.all_items
       item = items[indexPath.row()]
-      #print(f'{indexPath}: {item}')
+      print(f'{indexPath}: {item}')
 
     # --- `UITableViewDataSource` & `UITableViewDelegate` set up
     _methods = [

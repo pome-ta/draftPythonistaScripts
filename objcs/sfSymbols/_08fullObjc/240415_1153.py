@@ -28,19 +28,6 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
 UIColor = ObjCClass('UIColor')
 
-#NSObject = ObjCClass('NSObject')
-
-#pdbg.state(NSObject)
-#pdbg.state(UIViewController)
-
-#instanceMethodForSelector_
-#s = sel('viewDidLoad')
-#a = NSObject.instanceMethodForSelector_(s)
-#pdbg.state(a)
-pdbg.state(UITableViewCell.instanceMethodForSelector_)
-
-#viewDidLoad
-
 
 def get_order_list():
   CoreGlyphs_path = '/System/Library/CoreServices/CoreGlyphs.bundle/'
@@ -122,7 +109,6 @@ class ObjcUIViewController:
 
     def viewDidLoad(_self, _cmd):
       #print('viewDidLoad')
-      #print(_self)
       this = ObjCInstance(_self)
       self.setup_navigation(this)
       self.setup_viewDidLoad(this)
@@ -196,6 +182,7 @@ class ObjcUIViewController:
     def tableView_numberOfRowsInSection_(_self, _cmd, _tableView, _section):
       items = self.grep_items if self.grep_items else self.all_items
       #return len(items)
+      print(_section)
       return 1
 
     def tableView_cellForRowAtIndexPath_(_self, _cmd, _tableView, _indexPath):
@@ -205,7 +192,7 @@ class ObjcUIViewController:
         self.cell_identifier, forIndexPath=indexPath)
 
       #pdbg.state(cell.contentView().subviews().objectAtIndexedSubscript_(0))
-      #pdbg.state(cell.contentView())
+      pdbg.state(cell.contentView())
       items = self.grep_items if self.grep_items else self.all_items
 
       cell_text = items[indexPath.row()]
@@ -230,7 +217,7 @@ class ObjcUIViewController:
       indexPath = ObjCInstance(_indexPath)
       items = self.grep_items if self.grep_items else self.all_items
       item = items[indexPath.row()]
-      #print(f'{indexPath}: {item}')
+      print(f'{indexPath}: {item}')
 
     # --- `UITableViewDataSource` & `UITableViewDelegate` set up
     _methods = [

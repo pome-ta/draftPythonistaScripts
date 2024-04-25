@@ -65,7 +65,8 @@ class ObjcUIViewController:
       navigationItem.leftBarButtonItem = done_btn
 
     def viewWillAppear_(_self, _cmd, _animated):
-      #print('viewWillAppear')
+      print('viewWillAppear')
+      print(_animated)
       pass
 
     def viewDidAppear_(_self, _cmd, _animated):

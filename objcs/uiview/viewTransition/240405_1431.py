@@ -89,7 +89,7 @@ class NavigationController:
     _nvDelegate = create_objc_class(**create_kwargs)
     return _nvDelegate.new()
 
-  @on_main_thread
+  #@on_main_thread
   def _init(self, vc: UIViewController):
     self._override_navigationController()
     _delegate = self.create_navigationControllerDelegate()
