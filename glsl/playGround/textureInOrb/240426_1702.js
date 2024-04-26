@@ -40,13 +40,12 @@ void main(){
     xxx += max(aR, aL);
   }
   
-  float steps = smoothstep(0.5,0.8, xxx);
+  float line = fract(smoothstep(0.1, 0.5, am));
+  float dots = length(vec2(xxx,line));
   
   
-  float max1 = dot(aU, aD);
-  vec3 color = mix(mainc, vec3(max1), am);
-  //vec3 auaua = vec3(xxx);
-  vec3 auaua = vec3(steps);
+  vec3 auaua = vec3(dots);
+  //vec3 auaua = vec3(am);
   
   //vec3 auaua = vec3(steps);
   
