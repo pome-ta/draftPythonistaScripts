@@ -11,23 +11,45 @@ varying vec2 v_tex_coord;
 
 const float PI = acos(-1.0);
 
+bool xorb(float a, float b) {
+  bool ab = bool(a);
+  bool bb = bool(b);
+  if (ab != bb) {
+    return true;
+  }
+  return false;
+}
+
 void main(){
   vec2 uv = v_tex_coord;
   vec4 texmain = texture2D(u_texture, uv);
   vec3 mainc = texmain.rgb;
   
-  float diff = 0.01;
+  float diff = 0.05;
   float aU = texture2D(u_texture, vec2(uv.x, uv.y - diff)).a;
   float aD = texture2D(u_texture, vec2(uv.x, uv.y + diff)).a;
   float aR = texture2D(u_texture, vec2(uv.x - diff, uv.y)).a;
   float aL = texture2D(u_texture, vec2(uv.x + diff, uv.y)).a;
   float am = texture2D(u_texture, uv).a;
   
+  float xxx = 0.0;
+  if (xorb(aU, aD)) {
+    xxx += max(aU, aD);
+  }
+  if (xorb(aR, aL)) {
+    xxx += max(aR, aL);
+  }
+  
+  float steps = mix(0.5, am, xxx);
+  
+  
   float max1 = dot(aU, aD);
   vec3 color = mix(mainc, vec3(max1), am);
+  //vec3 auaua = vec3(xxx);
+  vec3 auaua = vec3(steps);
   
 
   //gl_FragColor = texmain;
-  gl_FragColor = vec4(color, am);
+  gl_FragColor = vec4(auaua, 1.0);
 }
 
