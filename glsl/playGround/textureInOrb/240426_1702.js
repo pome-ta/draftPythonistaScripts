@@ -34,9 +34,9 @@ void main(){
   
   float xxx = 0.0;
   if (xorb(aU, aD)) {
-    //xxx += max(aU, aD);
+    xxx += max(aU, aD);
     //xxx += mix(aU, aD, 0.5);
-    xxx = smoothstep(0.2, xxx, aU);
+    //xxx = smoothstep(0.2, xxx, aU);
   }
   if (xorb(aR, aL)) {
     xxx += max(aR, aL);
@@ -46,7 +46,7 @@ void main(){
   float dots = length(vec2(xxx,line));
   
   
-  vec3 auaua = vec3(xxx);
+  vec3 auaua = vec3(am);
   //vec3 auaua = vec3(am);
   
   //vec3 auaua = vec3(steps);
