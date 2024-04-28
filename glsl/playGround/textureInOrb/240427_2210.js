@@ -30,7 +30,7 @@ void main(){
   
   float rzlt = 0.0;
   rzlt += (a1 + a0) / 2.0;
-  vec3 main3 = vec3(a0-rzlt);
+  vec3 main3 = vec3(a0);
   
   
   gl_FragColor = vec4(main3, 1.0);
