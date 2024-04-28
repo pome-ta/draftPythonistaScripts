@@ -32,7 +32,10 @@ void main(){
   mixal += uv.x * 0.5;
   
   
-  
+  mat2 myMat = mat2(
+  1.0, 0.5,
+  2.7, 1.5
+);
   
   //float mainal = clamp(mixal, 0.0, 1.0);
   float mainal = mixal;
