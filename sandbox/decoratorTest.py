@@ -27,10 +27,13 @@ prototypes = []
 
 def add_prototype(identifier: str):
 
-  def wrapper(cellClass: 'UITableViewCell'):
-    prototypes.append(_create_reuse_dict(cellClass, identifier))
+  def _create_reuse_dict(cellClass: 'UITableViewCell'):
+    prototypes.append({
+      'cellClass': cellClass,
+      'identifier': identifier,
+    })
 
-  return wrapper
+  return _create_reuse_dict
 
 
 def add_fnc(fnc):
