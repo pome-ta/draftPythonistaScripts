@@ -25,6 +25,6 @@ def _search_print(path_name, compiler):
 
 if __name__ == '__main__':
   # xxx: これだと、デフォルトのやつしか取れない
-  search_word = 'Py'
+  search_word = 'Graphics'
   search_frameworks(search_word)
 
