@@ -58,7 +58,7 @@ class WebViewController:
     self.webView: WKWebView
     self.nav_title = 'nav title'
     #self.url = nsurl('https://www.apple.com')
-    self.url = nsurl('https://yahoo.co.jp')
+    self.targetURL = nsurl('https://yahoo.co.jp')
 
   def _override_viewController(self):
 
@@ -78,12 +78,8 @@ class WebViewController:
       self.webView = WKWebView.alloc().initWithFrame_configuration_(
         CGRectZero, webConfiguration)
 
-      
-      _wkNavigationDelegate = self.create_WKNavigationDelegate()
-      self.webView.navigationDelegate = _wkNavigationDelegate
-      
-    
-      
+      self.webView.navigationDelegate = this
+
       self.webView.scrollView().bounces = True
       refreshControl = UIRefreshControl.new()
       valueChanged = 1 << 12
@@ -104,7 +100,7 @@ class WebViewController:
       reloadIgnoringLocalCacheData = 1
       timeoutInterval = 10
       request = NSURLRequest.requestWithURL_cachePolicy_timeoutInterval_(
-        self.url, reloadIgnoringLocalCacheData, timeoutInterval)
+        self.targetURL, reloadIgnoringLocalCacheData, timeoutInterval)
       self.webView.loadRequest_(request)
 
     def refreshWebView_(_self, _cmd, _sender):
@@ -112,57 +108,39 @@ class WebViewController:
       self.webView.reload()
       sender.endRefreshing()
 
+    # --- `WKNavigationDelegate` Methods
+    def webView_didFinishNavigation_(_self, _cmd, _webView, _navigation):
+      this = ObjCInstance(_self)
+      webView = ObjCInstance(_webView)
+
+      title = webView.title()
+      this.navigationItem().title = str(title)
+
     # --- `UIViewController` set up
     _methods = [
       loadView,
       viewDidLoad,
       refreshWebView_,
+      webView_didFinishNavigation_,
+    ]
+
+    _protocols = [
+      'WKNavigationDelegate',
     ]
 
     create_kwargs = {
       'name': '_vc',
       'superclass': UIViewController,
       'methods': _methods,
+      'protocols': _protocols,
     }
     _vc = create_objc_class(**create_kwargs)
     self._viewController = _vc
 
-  def create_WKNavigationDelegate(self):
-    # --- `WKNavigationDelegate` Methods
-    def webView_didFinishNavigation_(_self, _cmd, _webView, _navigation):
-      webView = ObjCInstance(_webView)
-      navigation = ObjCInstance(_navigation)
-      title = webView.title()
-      print(title)
-      #pdbg.state(navigation)
-      self.nav_title = title
-      #pdbg.state(webView)
-      pdbg.state(ObjCInstance(_self))
-      #pdbg.state(self._viewController)
-      #navigation.navigationItem.title = str(title)
-
-    # --- `WKNavigationDelegate` set up
-    _methods = [
-      webView_didFinishNavigation_,
-    ]
-    _protocols = [
-      'WKNavigationDelegate',
-    ]
-
-    create_kwargs = {
-      'name': '_delegate',
-      'methods': _methods,
-      'protocols': _protocols,
-    }
-    _delegate = create_objc_class(**create_kwargs)
-    return _delegate.new()
-
   @on_main_thread
   def _init(self):
     self._override_viewController()
-    
     vc = self._viewController.new().autorelease()
-    #self.webView.navigationDelegate = _wkNavigationDelegate
     return vc
 
   @classmethod
@@ -171,9 +149,9 @@ class WebViewController:
     return _cls._init()
 
   @classmethod
-  def load_url(cls, url: Path | str) -> ObjCInstance:
+  def load_url(cls, targetURL: Path | str) -> ObjCInstance:
     _cls = cls()
-    _cls.url = url
+    _cls.targetURL = url
     return _cls._init()
 
 
