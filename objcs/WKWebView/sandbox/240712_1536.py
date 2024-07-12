@@ -1,4 +1,5 @@
 import ctypes
+from pathlib import Path
 
 from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread, class_getSuperclass, nsurl, c
 from objc_util import sel, CGRect
@@ -53,11 +54,11 @@ UIRefreshControl = ObjCClass('UIRefreshControl')
 class WebViewController:
 
   def __init__(self):
-    print('init')
     self._viewController: UIViewController
     self.webView: WKWebView
     self.nav_title = 'nav title'
-    self.url = nsurl('https://www.apple.com')
+    #self.url = nsurl('https://www.apple.com')
+    self.url = nsurl('https://yahoo.co.jp')
 
   def _override_viewController(self):
 
@@ -74,14 +75,19 @@ class WebViewController:
       webConfiguration.websiteDataStore = websiteDataStore
 
       CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
-      #view.bounds()
       self.webView = WKWebView.alloc().initWithFrame_configuration_(
         CGRectZero, webConfiguration)
-      #view = self.webView
+
+      self.webView.scrollView().bounces = True
+      refreshControl = UIRefreshControl.new()
+      valueChanged = 1 << 12
+      refreshControl.addTarget_action_forControlEvents_(
+        this, sel('refreshWebView:'), valueChanged)
+
+      self.webView.scrollView().refreshControl = refreshControl
       this.view = self.webView
 
     def viewDidLoad(_self, _cmd):
-      print('d')
       this = ObjCInstance(_self)
       view = this.view()
 
@@ -89,15 +95,20 @@ class WebViewController:
       navigationItem = this.navigationItem()
       navigationItem.title = self.nav_title
 
-      url = nsurl('https://www.apple.com')
       request = NSURLRequest.requestWithURL_cachePolicy_timeoutInterval_(
-        url, 1, 10)
+        self.url, 1, 10)
       self.webView.loadRequest_(request)
+
+    def refreshWebView_(_self, _cmd, _sender):
+      sender = ObjCInstance(_sender)
+      self.webView.reload()
+      sender.endRefreshing()
 
     # --- `UIViewController` set up
     _methods = [
       loadView,
       viewDidLoad,
+      refreshWebView_,
     ]
 
     create_kwargs = {
@@ -159,7 +170,6 @@ class WebViewController:
 
   @on_main_thread
   def _init(self):
-    print('_')
     self._override_viewController()
     #_delegate = self.create_Delegate()
     vc = self._viewController.new().autorelease()
@@ -167,8 +177,13 @@ class WebViewController:
 
   @classmethod
   def new(cls) -> ObjCInstance:
-    print('cls')
     _cls = cls()
+    return _cls._init()
+
+  @classmethod
+  def load_url(cls, url: Path | str) -> ObjCInstance:
+    _cls = cls()
+    _cls.url = url
     return _cls._init()
 
 
@@ -277,7 +292,9 @@ def present_objc(vc):
 
 
 if __name__ == '__main__':
-  m_vc = WebViewController.new()
+  #m_vc = WebViewController.new()
+  url = nsurl('https://www.apple.com')
+  m_vc = WebViewController.load_url(url)
   n_vc = NavigationController.new(m_vc)
   present_objc(n_vc)
 
