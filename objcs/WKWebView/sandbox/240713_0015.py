@@ -112,7 +112,7 @@ class WebViewController:
         timeoutInterval = 10
         request = NSURLRequest.requestWithURL_cachePolicy_timeoutInterval_(
           url, reloadIgnoringLocalCacheData, timeoutInterval)
-      self.webView.loadRequest_(request)
+        self.webView.loadRequest_(request)
 
     def refreshWebView_(_self, _cmd, _sender):
       sender = ObjCInstance(_sender)
