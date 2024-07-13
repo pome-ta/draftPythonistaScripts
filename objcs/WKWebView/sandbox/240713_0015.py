@@ -40,7 +40,7 @@ UIView = ObjCClass('UIView')
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
 UIColor = ObjCClass('UIColor')
-
+NSURL = ObjCClass('NSURL')
 NSURLRequest = ObjCClass('NSURLRequest')
 
 # --- WKWebView
@@ -56,9 +56,8 @@ class WebViewController:
   def __init__(self):
     self._viewController: UIViewController
     self.webView: WKWebView
-    self.nav_title = 'nav title'
-    #self.url = nsurl('https://www.apple.com')
-    self.targetURL = nsurl('https://yahoo.co.jp')
+    self.targetURL: Path | str = 'https://yahoo.co.jp'
+    self.nav_title: str = 'nav_title'
 
   def _override_viewController(self):
 
@@ -73,6 +72,8 @@ class WebViewController:
       webConfiguration = WKWebViewConfiguration.new()
       websiteDataStore = WKWebsiteDataStore.nonPersistentDataStore()
       webConfiguration.websiteDataStore = websiteDataStore
+      webConfiguration.preferences().setValue_forKey_(
+        True, 'allowFileAccessFromFileURLs')
 
       CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
       self.webView = WKWebView.alloc().initWithFrame_configuration_(
@@ -93,14 +94,24 @@ class WebViewController:
       this = ObjCInstance(_self)
       view = this.view()
 
-      view.backgroundColor = UIColor.systemDarkRedColor()
+      #view.backgroundColor = UIColor.systemDarkRedColor()
       navigationItem = this.navigationItem()
       navigationItem.title = self.nav_title
 
-      reloadIgnoringLocalCacheData = 1
-      timeoutInterval = 10
-      request = NSURLRequest.requestWithURL_cachePolicy_timeoutInterval_(
-        self.targetURL, reloadIgnoringLocalCacheData, timeoutInterval)
+      # --- load url
+      if (Path(self.targetURL).exists()):
+        target_path = Path(self.targetURL)
+        fileURLWithPath = NSURL.fileURLWithPath_isDirectory_
+        folder_path = fileURLWithPath(str(target_path.parent), True)
+        index_path = fileURLWithPath(str(target_path), False)
+        self.webView.loadFileURL_allowingReadAccessToURL_(
+          index_path, folder_path)
+      else:
+        url = NSURL.URLWithString_(self.targetURL)
+        reloadIgnoringLocalCacheData = 1
+        timeoutInterval = 10
+        request = NSURLRequest.requestWithURL_cachePolicy_timeoutInterval_(
+          url, reloadIgnoringLocalCacheData, timeoutInterval)
       self.webView.loadRequest_(request)
 
     def refreshWebView_(_self, _cmd, _sender):
@@ -211,8 +222,6 @@ class NavigationController:
 
       # --- navigationItem
       navigationItem = visibleViewController.navigationItem()
-
-      #navigationItem.setTitle_('nv')
       navigationItem.rightBarButtonItem = done_btn
 
     # --- `UINavigationControllerDelegate` set up
@@ -261,7 +270,7 @@ def present_objc(vc):
 
 if __name__ == '__main__':
   #m_vc = WebViewController.new()
-  url = nsurl('https://www.apple.com')
+  url = 'https://www.apple.com'
   m_vc = WebViewController.load_url(url)
   n_vc = NavigationController.new(m_vc)
   present_objc(n_vc)
