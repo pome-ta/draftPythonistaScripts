@@ -20,5 +20,6 @@ def get_toplevel_path(up_level: int=9) -> str:
 if __name__ == '__main__':
   # todo: 1番上まで戻り、tmp ディレクトリへ
   path = get_toplevel_path() + get_temporaryDirectory_path()
+  print(path)
   webbrowser.open(f'pythonista3://{path}')
 
