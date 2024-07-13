@@ -7,4 +7,6 @@ import pdbg
 
 NSFileManager = ObjCClass('NSFileManager')
 
-pdbg.state(NSFileManager.new())
+pdbg.state(NSFileManager.defaultManager())
+#print(NSFileManager.defaultManager().temporaryDirectory().uri())
+#print(NSFileManager.new().temporaryDirectory().uri())
