@@ -20,8 +20,15 @@ def get_toplevel_path(up_level: int=9) -> str:
   parent_level = lambda l: '../' * int(l)
   return origin_path + parent_level(up_level)
 
+# todo: NSSearchPathDirectory
+developerApplicationDirectory = 3
+libraryDirectory = 5
+NSAutosavedInformationDirectory = 11
 
-libraryPath = NSSearchPathForDirectoriesInDomains(5, 1, True).firstObject()
+# todo: NSSearchPathDomainMask
+NSUserDomainMask = 1
+NSAllDomainsMask = 0x0ffff
+libraryPath = NSSearchPathForDirectoriesInDomains(11, 0x0ffff, True).firstObject()
 
 path = get_toplevel_path() + str(libraryPath)
 #print(path)
