@@ -1,3 +1,5 @@
+from colorsys import hsv_to_rgb
+
 import scene
 import ui
 
@@ -81,7 +83,7 @@ class Canvas(scene.Scene):
     div_count: int = 16
     w, h = self.size
     self.bg_node = scene.Node()
-    self.bg_node.position = [w / 2, h / 2]
+    #self.bg_node.position = [w / 2, h / 2]
     self.add_child(self.bg_node)
     
 
@@ -94,10 +96,11 @@ class Canvas(scene.Scene):
 
     cell_size = sq_size / div_count
     for x_i,x_w in enumerate(range(div_count)):
+      color = hsv_to_rgb(x_i/div_count, 1.0, 1.0)
       
       
       cell_rect = ui.Path.rect(0, 0, cell_size, cell_size)
-      self.cell = scene.ShapeNode(path=cell_rect, parent=self.bg_shapeNode)
+      self.cell = scene.ShapeNode(path=cell_rect, fill_color=color,parent=self.bg_shapeNode)
       self.cell.position = (cell_size*x_i, 0.0)
     #self.cell.
 
