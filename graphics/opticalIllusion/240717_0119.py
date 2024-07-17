@@ -6,8 +6,16 @@ class BoardView(ui.View):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
-    self.bg_color = 'maroon'
+    self.bg_color = 'blue'
+    self.update_interval = 1 / 60
 
+
+  def update(self):
+      print('update')
+      self.set_needs_display()
+  
+  def layout(self):
+    print('layout')
 
 
 class MainView(ui.View):
@@ -16,6 +24,8 @@ class MainView(ui.View):
     super().__init__(*args, **kwargs)
     self.bg_color = 'maroon'
     #self.update_interval = 1 / 60
+    self.board_view = BoardView()
+    self.add_subview(self.board_view)
 
     self.div_num = 16
 
