@@ -1,4 +1,5 @@
-from colorsys import hsv_to_rgb
+#from colorsys import hsv_to_rgb
+from itertools import product
 
 import ui
 
@@ -10,32 +11,21 @@ class BoardView(ui.View):
     self.bg_color = 'green'
 
     self.div_num = 16
-    #self.check_colors = []
+    self.check_colors = [1.0, 0.72]
 
   def draw(self):
-    #print(self.frame)
-    max_count = self.div_num * self.div_num
-    for x in range(self.div_num):
-      for y in range(self.div_num):
-        h = (x + (y * self.div_num)) / max_count
-        fill_color = hsv_to_rgb(h, 1.0, 1.0)
-        
-        n = (x + (y * self.div_num)) / max_count
-        #print(n)
+    dev_range = range(self.div_num)
 
-        #ui.set_color(1)
-        if x == 0:
-          ui.set_color(0)
-        else:
-          ui.set_color(fill_color)
-
-        rect = [
-          x * self.cell_size,
-          y * self.cell_size,
-          self.cell_size,
-          self.cell_size,
-        ]
-        ui.fill_rect(*rect)
+    for x, y in product(dev_range, dev_range):
+      check_bool = y % 2 != 0 if x % 2 == 0 else y % 2 == 0
+      ui.set_color(self.check_colors[check_bool])
+      rect = [
+        x * self.cell_size,
+        y * self.cell_size,
+        self.cell_size,
+        self.cell_size,
+      ]
+      ui.fill_rect(*rect)
 
   def update(self):
     print('update')
