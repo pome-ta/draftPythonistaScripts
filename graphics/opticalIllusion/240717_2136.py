@@ -1,4 +1,3 @@
-#from colorsys import hsv_to_rgb
 from itertools import product
 
 import ui
@@ -12,7 +11,7 @@ class CrossLineView(ui.View):
 
   def draw(self):
     dev_range = range(1, self.div_num)
-    line_width = 4
+    line_width = 1
 
     for x, y in product(dev_range, dev_range):
       move_x = x * self.cell_size
@@ -38,8 +37,11 @@ class CrossLineView(ui.View):
         ],
       ]
 
-      line = ui.Path()
+      m = 3
+      check_bool = y % m == 0 if x % m == 0 else y % m != 0
+      ui.set_color(check_bool)
 
+      line = ui.Path()
       for stroke in strokes:
         line.move_to(move_x, move_y)
         line.line_to(*stroke)
@@ -65,7 +67,8 @@ class CheckerBoardView(ui.View):
     dev_range = range(self.div_num)
 
     for x, y in product(dev_range, dev_range):
-      check_bool = y % 2 != 0 if x % 2 == 0 else y % 2 == 0
+      m = 2
+      check_bool = y % m != 0 if x % m == 0 else y % m == 0
       ui.set_color(self.check_colors[check_bool])
       rect_set = [
         x * self.cell_size,
@@ -92,7 +95,7 @@ class MainView(ui.View):
     #self.bg_color = 'maroon'
     self.bg_color = 0.5  #0.872
     #self.update_interval = 1 / 60
-    self.div_num = 8
+    self.div_num = 16
 
     self.checker_board = CheckerBoardView(self.div_num)
     self.cross_line = CrossLineView(self.div_num)
