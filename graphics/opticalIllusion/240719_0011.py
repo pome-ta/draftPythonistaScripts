@@ -1,6 +1,10 @@
 from itertools import product
+import operator
 
 import ui
+
+def list_add(*args):
+  return list(map(operator.add, *args))
 
 
 class CrossLineView(ui.View):
@@ -9,60 +13,20 @@ class CrossLineView(ui.View):
     super().__init__(*args, **kwargs)
     self.div_num = div_num
 
-    _pattern = [
-      *[0, 1, 0, 0, 1, 0],
-      *[1, 0, 1, 1, 0, 1],
-    ]
-
-    self.pattern = _pattern * (-int(-self.div_num // len(_pattern))
-                               if self.div_num > len(_pattern) else 1)
-
-    #print(self.pattern)
-    #print(len(self.pattern))
-
   def draw(self):
     line_width = 1
-
-    n = 0
-
-    dev_range = range(self.div_num + 1)
-    for y, x in product(reversed(dev_range), dev_range):
-
-      move_x = x * self.cell_size
-      move_y = y * self.cell_size
-      stroke_length = self.cell_size / 6
-
-      strokes = [
-        [
-          move_x - stroke_length,
-          move_y,
-        ],
-        [
-          move_x + stroke_length,
-          move_y,
-        ],
-        [
-          move_x,
-          move_y - stroke_length,
-        ],
-        [
-          move_x,
-          move_y + stroke_length,
-        ],
-      ]
-
-      #ui.set_color(self.pattern[x-1])
-      ui.set_color(0)
-
+    
+    for i in range(self.div_num * 2):
+      x = self.cell_size / 2 * i
+      y = self.height - (self.cell_size / 2 * i)
       line = ui.Path()
-      for stroke in strokes:
-        line.move_to(move_x, move_y)
-        line.line_to(*stroke)
+      print(i)
 
-      line.line_cap_style = ui.LINE_CAP_ROUND
-      line.line_width = n  #line_width
-      n += .1
-      line.stroke()
+      for _ in range(2):
+        line.move_to(x, y)
+
+      oval = ui.Path.oval(x, y, 8, 8)
+      oval.fill()
 
   def layout(self):
     _, _, w, h = self.frame
