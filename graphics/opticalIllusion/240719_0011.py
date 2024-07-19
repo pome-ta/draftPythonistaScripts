@@ -3,6 +3,7 @@ import operator
 
 import ui
 
+
 def list_add(*args):
   return list(map(operator.add, *args))
 
@@ -15,18 +16,23 @@ class CrossLineView(ui.View):
 
   def draw(self):
     line_width = 1
-    
-    for i in range(self.div_num * 2):
-      x = self.cell_size / 2 * i
-      y = self.height - (self.cell_size / 2 * i)
-      line = ui.Path()
-      print(i)
+    interval = self.cell_size / 2
 
-      for _ in range(2):
+    to_top = [10, 0]
+    to_end = [self.width, self.height]
+
+    for i in range(self.div_num * 2):
+      x = interval * i
+      y = self.height - (interval * i)
+
+      line = ui.Path()
+      for top_end in range(2):
         line.move_to(x, y)
+        line.line_to(*(to_top if top_end else to_end))
+        line.stroke()
 
       oval = ui.Path.oval(x, y, 8, 8)
-      oval.fill()
+      #oval.fill()
 
   def layout(self):
     _, _, w, h = self.frame
