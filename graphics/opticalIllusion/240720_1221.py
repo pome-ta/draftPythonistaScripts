@@ -13,11 +13,24 @@ class CrossLineView(ui.View):
   def __init__(self, div_num, *args, **kwargs):
     super().__init__(*args, **kwargs)
     self.div_num = div_num
+    self.div_cross = self.div_num - 1
+    _pattern = [
+      *[0, 1, 0, 0, 1, 0],
+      *[1, 0, 1, 1, 0, 1],
+    ]
+    pattern = (_pattern *
+               (-int(-(self.div_cross) // len(_pattern))
+                if self.div_cross > len(_pattern) else 1))#[:self.div_cross]
+
+    self.patterns = [pattern[-i:] + pattern[:-i] for i in range(self.div_cross)]
+
+    self.pattern = _pattern * (-int(-self.div_num // len(_pattern))
+                               if self.div_num > len(_pattern) else 1)
 
   def draw(self):
     line_width = 1
 
-    div_range = range(self.div_num - 1)
+    div_range = range(self.div_cross)
     for y, x in product(div_range, div_range):
       move_x = x * self.cell_size + self.cell_size
       move_y = y * self.cell_size + self.cell_size
@@ -41,8 +54,9 @@ class CrossLineView(ui.View):
           move_y + stroke_length,
         ],
       ]
-      ui.set_color(0)
-      print(y)
+      #ui.set_color(self.pattern[(x + 1) ^ (y + 1)])
+      ui.set_color(self.patterns[y][x])
+      #print(x^y)
 
       line = ui.Path()
       for stroke in strokes:
@@ -50,7 +64,7 @@ class CrossLineView(ui.View):
         line.line_to(*stroke)
 
       line.line_cap_style = ui.LINE_CAP_ROUND
-      line.line_width = y * 0.1#line_width
+      line.line_width = line_width
       line.stroke()
 
   def layout(self):
