@@ -12,29 +12,37 @@ class CrossLineView(ui.View):
 
   def __init__(self, div_num, *args, **kwargs):
     super().__init__(*args, **kwargs)
+
+    self.update_interval = 1 / 2
+    self.counter = 0
+
     self.div_num = div_num
     self.div_cross = self.div_num - 1
+
     _pattern = [
-      *[0, 1, 0, 0, 1, 0],
-      *[1, 0, 1, 1, 0, 1],
+      *[0, 1, 0, 0],
+      *[1, 0, 1, 1],
     ]
-    pattern = (_pattern *
-               (-int(-(self.div_cross) // len(_pattern))
-                if self.div_cross > len(_pattern) else 1))#[:self.div_cross]
+    pattern = _pattern * -int(-(self.div_cross) // len(_pattern)
+                              ) if self.div_cross > len(_pattern) else 1
 
-    self.patterns = [pattern[-i:] + pattern[:-i] for i in range(self.div_cross)]
-
-    self.pattern = _pattern * (-int(-self.div_num // len(_pattern))
-                               if self.div_num > len(_pattern) else 1)
+    self.patterns = [
+      pattern[-i:] + pattern[:-i] for i in range(self.div_cross)
+    ]
 
   def draw(self):
-    line_width = 1
+    #print(self.counter)
+
+    #pattern = self.patterns[self.counter:] + self.patterns[:self.counter]
+    pattern = self.patterns
+
+    line_width = 1.8
 
     div_range = range(self.div_cross)
-    for y, x in product(div_range, div_range):
+    for x, y in product(div_range, div_range):
       move_x = x * self.cell_size + self.cell_size
       move_y = y * self.cell_size + self.cell_size
-      stroke_length = self.cell_size / 6
+      stroke_length = self.cell_size / 8
 
       strokes = [
         [
@@ -54,9 +62,8 @@ class CrossLineView(ui.View):
           move_y + stroke_length,
         ],
       ]
-      #ui.set_color(self.pattern[(x + 1) ^ (y + 1)])
-      ui.set_color(self.patterns[y][x])
-      #print(x^y)
+
+      ui.set_color(pattern[y][x])
 
       line = ui.Path()
       for stroke in strokes:
@@ -67,10 +74,13 @@ class CrossLineView(ui.View):
       line.line_width = line_width
       line.stroke()
 
+  def update(self):
+    self.counter = self.counter + 1 if self.counter < self.div_cross else 0
+    self.set_needs_display()
+
   def layout(self):
     _, _, w, h = self.frame
     self.cell_size = min(w, h) / self.div_num
-    self.draw_size = [w - (self.cell_size * 2), h - (self.cell_size * 2)]
 
 
 class CheckerBoardView(ui.View):
@@ -95,10 +105,6 @@ class CheckerBoardView(ui.View):
         self.cell_size,
       ]
       ui.fill_rect(*rect_set)
-
-  def update(self):
-    print('update')
-    self.set_needs_display()
 
   def layout(self):
     _, _, w, h = self.frame
