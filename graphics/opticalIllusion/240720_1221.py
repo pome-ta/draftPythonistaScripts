@@ -1,6 +1,11 @@
 from itertools import product
+import operator
 
 import ui
+
+
+def list_add(*args):
+  return list(map(operator.add, *args))
 
 
 class CrossLineView(ui.View):
@@ -9,23 +14,13 @@ class CrossLineView(ui.View):
     super().__init__(*args, **kwargs)
     self.div_num = div_num
 
-    pattern_base = [*[0, 1, 0, 0, 1, 0], *[1, 0, 1, 1, 0, 1]]
-    self.pattern = pattern_base * -int(-self.div_num**2 // len(pattern_base))
-    n = 1
-    p = pattern_base[n:] + pattern_base[:n]
-
-    print(pattern_base)
-    print(p)
-
   def draw(self):
-    div_range = range(1, self.div_num)
     line_width = 1
-    pre_indx = 0
-    for y, x in product(div_range, div_range):
 
-      print(x)
-      move_x = x * self.cell_size
-      move_y = y * self.cell_size
+    div_range = range(self.div_num - 1)
+    for y, x in product(div_range, div_range):
+      move_x = x * self.cell_size + self.cell_size
+      move_y = y * self.cell_size + self.cell_size
       stroke_length = self.cell_size / 6
 
       strokes = [
@@ -46,14 +41,8 @@ class CrossLineView(ui.View):
           move_y + stroke_length,
         ],
       ]
-
-      m = 3
-      check_bool = y % m == 0 if x % m == 0 else y % m != 0
-      # 0,1,0,0,1,0,    1,1,0,1,0,
-      # 1,0,1,1,0,1,
-      #print(n)
-      ui.set_color(self.pattern[n])
-      n += 1
+      ui.set_color(0)
+      print(y)
 
       line = ui.Path()
       for stroke in strokes:
@@ -61,13 +50,13 @@ class CrossLineView(ui.View):
         line.line_to(*stroke)
 
       line.line_cap_style = ui.LINE_CAP_ROUND
-      line.line_width = line_width
+      line.line_width = y * 0.1#line_width
       line.stroke()
-    #print(n)
 
   def layout(self):
     _, _, w, h = self.frame
     self.cell_size = min(w, h) / self.div_num
+    self.draw_size = [w - (self.cell_size * 2), h - (self.cell_size * 2)]
 
 
 class CheckerBoardView(ui.View):
@@ -110,7 +99,7 @@ class MainView(ui.View):
     #self.bg_color = 'maroon'
     self.bg_color = 0.5  #0.872
     #self.update_interval = 1 / 60
-    self.div_num = 16
+    self.div_num = 13
 
     self.checker_board = CheckerBoardView(self.div_num)
     self.cross_line = CrossLineView(self.div_num)

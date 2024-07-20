@@ -32,7 +32,6 @@ class CrossLineView(ui.View):
         line.stroke()
 
       oval = ui.Path.oval(x, y, 8, 8)
-      #oval.fill()
 
   def layout(self):
     _, _, w, h = self.frame
