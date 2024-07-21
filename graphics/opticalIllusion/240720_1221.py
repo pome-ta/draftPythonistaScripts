@@ -1,3 +1,4 @@
+import math
 from itertools import product
 import operator
 
@@ -13,7 +14,8 @@ class CrossLineView(ui.View):
   def __init__(self, div_num, *args, **kwargs):
     super().__init__(*args, **kwargs)
 
-    self.update_interval = 1 / 2
+    self.fps = 60
+    self.update_interval = 1 / self.fps
     self.counter = 0
 
     self.div_num = div_num
@@ -31,12 +33,11 @@ class CrossLineView(ui.View):
     ]
 
   def draw(self):
-    #print(self.counter)
 
-    #pattern = self.patterns[self.counter:] + self.patterns[:self.counter]
     pattern = self.patterns
 
     line_width = 1.8
+    #print(self.counter)
 
     div_range = range(self.div_cross)
     for x, y in product(div_range, div_range):
@@ -63,7 +64,11 @@ class CrossLineView(ui.View):
         ],
       ]
 
-      ui.set_color(pattern[y][x])
+      r,g,b,a = ui.parse_color(pattern[y][x])
+      a = math.sin(math.pi*(x^y))
+      
+      
+      ui.set_color((r,b,g,a))
 
       line = ui.Path()
       for stroke in strokes:
@@ -75,7 +80,7 @@ class CrossLineView(ui.View):
       line.stroke()
 
   def update(self):
-    self.counter = self.counter + 1 if self.counter < self.div_cross else 0
+    self.counter = self.counter + 1 if self.counter < self.fps else 0
     self.set_needs_display()
 
   def layout(self):
