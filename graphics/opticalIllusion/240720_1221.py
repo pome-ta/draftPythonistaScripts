@@ -36,14 +36,14 @@ class CrossLineView(ui.View):
 
     pattern = self.patterns
 
-    line_width = 1.8
+    line_width = 1.5
     #print(self.counter)
 
     div_range = range(self.div_cross)
     for x, y in product(div_range, div_range):
       move_x = x * self.cell_size + self.cell_size
       move_y = y * self.cell_size + self.cell_size
-      stroke_length = self.cell_size / 8
+      stroke_length = self.cell_size / 6
 
       strokes = [
         [
@@ -64,23 +64,23 @@ class CrossLineView(ui.View):
         ],
       ]
 
-      r,g,b,a = ui.parse_color(pattern[y][x])
-      a = math.sin(math.pi*(x^y))
-      
-      
-      ui.set_color((r,b,g,a))
+      r, g, b, a = ui.parse_color(pattern[y][x])
+      a = math.sin(
+        (self.update_interval * 8) * (math.pi * 2.0) * self.counter)
 
+      ui.set_color((r, b, g, a))
+      self.ppp = ui.Path()
       line = ui.Path()
       for stroke in strokes:
         line.move_to(move_x, move_y)
         line.line_to(*stroke)
 
       line.line_cap_style = ui.LINE_CAP_ROUND
-      line.line_width = line_width
+      line.line_width = line_width * a
       line.stroke()
 
   def update(self):
-    self.counter = self.counter + 1 if self.counter < self.fps else 0
+    self.counter += self.update_interval
     self.set_needs_display()
 
   def layout(self):
