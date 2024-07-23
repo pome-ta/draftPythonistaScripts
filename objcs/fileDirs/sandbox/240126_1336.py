@@ -1,4 +1,3 @@
-
 import webbrowser
 from objc_util import ObjCClass
 
@@ -9,3 +8,4 @@ path = obj_path[:index]
 print(path)
 
 webbrowser.open('pythonista3:/' + '/..' * 9 + f'{path}')
+
