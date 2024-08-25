@@ -19,3 +19,4 @@ path = obj_path[:index + len(target)]
 #webbrowser.open('pythonista3:/' + '/..' * 9 + f'{path}')
 webbrowser.open(r'pythonista3:/' + '/..' * 9 + rf'{obj_path}')
 '''
+
