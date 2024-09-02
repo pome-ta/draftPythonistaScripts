@@ -1,6 +1,7 @@
 import webbrowser
 import ctypes
 from pathlib import Path
+import urllib.parse
 
 from objc_util import ObjCClass, ObjCInstance, c
 
@@ -28,8 +29,9 @@ NSAutosavedInformationDirectory = 11
 # todo: NSSearchPathDomainMask
 NSUserDomainMask = 1
 NSAllDomainsMask = 0x0ffff
-libraryPath = NSSearchPathForDirectoriesInDomains(11, 0x0ffff, True).firstObject()
+libraryPath = NSSearchPathForDirectoriesInDomains(102, 0x0ffff, True).firstObject()
 
-path = get_toplevel_path() + str(libraryPath)
+_path = get_toplevel_path() + str(libraryPath)
 #print(path)
+path = urllib.parse.quote(_path)
 webbrowser.open(f'pythonista3://{path}')
