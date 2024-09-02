@@ -2,7 +2,7 @@
 
 <span style="color: #ff0000;">あか</span> これで
 
-
+<font color="#FF0000">赤く表示されます</font>
 
 > [!NOTE]
 > Highlights information that users should take into account, even when skimming.
