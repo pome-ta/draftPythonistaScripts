@@ -4,6 +4,9 @@
 
 <font color="#FF0000">赤く表示されます</font>
 
+
+<font color="red">赤く表示されます？</font>
+
 > [!NOTE]
 > Highlights information that users should take into account, even when skimming.
 
