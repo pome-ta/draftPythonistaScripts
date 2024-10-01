@@ -19,14 +19,13 @@ root_path = Path(root_str)
 all_files = list(root_path.glob('**/*.*'))
 
 sound_path = all_files[0]
-attributes = NSFileManager.defaultManager().attributesOfItemAtPath_error_(str(sound_path), None)
+attribute = NSFileManager.defaultManager().attributesOfItemAtPath_error_(
+  str(sound_path), None)
 
-'''
-for sound_path in all_files:
-  attributes = NSFileManager.defaultManager().attributesOfItemAtPath_error_(
-    str(sound_path), None)
-'''
+pdbg.state(attribute)
+fileModificationDate = attribute.fileModificationDate()
+#pdbg.state(fileModificationDate)
+localizedLongDate = fileModificationDate.localizedLongDate()
+localizedShortDate = fileModificationDate.localizedShortDate()
+localizedAbbrevDate = fileModificationDate.localizedAbbrevDate()
 
-
-
-#attributes = [NSFileManager.defaultManager().attributesOfItemAtPath_error_(str(sound_path), None) for sound_path in all_files]
