@@ -1,6 +1,6 @@
 '''
-defaultToolbarViewController
-[pystaUIKitCatalogChallenge/defaultToolbarViewController.py at main · pome-ta/pystaUIKitCatalogChallenge · GitHub](https://github.com/pome-ta/pystaUIKitCatalogChallenge/blob/main/defaultToolbarViewController.py)
+tintedToolbarViewController
+[pystaUIKitCatalogChallenge/tintedToolbarViewController.py at main · pome-ta/pystaUIKitCatalogChallenge · GitHub](https://github.com/pome-ta/pystaUIKitCatalogChallenge/blob/main/tintedToolbarViewController.py)
 '''
 
 from objc_util import (
@@ -86,15 +86,20 @@ class CustomViewController:
       view = this.view()
 
       # --- layout
-      safeAreaLayoutGuide = view.safeAreaLayoutGuide()
+      #safeAreaLayoutGuide = view.safeAreaLayoutGuide()
+      safeAreaLayoutGuide = this.navigationController().safeAreaLayoutGuide()
       toolBar = this.navigationController().toolbar()
+      #pdbg.state(this.navigationController())
 
       #pdbg.state(toolBar)
-
+      
+      
       NSLayoutConstraint.activateConstraints_([
         toolBar.bottomAnchor().constraintEqualToAnchor_(
           safeAreaLayoutGuide.bottomAnchor()),
       ])
+      
+      
 
       view.addSubview_(self.sub_view)
       self.sub_view.translatesAutoresizingMaskIntoConstraints = False

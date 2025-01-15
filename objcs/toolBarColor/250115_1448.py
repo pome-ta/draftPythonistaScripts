@@ -1,6 +1,6 @@
 '''
-defaultToolbarViewController
-[pystaUIKitCatalogChallenge/defaultToolbarViewController.py at main · pome-ta/pystaUIKitCatalogChallenge · GitHub](https://github.com/pome-ta/pystaUIKitCatalogChallenge/blob/main/defaultToolbarViewController.py)
+tintedToolbarViewController
+[pystaUIKitCatalogChallenge/tintedToolbarViewController.py at main · pome-ta/pystaUIKitCatalogChallenge · GitHub](https://github.com/pome-ta/pystaUIKitCatalogChallenge/blob/main/tintedToolbarViewController.py)
 '''
 
 from objc_util import (
@@ -49,21 +49,17 @@ class CustomViewController:
     self.sub_view.initWithFrame_(CGRectZero)
     self.sub_view.setBackgroundColor_(UIColor.systemRedColor())
 
-    #pdbg.state(this.navigationController().toolbar())
-    #pdbg.state(this)
-
-    this.navigationController().setToolbarHidden_(False)
-    this.navigationController().toolbar().setBarStyle_(1)
-    this.navigationController().toolbar().setTranslucent_(False)
-    this.navigationController().toolbar().setTintColor_(
-      UIColor.systemGreenColor())
-    this.navigationController().toolbar().setBackgroundColor_(
-      UIColor.systemBlueColor())
+    pdbg.state(this.navigationController().toolbar())
+    #setBarStyle_
+    #setTranslucent_
+    #setTintColor_
+    #setBackgroundColor_
 
     trashBarButtonItem = UIBarButtonItem.alloc(
     ).initWithBarButtonSystemItem_target_action_(16, None, None)
     flexibleSpaceBarButtonItem = UIBarButtonItem.alloc(
     ).initWithBarButtonSystemItem_target_action_(5, None, None)
+
     doneBarButtonItem = UIBarButtonItem.alloc(
     ).initWithBarButtonSystemItem_target_action_(0, None, None)
 
@@ -74,8 +70,7 @@ class CustomViewController:
     ]
 
     this.setToolbarItems_animated_(toolbarButtonItems, True)
-    #this.navigationController().setToolbarHidden_(False)
-    #pdbg.all(this)
+    this.navigationController().setToolbarHidden_(False)
 
   def _override_viewController(self):
 
@@ -86,16 +81,6 @@ class CustomViewController:
       view = this.view()
 
       # --- layout
-      safeAreaLayoutGuide = view.safeAreaLayoutGuide()
-      toolBar = this.navigationController().toolbar()
-
-      #pdbg.state(toolBar)
-
-      NSLayoutConstraint.activateConstraints_([
-        toolBar.bottomAnchor().constraintEqualToAnchor_(
-          safeAreaLayoutGuide.bottomAnchor()),
-      ])
-
       view.addSubview_(self.sub_view)
       self.sub_view.translatesAutoresizingMaskIntoConstraints = False
 
@@ -110,16 +95,9 @@ class CustomViewController:
           view.heightAnchor(), 1.05),
       ])
 
-    def viewDidAppear_(_self, _cmd, _animated):
-      #print('viewDidAppear')
-      this = ObjCInstance(_self)
-      view = this.view()
-      #pdbg.state(this.navigationController().toolbar())
-
     # --- `UIViewController` set up
     _methods = [
       viewDidLoad,
-      viewDidAppear_,
     ]
 
     create_kwargs = {
@@ -186,12 +164,11 @@ class ObjcUIViewController:
       # --- navigationBar
 
       navigationBar = navigationController.navigationBar()
-      '''
+
       navigationBar.standardAppearance = appearance
       navigationBar.scrollEdgeAppearance = appearance
       navigationBar.compactAppearance = appearance
       navigationBar.compactScrollEdgeAppearance = appearance
-      '''
 
       #navigationBar.prefersLargeTitles = True
 
