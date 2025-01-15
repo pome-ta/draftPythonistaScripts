@@ -1,3 +1,8 @@
+'''
+defaultToolbarViewController
+[pystaUIKitCatalogChallenge/defaultToolbarViewController.py at main · pome-ta/pystaUIKitCatalogChallenge · GitHub](https://github.com/pome-ta/pystaUIKitCatalogChallenge/blob/main/defaultToolbarViewController.py)
+'''
+
 from objc_util import (
   ObjCClass,
   ObjCInstance,
@@ -23,12 +28,14 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
 UIColor = ObjCClass('UIColor')
 
+UIBarButtonItem = ObjCClass('UIBarButtonItem')
+
 
 class CustomViewController:
 
   def __init__(self):
     self._viewController: UIViewController
-    self.nav_title = 'nav title'
+    self.nav_title = 'title'
     self.sub_view = UIView.alloc()
 
   def setup_viewDidLoad(self, this: UIViewController):
@@ -41,6 +48,29 @@ class CustomViewController:
     CGRectZero = CGRect((0.0, 0.0), (0.0, 0.0))
     self.sub_view.initWithFrame_(CGRectZero)
     self.sub_view.setBackgroundColor_(UIColor.systemRedColor())
+
+    pdbg.state(this.navigationController().toolbar())
+    #setBarStyle_
+    #setTranslucent_
+    #setTintColor_
+    #setBackgroundColor_
+
+    trashBarButtonItem = UIBarButtonItem.alloc(
+    ).initWithBarButtonSystemItem_target_action_(16, None, None)
+    flexibleSpaceBarButtonItem = UIBarButtonItem.alloc(
+    ).initWithBarButtonSystemItem_target_action_(5, None, None)
+
+    doneBarButtonItem = UIBarButtonItem.alloc(
+    ).initWithBarButtonSystemItem_target_action_(0, None, None)
+
+    toolbarButtonItems = [
+      trashBarButtonItem,
+      flexibleSpaceBarButtonItem,
+      doneBarButtonItem,
+    ]
+
+    this.setToolbarItems_animated_(toolbarButtonItems, True)
+    this.navigationController().setToolbarHidden_(False)
 
   def _override_viewController(self):
 
@@ -62,7 +92,7 @@ class CustomViewController:
         self.sub_view.widthAnchor().constraintEqualToAnchor_multiplier_(
           view.widthAnchor(), 0.9),
         self.sub_view.heightAnchor().constraintEqualToAnchor_multiplier_(
-          view.heightAnchor(), 0.9),
+          view.heightAnchor(), 1.05),
       ])
 
     # --- `UIViewController` set up
@@ -132,6 +162,7 @@ class ObjcUIViewController:
       #appearance.backgroundColor = sc.systemExtraLightGrayColor
 
       # --- navigationBar
+
       navigationBar = navigationController.navigationBar()
 
       navigationBar.standardAppearance = appearance
@@ -244,5 +275,4 @@ if __name__ == '__main__':
   cvc = CustomViewController.new()
   ovc = ObjcUIViewController.new(cvc)
   present_objc(ovc)
-
 
