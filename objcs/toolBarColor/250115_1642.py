@@ -51,14 +51,17 @@ class CustomViewController:
 
     #pdbg.state(this.navigationController().toolbar())
     #pdbg.state(this)
+    
+    
 
     this.navigationController().setToolbarHidden_(False)
-    this.navigationController().toolbar().setBarStyle_(1)
-    this.navigationController().toolbar().setTranslucent_(False)
-    this.navigationController().toolbar().setTintColor_(
-      UIColor.systemGreenColor())
-    this.navigationController().toolbar().setBackgroundColor_(
-      UIColor.systemBlueColor())
+    toolBar = this.navigationController().toolbar()
+    toolBar.setBarStyle_(1)
+    toolBar.setTranslucent_(False)
+    toolBar.setTintColor_(UIColor.systemGreenColor())
+    toolBar.setBackgroundColor_(UIColor.systemBlueColor())
+    
+    #pdbg.all(this.view())
 
     trashBarButtonItem = UIBarButtonItem.alloc(
     ).initWithBarButtonSystemItem_target_action_(16, None, None)
@@ -89,9 +92,8 @@ class CustomViewController:
       #safeAreaLayoutGuide = view.safeAreaLayoutGuide()
       safeAreaLayoutGuide = this.navigationController().safeAreaLayoutGuide()
       toolBar = this.navigationController().toolbar()
-      #pdbg.state(this.navigationController())
-
-      #pdbg.state(toolBar)
+      #toolBar.translatesAutoresizingMaskIntoConstraints = False
+  
       
       
       NSLayoutConstraint.activateConstraints_([
