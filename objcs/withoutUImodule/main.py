@@ -1,3 +1,7 @@
+"""
+[Pythonista3 のui モジュールに依存しないobjc_util のみの実装](https://gist.github.com/pome-ta/e2e6c18bc9c8b2bcd25c2caebf1c6f41)
+"""
+
 from objc_util import (
   ObjCClass,
   ObjCInstance,
