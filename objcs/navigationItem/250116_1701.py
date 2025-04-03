@@ -4,7 +4,7 @@ from objc_util import ObjCClass, ObjCInstance, create_objc_class, on_main_thread
 from objc_util import sel, CGRect
 
 import SystemColor as sc
-import pdbg
+#import pdbg
 
 file_name = Path(__file__).name
 #file_name = 'NSLayoutAnchor でレイアウト😤'
