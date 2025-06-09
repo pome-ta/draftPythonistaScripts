@@ -1,13 +1,13 @@
 from itertools import product
 
 
-normal_gears = [  # 通常ギアパワー
+_normal_gears = [  # 通常ギアパワー
   'メ',  # インク効率アップ(メイン)
   'サ',  # インク効率アップ(サブ)
   '回',  # インク回復力アップ
 ]
 
-_normal_gears = [  # 通常ギアパワー
+normal_gears = [  # 通常ギアパワー
   'メ',  # インク効率アップ(メイン)
   'サ',  # インク効率アップ(サブ)
   '回',  # インク回復力アップ
@@ -62,11 +62,11 @@ def create_sub_gear_patterns(
   product_iter = product(gears_add_num, repeat=3)
   sorted_tuple_map = map(tuple, map(sorted, product_iter))
   set_list = {items for items in sorted_tuple_map}
-  print(set_list)
+  #print(set_list)
   
   #set_list = list(map(list, set(sorted_tuple_map)))
   #print(len(set_list))
-  sorted_list = [list(x) for x in (zip(*[sorted(l) for l in zip(*set_list)]))]
+  sorted_list = {g for g in (zip(*[sorted(gs) for gs in zip(*set_list)]))}
   
   
   #gears_remove_num = 
@@ -76,6 +76,7 @@ def create_sub_gear_patterns(
 
 
 sub_patterns = create_sub_gear_patterns(normal_gears)
+print(len(sub_patterns))
 
 m = create_pattern(normal_gears, sub_patterns)
 
