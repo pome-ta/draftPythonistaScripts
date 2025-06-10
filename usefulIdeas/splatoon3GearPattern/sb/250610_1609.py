@@ -1,11 +1,4 @@
 from itertools import product
-from pprint import pprint
-
-_normal_gears = [  # 通常ギアパワー
-  'メ',  # インク効率アップ(メイン)
-  'サ',  # インク効率アップ(サブ)
-  '回',  # インク回復力アップ
-]
 
 normal_gears = [  # 通常ギアパワー
   'メ',  # インク効率アップ(メイン)
@@ -55,54 +48,38 @@ def create_pattern(
 
 def create_sub_gear_patterns(
     sub_gears: list[str]) -> list[list[str, str, str, ]]:
-  #return list(map(list, set(map(tuple, map(sorted, product(normal_gears, repeat=3))))))
   gears_add_num = [f'{n:02}{g}' for n, g in enumerate(sub_gears)]
-
-  #product_iter = product(sub_gears, repeat=3)
   product_map = map(list, product(gears_add_num, repeat=3))
-  #pprint(list(product_map))
   sorted_map = map(tuple, (map(sorted, product_map)))
   set_map = map(list, set(list(sorted_map)))
-  
-  #items_sorted = sorted([sorted(items) for items in set_map])
   items_sorted = sorted(list(set_map))
-  
   gears_remove_num = [[item[-1] for item in items] for items in items_sorted]
-  
-  
-  pprint(gears_remove_num)
-  #items_set = {sorted(items) for items in product_map}
-  '''
-  sorted_tuple_map = [tuple(sorted(a,b,c)) for a,b,c in zip(*product_iter)]
-  pprint(sorted_tuple_map)
-  '''
-
-  #sorted_tuple_map = map(tuple, map(sorted, product_iter))
-  #pprint(list(sorted_tuple_map))
-
-  #sorted_tuple = [sorted(items) for items in product_iter]
-
-  #print(sorted_tuple)
-  '''
-  sorted_tuple_map = map(tuple, map(sorted, product_iter))
-  set_list = {items for items in sorted_tuple_map}
-  #print(set_list)
-  
-  
-  #set_list = list(map(list, set(sorted_tuple_map)))
-  #print(len(set_list))
-  sorted_list = {g for g in (zip(*[sorted(gs) for gs in zip(*set_list)]))}
-  '''
-
-  #gears_remove_num =
-
-  #return set_list
-  #return sorted_list
+  return gears_remove_num
 
 
-create_sub_gear_patterns(_normal_gears)
-#sub_patterns = create_sub_gear_patterns(_normal_gears)
-#print(len(sub_patterns))
+sub_patterns = create_sub_gear_patterns(normal_gears)
 
-#m = create_pattern(normal_gears, sub_patterns)
+if __name__ == '__main__':
+  from pprint import pprint
+
+  # head
+  _main_head_gears = head_gears + normal_gears
+  #_sub_head_gears = create_sub_gear_patterns(normal_gears)
+  _sub_head_gears = sub_patterns
+
+  head_gearpower_pattern = create_pattern(_main_head_gears, _sub_head_gears)
+
+  # wear
+  _main_wear_gears = wear_gears + normal_gears
+  #_sub_wear_gears = create_sub_gear_patterns(normal_gears)
+  _sub_wear_gears = sub_patterns
+
+  wear_gearpower_pattern = create_pattern(_main_wear_gears, _sub_wear_gears)
+
+  # shoes
+  _main_shoes_gears = shoes_gears + normal_gears
+  #_sub_shoes_gears = create_sub_gear_patterns(normal_gears)
+  _sub_shoes_gears = sub_patterns
+
+  shoes_gearpower_pattern = create_pattern(_main_shoes_gears, _sub_shoes_gears)
 
