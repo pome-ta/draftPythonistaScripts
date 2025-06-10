@@ -1,5 +1,5 @@
 from itertools import product
-
+from pprint import pprint
 
 _normal_gears = [  # 通常ギアパワー
   'メ',  # インク効率アップ(メイン)
@@ -59,24 +59,40 @@ def create_sub_gear_patterns(
   gears_add_num = [f'{n:02}{g}' for n, g in enumerate(sub_gears)]
 
   #product_iter = product(sub_gears, repeat=3)
-  product_iter = product(gears_add_num, repeat=3)
+  product_map = map(list, product(gears_add_num, repeat=3))
+
+  print(list(product_map))
+  '''
+  sorted_tuple_map = [tuple(sorted(a,b,c)) for a,b,c in zip(*product_iter)]
+  pprint(sorted_tuple_map)
+  '''
+
+  #sorted_tuple_map = map(tuple, map(sorted, product_iter))
+  #pprint(list(sorted_tuple_map))
+
+  #sorted_tuple = [sorted(items) for items in product_iter]
+
+  #print(sorted_tuple)
+  '''
   sorted_tuple_map = map(tuple, map(sorted, product_iter))
   set_list = {items for items in sorted_tuple_map}
   #print(set_list)
   
+  
   #set_list = list(map(list, set(sorted_tuple_map)))
   #print(len(set_list))
   sorted_list = {g for g in (zip(*[sorted(gs) for gs in zip(*set_list)]))}
-  
-  
-  #gears_remove_num = 
-  
+  '''
+
+  #gears_remove_num =
+
   #return set_list
-  return sorted_list
+  #return sorted_list
 
 
-sub_patterns = create_sub_gear_patterns(normal_gears)
-print(len(sub_patterns))
+create_sub_gear_patterns(_normal_gears)
+#sub_patterns = create_sub_gear_patterns(_normal_gears)
+#print(len(sub_patterns))
 
-m = create_pattern(normal_gears, sub_patterns)
+#m = create_pattern(normal_gears, sub_patterns)
 
