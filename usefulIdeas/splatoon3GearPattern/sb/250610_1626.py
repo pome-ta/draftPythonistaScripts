@@ -75,6 +75,9 @@ if __name__ == '__main__':
   shoes_gearpower_pattern = create_pattern(_main_shoes_gears, sub_patterns)
 
   print(f'アタマ\t: {len(head_gearpower_pattern)}')
+  pprint(head_gearpower_pattern)
   print(f'フク\t: {len(wear_gearpower_pattern)}')
+  pprint(wear_gearpower_pattern)
   print(f'クツ\t: {len(shoes_gearpower_pattern)}')
+  pprint(shoes_gearpower_pattern)
 
