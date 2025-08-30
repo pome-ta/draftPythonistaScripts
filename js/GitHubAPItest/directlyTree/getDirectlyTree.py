@@ -495,7 +495,6 @@ if __name__ == '__main__':
 
   index_path = Path('./docs/index.html')
   #save_path = Path('./docs/js/main.js')
-  
 
   main_vc = WebViewController.alloc().initWithIndexPath_(index_path)
   _title = NSStringFromClass(WebViewController)
@@ -508,4 +507,5 @@ if __name__ == '__main__':
 
   app = App(main_vc, presentation_style)
   app.present()
+
 
