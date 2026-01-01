@@ -18,7 +18,6 @@ UIKeyboardFrameEndUserInfoKey = constUIKit('UIKeyboardFrameEndUserInfoKey')
 
 UICollectionElementKindSectionHeader = constUIKit('UICollectionElementKindSectionHeader')
 
-#print()
 
 # ref: [UIFontTextStyle | Apple Developer Documentation](https://developer.apple.com/documentation/uikit/uifont/textstyle?language=objc)
 @dataclass
