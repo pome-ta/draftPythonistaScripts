@@ -9,9 +9,28 @@ from rbedge.functions import NSStringFromClass
 from rbedge import pdbr
 
 SCNView = ObjCClass('SCNView')
+SCNScene = ObjCClass('SCNScene')
+SCNNode = ObjCClass('SCNNode')
 
 UIViewController = ObjCClass('UIViewController')
+UIColor = ObjCClass('UIColor')
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
+
+
+class GameScene:
+
+  def __init__(self):
+    self.scene: SCNScene
+    self.setUpScene()
+
+  def setUpScene(self):
+    scene = SCNScene.scene()
+    # ---
+    # ここに処理を書いていく
+    # ---
+    scene.rootNode.addChildNode_(SCNNode.node())
+    pdbr.state(scene)
+    self.scene = scene
 
 
 class MainViewController(UIViewController):
@@ -31,31 +50,20 @@ class MainViewController(UIViewController):
     send_super(__class__, self, 'viewDidLoad')
     self.navigationItem.title = NSStringFromClass(__class__)
 
-    #scnView = SCNView.new()
-    scnView = SCNView.alloc().initWithFrame_(CGRectMake(
-      0.0, 0.0, 100.0, 100.0))
-    scnView.setShowsStatistics_(True)
+    scene = GameScene()
+    scnView = SCNView.new()
+    #scnView.backgroundColor = UIColor.systemBackgroundColor()
+    #scnView.delegate = self
+
+    #scnView = SCNView.alloc().initWithFrame_(CGRectMake(0.0, 0.0, 100.0, 100.0))
+
     #pdbr.state(scnView)
     # --- Layout
     safeAreaLayoutGuide = self.view.safeAreaLayoutGuide
-    pdbr.state(scnView.leadingAnchor)
 
     self.view.addSubview_(scnView)
     scnView.translatesAutoresizingMaskIntoConstraints = False
-    '''
-    
-    NSLayoutConstraint.activateConstraints_([
-      scnView.topAnchor.constraintEqualToAnchor_(
-        safeAreaLayoutGuide.topAnchor),
-      scnView.leadingAnchor.constraintEqualToAnchor_(safeAreaLayoutGuide.leadingAnchor),
-      #scnView.leadingAnchor.constraintEqualToAnchor_multiplier_(safeAreaLayoutGuide.leadingAnchor,0.8),
-      scnView.trailingAnchor.constraintEqualToAnchor_(
-        safeAreaLayoutGuide.trailingAnchor),
-      scnView.bottomAnchor.constraintEqualToAnchor_(safeAreaLayoutGuide.bottomAnchor),
-      
-    ])
-    '''
-    
+
     NSLayoutConstraint.activateConstraints_([
       scnView.centerXAnchor.constraintEqualToAnchor_(
         safeAreaLayoutGuide.centerXAnchor),
@@ -64,9 +72,14 @@ class MainViewController(UIViewController):
       scnView.widthAnchor.constraintEqualToAnchor_multiplier_(
         safeAreaLayoutGuide.widthAnchor, 1.0),
       scnView.heightAnchor.constraintEqualToAnchor_multiplier_(
-        safeAreaLayoutGuide.heightAnchor, 0.5),
+        safeAreaLayoutGuide.heightAnchor, 1.0),
     ])
 
+    
+    scnView.scene = scene.scene
+    #scnView.scene = SCNScene.scene()
+    #scnView.setShowsStatistics_(True)
+    scnView.showsStatistics = True
 
   @objc_method
   def viewWillAppear_(self, animated: bool):
