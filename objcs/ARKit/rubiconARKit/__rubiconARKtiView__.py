@@ -51,11 +51,11 @@ class MainViewController(UIViewController):
     self.navigationItem.title = NSStringFromClass(__class__)
 
     #scene = GameScene()
-    scnView = SCNView.new()
+    #scnView = SCNView.new()
     #scnView.backgroundColor = UIColor.systemBackgroundColor()
     #scnView.delegate = self
 
-    #scnView = SCNView.alloc().initWithFrame_(CGRectMake(0.0, 0.0, 100.0, 100.0))
+    scnView = SCNView.alloc().initWithFrame_(CGRectMake(0.0, 0.0, 100.0, 100.0))
 
     #pdbr.state(scnView)
     # --- Layout
