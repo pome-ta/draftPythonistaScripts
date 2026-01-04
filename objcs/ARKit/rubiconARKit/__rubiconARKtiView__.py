@@ -50,7 +50,7 @@ class MainViewController(UIViewController):
     send_super(__class__, self, 'viewDidLoad')
     self.navigationItem.title = NSStringFromClass(__class__)
 
-    scene = GameScene()
+    #scene = GameScene()
     scnView = SCNView.new()
     #scnView.backgroundColor = UIColor.systemBackgroundColor()
     #scnView.delegate = self
@@ -76,9 +76,27 @@ class MainViewController(UIViewController):
     ])
 
     
-    scnView.scene = scene.scene
-    #scnView.scene = SCNScene.scene()
+    #scnView.scene = scene.scene
+    scnView.scene = SCNScene.scene()
     #scnView.setShowsStatistics_(True)
+    scnView.allowsCameraControl = True
+    '''
+    OptionNone = 0
+    ShowPhysicsShapes = (1 << 0)
+    ShowBoundingBoxes = (1 << 1)
+    ShowLightInfluences = (1 << 2)
+    ShowLightExtents = (1 << 3)
+    ShowPhysicsFields = (1 << 4)
+    ShowWireframe = (1 << 5)
+    RenderAsWireframe = (1 << 6)
+    ShowSkeletons = (1 << 7)
+    ShowCreases = (1 << 8)
+    ShowConstraints = (1 << 9)
+    ShowCameras = (1 << 10)
+    '''
+    _debugOptions = ((1 << 0) | (1 << 1) | (1 << 4) | (1 << 10))
+    scnView.debugOptions = _debugOptions
+
     scnView.showsStatistics = True
 
   @objc_method
