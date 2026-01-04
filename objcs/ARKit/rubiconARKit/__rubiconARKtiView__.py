@@ -5,6 +5,7 @@ from pyrubicon.objc.api import objc_method
 from pyrubicon.objc.runtime import send_super
 
 from rbedge.functions import NSStringFromClass
+from rbedge import pdbr
 
 UIViewController = ObjCClass('UIViewController')
 
@@ -26,6 +27,7 @@ class MainViewController(UIViewController):
     send_super(__class__, self, 'viewDidLoad')
     print(f'\t{NSStringFromClass(__class__)}: viewDidLoad')
     self.navigationItem.title = NSStringFromClass(__class__)
+    pdbr.state(self.view)
 
   @objc_method
   def viewWillAppear_(self, animated: bool):
