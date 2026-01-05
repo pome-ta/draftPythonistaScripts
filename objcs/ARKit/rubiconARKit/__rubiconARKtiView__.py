@@ -8,33 +8,16 @@ from pyrubicon.objc.types import CGRectMake
 from rbedge.functions import NSStringFromClass
 from rbedge import pdbr
 
-SCNView = ObjCClass('SCNView')
-SCNScene = ObjCClass('SCNScene')
-SCNNode = ObjCClass('SCNNode')
+ARSCNView = ObjCClass('ARSCNView')
+ARWorldTrackingConfiguration = ObjCClass('ARWorldTrackingConfiguration')
 
 UIViewController = ObjCClass('UIViewController')
 UIColor = ObjCClass('UIColor')
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
 
-class GameScene:
-
-  def __init__(self):
-    self.scene: SCNScene
-    self.setUpScene()
-
-  def setUpScene(self):
-    scene = SCNScene.scene()
-    # ---
-    # ここに処理を書いていく
-    # ---
-    scene.rootNode.addChildNode_(SCNNode.node())
-    #pdbr.state(scene)
-    self.scene = scene
-
-
 class MainViewController(UIViewController):
-  scnView: SCNView = objc_property()
+  scnView: ARSCNView = objc_property()
 
   @objc_method
   def dealloc(self):
@@ -52,12 +35,11 @@ class MainViewController(UIViewController):
     self.navigationItem.title = NSStringFromClass(__class__)
 
     #scene = GameScene()
-    #scnView = SCNView.new()
+    scnView = ARSCNView.new()
     #scnView.backgroundColor = UIColor.systemBackgroundColor()
     #scnView.delegate = self
 
-    scnView = SCNView.alloc().initWithFrame_(CGRectMake(
-      0.0, 0.0, 100.0, 100.0))
+    #scnView = SCNView.alloc().initWithFrame_(CGRectMake(0.0, 0.0, 100.0, 100.0))
 
     #pdbr.state(scnView)
     # --- Layout
@@ -77,27 +59,7 @@ class MainViewController(UIViewController):
         safeAreaLayoutGuide.heightAnchor, 1.0),
     ])
 
-    #scnView.scene = scene.scene
-    scnView.scene = SCNScene.scene()
-    #scnView.setShowsStatistics_(True)
     scnView.allowsCameraControl = True
-    '''
-    OptionNone = 0
-    ShowPhysicsShapes = (1 << 0)
-    ShowBoundingBoxes = (1 << 1)
-    ShowLightInfluences = (1 << 2)
-    ShowLightExtents = (1 << 3)
-    ShowPhysicsFields = (1 << 4)
-    ShowWireframe = (1 << 5)
-    RenderAsWireframe = (1 << 6)
-    ShowSkeletons = (1 << 7)
-    ShowCreases = (1 << 8)
-    ShowConstraints = (1 << 9)
-    ShowCameras = (1 << 10)
-    '''
-    _debugOptions = ((1 << 0) | (1 << 1) | (1 << 4) | (1 << 10))
-    scnView.debugOptions = _debugOptions
-
     scnView.showsStatistics = True
 
     self.scnView = scnView
@@ -111,6 +73,8 @@ class MainViewController(UIViewController):
                argtypes=[
                  ctypes.c_bool,
                ])
+    configuration = ARWorldTrackingConfiguration.new()
+    self.scnView.session.runWithConfiguration_(configuration)
 
   @objc_method
   def viewDidAppear_(self, animated: bool):
@@ -132,7 +96,7 @@ class MainViewController(UIViewController):
                argtypes=[
                  ctypes.c_bool,
                ])
-    pdbr.state(self.scnView.technique)
+    self.scnView.session.pause()
 
   @objc_method
   def viewDidDisappear_(self, animated: bool):
