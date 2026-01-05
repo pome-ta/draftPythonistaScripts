@@ -59,8 +59,8 @@ class MainViewController(UIViewController):
         safeAreaLayoutGuide.heightAnchor, 1.0),
     ])
 
-    scnView.allowsCameraControl = True
-    scnView.showsStatistics = True
+    #scnView.allowsCameraControl = True
+    
 
     self.scnView = scnView
 
@@ -73,6 +73,10 @@ class MainViewController(UIViewController):
                argtypes=[
                  ctypes.c_bool,
                ])
+    self.scnView.showsStatistics = True
+    #self.scnView.allowsCameraControl = True
+    _debugOptions = (1 << 1) | (1 << 30) | (1 << 32)
+    self.scnView.debugOptions = _debugOptions
     configuration = ARWorldTrackingConfiguration.new()
     self.scnView.session.runWithConfiguration_(configuration)
 
