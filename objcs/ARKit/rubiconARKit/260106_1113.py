@@ -1,4 +1,5 @@
 import ctypes
+from enum import IntEnum
 
 from pyrubicon.objc.api import ObjCClass
 from pyrubicon.objc.api import objc_method, objc_property, objc_const
@@ -12,8 +13,8 @@ SceneKit = load_library('SceneKit')
 SCNView = ObjCClass('SCNView')
 SCNScene = ObjCClass('SCNScene')
 
-SCNPreferredRenderingAPIKey = objc_const(SceneKit,
-                                         'SCNPreferredRenderingAPIKey')
+SCNPreferredRenderingAPIKey = str(
+  objc_const(SceneKit, 'SCNPreferredRenderingAPIKey'))
 
 CoreGraphics = load_library('CoreGraphics')
 CGRectZero = CGRect.in_dll(CoreGraphics, 'CGRectZero')
@@ -21,6 +22,11 @@ CGRectZero = CGRect.in_dll(CoreGraphics, 'CGRectZero')
 UIViewController = ObjCClass('UIViewController')
 UIColor = ObjCClass('UIColor')
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
+
+
+class SCNRenderingAPI(IntEnum):
+  metal = 0
+  openGLES2 = 1
 
 
 class MainViewController(UIViewController):
@@ -44,10 +50,11 @@ class MainViewController(UIViewController):
     self.navigationItem.title = NSStringFromClass(__class__)
 
     #scnView = SCNView.alloc().initWithFrame_(CGRectZero)
-    scnView = SCNView.alloc().initWithFrame_options_(CGRectZero, {
-      str(SCNPreferredRenderingAPIKey): 7
-    })
-    pdbr.state(scnView)
+    scnView = SCNView.alloc().initWithFrame_options_(
+      CGRectZero, {
+        SCNPreferredRenderingAPIKey: SCNRenderingAPI.metal,
+      })
+    #pdbr.state(scnView)
     #scnView = SCNView.new()
     scnScene = SCNScene.new()
 
@@ -109,7 +116,7 @@ class MainViewController(UIViewController):
                  ctypes.c_bool,
                ])
     #pdbr.state(self.scnView.renderingAPI())
-    print(self.scnView.renderingAPI)
+    #print(self.scnView.renderingAPI)
     #pdbr.state(self.scnScene)
 
   @objc_method
