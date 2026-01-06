@@ -1,14 +1,22 @@
 import ctypes
 
 from pyrubicon.objc.api import ObjCClass
-from pyrubicon.objc.api import objc_method, objc_property
+from pyrubicon.objc.api import objc_method, objc_property, objc_const
 from pyrubicon.objc.runtime import send_super, load_library
+from pyrubicon.objc.types import CGRect
 
 from rbedge.functions import NSStringFromClass
 from rbedge import pdbr
 
 SceneKit = load_library('SceneKit')
 SCNView = ObjCClass('SCNView')
+SCNScene = ObjCClass('SCNScene')
+
+SCNPreferredRenderingAPIKey = objc_const(SceneKit,
+                                         'SCNPreferredRenderingAPIKey')
+
+CoreGraphics = load_library('CoreGraphics')
+CGRectZero = CGRect.in_dll(CoreGraphics, 'CGRectZero')
 
 UIViewController = ObjCClass('UIViewController')
 UIColor = ObjCClass('UIColor')
@@ -18,6 +26,7 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 class MainViewController(UIViewController):
 
   scnView: SCNView = objc_property()
+  scnScene: SCNScene = objc_property()
 
   @objc_method
   def dealloc(self):
@@ -33,16 +42,21 @@ class MainViewController(UIViewController):
   def viewDidLoad(self):
     send_super(__class__, self, 'viewDidLoad')
     self.navigationItem.title = NSStringFromClass(__class__)
-    '''
-    #scene = GameScene()
-    scnView = ARSCNView.new()
+
+    #scnView = SCNView.alloc().initWithFrame_(CGRectZero)
+    scnView = SCNView.alloc().initWithFrame_options_(CGRectZero, {
+      str(SCNPreferredRenderingAPIKey): 7
+    })
     pdbr.state(scnView)
-    #scnView.backgroundColor = UIColor.systemBackgroundColor()
-    #scnView.delegate = self
+    #scnView = SCNView.new()
+    scnScene = SCNScene.new()
 
-    #scnView = SCNView.alloc().initWithFrame_(CGRectMake(0.0, 0.0, 100.0, 100.0))
+    scnView.setScene_(scnScene)
 
-    #pdbr.state(scnView)
+    scnView.setShowsStatistics_(True)
+    scnView.setAllowsCameraControl_(True)
+    #pdbr.state(scnScene)
+
     # --- Layout
     safeAreaLayoutGuide = self.view.safeAreaLayoutGuide
 
@@ -59,7 +73,9 @@ class MainViewController(UIViewController):
       scnView.heightAnchor.constraintEqualToAnchor_multiplier_(
         safeAreaLayoutGuide.heightAnchor, 1.0),
     ])
-    '''
+
+    self.scnView = scnView
+    self.scnScene = scnScene
 
   @objc_method
   def viewWillAppear_(self, animated: bool):
@@ -70,6 +86,7 @@ class MainViewController(UIViewController):
                argtypes=[
                  ctypes.c_bool,
                ])
+    #pdbr.state(self.scnView)
 
   @objc_method
   def viewDidAppear_(self, animated: bool):
@@ -80,7 +97,7 @@ class MainViewController(UIViewController):
                argtypes=[
                  ctypes.c_bool,
                ])
-    #pdbr.state(self.scnView)
+    #pdbr.state(self.scnScene)
 
   @objc_method
   def viewWillDisappear_(self, animated: bool):
@@ -91,6 +108,9 @@ class MainViewController(UIViewController):
                argtypes=[
                  ctypes.c_bool,
                ])
+    #pdbr.state(self.scnView.renderingAPI())
+    print(self.scnView.renderingAPI)
+    #pdbr.state(self.scnScene)
 
   @objc_method
   def viewDidDisappear_(self, animated: bool):
@@ -114,8 +134,8 @@ if __name__ == '__main__':
 
   main_vc = MainViewController.new()
 
-  #presentation_style = UIModalPresentationStyle.fullScreen
-  presentation_style = UIModalPresentationStyle.pageSheet
+  presentation_style = UIModalPresentationStyle.fullScreen
+  #presentation_style = UIModalPresentationStyle.pageSheet
 
   app = App(main_vc, presentation_style)
   app.present()
