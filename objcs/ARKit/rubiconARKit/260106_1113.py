@@ -2,14 +2,13 @@ import ctypes
 
 from pyrubicon.objc.api import ObjCClass
 from pyrubicon.objc.api import objc_method, objc_property
-from pyrubicon.objc.runtime import send_super
-from pyrubicon.objc.types import CGRectMake
+from pyrubicon.objc.runtime import send_super, load_library
 
 from rbedge.functions import NSStringFromClass
 from rbedge import pdbr
 
-ARSCNView = ObjCClass('ARSCNView')
-ARWorldTrackingConfiguration = ObjCClass('ARWorldTrackingConfiguration')
+SceneKit = load_library('SceneKit')
+SCNView = ObjCClass('SCNView')
 
 UIViewController = ObjCClass('UIViewController')
 UIColor = ObjCClass('UIColor')
@@ -17,7 +16,8 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
 
 class MainViewController(UIViewController):
-  scnView: ARSCNView = objc_property()
+
+  scnView: SCNView = objc_property()
 
   @objc_method
   def dealloc(self):
@@ -33,7 +33,7 @@ class MainViewController(UIViewController):
   def viewDidLoad(self):
     send_super(__class__, self, 'viewDidLoad')
     self.navigationItem.title = NSStringFromClass(__class__)
-
+    '''
     #scene = GameScene()
     scnView = ARSCNView.new()
     pdbr.state(scnView)
@@ -59,11 +59,7 @@ class MainViewController(UIViewController):
       scnView.heightAnchor.constraintEqualToAnchor_multiplier_(
         safeAreaLayoutGuide.heightAnchor, 1.0),
     ])
-
-    #scnView.allowsCameraControl = True
-    
-
-    self.scnView = scnView
+    '''
 
   @objc_method
   def viewWillAppear_(self, animated: bool):
@@ -74,12 +70,6 @@ class MainViewController(UIViewController):
                argtypes=[
                  ctypes.c_bool,
                ])
-    self.scnView.showsStatistics = True
-    #self.scnView.allowsCameraControl = True
-    _debugOptions = (1 << 1) | (1 << 30) | (1 << 32)
-    self.scnView.debugOptions = _debugOptions
-    configuration = ARWorldTrackingConfiguration.new()
-    self.scnView.session.runWithConfiguration_(configuration)
 
   @objc_method
   def viewDidAppear_(self, animated: bool):
@@ -101,7 +91,6 @@ class MainViewController(UIViewController):
                argtypes=[
                  ctypes.c_bool,
                ])
-    self.scnView.session.pause()
 
   @objc_method
   def viewDidDisappear_(self, animated: bool):
@@ -123,13 +112,11 @@ if __name__ == '__main__':
   from rbedge.app import App
   from rbedge.enumerations import UIModalPresentationStyle
 
-  #print('--- run ---')
   main_vc = MainViewController.new()
 
-  presentation_style = UIModalPresentationStyle.fullScreen
-  #presentation_style = UIModalPresentationStyle.pageSheet
+  #presentation_style = UIModalPresentationStyle.fullScreen
+  presentation_style = UIModalPresentationStyle.pageSheet
 
   app = App(main_vc, presentation_style)
   app.present()
-  #print('--- end ---')
 
