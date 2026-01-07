@@ -1,5 +1,5 @@
 import ctypes
-from enum import IntEnum
+from enum import IntEnum, IntFlag
 
 from pyrubicon.objc.api import ObjCClass
 from pyrubicon.objc.api import objc_method, objc_property, objc_const
@@ -27,6 +27,54 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 class SCNRenderingAPI(IntEnum):
   metal = 0
   openGLES2 = 1
+
+
+'''
+pub struct SCNDebugOptions(pub NSUInteger);
+bitflags::bitflags! {
+    impl SCNDebugOptions: NSUInteger {
+        #[doc(alias = "SCNDebugOptionNone")]
+        const None = 0;
+        #[doc(alias = "SCNDebugOptionShowPhysicsShapes")]
+        const ShowPhysicsShapes = 1<<0;
+        #[doc(alias = "SCNDebugOptionShowBoundingBoxes")]
+        const ShowBoundingBoxes = 1<<1;
+        #[doc(alias = "SCNDebugOptionShowLightInfluences")]
+        const ShowLightInfluences = 1<<2;
+        #[doc(alias = "SCNDebugOptionShowLightExtents")]
+        const ShowLightExtents = 1<<3;
+        #[doc(alias = "SCNDebugOptionShowPhysicsFields")]
+        const ShowPhysicsFields = 1<<4;
+        #[doc(alias = "SCNDebugOptionShowWireframe")]
+        const ShowWireframe = 1<<5;
+        #[doc(alias = "SCNDebugOptionRenderAsWireframe")]
+        const RenderAsWireframe = 1<<6;
+        #[doc(alias = "SCNDebugOptionShowSkeletons")]
+        const ShowSkeletons = 1<<7;
+        #[doc(alias = "SCNDebugOptionShowCreases")]
+        const ShowCreases = 1<<8;
+        #[doc(alias = "SCNDebugOptionShowConstraints")]
+        const ShowConstraints = 1<<9;
+        #[doc(alias = "SCNDebugOptionShowCameras")]
+        const ShowCameras = 1<<10;
+    }
+}
+'''
+
+
+class SCNDebugOptions(IntFlag):
+  none = 0
+  showPhysicsShapes = 1 << 0
+  showBoundingBoxes = 1 << 1
+  showLightInfluences = 1 << 2
+  showLightExtents = 1 << 3
+  showPhysicsFields = 1 << 4
+  showWireframe = 1 << 5
+  renderAsWireframe = 1 << 6
+  showSkeletons = 1 << 7
+  showCreases = 1 << 8
+  showConstraints = 1 << 9
+  showCameras = 1 << 10
 
 
 class MainViewController(UIViewController):
