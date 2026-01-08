@@ -89,6 +89,16 @@ class MainViewController(UIViewController):
       CGRectZero, {
         SCNPreferredRenderingAPIKey: SCNRenderingAPI.metal,
       })
+      
+
+    
+    scnView.setAllowsCameraControl_(True)
+    
+    #debugOptions = SCNDebugOptions.showBoundingBoxes | SCNDebugOptions.showFeaturePoints
+    debugOptions = SCNDebugOptions.showBoundingBoxes | SCNDebugOptions.showWorldOrigin
+    scnView.setDebugOptions_(debugOptions)
+    scnView.setShowsStatistics_(True)
+    
 
     # --- Layout
     safeAreaLayoutGuide = self.view.safeAreaLayoutGuide
@@ -118,9 +128,7 @@ class MainViewController(UIViewController):
                argtypes=[
                  ctypes.c_bool,
                ])
-    #pdbr.state(self.scnView)
-    self.scnView.setShowsStatistics_(True)
-    self.scnView.setAllowsCameraControl_(True)
+
 
     configuration = ARWorldTrackingConfiguration.new()
     self.scnView.session.runWithConfiguration_(configuration)
