@@ -1,12 +1,16 @@
 import ctypes
+from enum import IntEnum, IntFlag
 
 from pyrubicon.objc.api import ObjCClass
-from pyrubicon.objc.api import objc_method, objc_property
-from pyrubicon.objc.runtime import send_super
-from pyrubicon.objc.types import CGRectMake
+from pyrubicon.objc.api import objc_method, objc_property, objc_const
+from pyrubicon.objc.runtime import send_super, load_library
+from pyrubicon.objc.types import CGRect, NSUInteger
 
 from rbedge.functions import NSStringFromClass
 from rbedge import pdbr
+
+SceneKit = load_library('SceneKit')
+ARKit = load_library('ARKit')
 
 ARSCNView = ObjCClass('ARSCNView')
 ARWorldTrackingConfiguration = ObjCClass('ARWorldTrackingConfiguration')
@@ -15,8 +19,45 @@ UIViewController = ObjCClass('UIViewController')
 UIColor = ObjCClass('UIColor')
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
+CGRectZero = CGRect.in_dll(load_library('CoreGraphics'), 'CGRectZero')
+
+SCNPreferredRenderingAPIKey = str(
+  objc_const(SceneKit, 'SCNPreferredRenderingAPIKey'))
+
+
+class SCNRenderingAPI(IntEnum):
+  metal = 0
+  openGLES2 = 1
+
+
+#showFeaturePoints
+ARSCNDebugOptionShowFeaturePoints_ulong = NSUInteger.in_dll(
+  ARKit, 'ARSCNDebugOptionShowFeaturePoints')
+
+#showWorldOrigin
+ARSCNDebugOptionShowWorldOrigin_ulong = NSUInteger.in_dll(
+  ARKit, 'ARSCNDebugOptionShowWorldOrigin')
+
+
+class SCNDebugOptions(IntFlag):
+  none = 0
+  showPhysicsShapes = 1 << 0
+  showBoundingBoxes = 1 << 1
+  showLightInfluences = 1 << 2
+  showLightExtents = 1 << 3
+  showPhysicsFields = 1 << 4
+  showWireframe = 1 << 5
+  renderAsWireframe = 1 << 6
+  showSkeletons = 1 << 7
+  showCreases = 1 << 8
+  showConstraints = 1 << 9
+  showCameras = 1 << 10
+  showFeaturePoints = ARSCNDebugOptionShowFeaturePoints_ulong.value
+  showWorldOrigin = ARSCNDebugOptionShowWorldOrigin_ulong.value
+
 
 class MainViewController(UIViewController):
+
   scnView: ARSCNView = objc_property()
 
   @objc_method
@@ -34,15 +75,19 @@ class MainViewController(UIViewController):
     send_super(__class__, self, 'viewDidLoad')
     self.navigationItem.title = NSStringFromClass(__class__)
 
-    #scene = GameScene()
-    scnView = ARSCNView.new()
-    pdbr.state(scnView)
-    #scnView.backgroundColor = UIColor.systemBackgroundColor()
-    #scnView.delegate = self
+    #scnView = ARSCNView.new()
+    scnView = ARSCNView.alloc().initWithFrame_options_(
+      CGRectZero, {
+        SCNPreferredRenderingAPIKey: SCNRenderingAPI.metal,
+      })
 
-    #scnView = SCNView.alloc().initWithFrame_(CGRectMake(0.0, 0.0, 100.0, 100.0))
+    scnView.setAllowsCameraControl_(True)
 
-    #pdbr.state(scnView)
+    #debugOptions = SCNDebugOptions.showBoundingBoxes | SCNDebugOptions.showFeaturePoints
+    debugOptions = SCNDebugOptions.showBoundingBoxes | SCNDebugOptions.showFeaturePoints | SCNDebugOptions.showWorldOrigin
+    scnView.setDebugOptions_(debugOptions)
+    scnView.setShowsStatistics_(True)
+
     # --- Layout
     safeAreaLayoutGuide = self.view.safeAreaLayoutGuide
 
@@ -60,9 +105,6 @@ class MainViewController(UIViewController):
         safeAreaLayoutGuide.heightAnchor, 1.0),
     ])
 
-    #scnView.allowsCameraControl = True
-    
-
     self.scnView = scnView
 
   @objc_method
@@ -74,10 +116,7 @@ class MainViewController(UIViewController):
                argtypes=[
                  ctypes.c_bool,
                ])
-    self.scnView.showsStatistics = True
-    #self.scnView.allowsCameraControl = True
-    _debugOptions = (1 << 1) | (1 << 30) | (1 << 32)
-    self.scnView.debugOptions = _debugOptions
+
     configuration = ARWorldTrackingConfiguration.new()
     self.scnView.session.runWithConfiguration_(configuration)
 
@@ -90,7 +129,6 @@ class MainViewController(UIViewController):
                argtypes=[
                  ctypes.c_bool,
                ])
-    #pdbr.state(self.scnView)
 
   @objc_method
   def viewWillDisappear_(self, animated: bool):
@@ -123,7 +161,6 @@ if __name__ == '__main__':
   from rbedge.app import App
   from rbedge.enumerations import UIModalPresentationStyle
 
-  #print('--- run ---')
   main_vc = MainViewController.new()
 
   presentation_style = UIModalPresentationStyle.fullScreen
@@ -131,5 +168,4 @@ if __name__ == '__main__':
 
   app = App(main_vc, presentation_style)
   app.present()
-  #print('--- end ---')
 
