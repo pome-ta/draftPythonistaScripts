@@ -17,20 +17,23 @@ ARKit = load_library('ARKit')
 SCNView = ObjCClass('SCNView')
 SCNScene = ObjCClass('SCNScene')
 
-#ARSCNDebugOptionShowWorldOrigin
+#
 
-ARSCNDebugOptionShowWorldOrigin = objc_const(ARKit, 'ARSCNDebugOptionShowWorldOrigin')
+#showWorldOrigin
+ARSCNDebugOptionShowWorldOrigin = NSUInteger.in_dll(ARKit, 'ARSCNDebugOptionShowWorldOrigin')
+a = ARSCNDebugOptionShowWorldOrigin
+aa = 1 << 30
+#print(float(a))
+print(a)
 
 
-#print(dir(CGRect))
-
-#print(NSUInteger.in_dll)
-
-#ARSCNDebugOptionShowFeaturePoints = objc_const(ARKit, 'ARSCNDebugOptionShowFeaturePoints')
-
-#a = NSUInteger(ARSCNDebugOptionShowWorldOrigin)
-aa = ''
+#showFeaturePoints
 ARSCNDebugOptionShowFeaturePoints = NSUInteger.in_dll(ARKit, 'ARSCNDebugOptionShowFeaturePoints')
+
+
+
+
+
 
 #print(ARSCNDebugOptionShowWorldOrigin)
 #pdbr.state(Foundation)
@@ -55,37 +58,7 @@ class SCNRenderingAPI(IntEnum):
   openGLES2 = 1
 
 
-'''
-pub struct SCNDebugOptions(pub NSUInteger);
-bitflags::bitflags! {
-    impl SCNDebugOptions: NSUInteger {
-        #[doc(alias = "SCNDebugOptionNone")]
-        const None = 0;
-        #[doc(alias = "SCNDebugOptionShowPhysicsShapes")]
-        const ShowPhysicsShapes = 1<<0;
-        #[doc(alias = "SCNDebugOptionShowBoundingBoxes")]
-        const ShowBoundingBoxes = 1<<1;
-        #[doc(alias = "SCNDebugOptionShowLightInfluences")]
-        const ShowLightInfluences = 1<<2;
-        #[doc(alias = "SCNDebugOptionShowLightExtents")]
-        const ShowLightExtents = 1<<3;
-        #[doc(alias = "SCNDebugOptionShowPhysicsFields")]
-        const ShowPhysicsFields = 1<<4;
-        #[doc(alias = "SCNDebugOptionShowWireframe")]
-        const ShowWireframe = 1<<5;
-        #[doc(alias = "SCNDebugOptionRenderAsWireframe")]
-        const RenderAsWireframe = 1<<6;
-        #[doc(alias = "SCNDebugOptionShowSkeletons")]
-        const ShowSkeletons = 1<<7;
-        #[doc(alias = "SCNDebugOptionShowCreases")]
-        const ShowCreases = 1<<8;
-        #[doc(alias = "SCNDebugOptionShowConstraints")]
-        const ShowConstraints = 1<<9;
-        #[doc(alias = "SCNDebugOptionShowCameras")]
-        const ShowCameras = 1<<10;
-    }
-}
-'''
+
 
 
 class SCNDebugOptions(IntFlag):
