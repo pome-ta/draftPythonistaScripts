@@ -12,17 +12,17 @@ from rbedge import pdbr
 SceneKit = load_library('SceneKit')
 ARKit = load_library('ARKit')
 
-
-
 SCNView = ObjCClass('SCNView')
 SCNScene = ObjCClass('SCNScene')
 
 #
 
 #showWorldOrigin
-ARSCNDebugOptionShowWorldOrigin = NSUInteger.in_dll(ARKit, 'ARSCNDebugOptionShowWorldOrigin')
+ARSCNDebugOptionShowWorldOrigin = NSUInteger.in_dll(
+  ARKit, 'ARSCNDebugOptionShowWorldOrigin')
 #showFeaturePoints
-ARSCNDebugOptionShowFeaturePoints = NSUInteger.in_dll(ARKit, 'ARSCNDebugOptionShowFeaturePoints')
+ARSCNDebugOptionShowFeaturePoints = NSUInteger.in_dll(
+  ARKit, 'ARSCNDebugOptionShowFeaturePoints')
 
 a = ARSCNDebugOptionShowWorldOrigin
 #a = ARSCNDebugOptionShowFeaturePoints
@@ -32,15 +32,7 @@ print(hex(a.value))
 print(bin(a.value))
 print(bin(aa))
 print(aa)
-print(int(hex(a.value),16))
-
-
-
-
-
-
-
-
+print(int(hex(a.value), 16))
 
 #print(ARSCNDebugOptionShowWorldOrigin)
 #pdbr.state(Foundation)
@@ -63,9 +55,6 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 class SCNRenderingAPI(IntEnum):
   metal = 0
   openGLES2 = 1
-
-
-
 
 
 class SCNDebugOptions(IntFlag):

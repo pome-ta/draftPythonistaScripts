@@ -19,15 +19,6 @@ UIViewController = ObjCClass('UIViewController')
 UIColor = ObjCClass('UIColor')
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
-#
-
-#print(ARSCNDebugOptionShowWorldOrigin)
-#pdbr.state(Foundation)
-#print(Foundation.Field())
-
-#pdbr.state(ARSCNDebugOptionShowWorldOrigin)
-#print(chr(ARSCNDebugOptionShowWorldOrigin))
-
 CGRectZero = CGRect.in_dll(load_library('CoreGraphics'), 'CGRectZero')
 
 SCNPreferredRenderingAPIKey = str(
@@ -89,16 +80,13 @@ class MainViewController(UIViewController):
       CGRectZero, {
         SCNPreferredRenderingAPIKey: SCNRenderingAPI.metal,
       })
-      
 
-    
     scnView.setAllowsCameraControl_(True)
-    
+
     #debugOptions = SCNDebugOptions.showBoundingBoxes | SCNDebugOptions.showFeaturePoints
-    debugOptions = SCNDebugOptions.showBoundingBoxes | SCNDebugOptions.showWorldOrigin
+    debugOptions = SCNDebugOptions.showBoundingBoxes | SCNDebugOptions.showFeaturePoints | SCNDebugOptions.showWorldOrigin
     scnView.setDebugOptions_(debugOptions)
     scnView.setShowsStatistics_(True)
-    
 
     # --- Layout
     safeAreaLayoutGuide = self.view.safeAreaLayoutGuide
@@ -129,7 +117,6 @@ class MainViewController(UIViewController):
                  ctypes.c_bool,
                ])
 
-
     configuration = ARWorldTrackingConfiguration.new()
     self.scnView.session.runWithConfiguration_(configuration)
 
@@ -142,7 +129,6 @@ class MainViewController(UIViewController):
                argtypes=[
                  ctypes.c_bool,
                ])
-    #pdbr.state(self.scnScene)
 
   @objc_method
   def viewWillDisappear_(self, animated: bool):
