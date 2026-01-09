@@ -83,14 +83,6 @@ class MainViewController(UIViewController):
         SCNPreferredRenderingAPIKey: SCNRenderingAPI.metal,
       })
 
-    coachingOverlayView = ARCoachingOverlayView.new()
-    coachingOverlayView.setGoal_(0)
-    coachingOverlayView.setActivatesAutomatically_(True)
-    coachingOverlayView.setSession_(scnView.session)
-    coachingOverlayView.setActive_animated_(True, True)
-
-    #pdbr.state(coachingOverlayView)
-
     scnView.session.delegate = self
     scnView.setAllowsCameraControl_(True)
 
@@ -98,11 +90,21 @@ class MainViewController(UIViewController):
     scnView.setDebugOptions_(debugOptions)
     scnView.setShowsStatistics_(True)
 
-    # --- Layout
-    safeAreaLayoutGuide = self.view.safeAreaLayoutGuide
+    coachingOverlayView = ARCoachingOverlayView.new()
+    coachingOverlayView.setGoal_(0)
+    coachingOverlayView.setActivatesAutomatically_(True)
+    coachingOverlayView.setSession_(scnView.session)
+    coachingOverlayView.setActive_animated_(True, True)
 
+    scnView.addSubview_(coachingOverlayView)
     self.view.addSubview_(scnView)
+
+    # --- Layout
+
     scnView.translatesAutoresizingMaskIntoConstraints = False
+    coachingOverlayView.translatesAutoresizingMaskIntoConstraints = False
+
+    safeAreaLayoutGuide = self.view.safeAreaLayoutGuide
 
     NSLayoutConstraint.activateConstraints_([
       scnView.centerXAnchor.constraintEqualToAnchor_(
@@ -115,21 +117,19 @@ class MainViewController(UIViewController):
         safeAreaLayoutGuide.heightAnchor, 1.0),
     ])
 
-    scnView.addSubview_(coachingOverlayView)
-    coachingOverlayView.translatesAutoresizingMaskIntoConstraints = False
-
     NSLayoutConstraint.activateConstraints_([
       coachingOverlayView.centerXAnchor.constraintEqualToAnchor_(
         safeAreaLayoutGuide.centerXAnchor),
       coachingOverlayView.centerYAnchor.constraintEqualToAnchor_(
         safeAreaLayoutGuide.centerYAnchor),
       coachingOverlayView.widthAnchor.constraintEqualToAnchor_multiplier_(
-        safeAreaLayoutGuide.widthAnchor, 1.0),
+        scnView.widthAnchor, 1.0),
       coachingOverlayView.heightAnchor.constraintEqualToAnchor_multiplier_(
-        safeAreaLayoutGuide.heightAnchor, 1.0),
+        scnView.heightAnchor, 1.0),
     ])
 
     self.scnView = scnView
+    self.coachingOverlayView = coachingOverlayView
 
   @objc_method
   def viewWillAppear_(self, animated: bool):
@@ -163,7 +163,6 @@ class MainViewController(UIViewController):
                argtypes=[
                  ctypes.c_bool,
                ])
-    #pdbr.state(self.scnView.session)
     self.scnView.session.pause()
 
   @objc_method
