@@ -57,6 +57,14 @@ class SCNDebugOptions(IntFlag):
   showWorldOrigin = ARSCNDebugOptionShowWorldOrigin_ulong.value
 
 
+class ARCoachingGoal(IntEnum):
+  tracking = 0
+  horizontalPlane = 1
+  verticalPlane = 2
+  anyPlane = 3
+  geoTracking = 4
+
+
 class MainViewController(UIViewController):
 
   scnView: ARSCNView = objc_property()
@@ -91,7 +99,7 @@ class MainViewController(UIViewController):
     scnView.setShowsStatistics_(True)
 
     coachingOverlayView = ARCoachingOverlayView.new()
-    coachingOverlayView.setGoal_(0)
+    coachingOverlayView.setGoal_(ARCoachingGoal.tracking)
     coachingOverlayView.setActivatesAutomatically_(True)
     coachingOverlayView.setSession_(scnView.session)
     coachingOverlayView.setActive_animated_(True, True)
