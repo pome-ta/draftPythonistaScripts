@@ -16,6 +16,10 @@ ARSCNView = ObjCClass('ARSCNView')
 ARCoachingOverlayView = ObjCClass('ARCoachingOverlayView')
 ARWorldTrackingConfiguration = ObjCClass('ARWorldTrackingConfiguration')
 
+SCNGeometry = ObjCClass('SCNGeometry')
+#pdbr.state(SCNGeometry.new())
+
+
 UIViewController = ObjCClass('UIViewController')
 UIColor = ObjCClass('UIColor')
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
@@ -137,9 +141,9 @@ class MainViewController(UIViewController):
       coachingOverlayView.centerYAnchor.constraintEqualToAnchor_(
         safeAreaLayoutGuide.centerYAnchor),
       coachingOverlayView.widthAnchor.constraintEqualToAnchor_multiplier_(
-        scnView.widthAnchor, 0.4),
+        scnView.widthAnchor, 1.0),
       coachingOverlayView.heightAnchor.constraintEqualToAnchor_multiplier_(
-        scnView.heightAnchor, 0.4),
+        scnView.heightAnchor, 1.0),
     ])
 
     self.scnView = scnView
@@ -204,7 +208,17 @@ class MainViewController(UIViewController):
 
   @objc_method
   def session_didAddAnchors_(self, session, anchors):
-    print('didAddAnchors')
+    print('# --- didAddAnchors')
+    for anchor in anchors:
+      print('## --- anchor')
+      #print(anchor)
+      #pdbr.state(anchor.geometry)
+      scnGeometry = SCNGeometry.alloc().initWithGeometryRef_(anchor.geometry)
+      pdbr.state(scnGeometry)
+      pass
+      
+    print('/ --- didAddAnchors')
+    
 
   @objc_method
   def session_didUpdateAnchors_(self, session, anchors):
