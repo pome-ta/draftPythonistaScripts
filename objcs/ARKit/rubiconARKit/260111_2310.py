@@ -1,7 +1,7 @@
 import ctypes
 from enum import IntEnum, IntFlag
 
-from pyrubicon.objc.api import ObjCClass
+from pyrubicon.objc.api import ObjCClass, NSData
 from pyrubicon.objc.api import objc_method, objc_property, objc_const
 from pyrubicon.objc.runtime import send_super, load_library
 from pyrubicon.objc.types import CGRect, NSUInteger
@@ -16,9 +16,9 @@ ARSCNView = ObjCClass('ARSCNView')
 ARCoachingOverlayView = ObjCClass('ARCoachingOverlayView')
 ARWorldTrackingConfiguration = ObjCClass('ARWorldTrackingConfiguration')
 
+SCNGeometrySource = ObjCClass('SCNGeometrySource')
+SCNGeometryElement = ObjCClass('SCNGeometryElement')
 SCNGeometry = ObjCClass('SCNGeometry')
-#pdbr.state(SCNGeometry.new())
-
 
 UIViewController = ObjCClass('UIViewController')
 UIColor = ObjCClass('UIColor')
@@ -68,11 +68,25 @@ class ARCoachingGoal(IntEnum):
   anyPlane = 3
   geoTracking = 4
 
+
 # ref: [ARConfiguration.rs - source](https://docs.rs/objc2-ar-kit/latest/src/objc2_ar_kit/generated/ARConfiguration.rs.html#158-170)
 class ARSceneReconstruction(IntFlag):
   none = 0
   mesh = 1 << 0
   meshWithClassification = (1 << 1) | (1 << 0)
+
+
+class SCNGeometrySourceSemantic:
+  vertex = str(objc_const(SceneKit, 'SCNGeometrySourceSemanticVertex'))
+  normal = str(objc_const(SceneKit, 'SCNGeometrySourceSemanticNormal'))
+  texcoord = str(objc_const(SceneKit, 'SCNGeometrySourceSemanticTexcoord'))
+
+
+class SCNGeometryPrimitiveType(IntEnum):
+  triangles = 0
+  triangleStrip = 1
+  line = 2
+  point = 3
 
 
 class MainViewController(UIViewController):
@@ -211,14 +225,27 @@ class MainViewController(UIViewController):
     print('# --- didAddAnchors')
     for anchor in anchors:
       print('## --- anchor')
-      #print(anchor)
-      #pdbr.state(anchor.geometry)
-      scnGeometry = SCNGeometry.alloc().initWithGeometryRef_(anchor.geometry)
-      pdbr.state(scnGeometry)
-      pass
-      
+      meshGeometry = anchor.geometry
+
+      # Vertices source
+      vertices = meshGeometry.vertices
+
+      verticesSource = SCNGeometrySource.geometrySourceWithBuffer_vertexFormat_semantic_vertexCount_dataOffset_dataStride_(
+        vertices.buffer, vertices.format, SCNGeometrySourceSemantic.vertex,
+        vertices.count, vertices.offset, vertices.stride)
+
+      # Indices element
+      faces = meshGeometry.faces
+
+      facesElement = SCNGeometryElement.geometryElementWithData_primitiveType_primitiveCount_bytesPerIndex_(
+        NSData.dataWithBytesNoCopy_length_(faces.buffer.contents(),
+                                           faces.buffer.length),
+        SCNGeometryPrimitiveType.triangles, faces.count, faces.bytesPerIndex)
+
+      pdbr.state(faces.buffer)
+      #dataWithBytesNoCopy_length_
+
     print('/ --- didAddAnchors')
-    
 
   @objc_method
   def session_didUpdateAnchors_(self, session, anchors):
