@@ -64,7 +64,7 @@ class ARCoachingGoal(IntEnum):
   anyPlane = 3
   geoTracking = 4
 
-
+# ref: [ARConfiguration.rs - source](https://docs.rs/objc2-ar-kit/latest/src/objc2_ar_kit/generated/ARConfiguration.rs.html#158-170)
 class ARSceneReconstruction(IntFlag):
   none = 0
   mesh = 1 << 0
