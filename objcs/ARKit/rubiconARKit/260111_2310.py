@@ -1,9 +1,9 @@
 import ctypes
 from enum import IntEnum, IntFlag
 
-from pyrubicon.objc.api import ObjCClass, NSData
+from pyrubicon.objc.api import ObjCClass,ObjCInstance, NSData
 from pyrubicon.objc.api import objc_method, objc_property, objc_const
-from pyrubicon.objc.runtime import send_super, load_library
+from pyrubicon.objc.runtime import send_super, load_library, objc_id
 from pyrubicon.objc.types import CGRect, NSUInteger
 
 from rbedge.functions import NSStringFromClass
@@ -236,13 +236,30 @@ class MainViewController(UIViewController):
 
       # Indices element
       faces = meshGeometry.faces
+      data_p = ctypes.cast(ctypes.byref(faces.buffer.contents), objc_id)
+      
+      #data = NSData.dataWithBytesNoCopy_length_(ctypes.cast(ctypes.byref(faces.buffer.contents), objc_id), faces.buffer.length)
+      #data_pointer = ctypes.pointer(faces.buffer.contents)
+      #data_pointer = ctypes.byref(faces.buffer.contents)
+      #data = NSData.dataWithBytesNoCopy_length_(data_pointer, faces.buffer.length)
+      
+      print(NSData(data_p))
+      
+      #data_pointer = ctypes.POINTER(faces.buffer)
+      #print(ctypes.cast(ctypes.byref(faces.buffer.contents), objc_id))
+      
+      #pdbr.state(faces.buffer)
+      #print(faces.buffer.contents)
+      #print(dir(print(faces.buffer.contents)))
+      #print(ctypes.byref(faces.buffer.contents))
+      #pdbr.state(faces.buffer)
+      #print(faces.buffer.contents)
+      
+      
 
-      facesElement = SCNGeometryElement.geometryElementWithData_primitiveType_primitiveCount_bytesPerIndex_(
-        NSData.dataWithBytesNoCopy_length_(faces.buffer.contents(),
-                                           faces.buffer.length),
-        SCNGeometryPrimitiveType.triangles, faces.count, faces.bytesPerIndex)
+      #facesElement = SCNGeometryElement.geometryElementWithData_primitiveType_primitiveCount_bytesPerIndex_(NSData.dataWithBytesNoCopy_length_(faces.buffer.contents(), faces.buffer.length),SCNGeometryPrimitiveType.triangles, faces.count, faces.bytesPerIndex)
 
-      pdbr.state(faces.buffer)
+      #pdbr.state(faces.buffer)
       #dataWithBytesNoCopy_length_
 
     print('/ --- didAddAnchors')
