@@ -16,6 +16,8 @@ ARWorldTrackingConfiguration = ObjCClass('ARWorldTrackingConfiguration')
 SCNNode = ObjCClass('SCNNode')
 SCNSphere = ObjCClass('SCNSphere')
 
+#pdbg.state(ARSCNView)
+
 
 class ViewController:
   def __init__(self):
@@ -28,31 +30,13 @@ class ViewController:
     sceneView = ARSCNView.alloc().initWithFrame_(_frame)
     sceneView.autoresizingMask = (1 << 1) | (1 << 4)
     
-    
-    pdbg.state(sceneView)
-    
+    _delegate_renderer = self.create_renderer_delegate()
+    _delegate_session = self.create_session_delegate()
 
-    _delegate = self.create_delegate()
-
-    sceneView.delegate = _delegate
+    #sceneView.delegate = _delegate_renderer
+    sceneView.session().delegate = _delegate_session
     #sceneView.autoenablesDefaultLighting = True
     sceneView.showsStatistics = True
-    ''' debugOptions
-    OptionNone = 0
-    ShowPhysicsShapes = (1 << 0)
-    ShowBoundingBoxes = (1 << 1)
-    ShowLightInfluences = (1 << 2)
-    ShowLightExtents = (1 << 3)
-    ShowPhysicsFields = (1 << 4)
-    ShowWireframe = (1 << 5)
-    RenderAsWireframe = (1 << 6)
-    ShowSkeletons = (1 << 7)
-    ShowCreases = (1 << 8)
-    ShowConstraints = (1 << 9)
-    ShowCameras = (1 << 10)
-    ARSCNDebugOptionShowFeaturePoints = (1 << 30)
-    ARSCNDebugOptionShowWorldOrigin = (1 << 32)
-    '''
     _debugOptions = (1 << 1) | (1 << 5) | (1 << 30) | (1 << 32)
     sceneView.debugOptions = _debugOptions
 
@@ -85,7 +69,7 @@ class ViewController:
     _configuration.setSceneReconstruction_(1 << 0)
     self.sceneView.session().runWithConfiguration_(_configuration)
 
-  def create_delegate(self):
+  def create_renderer_delegate(self):
     # --- /delegate
     def renderer_didAddNode_forAnchor_(_self, _cmd, _renderer, _node, _anchor):
       renderer = ObjCInstance(_renderer)
@@ -136,6 +120,35 @@ class ViewController:
     renderer_delegate = create_objc_class(
       'renderer_delegate', methods=_methods, protocols=_protocols)
     return renderer_delegate.new()
+
+  def create_session_delegate(self):
+    # --- /delegate
+    def session_didAddAnchors_(_self, _cmd, _session, _anchors):
+      anchors = ObjCInstance(_anchors)
+      for anchor in anchors:
+        #print(anchor.transform())
+        #pdbg.state(anchor.transform)
+        transform = anchor.transform
+        #pdbg.state(transform)
+        print(transform())
+        
+      
+      
+      
+
+    # --- delegate/
+
+    _methods = [
+      session_didAddAnchors_,
+    ]
+    _protocols = ['ARSessionDelegate']
+
+    session_delegate = create_objc_class(
+      'session_delegate', methods=_methods, protocols=_protocols)
+    return session_delegate.new()
+
+
+
 
 
 class View(ui.View):

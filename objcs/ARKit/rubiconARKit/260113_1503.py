@@ -266,9 +266,14 @@ class MainViewController(UIViewController):
       #node.setSimdTransform_(anchor.transform)
       #print(anchor.transform)
       #ObjCInstance(anchor.transform)
-      #anchor.transform
+      #t = ctypes.pointer(anchor.transform)
+      ptr = anchor.transform.ptr
+      
+      
+      
+      
       #print(anchor.methods)
-      pdbr.state(anchor)
+      #pdbr.state(anchor)
       #pdbr.state(anchor.transform.translation)
       #print(ctypes.pointer(anchor.transform))
 
