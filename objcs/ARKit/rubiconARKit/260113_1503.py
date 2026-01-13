@@ -1,7 +1,7 @@
 import ctypes
 from enum import IntEnum, IntFlag
 
-from pyrubicon.objc.api import ObjCClass
+from pyrubicon.objc.api import ObjCClass, ObjCInstance
 from pyrubicon.objc.api import objc_method, objc_property, objc_const
 from pyrubicon.objc.runtime import send_super, load_library
 from pyrubicon.objc.types import CGRect, NSUInteger
@@ -265,7 +265,10 @@ class MainViewController(UIViewController):
       node = SCNNode.nodeWithGeometry_(scnGeometry)
       #node.setSimdTransform_(anchor.transform)
       #print(anchor.transform)
-      anchor.transform
+      #ObjCInstance(anchor.transform)
+      #anchor.transform
+      #print(anchor.methods)
+      pdbr.state(anchor)
       #pdbr.state(anchor.transform.translation)
       #print(ctypes.pointer(anchor.transform))
 
