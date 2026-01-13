@@ -1,7 +1,7 @@
 import ui
 from objc_util import ObjCClass, load_framework, nsurl
 
-import pdbg
+#import pdbg
 
 load_framework('SceneKit')
 
@@ -58,7 +58,7 @@ class SceneView:
     material = ObjCClass('SCNMaterial').material()
     material.diffuse().setContents_(tex_png)
     node.geometry().setFirstMaterial_(material)
-    pdbg.state(node.geometry())
+    #pdbg.state(node.geometry())
 
     scene.rootNode().addChildNode_(node)
 

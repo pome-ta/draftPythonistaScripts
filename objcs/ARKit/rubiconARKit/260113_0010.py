@@ -20,8 +20,7 @@ SCNGeometrySource = ObjCClass('SCNGeometrySource')
 SCNGeometryElement = ObjCClass('SCNGeometryElement')
 SCNGeometry = ObjCClass('SCNGeometry')
 SCNMaterial = ObjCClass('SCNMaterial')
-
-
+SCNNode = ObjCClass('SCNNode')
 
 UIViewController = ObjCClass('UIViewController')
 UIColor = ObjCClass('UIColor')
@@ -91,11 +90,10 @@ class SCNGeometryPrimitiveType(IntEnum):
   line = 2
   point = 3
 
+
 class SCNFillMode(IntEnum):
   fill = 0
   lines = 1
-
-
 
 
 class MainViewController(UIViewController):
@@ -255,18 +253,27 @@ class MainViewController(UIViewController):
       ], [
         facesElement,
       ])
-      
-      
+
       defaultMaterial = SCNMaterial.new()
       defaultMaterial.setFillMode_(SCNFillMode.lines)
       defaultMaterial.diffuse.setContents_(UIColor.systemCyanColor())
-      
-      pdbr.state(scnGeometry)
 
+      scnGeometry.setMaterials_([
+        defaultMaterial,
+      ])
 
-      
+      node = SCNNode.nodeWithGeometry_(scnGeometry)
+      #node.setSimdTransform_(anchor.transform)
+      print(anchor.transform)
+      #pdbr.state(anchor.transform.translation)
+      #print(ctypes.pointer(anchor.transform))
 
-      #pdbr.state(scnGeometry)
+      #print(anchor.visionTransform)
+      #pdbr.state(node.simdTransform)
+      #print(node.transform)
+      #node.transform = anchor.transform
+      self.scnView.scene.rootNode.addChildNode_(node)
+
 
     print('/ --- didAddAnchors')
 
