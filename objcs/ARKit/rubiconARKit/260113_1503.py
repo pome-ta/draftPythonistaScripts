@@ -264,20 +264,7 @@ class MainViewController(UIViewController):
 
       node = SCNNode.nodeWithGeometry_(scnGeometry)
       #node.setSimdTransform_(anchor.transform)
-      #print(anchor.transform)
-      #ObjCInstance(anchor.transform)
-      #t = ctypes.pointer(anchor.transform)
-      #ptr = anchor.transform.ptr
 
-      #print(anchor.methods)
-      #pdbr.state(anchor)
-      #pdbr.state(anchor.transform.translation)
-      #print(ctypes.pointer(anchor.transform))
-
-      #print(anchor.visionTransform)
-      #pdbr.state(node.simdTransform)
-      #print(node.transform)
-      #node.transform = anchor.transform
       self.scnView.scene.rootNode.addChildNode_(node)
 
     print('/ --- didAddAnchors')
