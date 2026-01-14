@@ -256,7 +256,7 @@ class MainViewController(UIViewController):
 
       defaultMaterial = SCNMaterial.new()
       defaultMaterial.setFillMode_(SCNFillMode.lines)
-      defaultMaterial.diffuse.setContents_(UIColor.systemCyanColor())
+      defaultMaterial.diffuse.setContents_(UIColor.systemRedColor())
 
       scnGeometry.setMaterials_([
         defaultMaterial,
@@ -267,11 +267,8 @@ class MainViewController(UIViewController):
       #print(anchor.transform)
       #ObjCInstance(anchor.transform)
       #t = ctypes.pointer(anchor.transform)
-      ptr = anchor.transform.ptr
-      
-      
-      
-      
+      #ptr = anchor.transform.ptr
+
       #print(anchor.methods)
       #pdbr.state(anchor)
       #pdbr.state(anchor.transform.translation)
