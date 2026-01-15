@@ -3,7 +3,7 @@ from enum import IntEnum, IntFlag
 
 from pyrubicon.objc.api import ObjCClass
 from pyrubicon.objc.api import objc_method, objc_property, objc_const
-from pyrubicon.objc.runtime import send_super, load_library, objc_id
+from pyrubicon.objc.runtime import send_super, load_library
 from pyrubicon.objc.types import CGRect, NSUInteger
 
 from rbedge.functions import NSStringFromClass
@@ -15,6 +15,7 @@ ARKit = load_library('ARKit')
 ARSCNView = ObjCClass('ARSCNView')
 ARCoachingOverlayView = ObjCClass('ARCoachingOverlayView')
 ARWorldTrackingConfiguration = ObjCClass('ARWorldTrackingConfiguration')
+ARMeshAnchor = ObjCClass('ARMeshAnchor')
 
 SCNScene = ObjCClass('SCNScene')
 SCNGeometrySource = ObjCClass('SCNGeometrySource')
@@ -116,6 +117,44 @@ class AREnvironmentTexturing(IntEnum):
   automatic = 2
 
 
+class ARSCNMeshGeometry:
+
+  scnGeometry: SCNGeometry
+
+  def __init__(self, meshAnchor):
+    pdbr.state(meshAnchor)
+    meshGeometry = meshAnchor.geometry
+
+    # Vertices source
+    vertices = meshGeometry.vertices
+    verticesSource = SCNGeometrySource.geometrySourceWithBuffer_vertexFormat_semantic_vertexCount_dataOffset_dataStride_(
+      vertices.buffer, vertices.format, SCNGeometrySourceSemantic.vertex,
+      vertices.count, vertices.offset, vertices.stride)
+
+    # Indices Element
+    faces = meshGeometry.faces
+    facesElement = SCNGeometryElement.geometryElementWithBuffer_primitiveType_primitiveCount_bytesPerIndex_(
+      faces.buffer, SCNGeometryPrimitiveType.triangles, faces.count,
+      faces.bytesPerIndex)
+
+    self.scnGeometry = SCNGeometry.geometryWithSources_elements_([
+      verticesSource,
+    ], [
+      facesElement,
+    ])
+
+  def node(self, material) -> SCNNode:
+    scnMaterial = SCNMaterial.new()
+    scnMaterial.diffuse.setContents_(material)
+
+    geometry = self.scnGeometry
+    geometry.setMaterials_([
+      scnMaterial,
+    ])
+
+    return SCNNode.nodeWithGeometry_(geometry)
+
+
 class MainViewController(UIViewController):
 
   scnView: ARSCNView = objc_property()
@@ -142,14 +181,7 @@ class MainViewController(UIViewController):
         SCNPreferredRenderingAPIKey: SCNRenderingAPI.metal,
       })
 
-    #pdbr.state(scnView)
-    #scnView.setDelegate_(self)
-    scnView.delegate = self
-    #scnView.session.delegate = self
-    #scnView.setAllowsCameraControl_(True)
-
-    scene = SCNScene.scene()
-    #scnView.scene = scene
+    scnView.setDelegate_(self)
 
     debugOptions = SCNDebugOptions.showFeaturePoints | SCNDebugOptions.showWorldOrigin
     scnView.setDebugOptions_(debugOptions)
@@ -215,11 +247,9 @@ class MainViewController(UIViewController):
     environmentTexturing = AREnvironmentTexturing.automatic
     configuration.setEnvironmentTexturing_(environmentTexturing)
 
-    #self.scnView.setAutomaticallyUpdatesLighting_(True)
-    #self.scnView.setAutoenablesDefaultLighting_(True)
+    self.scnView.setAutomaticallyUpdatesLighting_(True)
+    self.scnView.setAutoenablesDefaultLighting_(True)
     self.scnView.session.runWithConfiguration_(configuration)
-
-    #pdbr.state(self.scnView.delegate)
 
   @objc_method
   def viewDidAppear_(self, animated: bool):
@@ -260,11 +290,31 @@ class MainViewController(UIViewController):
   # MARK: - ARSCNViewDelegate
   @objc_method
   def renderer_didAddNode_forAnchor_(self, renderer, node, anchor):
-    pdbr.state(anchor)
+
+    print('---')
+    #print(anchor)
+    #pdbr.state(anchor)
+    print(anchor)
+
+    print('\n')
+    if not isinstance((meshAnchor := anchor), ARMeshAnchor):
+      return
+    '''
+    if not ((meshAnchor := anchor)) or not((meshAnchor := anchor).isSubclassOfClass_(ARMeshAnchor)):
+      return
+    '''
+    print('t')
+    print(meshAnchor)
+    #meshGeometry = ARSCNMeshGeometry(meshAnchor)
+    #pdbr.state(meshGeometry)
+    #print(meshGeometry)
+    #pdbr.state(node)
+    #print(node)
 
   @objc_method
   def renderer_didUpdateNode_forAnchor_(self, renderer, node, anchor):
-    print('renderer_didUpdateNode_forAnchor_')
+    #print('renderer_didUpdateNode_forAnchor_')
+    pass
 
   # MARK: - ARSessionDelegate
   @objc_method
@@ -274,15 +324,18 @@ class MainViewController(UIViewController):
 
   @objc_method
   def session_didAddAnchors_(self, session, anchors):
-    print('didAddAnchors')
+    #print('didAddAnchors')
+    pass
 
   @objc_method
   def session_didUpdateAnchors_(self, session, anchors):
-    print('didUpdateAnchors')
+    #print('didUpdateAnchors')
+    pass
 
   @objc_method
   def session_didRemoveAnchors_(self, session, anchors):
-    print('didRemoveAnchors')
+    #print('didRemoveAnchors')
+    pass
 
 
 if __name__ == '__main__':
