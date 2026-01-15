@@ -207,19 +207,19 @@ class MainViewController(UIViewController):
                ])
 
     configuration = ARWorldTrackingConfiguration.new()
-    
-    #sceneReconstruction = ARSceneReconstruction.meshWithClassification
-    sceneReconstruction = ARSceneReconstruction.mesh
-    #configuration.setSceneReconstruction_(sceneReconstruction)
+
+    sceneReconstruction = ARSceneReconstruction.meshWithClassification
+    #sceneReconstruction = ARSceneReconstruction.mesh
+    configuration.setSceneReconstruction_(sceneReconstruction)
 
     environmentTexturing = AREnvironmentTexturing.automatic
-    #configuration.setEnvironmentTexturing_(environmentTexturing)
-    
-
+    configuration.setEnvironmentTexturing_(environmentTexturing)
 
     #self.scnView.setAutomaticallyUpdatesLighting_(True)
     #self.scnView.setAutoenablesDefaultLighting_(True)
     self.scnView.session.runWithConfiguration_(configuration)
+
+    #pdbr.state(self.scnView.delegate)
 
   @objc_method
   def viewDidAppear_(self, animated: bool):
@@ -258,10 +258,12 @@ class MainViewController(UIViewController):
     print(f'\t{NSStringFromClass(__class__)}: didReceiveMemoryWarning')
 
   # MARK: - ARSCNViewDelegate
-  def renderer_didAddNode_forAnchor_(self, renderer: objc_id, node, anchor):
+  @objc_method
+  def renderer_didAddNode_forAnchor_(self, renderer, node, anchor):
     pdbr.state(anchor)
 
-  def renderer_didUpdateNode_forAnchor_(self, renderer: objc_id, node, anchor):
+  @objc_method
+  def renderer_didUpdateNode_forAnchor_(self, renderer, node, anchor):
     print('renderer_didUpdateNode_forAnchor_')
 
   # MARK: - ARSessionDelegate
