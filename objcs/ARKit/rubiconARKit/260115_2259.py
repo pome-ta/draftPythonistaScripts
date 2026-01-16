@@ -300,11 +300,8 @@ class MainViewController(UIViewController):
   def renderer_didAddNode_forAnchor_(self, renderer, node, anchor):
     if not isinstance((meshAnchor := anchor), ARMeshAnchor):
       return
-    meshGeometry = ARSCNMeshGeometry(meshAnchor)
-    meshNode = meshGeometry.setNode_(UIColor.systemCyanColor())
-    meshNode.setName_(meshAnchor.identifier.UUIDString)
-
-    node.addChildNode_(meshNode)
+    self.appendChildNode_forMeshAnchor_(node, meshAnchor)
+    
 
   @objc_method
   def renderer_didUpdateNode_forAnchor_(self, renderer, node, anchor):
@@ -317,11 +314,15 @@ class MainViewController(UIViewController):
           (identifier := meshAnchor.identifier) else '', True)):
       previousMeshNode.removeFromParentNode()
 
+    '''
     meshGeometry = ARSCNMeshGeometry(meshAnchor)
     meshNode = meshGeometry.setNode_(UIColor.systemCyanColor())
     meshNode.setName_(meshAnchor.identifier.UUIDString)
 
     node.addChildNode_(meshNode)
+    '''
+    self.appendChildNode_forMeshAnchor_(node, meshAnchor)
+    
 
   # MARK: - ARSessionDelegate
   @objc_method
@@ -343,6 +344,16 @@ class MainViewController(UIViewController):
   def session_didRemoveAnchors_(self, session, anchors):
     #print('didRemoveAnchors')
     pass
+    
+  # --- private
+  @objc_method
+  def appendChildNode_forMeshAnchor_(self, node, meshAnchor):
+    meshGeometry = ARSCNMeshGeometry(meshAnchor)
+    meshNode = meshGeometry.setNode_(UIColor.systemCyanColor())
+    meshNode.setName_(meshAnchor.identifier.UUIDString)
+
+    node.addChildNode_(meshNode)
+  
 
 
 if __name__ == '__main__':
