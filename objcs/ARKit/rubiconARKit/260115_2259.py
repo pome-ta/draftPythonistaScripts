@@ -188,6 +188,7 @@ class MainViewController(UIViewController):
         SCNPreferredRenderingAPIKey: SCNRenderingAPI.metal,
       })
 
+    # MARK: - ARSCNViewDelegate
     scnView.setDelegate_(self)
 
     debugOptions = SCNDebugOptions.showFeaturePoints | SCNDebugOptions.showWorldOrigin
@@ -301,13 +302,7 @@ class MainViewController(UIViewController):
       return
     meshGeometry = ARSCNMeshGeometry(meshAnchor)
     meshNode = meshGeometry.setNode_(UIColor.systemCyanColor())
-    #meshNode.setName_(meshAnchor.identifier.UUIDString)
-    meshNode.setName_(str('hoge'))
-    #meshNode.setName_(meshAnchor.name)
-    #pdbr.state(meshNode.name)
-    #pdbr.state(meshNode)
-    
-    print(f'add: {meshAnchor.identifier}')
+    meshNode.setName_(meshAnchor.identifier.UUIDString)
 
     node.addChildNode_(meshNode)
 
@@ -315,21 +310,16 @@ class MainViewController(UIViewController):
   def renderer_didUpdateNode_forAnchor_(self, renderer, node, anchor):
     if not isinstance((meshAnchor := anchor), ARMeshAnchor):
       return
-    
-    #pdbr.state(meshAnchor)#print(meshAnchor.name)#print(self.scnView.scene.rootNode.childNodeWithName_recursively_(meshAnchor.name if meshAnchor.name else '', True))
-    print(f'update: {meshAnchor.identifier}')
-    
+
     if (previousMeshNode :=
         self.scnView.scene.rootNode.childNodeWithName_recursively_(
-          meshAnchor.name if meshAnchor.name else '', True)):
-      print('r')
+          identifier.UUIDString if
+          (identifier := meshAnchor.identifier) else '', True)):
       previousMeshNode.removeFromParentNode()
 
     meshGeometry = ARSCNMeshGeometry(meshAnchor)
     meshNode = meshGeometry.setNode_(UIColor.systemCyanColor())
     meshNode.setName_(meshAnchor.identifier.UUIDString)
-    #meshNode.setName_(meshAnchor.name)
-    #pdbr.state(meshNode.name)
 
     node.addChildNode_(meshNode)
 
