@@ -151,6 +151,7 @@ class ARSCNMeshGeometry:
 
   def setNode_(self, material) -> SCNNode:
     scnMaterial = SCNMaterial.new()
+    scnMaterial.setFillMode_(SCNFillMode.lines)
     scnMaterial.diffuse.setContents_(material)
 
     geometry = self.scnGeometry
@@ -301,28 +302,17 @@ class MainViewController(UIViewController):
     if not isinstance((meshAnchor := anchor), ARMeshAnchor):
       return
     self.appendChildNode_forMeshAnchor_(node, meshAnchor)
-    
 
   @objc_method
   def renderer_didUpdateNode_forAnchor_(self, renderer, node, anchor):
     if not isinstance((meshAnchor := anchor), ARMeshAnchor):
       return
-
-    if (previousMeshNode :=
-        self.scnView.scene.rootNode.childNodeWithName_recursively_(
-          identifier.UUIDString if
-          (identifier := meshAnchor.identifier) else '', True)):
-      previousMeshNode.removeFromParentNode()
-
-    '''
-    meshGeometry = ARSCNMeshGeometry(meshAnchor)
-    meshNode = meshGeometry.setNode_(UIColor.systemCyanColor())
-    meshNode.setName_(meshAnchor.identifier.UUIDString)
-
-    node.addChildNode_(meshNode)
-    '''
-    self.appendChildNode_forMeshAnchor_(node, meshAnchor)
     
+    if (previousMeshNode := node.childNodeWithName_recursively_(
+        identifier.UUIDString if (identifier := meshAnchor.identifier) else '',
+        True)):
+      previousMeshNode.removeFromParentNode()
+    self.appendChildNode_forMeshAnchor_(node, meshAnchor)
 
   # MARK: - ARSessionDelegate
   @objc_method
@@ -344,7 +334,7 @@ class MainViewController(UIViewController):
   def session_didRemoveAnchors_(self, session, anchors):
     #print('didRemoveAnchors')
     pass
-    
+
   # --- private
   @objc_method
   def appendChildNode_forMeshAnchor_(self, node, meshAnchor):
@@ -353,7 +343,6 @@ class MainViewController(UIViewController):
     meshNode.setName_(meshAnchor.identifier.UUIDString)
 
     node.addChildNode_(meshNode)
-  
 
 
 if __name__ == '__main__':
