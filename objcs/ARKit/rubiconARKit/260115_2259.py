@@ -31,9 +31,19 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
 CGRectZero = CGRect.in_dll(load_library('CoreGraphics'), 'CGRectZero')
 
-SCNPreferredRenderingAPIKey = str(
-  objc_const(SceneKit, 'SCNPreferredRenderingAPIKey'))
 
+# xxx: PEP8では非推奨
+constSceneKit = lambda const_name: str(objc_const(SceneKit, const_name))
+
+SCNPreferredRenderingAPIKey = constSceneKit('SCNPreferredRenderingAPIKey')
+
+class SCNLightingModel:
+  blinn = constSceneKit('SCNLightingModelBlinn')
+  constant = constSceneKit('SCNLightingModelConstant')
+  lambert = constSceneKit('SCNLightingModelLambert')
+  phong = constSceneKit('SCNLightingModelPhong')
+  physicallyBased = constSceneKit('SCNLightingModelPhysicallyBased')
+  shadowOnly = constSceneKit('SCNLightingModelShadowOnly')
 
 class SCNRenderingAPI(IntEnum):
   metal = 0
@@ -151,8 +161,16 @@ class ARSCNMeshGeometry:
 
   def setNode_(self, material) -> SCNNode:
     scnMaterial = SCNMaterial.new()
+    #
     scnMaterial.setFillMode_(SCNFillMode.lines)
+    #physicallyBased
+    #scnMaterial.setLightingModelName_(SCNLightingModel.constant)
+    scnMaterial.setLightingModelName_(SCNLightingModel.physicallyBased)
+    
+    
     scnMaterial.diffuse.setContents_(material)
+    #scnMaterial.diffuse.setContents_(UIColor.systemCyanColor())
+    #pdbr.state(scnMaterial)
 
     geometry = self.scnGeometry
     geometry.setMaterials_([
