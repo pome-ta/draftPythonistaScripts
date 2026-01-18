@@ -31,11 +31,11 @@ NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
 
 CGRectZero = CGRect.in_dll(load_library('CoreGraphics'), 'CGRectZero')
 
-
 # xxx: PEP8では非推奨
 constSceneKit = lambda const_name: str(objc_const(SceneKit, const_name))
 
 SCNPreferredRenderingAPIKey = constSceneKit('SCNPreferredRenderingAPIKey')
+
 
 class SCNLightingModel:
   blinn = constSceneKit('SCNLightingModelBlinn')
@@ -44,6 +44,7 @@ class SCNLightingModel:
   phong = constSceneKit('SCNLightingModelPhong')
   physicallyBased = constSceneKit('SCNLightingModelPhysicallyBased')
   shadowOnly = constSceneKit('SCNLightingModelShadowOnly')
+
 
 class SCNRenderingAPI(IntEnum):
   metal = 0
@@ -161,16 +162,11 @@ class ARSCNMeshGeometry:
 
   def setNode_(self, material) -> SCNNode:
     scnMaterial = SCNMaterial.new()
-    #
     scnMaterial.setFillMode_(SCNFillMode.lines)
-    #physicallyBased
-    #scnMaterial.setLightingModelName_(SCNLightingModel.constant)
-    scnMaterial.setLightingModelName_(SCNLightingModel.physicallyBased)
-    
-    
+    scnMaterial.setLightingModelName_(SCNLightingModel.constant)
+    #scnMaterial.setLightingModelName_(SCNLightingModel.physicallyBased)
+
     scnMaterial.diffuse.setContents_(material)
-    #scnMaterial.diffuse.setContents_(UIColor.systemCyanColor())
-    #pdbr.state(scnMaterial)
 
     geometry = self.scnGeometry
     geometry.setMaterials_([
@@ -210,7 +206,7 @@ class MainViewController(UIViewController):
     # MARK: - ARSCNViewDelegate
     scnView.setDelegate_(self)
 
-    debugOptions = SCNDebugOptions.showFeaturePoints | SCNDebugOptions.showWorldOrigin
+    debugOptions = SCNDebugOptions.showWireframe | SCNDebugOptions.showFeaturePoints | SCNDebugOptions.showWorldOrigin
     scnView.setDebugOptions_(debugOptions)
     scnView.setShowsStatistics_(True)
 
@@ -325,7 +321,7 @@ class MainViewController(UIViewController):
   def renderer_didUpdateNode_forAnchor_(self, renderer, node, anchor):
     if not isinstance((meshAnchor := anchor), ARMeshAnchor):
       return
-    
+
     if (previousMeshNode := node.childNodeWithName_recursively_(
         identifier.UUIDString if (identifier := meshAnchor.identifier) else '',
         True)):
