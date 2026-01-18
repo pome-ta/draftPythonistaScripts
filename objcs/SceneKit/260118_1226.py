@@ -39,6 +39,10 @@ class SCNDebugOptions(IntFlag):
   showConstraints = 1 << 9
   showCameras = 1 << 10
 
+class SCNLightType:
+  pass
+
+
 
 class GameScene:
 
