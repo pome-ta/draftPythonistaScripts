@@ -53,15 +53,28 @@ class SCNDebugOptions(IntFlag):
   showConstraints = 1 << 9
   showCameras = 1 << 10
 
+# xxx: PEP8では非推奨
+constSceneKit = lambda const_name: str(objc_const(SceneKit, const_name))
+
 
 class SCNLightType:
-  IES = str(objc_const(SceneKit, 'SCNLightTypeIES'))
-  ambient = str(objc_const(SceneKit, 'SCNLightTypeAmbient'))
-  directional = str(objc_const(SceneKit, 'SCNLightTypeDirectional'))
-  omni = str(objc_const(SceneKit, 'SCNLightTypeOmni'))
-  probe = str(objc_const(SceneKit, 'SCNLightTypeProbe'))
-  spot = str(objc_const(SceneKit, 'SCNLightTypeSpot'))
-  area = str(objc_const(SceneKit, 'SCNLightTypeArea'))
+  IES = constSceneKit('SCNLightTypeIES')
+  ambient = constSceneKit('SCNLightTypeAmbient')
+  directional = constSceneKit('SCNLightTypeDirectional')
+  omni = constSceneKit('SCNLightTypeOmni')
+  probe = constSceneKit('SCNLightTypeProbe')
+  spot = constSceneKit('SCNLightTypeSpot')
+  area = constSceneKit('SCNLightTypeArea')
+
+class SCNLightingModel:
+  blinn = constSceneKit('SCNLightingModelBlinn')
+  constant = constSceneKit('SCNLightingModelConstant')
+  lambert = constSceneKit('SCNLightingModelLambert')
+  phong = constSceneKit('SCNLightingModelPhong')
+  physicallyBased = constSceneKit('SCNLightingModelPhysicallyBased')
+  shadowOnly = constSceneKit('SCNLightingModelShadowOnly')
+
+
 
 
 class GameScene:
@@ -77,19 +90,26 @@ class GameScene:
     earth_data = NSData.dataWithContentsOfURL_(nsurl(earth_URL))
     earth_img = UIImage.alloc().initWithData_(earth_data)
 
-    bkSky_URL = './assets/Background_sky.png'
+    #bkSky_URL = './assets/Background_sky.png'
+    bkSky_URL = './assets/starmap_2020_4k.exr'
     bkSky_data = NSData.dataWithContentsOfURL_(nsurl(bkSky_URL))
     bkSky_img = UIImage.alloc().initWithData_(bkSky_data)
 
     # --- SCNScene
     scene = SCNScene.scene()
+    scene.background.contents = bkSky_img
+    scene.lightingEnvironment.contents = bkSky_img
+    scene.lightingEnvironment.intensity = 1.0
 
     rootNodeAddChildNode_ = scene.rootNode.addChildNode_
 
     # --- SCNSphere
     sphere = SCNSphere.sphereWithRadius_(2.0)
+    sphere.material.lightingModelName = SCNLightingModel.physicallyBased
+    #sphere.material.shininess = 4.0
+    #sphere.material.roughness = 4.0
     sphere.firstMaterial.diffuse.contents = earth_img
-    #pdbr.state(sphere)
+
     sphereNode = SCNNode.nodeWithGeometry_(sphere)
     sphereNode.runAction_(
       SCNAction.repeatActionForever_(
@@ -97,17 +117,21 @@ class GameScene:
     rootNodeAddChildNode_(sphereNode)
 
     # --- SCNLight
+    light = SCNLight.light()
+    light.type = SCNLightType.omni
+    
     lightNode = SCNNode.node()
-    lightNode.light = SCNLight.light()
-    lightNode.light.type = SCNLightType.omni
+    lightNode.light = light
 
-    lightNode.position = (0.0, 10.0, 10.0)
+    lightNode.position = (16.0, 8.0, 42.0)
     rootNodeAddChildNode_(lightNode)
 
     # --- SCNCamera
     cameraNode = SCNNode.node()
     cameraNode.camera = SCNCamera.camera()
     cameraNode.position = (0.0, 0.0, 10.0)
+    cameraNode.xFov = 35.0
+    cameraNode.yFov = 35.0
     rootNodeAddChildNode_(cameraNode)
 
     self.scene = scene
