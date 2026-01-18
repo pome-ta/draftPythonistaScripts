@@ -21,10 +21,22 @@ SCNNode = ObjCClass('SCNNode')
 SCNSphere = ObjCClass('SCNSphere')
 SCNLight = ObjCClass('SCNLight')
 SCNCamera = ObjCClass('SCNCamera')
+SCNAction = ObjCClass('SCNAction')
 
 UIViewController = ObjCClass('UIViewController')
 UIColor = ObjCClass('UIColor')
 NSLayoutConstraint = ObjCClass('NSLayoutConstraint')
+
+NSURL = ObjCClass('NSURL')
+NSData = ObjCClass('NSData')
+UIImage = ObjCClass('UIImage')
+
+
+def nsurl(url_or_path):
+  if not isinstance(url_or_path, str):
+    raise TypeError('expected a string')
+  return NSURL.URLWithString_(
+    url_or_path) if ':' in url_or_path else NSURL.fileURLWithPath_(url_or_path)
 
 
 class SCNDebugOptions(IntFlag):
@@ -41,6 +53,7 @@ class SCNDebugOptions(IntFlag):
   showConstraints = 1 << 9
   showCameras = 1 << 10
 
+
 class SCNLightType:
   IES = str(objc_const(SceneKit, 'SCNLightTypeIES'))
   ambient = str(objc_const(SceneKit, 'SCNLightTypeAmbient'))
@@ -51,8 +64,6 @@ class SCNLightType:
   area = str(objc_const(SceneKit, 'SCNLightTypeArea'))
 
 
-
-
 class GameScene:
 
   def __init__(self):
@@ -60,13 +71,29 @@ class GameScene:
     self.setUpScene()
 
   def setUpScene(self):
+
+    # --- import
+    earth_URL = './assets/earth-diffuse.jpg'
+    earth_data = NSData.dataWithContentsOfURL_(nsurl(earth_URL))
+    earth_img = UIImage.alloc().initWithData_(earth_data)
+
+    bkSky_URL = './assets/Background_sky.png'
+    bkSky_data = NSData.dataWithContentsOfURL_(nsurl(bkSky_URL))
+    bkSky_img = UIImage.alloc().initWithData_(bkSky_data)
+
+    # --- SCNScene
     scene = SCNScene.scene()
 
     rootNodeAddChildNode_ = scene.rootNode.addChildNode_
 
     # --- SCNSphere
     sphere = SCNSphere.sphereWithRadius_(2.0)
+    sphere.firstMaterial.diffuse.contents = earth_img
+    #pdbr.state(sphere)
     sphereNode = SCNNode.nodeWithGeometry_(sphere)
+    sphereNode.runAction_(
+      SCNAction.repeatActionForever_(
+        SCNAction.rotateByX_y_z_duration_(0.0, 0.2, 0.1, 0.3)))
     rootNodeAddChildNode_(sphereNode)
 
     # --- SCNLight
@@ -74,7 +101,6 @@ class GameScene:
     lightNode.light = SCNLight.light()
     lightNode.light.type = SCNLightType.omni
 
-  
     lightNode.position = (0.0, 10.0, 10.0)
     rootNodeAddChildNode_(lightNode)
 
@@ -111,10 +137,10 @@ class MainViewController(UIViewController):
     scnView = SCNView.new()
     #scnView.backgroundColor = UIColor.systemBackgroundColor()
     scnView.backgroundColor = UIColor.systemBlackColor()
-    
+
     scnView.scene = gameScene.scene
 
-    debugOptions = SCNDebugOptions.showBoundingBoxes | SCNDebugOptions.showCameras
+    debugOptions = SCNDebugOptions.showBoundingBoxes | SCNDebugOptions.showLightExtents | SCNDebugOptions.showCameras
     scnView.debugOptions = debugOptions
     scnView.showsStatistics = True
 
