@@ -99,7 +99,7 @@ class GameScene:
     scene = SCNScene.scene()
     scene.background.contents = bkSky_img
     scene.lightingEnvironment.contents = bkSky_img
-    scene.lightingEnvironment.intensity = 1.0
+    scene.lightingEnvironment.intensity = 64.0
 
     rootNodeAddChildNode_ = scene.rootNode.addChildNode_
 
@@ -124,7 +124,7 @@ class GameScene:
     lightNode.light = light
 
     lightNode.position = (16.0, 8.0, 42.0)
-    rootNodeAddChildNode_(lightNode)
+    #rootNodeAddChildNode_(lightNode)
 
     # --- SCNCamera
     cameraNode = SCNNode.node()
@@ -165,7 +165,7 @@ class MainViewController(UIViewController):
     scnView.scene = gameScene.scene
 
     debugOptions = SCNDebugOptions.showBoundingBoxes | SCNDebugOptions.showLightExtents | SCNDebugOptions.showCameras
-    scnView.debugOptions = debugOptions
+    #scnView.debugOptions = debugOptions
     scnView.showsStatistics = True
 
     scnView.allowsCameraControl = True

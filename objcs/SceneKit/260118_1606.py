@@ -87,11 +87,13 @@ class GameScene:
 
     # --- import
     earth_URL = './assets/earth-diffuse.jpg'
+    #earth_URL = 'https://cdn-ak.f.st-hatena.com/images/fotolife/x/x67x6fx74x6f/20080922/20080922100958.jpg'
+
     earth_data = NSData.dataWithContentsOfURL_(nsurl(earth_URL))
     earth_img = UIImage.alloc().initWithData_(earth_data)
 
-    #bkSky_URL = './assets/Background_sky.png'
-    bkSky_URL = './assets/starmap_2020_4k.exr'
+    bkSky_URL = './assets/Background_sky.png'
+    #bkSky_URL = './assets/starmap_2020_4k.exr'
     bkSky_data = NSData.dataWithContentsOfURL_(nsurl(bkSky_URL))
     bkSky_img = UIImage.alloc().initWithData_(bkSky_data)
 
@@ -99,37 +101,41 @@ class GameScene:
     scene = SCNScene.scene()
     scene.background.contents = bkSky_img
     scene.lightingEnvironment.contents = bkSky_img
-    scene.lightingEnvironment.intensity = 1.0
+    scene.lightingEnvironment.intensity = 4.0
 
     rootNodeAddChildNode_ = scene.rootNode.addChildNode_
 
     # --- SCNSphere
     sphere = SCNSphere.sphereWithRadius_(2.0)
+    sphere.segmentCount = 128
+    #sphere.setGeodesic_(True)
     sphere.material.lightingModelName = SCNLightingModel.physicallyBased
-    #sphere.material.shininess = 4.0
-    #sphere.material.roughness = 4.0
+
     sphere.firstMaterial.diffuse.contents = earth_img
 
     sphereNode = SCNNode.nodeWithGeometry_(sphere)
+    '''
     sphereNode.runAction_(
       SCNAction.repeatActionForever_(
         SCNAction.rotateByX_y_z_duration_(0.0, 0.2, 0.1, 0.3)))
+    '''
     rootNodeAddChildNode_(sphereNode)
 
     # --- SCNLight
+
     light = SCNLight.light()
     light.type = SCNLightType.omni
 
     lightNode = SCNNode.node()
     lightNode.light = light
 
-    lightNode.position = (16.0, 8.0, 42.0)
+    lightNode.position = (40.0, 10.0, 64.0)
     rootNodeAddChildNode_(lightNode)
 
     # --- SCNCamera
     cameraNode = SCNNode.node()
     cameraNode.camera = SCNCamera.camera()
-    cameraNode.position = (0.0, 0.0, 10.0)
+    cameraNode.position = (0.0, 0.0, 8.0)
     cameraNode.xFov = 35.0
     cameraNode.yFov = 35.0
     rootNodeAddChildNode_(cameraNode)
@@ -165,7 +171,9 @@ class MainViewController(UIViewController):
     scnView.scene = gameScene.scene
 
     debugOptions = SCNDebugOptions.showBoundingBoxes | SCNDebugOptions.showLightExtents | SCNDebugOptions.showCameras
-    scnView.debugOptions = debugOptions
+    #debugOptions = SCNDebugOptions.showWireframe
+
+    #scnView.debugOptions = debugOptions
     scnView.showsStatistics = True
 
     scnView.allowsCameraControl = True
