@@ -148,6 +148,8 @@ cython_debug/
 .vscode/
 .pystaenv/
 
+.DS_Store
+
 /glsl/randomNoise/img/rgbaNoiseMedium4Shadertoy.png
 /objcs/CoreML/VisionFramework/face/img/
 

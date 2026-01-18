@@ -12,6 +12,8 @@ from pyrubicon.objc.types import CGRect, NSUInteger
 from rbedge.functions import NSStringFromClass
 from rbedge import pdbr
 
+SceneKit = load_library('SceneKit')
+
 SCNScene = ObjCClass('SCNScene')
 SCNView = ObjCClass('SCNView')
 
@@ -40,7 +42,14 @@ class SCNDebugOptions(IntFlag):
   showCameras = 1 << 10
 
 class SCNLightType:
-  pass
+  IES = str(objc_const(SceneKit, 'SCNLightTypeIES'))
+  ambient = str(objc_const(SceneKit, 'SCNLightTypeAmbient'))
+  directional = str(objc_const(SceneKit, 'SCNLightTypeDirectional'))
+  omni = str(objc_const(SceneKit, 'SCNLightTypeOmni'))
+  probe = str(objc_const(SceneKit, 'SCNLightTypeProbe'))
+  spot = str(objc_const(SceneKit, 'SCNLightTypeSpot'))
+  area = str(objc_const(SceneKit, 'SCNLightTypeArea'))
+
 
 
 
@@ -63,7 +72,9 @@ class GameScene:
     # --- SCNLight
     lightNode = SCNNode.node()
     lightNode.light = SCNLight.light()
+    lightNode.light.type = SCNLightType.omni
 
+  
     lightNode.position = (0.0, 10.0, 10.0)
     rootNodeAddChildNode_(lightNode)
 
@@ -98,7 +109,9 @@ class MainViewController(UIViewController):
     gameScene = GameScene()
 
     scnView = SCNView.new()
-    scnView.backgroundColor = UIColor.systemBackgroundColor()
+    #scnView.backgroundColor = UIColor.systemBackgroundColor()
+    scnView.backgroundColor = UIColor.systemBlackColor()
+    
     scnView.scene = gameScene.scene
 
     debugOptions = SCNDebugOptions.showBoundingBoxes | SCNDebugOptions.showCameras
