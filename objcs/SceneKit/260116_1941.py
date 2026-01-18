@@ -69,11 +69,9 @@ class MainViewController(UIViewController):
     self.navigationItem.title = NSStringFromClass(__class__)
 
     gameScene = GameScene()
-    
+
     scnView = SCNView.new()
     scnView.setScene_(gameScene.scene)
-    
-    
 
     debugOptions = SCNDebugOptions.showCameras
     scnView.setDebugOptions_(debugOptions)
