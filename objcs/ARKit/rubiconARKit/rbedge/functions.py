@@ -5,8 +5,10 @@ from pyrubicon.objc.runtime import Foundation, Class
 
 
 def NSStringFromClass(cls: Class) -> ObjCInstance:
-  _NSStringFromClass = Foundation.NSStringFromClass
-  _NSStringFromClass.restype = ctypes.c_void_p
-  _NSStringFromClass.argtypes = [Class]
-  return ObjCInstance(_NSStringFromClass(cls))
+  _function = Foundation.NSStringFromClass
+  _function.restype = ctypes.c_void_p
+  _function.argtypes = [
+    Class,
+  ]
+  return ObjCInstance(_function(cls))
 
