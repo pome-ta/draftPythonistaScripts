@@ -24,10 +24,6 @@ if __name__ == '__main__':
   #to_target = Path(root, pass2dir_name, parent_name)
   to_target = Path(root, pass2dir_name, 'site-packages')
   target_path = str(to_target)
-  
-  
-  
-  #print(sys.path)
-  
+
   move_items(pythonista_modules_path, target_path)
 
