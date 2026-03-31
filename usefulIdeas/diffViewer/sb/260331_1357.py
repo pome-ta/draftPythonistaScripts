@@ -34,12 +34,19 @@ for pb in base_list:
     if new_flag:
       print(f'p:  {pb.name}')
 '''
-pb = list(filter(lambda x: x.name == 'Model.swift', base_list))[0]
+pb = list(filter(lambda x: x.name == 'ViewController.swift', base_list))[0]
 p = list(p2.rglob(pb.name))[0]
 
 p1s = read_text(pb)
 p2s = read_text(p)
 differ = difflib.Differ()
-diff = differ.compare(read_text(pb), read_text(p))
-print(list(diff))
+#diff = difflib.unified_diff(a=read_text(pb), b=read_text(p), fromfile=pb.name, n=0,lineterm='')
+diff = difflib.unified_diff(
+  a=read_text(pb),
+  b=read_text(p),
+  n=0,
+)
+
+for s in diff:
+  print(s)
 
