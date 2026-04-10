@@ -67,8 +67,9 @@ def print_differences_extension(old_path: Path, new_path: Path, extension):
 if __name__ == '__main__':
   extension = 'swift'
 
-  p1_str = '/private/var/mobile/Containers/Shared/AppGroup/690154A9-9FC9-4B1D-8CB8-AB398AC342C4/File Provider Storage/Downloads/BeginningMetal/11 - Ambient Lighting/Challenge/'
-  p2_str = '/private/var/mobile/Containers/Shared/AppGroup/690154A9-9FC9-4B1D-8CB8-AB398AC342C4/File Provider Storage/Downloads/BeginningMetal/12-BeginningMetal-DiffuseSpecularLighting/Final/'
+
+  p1_str = '/private/var/mobile/Containers/Shared/AppGroup/690154A9-9FC9-4B1D-8CB8-AB398AC342C4/File Provider Storage/Downloads/BeginningMetal/12-BeginningMetal-DiffuseSpecularLighting/Challenge/'
+  p2_str = '/private/var/mobile/Containers/Shared/AppGroup/690154A9-9FC9-4B1D-8CB8-AB398AC342C4/File Provider Storage/Downloads/BeginningMetal/13-BeginningMetal-MakingAGamePart1/Final/'
 
   p1 = Path(p1_str)
   p2 = Path(p2_str)
