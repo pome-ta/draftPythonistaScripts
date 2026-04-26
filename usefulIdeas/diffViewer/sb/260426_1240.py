@@ -46,20 +46,24 @@ def print_simple_diff(file_old_path: Path, file_new_path: Path):
   print('```\n\n')
 
 
-def print_differences_extension(old_path: Path, new_path: Path, extension):
-  new_glob_list = sorted(list(new_path.rglob(f'*{extension}')))
-
-  for n_path in new_glob_list:
+def print_differences_extension(
+  old_path: Path,
+  new_path: Path,
+  extension: str,
+):
+  for n_path in sorted(list(new_path.rglob(f'*{extension}'))):
     new_file_flag = True
 
     for o_path in old_path.rglob(n_path.name):
       new_file_flag = False
+      print_simple_diff(o_path, n_path) if not filecmp.cmp(
+        o_path,
+        n_path,
+        shallow=False,
+      ) else print('- 同一の可能性\n\n')
 
-      if not filecmp.cmp(o_path, n_path):
-        print_simple_diff(o_path, n_path)
     else:
       if new_file_flag:
-
         print(f'### {n_path.name}\n')
         print(f'- new file\n\n')
 
@@ -68,10 +72,11 @@ if __name__ == '__main__':
   extension = 'swift'
 
   p1_str = '/private/var/mobile/Containers/Shared/AppGroup/8407487D-7299-4D3D-BAA4-03D6D8587E48/File Provider Storage/Repositories/met-materials/01-hello-metal/projects/final/Chapter1.playground/'
-  p2_str = '/private/var/mobile/Containers/Shared/AppGroup/8407487D-7299-4D3D-BAA4-03D6D8587E48/File Provider Storage/Repositories/met-materials/01-hello-metal/projects/challenge/Chapter1.playground/'
+  #p2_str = '/private/var/mobile/Containers/Shared/AppGroup/8407487D-7299-4D3D-BAA4-03D6D8587E48/File Provider Storage/Repositories/met-materials/01-hello-metal/projects/challenge/Chapter1.playground/'
+
   #p2_str = '/private/var/mobile/Containers/Shared/AppGroup/8407487D-7299-4D3D-BAA4-03D6D8587E48/File Provider Storage/Repositories/met-materials/02-3d-models/projects/starter/Chapter2.playground/Pages/1 Render and Export 3D Model.xcplaygroundpage/'
-  
-  #/private/var/mobile/Containers/Shared/AppGroup/8407487D-7299-4D3D-BAA4-03D6D8587E48/File Provider Storage/Repositories/met-materials/02-3d-models/projects/starter/Chapter2.playground/Pages/1 Render and Export 3D Model.xcplaygroundpage/Contents.swift
+
+  p2_str = '/private/var/mobile/Containers/Shared/AppGroup/8407487D-7299-4D3D-BAA4-03D6D8587E48/File Provider Storage/Repositories/met-materials/02-3d-models/projects/final/Chapter2.playground/Pages/1 Render and Export 3D Model.xcplaygroundpage/'
 
   p1 = Path(p1_str)
   p2 = Path(p2_str)
