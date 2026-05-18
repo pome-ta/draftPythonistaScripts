@@ -6,7 +6,7 @@ import plistlib
 from objc_util import ObjCClass, ObjCInstance, create_objc_class
 import ui
 
-import pdbg
+#import pdbg
 
 UIView = ObjCClass('UIView')
 UITableView = ObjCClass('UITableView')

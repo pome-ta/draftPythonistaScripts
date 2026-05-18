@@ -71,11 +71,9 @@ def print_differences_extension(
 if __name__ == '__main__':
   extension = 'swift'
 
+  p1_str = '/private/var/mobile/Containers/Shared/AppGroup/8407487D-7299-4D3D-BAA4-03D6D8587E48/File Provider Storage/Repositories/met-materials/03-the-rendering-pipeline/projects/final/Pipeline/Pipeline/'
 
-  
-  p1_str = '/private/var/mobile/Containers/Shared/AppGroup/8407487D-7299-4D3D-BAA4-03D6D8587E48/File Provider Storage/Repositories/met-materials/02-3d-models/projects/final/Chapter2.playground/Pages/2 Import Train.xcplaygroundpage/'
-  
-  p2_str = '/private/var/mobile/Containers/Shared/AppGroup/8407487D-7299-4D3D-BAA4-03D6D8587E48/File Provider Storage/Repositories/met-materials/02-3d-models/projects/challenge/Chapter2.playground/Pages/Import Mushroom.xcplaygroundpage/'
+  p2_str = '/private/var/mobile/Containers/Shared/AppGroup/8407487D-7299-4D3D-BAA4-03D6D8587E48/File Provider Storage/Repositories/met-materials/03-the-rendering-pipeline/projects/challenge/Pipeline/Pipeline/'
 
   p1 = Path(p1_str)
   p2 = Path(p2_str)

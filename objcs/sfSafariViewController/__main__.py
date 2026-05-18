@@ -2,7 +2,8 @@ from objc_util import ObjCClass, UIApplication, on_main_thread, nsurl
 
 #import pdbg
 
-path = 'file:///private/var/mobile/Containers/Shared/AppGroup/A2F05B95-E190-4D22-B466-3FDBABAAFCE1/File%20Provider%20Storage/Repositories/soundShader4twigl/public/index.html'
+#path = 'file:///private/var/mobile/Containers/Shared/AppGroup/A2F05B95-E190-4D22-B466-3FDBABAAFCE1/File%20Provider%20Storage/Repositories/soundShader4twigl/public/index.html'
+path = 'https://developer.mozilla.org/ja/docs/Web/HTML/Reference/Elements/textarea'
 
 SFSafariViewController = ObjCClass('SFSafariViewController')
 
@@ -20,6 +21,7 @@ def open_in_safari_vc(url):
 
 
 if __name__ == '__main__':
-  open_in_safari_vc('http://localhost:8000')
+  #open_in_safari_vc('http://localhost:8000')
+  open_in_safari_vc(path)
   #print(nsurl(path))
 
