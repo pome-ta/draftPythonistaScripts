@@ -87,6 +87,8 @@ class NavigationController(UINavigationController):
     # xxx: 呼ばない-> `send_super(__class__, self, 'dealloc')`
     #print(f'- {NSStringFromClass(__class__)}: dealloc')
     loop.stop()
+    if not server is None:
+      server.stop()
 
   @objc_method
   def didReceiveMemoryWarning(self):
@@ -142,7 +144,6 @@ class WebDelegate(
   @objc_method
   def webView_didFinishNavigation_(self, webView, navigation):
     # ページ読み込みが完了した時
-
     pass
 
   @objc_method
@@ -150,9 +151,9 @@ class WebDelegate(
     self,
     webView,
     navigation,
-  ):  # xxx: 未確認
+  ):
     # リダイレクトされた時
-    print('didReceiveServerRedirectForProvisionalNavigation')
+    pass
 
   @objc_method
   def webView_didStartProvisionalNavigation_(self, webView, navigation):
@@ -185,7 +186,7 @@ class WebViewController(UIViewController):
   def initWithLocationResource_(self, locationResource: object):
     send_super(__class__, self, 'init')
 
-    if not (locationResource.exists()):
+    if isinstance(locationResource, Path) and not (locationResource.exists()):
       raise FileNotFoundError(f'{indexPath}')
 
     self.locationResource = locationResource
@@ -300,6 +301,23 @@ class WebViewController(UIViewController):
     #self.navigationItem.prompt = NSStringFromClass(__class__)
 
     # --- load
+    resource = nsurl(str(self.locationResource))
+    if (request :=
+        NSURLRequest.requestWithURL_(resource)) and resource.isFileURL():
+      allowingReadAccessToURL = NSURL.fileURLWithPath(
+        str(self.locationResource.parent),
+        isDirectory=True,
+      )
+      self.webView.loadFileRequest(
+        request,
+        allowingReadAccessToURL=allowingReadAccessToURL,
+      )
+    else:
+      self.webView.loadRequest_(request)
+    '''
+
+      _fileURLWithPath(_parent, True)
+
     _fileURLWithPath = NSURL.fileURLWithPath_isDirectory_
     _path = str(self.locationResource)
 
@@ -322,6 +340,7 @@ class WebViewController(UIViewController):
 
     self.webView.loadFileRequest(
       request, allowingReadAccessToURL=allowingReadAccessToURL)
+    '''
     '''
     self.webView.loadFileURL(
       loadFileURL,
@@ -472,17 +491,29 @@ class WebViewController(UIViewController):
 
     centerXAnchor = self.webView.centerXAnchor.constraintEqualToAnchor_(
       safeAreaLayoutGuide.centerXAnchor)
+
     centerYAnchor = self.webView.centerYAnchor.constraintEqualToAnchor_(
       safeAreaLayoutGuide.centerYAnchor)
+    '''
+    centerYAnchor = self.webView.centerYAnchor.constraintEqualToAnchor_(
+      self.view.centerYAnchor)
+    '''
 
     widthAnchor = self.webView.widthAnchor.constraintEqualToAnchor_multiplier_(
       safeAreaLayoutGuide.widthAnchor,
       1.0,
     )
+
     heightAnchor = self.webView.heightAnchor.constraintEqualToAnchor_multiplier_(
       safeAreaLayoutGuide.heightAnchor,
       1.0,
     )
+    '''
+    heightAnchor = self.webView.heightAnchor.constraintEqualToAnchor_multiplier_(
+      self.view.heightAnchor,
+      1.0,
+    )
+    '''
 
     NSLayoutConstraint.activateConstraints_([
       centerXAnchor,
@@ -492,6 +523,72 @@ class WebViewController(UIViewController):
     ])
 
 
+import threading
+import time
+from functools import partial
+from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
+from pathlib import Path
+
+
+class LocalServer:
+
+  def __init__(
+    self,
+    host: str = '127.0.0.1',
+    port: int = 8000,
+    root_dir: str | Path = '.',
+    verbose: bool = False,
+  ) -> None:
+    self.host = host
+    self.port = port
+    self.root_path = Path(root_dir).resolve()
+    self.verbose = verbose
+
+    # 内部でハンドラーを定義し、ログ出力を制御する
+    class CustomHandler(SimpleHTTPRequestHandler):
+
+      def log_message(handler_self, format: str, *args) -> None:
+        # verboseがTrueの時だけ元のログ出力処理を呼ぶ
+        if self.verbose:
+          super().log_message(format, *args)
+        # Falseの時は何もせず破棄する(pass)
+
+    # 拡張した CustomHandler を使うように変更
+    handler = partial(CustomHandler, directory=str(self.root_path))
+
+    self.server = ThreadingHTTPServer((self.host, self.port), handler)
+    self._thread: threading.Thread | None = None
+
+  def __enter__(self) -> 'LocalServer':
+    self.start()
+    return self
+
+  def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+    self.stop()
+
+  def start(self) -> None:
+    if self._thread is not None and self._thread.is_alive():
+      return
+
+    self._thread = threading.Thread(
+      target=self.server.serve_forever,
+      daemon=True,
+    )
+    self._thread.start()
+
+  def stop(self) -> None:
+    self.server.shutdown()
+    self.server.server_close()
+
+    if self._thread is not None:
+      self._thread.join()
+      self._thread = None
+
+  @property
+  def url(self) -> str:
+    return f"http://{self.host}:{self.port}"
+
+
 if __name__ == '__main__':
   from rbedge.app import App
   from objc_frameworks.UIKit import UIModalPresentationStyle
@@ -499,8 +596,20 @@ if __name__ == '__main__':
   ROOT_PATH = Path(__file__).parents[0]
 
   index_path = ROOT_PATH / '../docs/index.html'
+  index_path = 'https://forest.watch.impress.co.jp/docs/news/2109336.html'
 
-  main_vc = WebViewController.alloc().initWithLocationResource_(index_path)
+  index_path = ROOT_PATH / '../docs/'
+
+  server = None
+  server = LocalServer(
+    host='127.0.0.1',
+    port=8000,
+    root_dir=str(index_path),
+    verbose=True,
+  )
+  server.start()
+
+  main_vc = WebViewController.alloc().initWithLocationResource_(server.url)
 
   presentation_style = UIModalPresentationStyle.fullScreen
   #presentation_style = UIModalPresentationStyle.pageSheet
