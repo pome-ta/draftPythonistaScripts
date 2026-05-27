@@ -1,4 +1,4 @@
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from http.server import HTTPServer, SimpleHTTPRequestHandler,ThreadingHTTPServer
 from functools import partial
 from pathlib import Path
 import threading
@@ -18,10 +18,10 @@ class LocalServer:
     root_path = Path(root_dir).resolve()
 
     # 変更: handler に directory を固定
-    #handler = partial(SimpleHTTPRequestHandler, directory=str(root_path))
-    handler = partial(RequestHandler, directory=str(root_path))
+    handler = partial(SimpleHTTPRequestHandler, directory=str(root_path))
+    #handler = partial(RequestHandler, directory=str(root_path))
 
-    self.server = HTTPServer((host, port), handler)
+    self.server = ThreadingHTTPServer((host, port), handler)
     self.thread = None
 
   def start(self):
@@ -48,8 +48,8 @@ if __name__ == '__main__':
   print('started: http://localhost:8000')
 
   import time
-  #time.sleep(5)
+  time.sleep(5)
 
-  #server.stop()
+  server.stop()
   print('stopped')
 
