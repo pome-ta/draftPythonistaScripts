@@ -80,7 +80,7 @@ if __name__ == '__main__':
   from pathlib import Path
   ROOT_PATH = Path(__file__).parents[0]
 
-  index_path = ROOT_PATH / '../docs/index.html'
+  index_path = ROOT_PATH / '../docs/'
 
 
   url = NSURL.fileURLWithPath_isDirectory_(str(index_path.resolve()), False)

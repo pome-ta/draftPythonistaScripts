@@ -87,8 +87,6 @@ class NavigationController(UINavigationController):
     # xxx: 呼ばない-> `send_super(__class__, self, 'dealloc')`
     #print(f'- {NSStringFromClass(__class__)}: dealloc')
     loop.stop()
-    if not server is None:
-      server.stop()
 
   @objc_method
   def didReceiveMemoryWarning(self):
@@ -301,52 +299,17 @@ class WebViewController(UIViewController):
     #self.navigationItem.prompt = NSStringFromClass(__class__)
 
     # --- load
-    resource = nsurl(str(self.locationResource))
-    if (request :=
-        NSURLRequest.requestWithURL_(resource)) and resource.isFileURL():
-      allowingReadAccessToURL = NSURL.fileURLWithPath(
-        str(self.locationResource.parent),
-        isDirectory=True,
-      )
+    tmp = nsurl(str(self.locationResource))
+    if (request := NSURLRequest.requestWithURL_(tmp)) and tmp.isFileURL():
       self.webView.loadFileRequest(
         request,
-        allowingReadAccessToURL=allowingReadAccessToURL,
+        allowingReadAccessToURL=NSURL.fileURLWithPath(
+          str(self.locationResource.parent),
+          isDirectory=True,
+        ),
       )
     else:
       self.webView.loadRequest_(request)
-    '''
-
-      _fileURLWithPath(_parent, True)
-
-    _fileURLWithPath = NSURL.fileURLWithPath_isDirectory_
-    _path = str(self.locationResource)
-
-    tmp1 = nsurl(_path)
-    tmp2 = nsurl(
-      'https://developer.mozilla.org/ja/docs/Web/HTML/Reference/Elements/textarea'
-    )
-
-    #print(tmp1)
-    #print(tmp2)
-    pdbr.state(tmp1)
-    print(tmp1.isFileURL())
-
-    _parent = str(self.locationResource.parent)
-    loadFileURL = _fileURLWithPath(_path, False)
-    allowingReadAccessToURL = _fileURLWithPath(_parent, True)
-    #print(loadFileURL)
-
-    request = NSURLRequest.requestWithURL_(loadFileURL)
-
-    self.webView.loadFileRequest(
-      request, allowingReadAccessToURL=allowingReadAccessToURL)
-    '''
-    '''
-    self.webView.loadFileURL(
-      loadFileURL,
-      allowingReadAccessToURL=allowingReadAccessToURL,
-    )
-    '''
 
     self.view.backgroundColor = UIColor.systemBackgroundColor()
 
@@ -461,6 +424,7 @@ class WebViewController(UIViewController):
 
   @objc_method
   def refreshWebView_(self, sender):
+    #sender.endRefreshing()
     self.reLoadWebView_(sender)
     sender.endRefreshing()
 
@@ -599,22 +563,33 @@ if __name__ == '__main__':
   index_path = 'https://forest.watch.impress.co.jp/docs/news/2109336.html'
 
   index_path = ROOT_PATH / '../docs/'
-
-  server = None
+  '''
   server = LocalServer(
     host='127.0.0.1',
     port=8000,
     root_dir=str(index_path),
-    verbose=True,
+    verbose=False,
   )
   server.start()
+  
 
-  main_vc = WebViewController.alloc().initWithLocationResource_(server.url)
 
-  presentation_style = UIModalPresentationStyle.fullScreen
-  #presentation_style = UIModalPresentationStyle.pageSheet
+  print('ho')
+  '''
 
-  app = App(main_vc, presentation_style)
-  app.present(NavigationController)
+  with LocalServer(
+      host='127.0.0.1',
+      port=8000,
+      root_dir=str(index_path),
+      verbose=False,
+  ) as server:
+    main_vc = WebViewController.alloc().initWithLocationResource_(server.url)
+    #main_vc = WebViewController.alloc().initWithLocationResource_(index_path)
+
+    presentation_style = UIModalPresentationStyle.fullScreen
+    #presentation_style = UIModalPresentationStyle.pageSheet
+
+    app = App(main_vc, presentation_style)
+    app.present(NavigationController)
 
 

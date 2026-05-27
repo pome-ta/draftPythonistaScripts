@@ -1,6 +1,0 @@
-{
-  "title": "My Wiki",
-  "navigation": "./nav.md",
-  "defaultPage": "intro",
-  "tableOfContents": true
-}

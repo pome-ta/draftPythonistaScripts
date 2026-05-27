@@ -1,85 +1,33 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="utf-8" />
+<head>
+  <meta charset="utf-8"/>
 
-    <meta
+  <meta
       name="viewport"
       content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
-    />
-    <script type="importmap">
-      {
-        "imports": {
-          "eruda": "https://esm.sh/eruda"
-        }
+  />
+
+
+  <script type="importmap">
+    {
+      "imports": {
+        "eruda": "https://esm.sh/eruda",
+        "codemirror": "https://esm.sh/codemirror",
+        "@codemirror/": "https://esm.sh/@codemirror/"
       }
-    </script>
+    }
+  </script>
 
-    <script type="module">
-      import eruda from 'eruda';
+  <script type="module">
+    import eruda from 'eruda';
 
-      eruda.init();
-    </script>
-    <script type="module">
-      import { initWiki } from 'https://hacknock.github.io/lobster-wiki/lobster-wiki.js';
-
-      // 1. ページ初期化
-      setup();
-
-      async function setup() {
-        // wikiの初期化を待機
-        await initWiki('./wiki.config.json');
-
-        // メインコンテンツ領域の監視を開始（SPA遷移への対応）
-        const main = document.querySelector('.lbw-main');
-        if (main) {
-          const observer = new MutationObserver(processInjectBlocks);
-          observer.observe(main, { childList: true, subtree: true });
-        }
-
-        // 初回実行
-        processInjectBlocks();
-      }
-
-      function processInjectBlocks() {
-        const blocks = document.querySelectorAll('.lbw-main code.language-inject');
-        let blockCount = 0;
-
-        blocks.forEach((code) => {
-          const wrapper = code.closest('.lbs-code-block');
-          if (!wrapper) return;
-
-          // 一意のIDを生成し、Markdown内の '__UUID__' を置換
-          const uid = `inject-${Date.now()}-${++blockCount}`;
-          const content = code.textContent.replaceAll('__UUID__', uid);
-
-          // 展開用コンテナの生成
-          const container = document.createElement('div');
-          container.className = 'custom-injected-html';
-          container.innerHTML = content;
-
-          // scriptタグを抽出し、moduleとして再生成・実行
-          container.querySelectorAll('script').forEach((oldScript) => {
-            const newScript = document.createElement('script');
-            newScript.type = oldScript.getAttribute('type') || 'module';
-            newScript.textContent = oldScript.textContent;
-            oldScript.replaceWith(newScript);
-          });
-
-          // 元のコードブロック自体を差し替えることで、MutationObserverの無限ループを自然に防止
-          wrapper.replaceWith(container);
-        });
-      }
-    </script>
-
-    <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="https://hacknock.github.io/lobster-wiki/style.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.min.css" />
-
-    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js"></script>
-
-    <title>My Smart Wiki</title>
-  </head>
-  <body></body>
+    eruda.init();
+  </script>
+    
+  <link rel="stylesheet" href="./css/style.css"/>
+  <script type="module" src="./js/main.js"></script>
+  <title>codemirror6sandbox</title>
+</head>
+<body></body>
 </html>

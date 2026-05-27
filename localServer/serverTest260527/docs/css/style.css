@@ -1,3 +1,63 @@
 @charset "utf-8";
 /*@import url('./styleChecker.css');*/
 
+:root {
+  color-scheme: light dark;
+  --backGround-color-scheme: light-dark(#f2f2f7, #1c1c1e);
+
+  --accessory-button-box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.35);
+  --accessory-button-border-radius: 4.6px;
+
+  --accessory-button-color-normal: light-dark(#000000, #ffffff);
+}
+
+/* light-dark がうまく解決できないので個別に */
+@media (prefers-color-scheme: light) {
+  :root {
+    --accessory-backGround-color-scheme: linear-gradient(0deg, #939393, #939393),
+      linear-gradient(0deg, rgba(86, 88, 92, 0.87), rgba(86, 88, 92, 0.87)),
+      rgba(85, 85, 85, 0.9);
+    --accessory-backGround-background-blend-mode: color-dodge, normal,
+      luminosity;
+    --accessory-backGround-backdrop-filter: blur(75px);
+
+    --accessory-button-backGround-normal: #ffffff;
+    --accessory-button-background-blend-mode-normal: normal;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accessory-backGround-color-scheme: rgba(56, 56, 56, 0.75);
+    --accessory-backGround-background-blend-mode: normal;
+    --accessory-backGround-backdrop-filter: blur(50px);
+
+    --accessory-button-backGround-normal: linear-gradient(
+        0deg,
+        #262626,
+        #262626
+      ),
+      rgba(153, 153, 153, 0.15);
+    --accessory-button-background-blend-mode-normal: plus-lighter;
+  }
+}
+
+html {
+  height: 100%;
+}
+
+/* *,
+*::before,
+*::after {
+  box-sizing: border-box;
+} */
+
+body {
+  background-color: var(--backGround-color-scheme);
+  max-width: 960px;
+  /*height: 100vh;*/
+  height: 100dvh;
+  /*height: 100%;*/
+  /*height: 100svh;*/
+  margin: auto;
+}
