@@ -137,7 +137,7 @@ if __name__ == '__main__':
   ) as server:
 
     url = 'https://github.com/ColdGrub1384/Pyto'
-    #url = server.url
+    url = server.url
 
     main_vc = SFSafariViewController.alloc().initWithURL_(nsurl(url))
 
