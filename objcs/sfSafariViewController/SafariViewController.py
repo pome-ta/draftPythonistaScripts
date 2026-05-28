@@ -17,5 +17,7 @@ def open_in_safari_vc(url, tint_color=None):
     vc.release()
 
 if __name__ == '__main__':
-    open_in_safari_vc('http://apple.com', UIColor.orangeColor())
+    url = 'https://github.com/ColdGrub1384/Pyto'
+    #url = 'https://www.apple.com'
+    open_in_safari_vc(url, UIColor.orangeColor())
     
