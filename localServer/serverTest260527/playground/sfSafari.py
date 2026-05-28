@@ -20,59 +20,42 @@ if __name__ == '__main__' and not __file__[:__file__.rfind('/')].endswith(
       warnings.warn(__warning_message, ImportWarning)
 
 from pyrubicon.objc.api import ObjCClass
+from pyrubicon.objc.api import objc_method
+from pyrubicon.objc.runtime import send_super, objc_id
 
-from objc_frameworks.UIKit import UIModalPresentationStyle
+
 
 from rbedge.lifeCycle import loop
-from rbedge.objcMainThread import onMainThread
-from rbedge.utils import nsurl
+from rbedge import pdbr
 
+UINavigationController = ObjCClass('UINavigationController')
 SFSafariViewController = ObjCClass('SFSafariViewController')
-UIApplication = ObjCClass('UIApplication')
-NSURL = ObjCClass('NSURL')
 
 
-def get_rootViewController() -> None:
-  sharedApplication = UIApplication.sharedApplication
-  objectEnumerator = sharedApplication.connectedScenes.objectEnumerator()
+class NavigationController(UINavigationController):
 
-  while (windowScene := objectEnumerator.nextObject()):
+  @objc_method
+  def initWithRootViewController_(self, rootViewController):
+    send_super(__class__,
+               self,
+               'initWithRootViewController:',
+               rootViewController,
+               argtypes=[
+                 objc_id,
+               ])
 
-    if windowScene.activationState == 0:
-      break
-  rootViewController = windowScene.keyWindow.rootViewController
-  return rootViewController
+    self.setNavigationBarHidden_animated_(True, True)
+    return self
 
-
-def main_loop() -> None:
-  try:
-    loop.run_forever()
-  except Exception as e:
+  @objc_method
+  def dealloc(self):
+    # xxx: 呼ばない-> `send_super(__class__, self, 'dealloc')`
     loop.stop()
-  finally:
-    loop.close()
 
-
-def main(url, modalPresentationStyle):
-
-  rootViewController = get_rootViewController()
-
-  @onMainThread(sync=True)
-  def present_viewController(url, style: int) -> None:
-
-    presentViewController = SFSafariViewController.alloc().initWithURL_(nsurl(url))
-    #presentViewController = SFSafariViewController.alloc().initWithURL_(url)
-    presentViewController.setModalPresentationStyle_(style)
-
-    rootViewController.presentViewController(
-      presentViewController,
-      animated=True,
-      completion=None,
-    )
-    #rootViewController.release()
-
-  present_viewController(url, modalPresentationStyle)
-  main_loop()
+  @objc_method
+  def didReceiveMemoryWarning(self):
+    send_super(__class__, self, 'didReceiveMemoryWarning')
+    print(f'{NSStringFromClass(__class__)}: didReceiveMemoryWarning')
 
 
 if __name__ == '__main__':
@@ -82,6 +65,7 @@ if __name__ == '__main__':
   from pathlib import Path
 
   from rbedge.app import App
+  from rbedge.utils import nsurl
   from objc_frameworks.UIKit import UIModalPresentationStyle
 
   class LocalServer:
@@ -152,7 +136,12 @@ if __name__ == '__main__':
       root_dir=str(index_path),
       verbose=False,
   ) as server:
+    
+    main_vc = SFSafariViewController.alloc().initWithURL_(nsurl(server.url))
+
     presentation_style = UIModalPresentationStyle.fullScreen
+    #presentation_style = UIModalPresentationStyle.pageSheet
   
-    main(server.url, presentation_style)
+    app = App(main_vc, presentation_style)
+    app.present(NavigationController)
 
