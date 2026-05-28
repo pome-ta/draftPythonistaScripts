@@ -489,7 +489,6 @@ class WebViewController(UIViewController):
 
 if __name__ == '__main__':
   import threading
-  import time
   from functools import partial
   from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
   from pathlib import Path
@@ -553,7 +552,7 @@ if __name__ == '__main__':
 
     @property
     def url(self) -> str:
-      return f"http://{self.host}:{self.port}"
+      return f'http://{self.host}:{self.port}'
 
   ROOT_PATH = Path(__file__).parents[0]
 
