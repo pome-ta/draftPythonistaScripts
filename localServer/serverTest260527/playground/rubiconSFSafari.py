@@ -21,12 +21,12 @@ if __name__ == '__main__' and not __file__[:__file__.rfind('/')].endswith(
 
 from pyrubicon.objc.api import ObjCClass
 from pyrubicon.objc.api import objc_method
-from pyrubicon.objc.runtime import send_super, objc_id
-
-
+from pyrubicon.objc.runtime import send_super, objc_id, load_library
 
 from rbedge.lifeCycle import loop
 from rbedge import pdbr
+
+load_library('SafariServices')
 
 UINavigationController = ObjCClass('UINavigationController')
 SFSafariViewController = ObjCClass('SFSafariViewController')
@@ -126,22 +126,24 @@ if __name__ == '__main__':
     def url(self) -> str:
       return f'http://{self.host}:{self.port}'
 
-
   ROOT_PATH = Path(__file__).parents[0]
   index_path = ROOT_PATH / '../docs/'
-  
+
   with LocalServer(
       host='127.0.0.1',
       port=8000,
       root_dir=str(index_path),
       verbose=False,
   ) as server:
-    
-    main_vc = SFSafariViewController.alloc().initWithURL_(nsurl(server.url))
+
+    url = 'https://github.com/ColdGrub1384/Pyto'
+    #url = server.url
+
+    main_vc = SFSafariViewController.alloc().initWithURL_(nsurl(url))
 
     presentation_style = UIModalPresentationStyle.fullScreen
     #presentation_style = UIModalPresentationStyle.pageSheet
-  
+
     app = App(main_vc, presentation_style)
     app.present(NavigationController)
 

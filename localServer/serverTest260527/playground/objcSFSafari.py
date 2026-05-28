@@ -32,17 +32,8 @@ load_library('SafariServices')
 SFSafariViewController = ObjCClass('SFSafariViewController')
 
 
-class MainViewController(SFSafariViewController):
+class SafariViewController(SFSafariViewController):
 
-  @objc_method
-  def dealloc(self):
-    # xxx: 呼ばない-> `send_super(__class__, self, 'dealloc')`
-    #print(f'\t - {NSStringFromClass(__class__)}: dealloc')
-    pass
-
-  @objc_method
-  def loadView(self):
-    send_super(__class__, self, 'loadView')
 
   @objc_method
   def viewDidLoad(self):
@@ -53,47 +44,6 @@ class MainViewController(SFSafariViewController):
       animated=True,
     )
 
-    #pdbr.state(self.navigationController.setNavigationBarHidden_animated_)
-
-  @objc_method
-  def viewWillAppear_(self, animated: bool):
-    send_super(__class__,
-               self,
-               'viewWillAppear:',
-               animated,
-               argtypes=[
-                 ctypes.c_bool,
-               ])
-
-  @objc_method
-  def viewDidAppear_(self, animated: bool):
-    send_super(__class__,
-               self,
-               'viewDidAppear:',
-               animated,
-               argtypes=[
-                 ctypes.c_bool,
-               ])
-
-  @objc_method
-  def viewWillDisappear_(self, animated: bool):
-    send_super(__class__,
-               self,
-               'viewWillDisappear:',
-               animated,
-               argtypes=[
-                 ctypes.c_bool,
-               ])
-
-  @objc_method
-  def viewDidDisappear_(self, animated: bool):
-    send_super(__class__,
-               self,
-               'viewDidDisappear:',
-               animated,
-               argtypes=[
-                 ctypes.c_bool,
-               ])
 
   @objc_method
   def didReceiveMemoryWarning(self):
@@ -110,7 +60,7 @@ if __name__ == '__main__':
   url = 'https://github.com/ColdGrub1384/Pyto'
   #url = 'https://www.apple.com'
 
-  main_vc = MainViewController.alloc().initWithURL_(nsurl(url))
+  main_vc = SafariViewController.alloc().initWithURL_(nsurl(url))
 
   presentation_style = UIModalPresentationStyle.fullScreen
   #presentation_style = UIModalPresentationStyle.pageSheet
