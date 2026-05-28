@@ -21,110 +21,38 @@ if __name__ == '__main__' and not __file__[:__file__.rfind('/')].endswith(
 
 from pyrubicon.objc.api import ObjCClass
 from pyrubicon.objc.api import objc_method
-from pyrubicon.objc.runtime import send_super, objc_id, load_library
+from pyrubicon.objc.runtime import send_super, load_library
 
-from rbedge.lifeCycle import loop
 from rbedge import pdbr
 
 load_library('SafariServices')
 
-UINavigationController = ObjCClass('UINavigationController')
-SFSafariViewController = ObjCClass('SFSafariViewController')
 
-
-class NavigationController(UINavigationController):
+class SafariViewController(ObjCClass('SFSafariViewController')):
 
   @objc_method
-  def initWithRootViewController_(self, rootViewController):
-    send_super(__class__,
-               self,
-               'initWithRootViewController:',
-               rootViewController,
-               argtypes=[
-                 objc_id,
-               ])
+  def viewDidLoad(self):
+    send_super(__class__, self, 'viewDidLoad')
 
-    self.setNavigationBarHidden_animated_(True, True)
-    return self
-
-  @objc_method
-  def dealloc(self):
-    # xxx: 呼ばない-> `send_super(__class__, self, 'dealloc')`
-    loop.stop()
+    self.navigationController.setNavigationBarHidden(
+      True,
+      animated=True,
+    )
 
   @objc_method
   def didReceiveMemoryWarning(self):
     send_super(__class__, self, 'didReceiveMemoryWarning')
-    print(f'{NSStringFromClass(__class__)}: didReceiveMemoryWarning')
-
+    print(f'\t{NSStringFromClass(__class__)}: didReceiveMemoryWarning')
 
 if __name__ == '__main__':
-  import threading
-  from functools import partial
-  from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
   from pathlib import Path
 
   from rbedge.app import App
   from rbedge.utils import nsurl
   from objc_frameworks.UIKit import UIModalPresentationStyle
+  
+  from localServer import LocalServer
 
-  class LocalServer:
-
-    def __init__(
-      self,
-      host: str = '127.0.0.1',
-      port: int = 8000,
-      root_dir: str | Path = '.',
-      verbose: bool = False,
-    ) -> None:
-      self.host = host
-      self.port = port
-      self.root_path = Path(root_dir).resolve()
-      self.verbose = verbose
-
-      # 内部でハンドラーを定義し、ログ出力を制御する
-      class CustomHandler(SimpleHTTPRequestHandler):
-
-        def log_message(handler_self, format: str, *args) -> None:
-          # verboseがTrueの時だけ元のログ出力処理を呼ぶ
-          if self.verbose:
-            super().log_message(format, *args)
-          # Falseの時は何もせず破棄する(pass)
-
-      # 拡張した CustomHandler を使うように変更
-      handler = partial(CustomHandler, directory=str(self.root_path))
-
-      self.server = ThreadingHTTPServer((self.host, self.port), handler)
-      self._thread: threading.Thread | None = None
-
-    def __enter__(self) -> 'LocalServer':
-      self.start()
-      return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
-      self.stop()
-
-    def start(self) -> None:
-      if self._thread is not None and self._thread.is_alive():
-        return
-
-      self._thread = threading.Thread(
-        target=self.server.serve_forever,
-        daemon=True,
-      )
-      self._thread.start()
-
-    def stop(self) -> None:
-      self.server.shutdown()
-      self.server.server_close()
-
-      if self._thread is not None:
-        self._thread.join()
-        self._thread = None
-
-    @property
-    def url(self) -> str:
-      return f'http://{self.host}:{self.port}'
 
   ROOT_PATH = Path(__file__).parents[0]
   index_path = ROOT_PATH / '../docs/'
@@ -139,11 +67,11 @@ if __name__ == '__main__':
     url = 'https://github.com/ColdGrub1384/Pyto'
     url = server.url
 
-    main_vc = SFSafariViewController.alloc().initWithURL_(nsurl(url))
+    main_vc = SafariViewController.alloc().initWithURL_(nsurl(url))
 
     presentation_style = UIModalPresentationStyle.fullScreen
     #presentation_style = UIModalPresentationStyle.pageSheet
 
     app = App(main_vc, presentation_style)
-    app.present(NavigationController)
+    app.present()
 

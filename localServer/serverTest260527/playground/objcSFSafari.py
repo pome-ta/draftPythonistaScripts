@@ -19,21 +19,16 @@ if __name__ == '__main__' and not __file__[:__file__.rfind('/')].endswith(
       __warning_message = f'./{_TOP_DIR_NAME}/{_MODULES_DIR_NAME} not found in parent directories'
       warnings.warn(__warning_message, ImportWarning)
 
-import ctypes
-
 from pyrubicon.objc.api import ObjCClass
-from pyrubicon.objc.api import objc_method, objc_property
+from pyrubicon.objc.api import objc_method
 from pyrubicon.objc.runtime import send_super, load_library
 
 from rbedge import pdbr
 
 load_library('SafariServices')
 
-SFSafariViewController = ObjCClass('SFSafariViewController')
 
-
-class SafariViewController(SFSafariViewController):
-
+class SafariViewController(ObjCClass('SFSafariViewController')):
 
   @objc_method
   def viewDidLoad(self):
@@ -43,7 +38,6 @@ class SafariViewController(SFSafariViewController):
       True,
       animated=True,
     )
-
 
   @objc_method
   def didReceiveMemoryWarning(self):

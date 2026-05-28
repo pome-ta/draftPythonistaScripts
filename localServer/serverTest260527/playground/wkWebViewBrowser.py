@@ -519,6 +519,14 @@ if __name__ == '__main__':
             super().log_message(format, *args)
           # Falseの時は何もせず破棄する(pass)
 
+        def end_headers(handler_self) -> None:
+          # HTML/JS/CSS開発に必須のキャッシュ完全無効化ヘッダー
+          handler_self.send_header('Cache-Control',
+                                   'no-cache, no-store, must-revalidate')
+          handler_self.send_header('Pragma', 'no-cache')
+          handler_self.send_header('Expires', '0')
+          super().end_headers()
+
       # 拡張した CustomHandler を使うように変更
       handler = partial(CustomHandler, directory=str(self.root_path))
 
@@ -557,7 +565,7 @@ if __name__ == '__main__':
   ROOT_PATH = Path(__file__).parents[0]
 
   index_path = ROOT_PATH / '../docs/index.html'
-  index_path = 'https://forest.watch.impress.co.jp/docs/news/2109336.html'
+  #index_path = 'https://forest.watch.impress.co.jp/docs/news/2109336.html'
 
   index_path = ROOT_PATH / '../docs/'
   '''
@@ -580,7 +588,9 @@ if __name__ == '__main__':
       root_dir=str(index_path),
       verbose=False,
   ) as server:
-    main_vc = WebViewController.alloc().initWithLocationResource_(server.url)
+    url = server.url
+    #url = 'https://forest.watch.impress.co.jp/docs/news/2109336.html'
+    main_vc = WebViewController.alloc().initWithLocationResource_(url)
     #main_vc = WebViewController.alloc().initWithLocationResource_(index_path)
 
     presentation_style = UIModalPresentationStyle.fullScreen
