@@ -69,3 +69,26 @@ class LocalServer:
   def url(self) -> str:
     return f'http://{self.host}:{self.port}'
 
+
+if __name__ == '__main__':
+  
+  from pathlib import Path
+  
+  ROOT_PATH = Path(__file__).parents[0]
+  index_path = ROOT_PATH / '../docs/'
+  
+  
+
+  with LocalServer(root_dir=str(index_path)) as server:
+    print(server.url)
+    '''
+    try:
+      while True:
+        pass
+    except KeyboardInterrupt:
+      import time
+      time.sleep(1)
+      print('end')
+    '''
+    input()
+
