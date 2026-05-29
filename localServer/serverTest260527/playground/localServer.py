@@ -58,12 +58,13 @@ class LocalServer:
     self._thread.start()
 
   def stop(self) -> None:
+    if self._thread is None:
+      return
     self.server.shutdown()
     self.server.server_close()
 
-    if self._thread is not None:
-      self._thread.join()
-      self._thread = None
+    self._thread.join()
+    self._thread = None
 
   @property
   def url(self) -> str:
@@ -71,13 +72,11 @@ class LocalServer:
 
 
 if __name__ == '__main__':
-  
+
   from pathlib import Path
-  
+
   ROOT_PATH = Path(__file__).parents[0]
   index_path = ROOT_PATH / '../docs/'
-  
-  
 
   with LocalServer(root_dir=str(index_path)) as server:
     print(server.url)
