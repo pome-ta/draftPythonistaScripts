@@ -435,11 +435,11 @@ class WebViewController(UIViewController):
   @objc_method
   def removeWebViewInputAccessoryView(self):
     # ref: [Objective-Cの黒魔術がよくわからなかったので覗いてみた👻 #Swift - Qiita](https://qiita.com/mopiemon/items/8d0dd7d678c4dadeadd4)
-    #candidateView
     for subview in self.webView.scrollView.subviews():
       if subview.isMemberOfClass_(WKContentView) and (
           inputAccessoryView := subview.inputAccessoryView) is not None:
         inputAccessoryView.removeFromSuperview()
+        inputAccessoryView.setFrame_(CGRectZero)
 
   # --- layout
   @objc_method
