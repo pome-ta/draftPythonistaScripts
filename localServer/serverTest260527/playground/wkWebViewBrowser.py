@@ -424,7 +424,6 @@ class WebViewController(UIViewController):
 
   @objc_method
   def refreshWebView_(self, sender):
-    #sender.endRefreshing()
     self.reLoadWebView_(sender)
     sender.endRefreshing()
 
