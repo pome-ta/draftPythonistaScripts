@@ -33,6 +33,11 @@ class LocalServer:
         )
         handler_self.send_header('Pragma', 'no-cache')
         handler_self.send_header('Expires', '0')
+
+        handler_self.send_header('Access-Control-Allow-Origin', '*')  # フォント対策
+
+        handler_self.send_header('X-Content-Type-Options',
+                                 'nosniff')  # MIME厳格化
         super().end_headers()
 
     handler = partial(CustomHandler, directory=str(self.root_path))
@@ -80,14 +85,6 @@ if __name__ == '__main__':
 
   with LocalServer(root_dir=str(index_path)) as server:
     print(server.url)
-    '''
-    try:
-      while True:
-        pass
-    except KeyboardInterrupt:
-      import time
-      time.sleep(1)
-      print('end')
-    '''
-    input()
+    input('Running... (Enter to quit)')
+    print('Server stopped.')
 
