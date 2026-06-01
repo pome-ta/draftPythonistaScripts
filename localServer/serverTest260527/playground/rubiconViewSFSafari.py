@@ -58,7 +58,7 @@ if __name__ == '__main__':
   index_path = ROOT_PATH / '../docs/'
 
   with LocalServer(
-      host='127.0.0.1',
+      host='localhost',
       port=8000,
       root_dir=str(index_path),
       verbose=False,
